@@ -1,0 +1,154 @@
+{
+  "rowTree": [
+    {
+      "key": "1",
+      "name": "comprehensiveControl",
+      "label": "综合控制功能",
+      "children": [
+        {
+          "key": "1-1",
+          "label": "IC_ZTZH 姿态自毁控制"
+        },
+        {
+          "key": "1-2",
+          "label": "TC_GJK 关机控制"
+        },
+        {
+          "key": "1-3",
+          "label": "TC_CXEXDDL 程序运行灯点亮"
+        },
+        {
+          "key": "1-4",
+          "label": "IC-A/DZH A/D转换"
+        },
+        {
+          "key": "1-5",
+          "label": "TC_ICGN 遥测功能"
+        },
+        {
+          "key": "1-6",
+          "label": "TC_DMZJ 点名自检"
+        },
+        {
+          "key": "1-7",
+          "label": "TC_ZTXTE 状态信号判别"
+        },
+        {
+          "key": "1-8",
+          "label": "TC_QDDAGZZX 确定当前工作总线控制器"
+        }
+      ]
+    },
+    {
+      "key": "2",
+      "name": "postureControl",
+      "label": "姿态控制功能",
+      "children": [
+        {
+          "key": "2-1",
+          "label": "TC_TLXNCZH 陀螺脉冲转换与零次项误差补偿"
+        },
+        {
+          "key": "2-2",
+          "label": "TC_JSDJHCZ 加速度计脉冲转换与零次项误差补偿"
+        },
+        {
+          "key": "2-3",
+          "label": "TC_TLTNCCLZ 陀螺仪脉冲常零值输出判别"
+        },
+        {
+          "key": "2-4",
+          "label": "TC_TSDJDZSC 角速度极大值输出判别"
+        },
+        {
+          "key": "2-5",
+          "label": "TC_TLYAZHCB 陀螺仪安装误差补偿"
+        },
+        {
+          "key": "2-6",
+          "label": "TC_TZLYZXPB 角增量一致性判别"
+        },
+        {
+          "key": "2-7",
+          "label": "IC_IYZXFB 角度一致性判别"
+        },
+        {
+          "key": "2-8",
+          "label": "TC_JSDJHICCLZ 加速度计脉冲常零值输出判别"
+        },
+        {
+          "key": "2-9",
+          "label": "TC_SJSDJDZ 视加速度极大值输出判别"
+        },
+        {
+          "key": "2-10",
+          "label": "IC_JBAZHCBC 加表(加速度计)支装误差补偿"
+        },
+        {
+          "key": "2-11",
+          "label": "TC_SSDZLXZX 视速度增里一致性判别"
+        },
+        {
+          "key": "2-12",
+          "label": "TC_JSDXXJC 视速度一致性判别"
+        },
+        {
+          "key": "2-13",
+          "label": "TC_JSDXXTC 角速度信息决策"
+        },
+        {
+          "key": "2-14",
+          "label": "TC_SSYSJBS 射前四元数及不水平度计算"
+        },
+        {
+          "key": "2-15",
+          "label": "TC_SYSJS 四元数计算"
+        },
+        {
+          "key": "2-16",
+          "label": "TC_DHTS 导航计算"
+        },
+        {
+          "key": "2-17",
+          "label": "TC_CXJJS 程序角计算"
+        },
+        {
+          "key": "2-18",
+          "label": "TC_DJS 导引计算"
+        },
+        {
+          "key": "2-19",
+          "label": "TC_ZCLACFV 主处理器CPU中组合导航计算"
+        },
+        {
+          "key": "2-20",
+          "label": "TC_QRSKUTC 起飞时刻UTC时间计算"
+        },
+        {
+          "key": "2-21",
+          "label": "TC_AGCIGS 目标轨道根数修正计算"
+        },
+        {
+          "key": "2-22",
+          "label": "TC_ZKEYJS 姿控增益计算"
+        },
+        {
+          "key": "2-23",
+          "label": "TC_ZKHLJS 姿控网络计算"
+        },
+        {
+          "key": "2-24",
+          "label": "TC_DDZDJS 送代制导计算"
+        },
+        {
+          "key": "2-25",
+          "label": "TC_ZTJZKE 助推级姿控控制输出"
+        },
+        {
+          "key": "2-26",
+          "label": "TC_XYJZKE 芯一级姿控控制输出"
+        }
+      ]
+    }
+  ]
+}

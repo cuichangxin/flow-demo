@@ -1,0 +1,39 @@
+{
+  "projectName": "XXX火箭飞控系统",
+  "rank": "A",
+  "sDate": "2023-03-23",
+  "eDate": "2023-04-20",
+  "isShowRDate": false,
+  "rate": 1.0,
+  "rateOffset": 0.0,
+  "isPositive": false,
+  "showStatus": 0,
+  "activityInfoList": [
+    {
+      "isAuto": false,
+      "name": "创建项目",
+      "tool": "需求导入工具",
+      "person": "张三",
+      "sDate": "2023-03-23",
+      "eDate": "2023-03-23",
+      "content": ""
+    }
+  ],
+  "postList": [
+    {
+      "serial": 4,
+      "status": 2
+    }
+  ],
+  "postLineList": [],
+  "isShowFlow": true,
+  "flowList": [
+    {
+      "serial": 2,
+      "status": 2
+    }
+  ],
+  "flowLineList": [],
+  "rateInfoList": [],
+  "quailityInfoList": []
+}

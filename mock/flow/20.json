@@ -1,0 +1,95 @@
+{
+  "projectName": "XXX火箭飞控系统",
+  "rank": "A",
+  "sDate": "2023-03-24",
+  "eDate": "2023-04-20",
+  "isShowRDate": false,
+  "rate": 90.0,
+  "rateOffset": 7.0,
+  "isPositive": false,
+  "showStatus": 0,
+  "activityInfoList": [
+    {
+      "isAuto": true,
+      "name": "编译检查",
+      "tool": "Rule Check",
+      "person": "",
+      "content": "开始执行...\n加载输入...\n处理中...\n成功，耗时76秒"
+    }
+  ],
+  "postList": [
+    {
+      "serial": 14,
+      "status": 3
+    },
+    {
+      "serial": 23,
+      "status": 2
+    }
+  ],
+  "postLineList": [
+    {
+      "start": 14,
+      "end": 23,
+      "isActive": false
+    }
+  ],
+  "isShowFlow": true,
+  "flowList": [
+    {
+      "serial": 30,
+      "status": 3
+    },
+    {
+      "serial": 31,
+      "status": 2
+    }
+  ],
+  "flowLineList": [
+    {
+      "start": 20,
+      "end": 31,
+      "isActive": false
+    }
+  ],
+  "rateInfoList": [
+    {
+      "name": "姿控需求分析",
+      "cValue": 35.0,
+      "rValue": 58.8,
+      "delay": 68.0
+    },
+    {
+      "name": "制导需求分析",
+      "cValue": 20.0,
+      "rValue": 27.0,
+      "delay": 35.0
+    },
+    {
+      "name": "应用架构设计",
+      "cValue": 70.0,
+      "rValue": 84.0,
+      "delay": 20.0
+    },
+    {
+      "name": "功能测试用例设计",
+      "cValue": 50.0,
+      "rValue": 56.0,
+      "delay": 12.0
+    }
+  ],
+  "quailityInfoList": [
+    {
+      "name": "姿控需求分析不通过",
+      "num": 1
+    },
+    {
+      "name": "制导需求分析不通过",
+      "num": 3
+    },
+    {
+      "name": "功能测试用例设计不通过",
+      "num": 3
+    }
+  ]
+}

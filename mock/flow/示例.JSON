@@ -1,0 +1,89 @@
+{
+    "projectName": "XXX火箭飞控系统", 
+    "rank": "A",
+    "sDate": "2023-03-24", // 可能为null，为null数据不显示，也不用在页面显示，其它日期格式相同
+    "eDate": "2023-04-20",
+    "rDate": "2023-04-21",
+    "isShowRDate": false, // false不展示实际完成时间rDate
+    "rate": 88.8,
+    "rateOffset": 5,
+    "isPositive": false,// false要加-号，true加+号
+    "showStatus": 0, // 0是当前活动情况，1是活动情况汇总
+    "content": "自动化活动情况：\n总计执行30个，总耗时3.2小时。\n\n人工活动情况：\n总计执行28个，总耗时678小时。\n\n自动化率：51.72%",
+    "activityInfoList": [
+        {
+            "isAuto": false, // false表示人工活动，ture表示自动活动
+            "name": "姿控需求分析", 
+            "tool": "领域需求结构化定义工具", 
+            "person": "张三", //人工活动属性
+            "sDate": "2023-03-24",//人工活动属性
+            "eDate": "2023-03-24",//人工活动属性
+            "content": ""//自动活动属性
+        },
+        {
+            "isAuto": false,
+            "name": "制导需求分析",
+            "tool": "领域需求结构化定义工具",
+            "person": "李四",
+            "sDate": "2023-03-24",
+            "eDate": "2023-03-24",
+            "content": ""
+        },
+        {
+            "isAuto": true,
+            "name": "需求完整性检查",
+            "tool": "领域需求结构化定义工具",
+            "person": "张三",
+            "sDate": "2023-03-24",
+            "eDate": "2023-03-24",
+            "content": ">启动...\n执行...\n完成...\n耗时72分钟."
+        }
+    ],
+    "postList": [
+        {
+            "serial": 2, // 岗位序号
+            "status": 3	// 状态，1暗2蓝3白4红
+        },
+        {
+            "serial": 8,
+            "status": 3
+        }
+    ],
+	// 连接线有顺序，依次连接
+    "postLineList": [
+        {
+            "start": 1, // 连接起始点
+            "end": 2, // 连接结束点
+            "isActive": true // 暂时无意义
+        },
+        {
+            "start": 1,
+            "end": 8,
+            "isActive": true
+        },
+        {
+            "start": 5,
+            "end": 1,
+            "isActive": false
+        }
+    ],
+    "flowList": [
+        {
+            "serial": 2,// 流程节点序号
+            "status": 3// 状态，1暗2蓝3白4红
+        },
+        {
+            "serial": 8,
+            "status": 3
+        }
+    ],
+    "flowLineList": [
+        {
+            "start": 1,
+            "end": 2,
+            "isActive": true // 暂时无意义
+        },
+        {
+            "start": 1,
+            "end": 8,
+            "isActive": true

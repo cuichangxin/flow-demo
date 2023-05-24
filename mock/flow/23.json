@@ -1,0 +1,118 @@
+{
+  "projectName": "XXX火箭飞控系统",
+  "rank": "A",
+  "sDate": "2023-03-24",
+  "eDate": "2023-04-20",
+  "rDate": "2023-04-21",
+  "isShowRDate": true,
+  "rate": 100.0,
+  "rateOffset": 5.0,
+  "isPositive": false,
+  "showStatus": 1,
+  "content": "自动化活动情况：\n总计执行30个，总耗时3.2小时。\n\n人工活动情况：\n总计执行28个，总耗时678小时。\n\n自动化率：51.72%",
+  "activityInfoList": [],
+  "postList": [
+    {
+      "serial": 26,
+      "status": 3
+    },
+    {
+      "serial": 27,
+      "status": 3
+    },
+    {
+      "serial": 28,
+      "status": 3
+    },
+    {
+      "serial": 29,
+      "status": 3
+    }
+  ],
+  "postLineList": [],
+  "isShowFlow": true,
+  "flowList": [
+    {
+      "serial": 36,
+      "status": 3
+    },
+    {
+      "serial": 37,
+      "status": 3
+    },
+    {
+      "serial": 38,
+      "status": 3
+    },
+    {
+      "serial": 39,
+      "status": 3
+    },
+    {
+      "serial": 40,
+      "status": 3
+    }
+  ],
+  "flowLineList": [
+    {
+      "start": 36,
+      "end": 40,
+      "isActive": false
+    },
+    {
+      "start": 37,
+      "end": 40,
+      "isActive": false
+    },
+    {
+      "start": 38,
+      "end": 40,
+      "isActive": false
+    },
+    {
+      "start": 39,
+      "end": 40,
+      "isActive": false
+    }
+  ],
+  "rateInfoList": [
+    {
+      "name": "姿控需求分析",
+      "cValue": 35.0,
+      "rValue": 58.8,
+      "delay": 68.0
+    },
+    {
+      "name": "制导需求分析",
+      "cValue": 20.0,
+      "rValue": 27.0,
+      "delay": 35.0
+    },
+    {
+      "name": "应用架构设计",
+      "cValue": 70.0,
+      "rValue": 84.0,
+      "delay": 20.0
+    },
+    {
+      "name": "功能测试用例设计",
+      "cValue": 50.0,
+      "rValue": 56.0,
+      "delay": 12.0
+    }
+  ],
+  "quailityInfoList": [
+    {
+      "name": "姿控需求分析不通过",
+      "num": 1
+    },
+    {
+      "name": "制导需求分析不通过",
+      "num": 3
+    },
+    {
+      "name": "功能测试用例设计不通过",
+      "num": 3
+    }
+  ]
+}

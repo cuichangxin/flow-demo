@@ -1,0 +1,220 @@
+{
+  "projectName": "XXX火箭飞控系统",
+  "rank": "A",
+  "sDate": "2023-03-23",
+  "eDate": "2023-04-20",
+  "isShowRDate": false,
+  "rate": 7.0,
+  "rateOffset": 5.0,
+  "isPositive": false,
+  "showStatus": 0,
+  "activityInfoList": [
+    {
+      "isAuto": true,
+      "name": "需求完整性检查",
+      "tool": "RuleCheck",
+      "person": "",
+      "content": "开始执行...\n加载输入...\n处理中...\n成功，耗时76秒"
+    },
+    {
+      "isAuto": false,
+      "name": "需求评审",
+      "tool": "领域需求评审工具",
+      "person": "赵五",
+      "sDate": "2023-03-26",
+      "eDate": "2023-03-27",
+      "content": ""
+    },
+    {
+      "isAuto": true,
+      "name": "需求完整性检查",
+      "tool": "RuleCheck",
+      "person": "",
+      "content": "开始执行...\n加载输入...\n处理中...\n成功，耗时76秒"
+    },
+    {
+      "isAuto": true,
+      "name": "需求完整性检查",
+      "tool": "RuleCheck",
+      "person": "",
+      "content": "开始执行...\n加载输入...\n处理中...\n成功，耗时76秒"
+    },
+    {
+      "isAuto": true,
+      "name": "需求完整性检查",
+      "tool": "RuleCheck",
+      "person": "",
+      "content": "开始执行...\n加载输入...\n处理中...\n成功，耗时76秒"
+    },
+    {
+      "isAuto": true,
+      "name": "需求完整性检查",
+      "tool": "RuleCheck",
+      "person": "",
+      "content": "开始执行...\n加载输入...\n处理中...\n成功，耗时76秒"
+    }
+  ],
+  "postList": [
+    {
+      "serial": 21,
+      "status": 3
+    },
+    {
+      "serial": 22,
+      "status": 3
+    },
+    {
+      "serial": 23,
+      "status": 3
+    },
+    {
+      "serial": 24,
+      "status": 3
+    },
+    {
+      "serial": 25,
+      "status": 3
+    },
+    {
+      "serial": 44,
+      "status": 3
+    }
+  ],
+  "postLineList": [
+    {
+      "start": 2,
+      "end": 21,
+      "isActive": false
+    },
+    {
+      "start": 40,
+      "end": 22,
+      "isActive": false
+    },
+    {
+      "start": 42,
+      "end": 23,
+      "isActive": false
+    },
+    {
+      "start": 43,
+      "end": 24,
+      "isActive": false
+    },
+    {
+      "start": 47,
+      "end": 25,
+      "isActive": false
+    },
+    {
+      "start": 21,
+      "end": 44,
+      "isActive": false
+    },
+    {
+      "start": 22,
+      "end": 44,
+      "isActive": false
+    },
+    {
+      "start": 23,
+      "end": 44,
+      "isActive": false
+    },
+    {
+      "start": 24,
+      "end": 44,
+      "isActive": false
+    },
+    {
+      "start": 25,
+      "end": 44,
+      "isActive": false
+    }
+  ],
+  "isShowFlow": true,
+  "flowList": [
+    {
+      "serial": 3,
+      "status": 3
+    },
+    {
+      "serial": 4,
+      "status": 3
+    },
+    {
+      "serial": 5,
+      "status": 3
+    },
+    {
+      "serial": 6,
+      "status": 3
+    },
+    {
+      "serial": 7,
+      "status": 3
+    },
+    {
+      "serial": 8,
+      "status": 2
+    },
+    {
+      "serial": 9,
+      "status": 2
+    },
+    {
+      "serial": 10,
+      "status": 2
+    },
+    {
+      "serial": 11,
+      "status": 2
+    },
+    {
+      "serial": 12,
+      "status": 2
+    }
+  ],
+  "flowLineList": [
+    {
+      "start": 2,
+      "end": 3,
+      "isActive": true
+    },
+    {
+      "start": 2,
+      "end": 4,
+      "isActive": true
+    },
+    {
+      "start": 2,
+      "end": 5,
+      "isActive": true
+    },
+    {
+      "start": 2,
+      "end": 6,
+      "isActive": true
+    },
+    {
+      "start": 2,
+      "end": 7,
+      "isActive": true
+    }
+  ],
+  "rateInfoList": [
+    {
+      "name": "姿控需求分析",
+      "cValue": 20.0,
+      "rValue": 23.0,
+      "delay": 15.0
+    },
+    {
+      "name": "制导需求分析",
+      "cValue": 35.0,
+      "rValue": 36.05,
+      "delay": 3.0
+    }
+  ],
+  "quailityInfoList": []
+}

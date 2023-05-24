@@ -1,0 +1,203 @@
+<template>
+  <div class="task_info">
+    <el-table :data="tableList.slice((currentPage - 1) * pagesize, currentPage * pagesize)" border
+      :header-cell-style="tableHeaderCellStyle" :cell-style="cellStyle" :max-height="tableHeight">
+      <el-table-column align="center" label="序号" width="80">
+        <template #default="scope">
+          {{ scope.$index + (currentPage - 1) * pagesize + 1 }}
+        </template>
+      </el-table-column>
+      <el-table-column align="center" prop="name" label="任务名称">
+      </el-table-column>
+      <el-table-column align="center" prop="projectName" label="项目名称">
+      </el-table-column>
+      <el-table-column align="center" prop="beginTime" label="任务分配时间">
+      </el-table-column>
+      <el-table-column align="center" prop="endTime" label="要求完成时间">
+      </el-table-column>
+      <el-table-column align="center" prop="subStatus" label="状态" width="120">
+      </el-table-column>
+      <el-table-column align="center" label="动作" width="150">
+        <template #default="scope">
+          <el-button link @click="goTask(scope.row)">
+            <el-icon color="#3b6bde" size="20">
+              <VideoPlay />
+            </el-icon>
+          </el-button>
+          <el-button link @click="submit(scope.row)">
+            <el-icon color="#3b6bde" size="20">
+              <UploadFilled />
+            </el-icon>
+          </el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+    <div class="pagination">
+      <el-pagination background layout="prev, pager, next" :total="tableList.length" :page-size="pagesize"
+        :current-page="currentPage" @current-change="handlerCurrentChange" @size-change="handleSizeChange">
+      </el-pagination>
+    </div>
+  </div>
+</template>
+<script setup>
+import { UploadFilled, VideoPlay } from '@element-plus/icons-vue'
+import _ from 'lodash'
+import Cookies from 'js-cookie'
+import { TASKSTATUS } from '@/utils/map'
+import { allStore } from '../store'
+
+const store = allStore()
+const router = useRouter()
+const { proxy } = getCurrentInstance()
+const currentPage = ref(1)
+const pagesize = ref(10)
+const tableHeight = ref(0)
+const tableList = ref([])
+const taskStatus = TASKSTATUS
+
+const handlerCurrentChange = (val) => {
+  currentPage.value = val
+}
+const handleSizeChange = () => {
+  currentPage.value = 1
+}
+
+function tableHeaderCellStyle() {
+  return {
+    "background": "#efefef"
+  }
+}
+function cellStyle({ row, column, rowIndex, columnIndex }) {
+  if ((row.status === 1 || row.status === 4) && columnIndex === 5) {
+    return { 'color': '#81B337' }
+  } else if (row.status === 2 && columnIndex === 5) {
+    return { 'color': '#BD3124' }
+  } else if (row.status === 3 && columnIndex === 5) {
+    return { 'color': '#E99D42' }
+  }
+}
+onMounted(() => {
+  proxy.$axios.getUserTask({
+    userId: Cookies.get('userId')
+  }).then((res) => {
+    res.data.forEach(item => {
+      item.subStatus = taskStatus[item.status]
+    })
+    tableList.value = res.data
+  })
+  nextTick(() => {
+    tableHeight.value = window.innerHeight - 238
+  })
+  window.addEventListener('resize', () => {
+    tableHeight.value = window.innerHeight - 238
+  })
+})
+onUnmounted(() => {
+  window.removeEventListener('resize', () => { })
+})
+
+const goTask = (row) => {
+  const roleId = Cookies.get('roleId')
+  let path
+  switch (roleId) {
+    case '1':
+      path = 'demandAnalysis'
+      break;
+    case '2':
+      path = 'demandReview'
+      break;
+    case '3':
+      path = 'emulation'
+      break;
+    case '4':
+      path = 'work'
+      break;
+    case '5':
+      path = 'modeling'
+      break;
+    case '6':
+      path = 'testCase'
+      break;
+    case '7':
+      path = 'testRecord'
+      break;
+    default:
+      break;
+  }
+  Cookies.set('taskId', row.id)
+  router.push({ name: path })
+}
+const submit = (row) => {
+  let local
+  const roleId = Cookies.get('roleId')
+  switch (roleId) {
+    case '1':
+      local = null
+      break;
+    case '2':
+      local = null
+      break;
+    case '3':
+      local = localStorage.getItem('g6Data')
+      break;
+    case '4':
+      local = {
+        workData: localStorage.getItem('workData'),
+        overAllData: localStorage.getItem('overAllData'),
+        relationData: localStorage.getItem('relationData')
+      }
+      break;
+    case '5':
+      local = localStorage.getItem('fileTree')
+      break;
+    case '6':
+      local = 'testCase'
+      break;
+    case '7':
+      local = 'testRecord'
+      break;
+    default:
+      break;
+  }
+  if (local !== null || (local !== null) && Object.values(local).some((item) => { return item !== null })) {
+    proxy.$axios.saveTaskDetail({
+      taskId: row.id,
+      daTree: local
+    }).then((res) => {
+      console.log(res);
+      proxy.$axios.submitTask({
+        taskId: row.id,
+        userId: parseInt(Cookies.get('userId')),
+        groupId:row.groupId
+      }).then((res) => {
+        console.log(res);
+      })
+    })
+  } else {
+    proxy.$axios.submitTask({
+      taskId: row.id,
+      userId: parseInt(Cookies.get('userId')),
+      groupId:row.groupId
+    }).then((res) => {
+      console.log(res);
+    })
+  }
+}
+
+</script>
+<style lang="scss" scoped>
+.task_info {
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 8px;
+  margin: 20px 20px 0;
+  height: calc(96% - 60px);
+  box-shadow: 0px 0px 22px rgba(0, 0, 0, 0.1);
+}
+
+.pagination {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+}
+</style>

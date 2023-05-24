@@ -1,0 +1,113 @@
+{
+  "projectName": "XXX火箭飞控系统",
+  "rank": "A",
+  "sDate": "2023-03-24",
+  "eDate": "2023-04-20",
+  "isShowRDate": false,
+  "rate": 58.0,
+  "rateOffset": 15.0,
+  "isPositive": false,
+  "showStatus": 0,
+  "activityInfoList": [
+    {
+      "isAuto": true,
+      "name": "安全性分析",
+      "tool": "AADL Inspector",
+      "person": "",
+      "content": "开始执行...\n加载输入...\n处理中...\n成功，耗时76秒"
+    },
+    {
+      "isAuto": false,
+      "name": "安全性设计",
+      "tool": "安全架构评审工具",
+      "person": "赵五",
+      "sDate": "2023-04-14",
+      "eDate": "2023-04-15",
+      "content": ""
+    }
+  ],
+  "postList": [
+    {
+      "serial": 28,
+      "status": 2
+    },
+    {
+      "serial": 46,
+      "status": 2
+    },
+    {
+      "serial": 47,
+      "status": 3
+    }
+  ],
+  "postLineList": [
+    {
+      "start": 47,
+      "end": 28,
+      "isActive": false
+    },
+    {
+      "start": 28,
+      "end": 46,
+      "isActive": false
+    }
+  ],
+  "isShowFlow": true,
+  "flowList": [
+    {
+      "serial": 22,
+      "status": 2
+    },
+    {
+      "serial": 19,
+      "status": 3
+    }
+  ],
+  "flowLineList": [
+    {
+      "start": 19,
+      "end": 22,
+      "isActive": false
+    }
+  ],
+  "rateInfoList": [
+    {
+      "name": "姿控需求分析",
+      "cValue": 35.0,
+      "rValue": 58.8,
+      "delay": 68.0
+    },
+    {
+      "name": "制导需求分析",
+      "cValue": 20.0,
+      "rValue": 27.0,
+      "delay": 35.0
+    },
+    {
+      "name": "应用架构设计",
+      "cValue": 70.0,
+      "rValue": 84.0,
+      "delay": 20.0
+    },
+    {
+      "name": "功能测试用例设计",
+      "cValue": 50.0,
+      "rValue": 56.0,
+      "delay": 12.0
+    }
+  ],
+  "quailityInfoList": [
+    {
+      "name": "姿控需求分析不通过",
+      "num": 1
+    },
+    {
+      "name": "制导需求分析不通过",
+      "num": 3
+    },
+    {
+      "name": "功能测试用例设计不通过",
+      "num": 3
+    }
+  ]
+}

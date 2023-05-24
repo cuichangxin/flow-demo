@@ -1,0 +1,48 @@
+{
+  "name": "demo-g",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@antv/g6": "^4.8.9",
+    "@antv/x6": "^2.10.1",
+    "@antv/x6-plugin-clipboard": "^2.1.6",
+    "@antv/x6-plugin-dnd": "^2.0.5",
+    "@antv/x6-plugin-history": "^2.2.3",
+    "@antv/x6-plugin-keyboard": "^2.2.1",
+    "@antv/x6-plugin-selection": "^2.1.7",
+    "@antv/x6-plugin-snapline": "^2.1.7",
+    "@antv/x6-plugin-stencil": "^2.0.3",
+    "@antv/x6-plugin-transform": "^2.1.7",
+    "@element-plus/icons-vue": "^2.1.0",
+    "axios": "^1.4.0",
+    "element-plus": "^2.3.3",
+    "element-tree-line": "^0.2.1",
+    "element-ui": "^2.15.13",
+    "js-cookie": "^3.0.5",
+    "leader-line": "^1.0.7",
+    "lodash": "^4.17.21",
+    "mitt": "^3.0.0",
+    "pinia": "^2.0.35",
+    "sass": "^1.62.0",
+    "skeleton-loader": "^2.0.0",
+    "typeit": "^8.7.1",
+    "v-scale-screen": "2.0.0",
+    "vue": "^3.2.41",
+    "vue-drag-resize": "^2.0.3",
+    "vue-router": "^4.1.6",
+    "vue-typed-js": "^0.1.2",
+    "vue3typed": "^0.1.5",
+    "welabx-g6": "^0.8.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^3.2.0",
+    "unplugin-auto-import": "^0.15.3",
+    "vite": "^3.2.3"
+  }
+}
