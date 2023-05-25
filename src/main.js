@@ -8,7 +8,8 @@ import { createPinia } from 'pinia'
 import mitt from 'mitt'
 import vueTyped from 'vue3typed'
 import axios from './api/api'
-import cookie from 'js-cookie'
+
+import './permission'
 
 const app = createApp(App)
 const pinia = createPinia()
@@ -18,6 +19,5 @@ app.use(pinia)
 app.use(vueTyped)
 app.config.globalProperties.$bus = mitt()
 app.config.globalProperties.$axios = axios
-app.config.globalProperties.$cookie = cookie
 
 app.mount('#app')

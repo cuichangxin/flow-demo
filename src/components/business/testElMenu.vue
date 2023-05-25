@@ -13,11 +13,10 @@
       <el-tooltip v-else :content="item.label" placement="right" effect="light">
         <el-menu-item :index="item.id" :draggable="drag" :class="{ 'menu-icon': drag }" :data-label="item.label"
           :data-id="item.id" :data-img="item.img" :data-shape="item.shape" :data-fill="item.fill"
-          :data-list="JSON.stringify(item.list)">
+          :data-list="JSON.stringify(item.list)" @dragstart="(e) => dragstart(e, item)">
           <template #title>
             <i class="iconfont icon iconm" :class="[icon]"></i>
             <span>{{ item.label }}</span>
-            <!-- <img v-if="item?.img" style="margin-left: 10px" :src="item.img" /> -->
           </template>
         </el-menu-item>
       </el-tooltip>
@@ -30,7 +29,9 @@
   </el-menu-item>
 </template>
 <script setup>
+import { allStore } from '../../store';
 
+const store = allStore()
 const props = defineProps({
   menus: {
     type: Array,
@@ -62,11 +63,15 @@ watchEffect(() => {
     })
   }
 })
+const dragstart = (e, v) => {
+  console.log(v);
+  store.dragstartItem = v
+}
 </script>
 <style lang="scss" scoped>
 .icon {
   margin-right: 10px;
-  color: #b2bac9;
+  color: #5b5959;
 }
 
 .iconm {
@@ -76,41 +81,10 @@ watchEffect(() => {
 
 :deep(.el-sub-menu__title),
 :deep(.el-menu-item) {
-  color: #474c6d;
   height: 48px;
-
-  &:hover {
-    background-color: #eaf0fe !important;
-    color: #3e589c;
-    border: 1px solid #cad7f4;
-
-    i {
-      color: #3e589c;
-    }
-
-    span {
-      font-weight: 900;
-    }
-  }
-}
-
-:deep(.el-menu-item) {
-  &:hover {
-    span {
-      font-weight: normal;
-    }
-
-    font-weight: normal;
-  }
 }
 
 :deep(.el-menu-item.is-active) {
-  background-color: rgba(0, 0, 0, 0.06);
-  color: #3e589c;
-  border: 1px solid #cad7f4;
-
-  i {
-    color: #3e589c;
-  }
+  background-color: rgba(0, 0, 0, 0.2);
 }
 </style>

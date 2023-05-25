@@ -152,6 +152,11 @@ const constantRoutes = [
     path: '/login',
     name: 'login',
     component: () => import('@/page/login.vue')
+  },
+  {
+    path: '/copy',
+    name: 'copy',
+    component: () => import('@/page/copy.vue')
   }
 ]
 const router = createRouter({

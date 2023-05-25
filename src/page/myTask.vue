@@ -24,8 +24,8 @@
               <VideoPlay />
             </el-icon>
           </el-button>
-          <el-button link @click="submit(scope.row)">
-            <el-icon color="#3b6bde" size="20">
+          <el-button link :disabled="scope.row.status === 1" @click="submit(scope.row)">
+            <el-icon :color="scope.row.status === 1 ? '' : '#3b6bde'" size="20">
               <UploadFilled />
             </el-icon>
           </el-button>
@@ -41,6 +41,7 @@
 </template>
 <script setup>
 import { UploadFilled, VideoPlay } from '@element-plus/icons-vue'
+import { ElNotification } from 'element-plus'
 import _ from 'lodash'
 import Cookies from 'js-cookie'
 import { TASKSTATUS } from '@/utils/map'
@@ -68,7 +69,7 @@ function tableHeaderCellStyle() {
   }
 }
 function cellStyle({ row, column, rowIndex, columnIndex }) {
-  if ((row.status === 1 || row.status === 4) && columnIndex === 5) {
+  if ((row.status === 1) && columnIndex === 5) {
     return { 'color': '#81B337' }
   } else if (row.status === 2 && columnIndex === 5) {
     return { 'color': '#BD3124' }
@@ -77,14 +78,7 @@ function cellStyle({ row, column, rowIndex, columnIndex }) {
   }
 }
 onMounted(() => {
-  proxy.$axios.getUserTask({
-    userId: Cookies.get('userId')
-  }).then((res) => {
-    res.data.forEach(item => {
-      item.subStatus = taskStatus[item.status]
-    })
-    tableList.value = res.data
-  })
+  getTask()
   nextTick(() => {
     tableHeight.value = window.innerHeight - 238
   })
@@ -167,21 +161,41 @@ const submit = (row) => {
       console.log(res);
       proxy.$axios.submitTask({
         taskId: row.id,
-        userId: parseInt(Cookies.get('userId')),
-        groupId:row.groupId
+        roleId: parseInt(Cookies.get('roleId')),
+        groupId: row.groupId
       }).then((res) => {
         console.log(res);
+        ElNotification({
+          message: '提交成功',
+          type: 'success',
+        })
+        getTask()
       })
     })
   } else {
     proxy.$axios.submitTask({
       taskId: row.id,
-      userId: parseInt(Cookies.get('userId')),
-      groupId:row.groupId
+      roleId: parseInt(Cookies.get('roleId')),
+      groupId: row.groupId
     }).then((res) => {
       console.log(res);
+      ElNotification({
+        message: '提交成功',
+        type: 'success',
+      })
+      getTask()
     })
   }
+}
+const getTask = () => {
+  proxy.$axios.getUserTask({
+    userId: Cookies.get('userId')
+  }).then((res) => {
+    res.data.forEach(item => {
+      item.subStatus = taskStatus[item.status]
+    })
+    tableList.value = res.data
+  })
 }
 
 </script>

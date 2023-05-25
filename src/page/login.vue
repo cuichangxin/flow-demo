@@ -33,7 +33,7 @@ const password = ref('')
 const router = useRouter()
 
 const login = () => {
-  proxy.$axios.getLogin({
+  proxy.$axios.userLogin({
     userName: idNumber.value,
     userPwd: password.value
   }).then((res) => {

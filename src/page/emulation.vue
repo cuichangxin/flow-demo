@@ -12,18 +12,18 @@
         <div class="click" @click="out"></div>
       </el-aside>
       <el-container class="layout-wrapper">
-        <el-main class="canvas-wrapper" :style="{ paddingBottom: isOutB ? '0' : '' }">
+        <div class="canvas-wrapper" :style="{ paddingBottom: isOutB ? '0' : '' }">
           <div style="width:100%; min-width: 0;">
             <h4 class="title">仿真测试环境</h4>
             <!-- canvas容器 -->
             <div id="graph" class="container" ref="graphRef"></div>
           </div>
-          <el-aside class="el-aside el-aside-right" id="asideRef" :class="{ 'fade_r': isOutR }">
+          <div class="el-aside-right" :class="{ 'fade_r': isOutR }">
             <h4 class="aside-title">属性栏</h4>
             <tableBar :tableList="tableList" :domH="domH" @saveTable="saveTable"></tableBar>
             <div class="right_out" @click="outR"></div>
-          </el-aside>
-        </el-main>
+          </div>
+        </div>
         <el-footer class="el-footer" :class="{ 'fade': isOutB }">
           <el-space :size="20" class="icon-info" :class="{ 'op': isOutB }">
             <i class="iconfont icon icon-fangdajing"></i>
@@ -57,7 +57,6 @@ import insertCss from 'insert-css'
 import { getImgSize, fittingString } from '../utils/utils'
 import _ from 'lodash'
 import { allStore } from '../store';
-import Cookies from 'js-cookie'
 
 const store = allStore()
 const instance = getCurrentInstance()
@@ -323,6 +322,13 @@ let menuList = reactive([
       },
     ]
   },
+  {
+    id: '9',
+    label: '箭载计算机',
+    drag: true,
+    shape: 'image',
+    img: new URL('../assets/image/jisuanji.png', import.meta.url).href
+  }
 ])
 const openFlag = ref({})
 const tableList = ref([])
@@ -857,11 +863,6 @@ onMounted(() => {
   if (localList !== null) {
     graphData.value = JSON.parse(localList)
   }
-  nextTick(() => {
-    createGraphic()
-    initGraphEvent()
-    g6Size()
-  })
   const nodes = [...document.getElementById('elMenu').querySelectorAll('.menu-icon')]
   nodes.forEach(node => {
     node.addEventListener('dragstart', (event) => {
@@ -878,20 +879,26 @@ onMounted(() => {
   document.addEventListener('drop', e => {
     e.preventDefault()
   }, false)
+
   tableSize()
 
-  instance.proxy.$axios.getTaskDetail({taskId:store.taskId}).then((res) => {
+  instance.proxy.$axios.getTaskDetail({ taskId: store.taskId }).then((res) => {
     console.log(res);
   })
+  setTimeout(() => {
+    createGraphic()
+    initGraphEvent()
+    g6Size()
+  },500)
 })
 
 function tableSize() {
-  // 监听右侧菜单的高度动态设置表格的流体高度
-  const dom = document.getElementById('asideRef')
-  domH.value = dom.clientHeight
-  mainH.value = window.innerHeight - 138
+  nextTick(() => {
+    domH.value = window.innerHeight - 440
+    mainH.value = window.innerHeight - 138
+  })
   window.onresize = () => {
-    domH.value = dom.clientHeight
+    domH.value = window.innerHeight - 440
     mainH.value = window.innerHeight - 138
   }
 }
@@ -907,7 +914,7 @@ onUnmounted(() => {
 .test-info {
   width: 100%;
   height: 100%;
-  padding: 20px;
+  padding: 0 20px 20px;
   /* background-color: #f0f0f4; */
   transition: height .2s linear;
 }
@@ -920,23 +927,22 @@ onUnmounted(() => {
 .el-aside {
   width: 220px;
   margin-bottom: 0;
-  border-radius: 20px;
+  border-radius: 10px;
   padding: 0;
   background-color: #fff;
   box-shadow: 0px 0px 12px rgba(0, 0, 0, .12);
 }
 
 .el-aside-right {
-  height: 100%;
   margin-left: 20px;
-  border-radius: 20px;
-  overflow: visible;
+  border-radius: 10px;
   position: relative;
   z-index: 10;
+  width: 260px;
   transition: width .2s linear;
 
   .aside-title {
-    border-radius: 20px 20px 0 0;
+    border-radius: 10px 10px 0 0;
   }
 
   .right_out {
@@ -969,12 +975,12 @@ onUnmounted(() => {
   .title {
     font-size: 15px;
     text-align: center;
-    padding: 20px 0;
+    padding: 15px 0;
     margin-bottom: 0;
     margin-top: 0;
     border-bottom: 1px solid rgb(222, 219, 219);
-    background: linear-gradient(to right, #8e9eab, #d0d7d8);
-    border-radius: 20px 20px 0 0;
+    background: #d0d7d8;
+    border-radius: 10px 10px 0 0;
   }
 
   .icons {
@@ -1025,27 +1031,26 @@ onUnmounted(() => {
 }
 
 .canvas-wrapper {
-  padding-top: 0;
   display: flex;
-  padding-right: 0;
   overflow: hidden;
+  flex: 1;
+  margin-left: 20px;
 
   .title {
     font-size: 17px;
     text-align: center;
     margin: 0;
     width: 100%;
-    height: 58px;
-    line-height: 58px;
-    background: linear-gradient(to right, #8e9eab, #d0d7d8);
-    border-radius: 20px 20px 0 0;
+    padding: 15px 0;
+    background: #d0d7d8;
+    border-radius: 10px 10px 0 0;
   }
 
   .container {
     width: 100%;
     height: calc(100% - 57px);
     box-shadow: 0px 0px 12px rgba(0, 0, 0, .12);
-    border-radius: 0 0 20px 20px;
+    border-radius: 0 0 10px 10px;
     background-color: #fff;
     position: relative;
     z-index: 1;
@@ -1056,11 +1061,11 @@ onUnmounted(() => {
 .aside-title {
   font-size: 15px;
   text-align: center;
-  padding: 20px 0;
+  padding: 15px 0;
   margin-bottom: 0;
   margin-top: 0;
   border-bottom: 1px solid rgb(222, 219, 219);
-  background: linear-gradient(to right, #8e9eab, #d0d7d8);
+  background: #d0d7d8;
 }
 
 .el-footer {
@@ -1076,12 +1081,18 @@ onUnmounted(() => {
     transition: opacity .2s linear;
 
     i {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      text-align: center;
       font-size: 18px;
       cursor: pointer;
+      border-radius: 2px;
       transition: ease-in-out .1s;
 
       &:hover {
-        color: rgb(21, 210, 147);
+        color: #fff;
+        background-color: #4c91fa;
       }
     }
 
@@ -1095,7 +1106,7 @@ onUnmounted(() => {
     height: 200px;
     background-color: #fff;
     box-shadow: 0px 0px 12px rgba(0, 0, 0, .12);
-    border-radius: 0 0 20px 20px;
+    border-radius: 0 0 10px 10px;
     margin-top: 8px;
   }
 

@@ -1,17 +1,18 @@
 <template>
   <section class="list-info">
     <header class="header">
-      <el-button class="button" type="primary">
+      <el-button class="button" type="primary" @click="addProject">
         <el-icon>
           <Plus />
         </el-icon>
         新建项目
       </el-button>
-      <el-input class="input" v-model="keyword" placeholder="请输入你需要搜索的项目名称" :suffix-icon="Search" @input="search"></el-input>
+      <el-input class="input" v-model="keyword" placeholder="请输入你需要搜索的项目名称" :suffix-icon="Search"
+        @input="search"></el-input>
     </header>
     <div class="wrapper">
       <el-table :data="tableList.slice((currentPage - 1) * pagesize, currentPage * pagesize)" border
-        :header-cell-style="tableHeaderCellStyle">
+        :header-cell-style="tableHeaderCellStyle" :max-height="tableHeight">
         <el-table-column align="center" label="序号" width="80">
           <template #default="scope">
             {{ scope.$index + (currentPage - 1) * pagesize + 1 }}
@@ -55,212 +56,37 @@
 <script setup>
 import { Search, Plus, Delete, Edit } from '@element-plus/icons-vue'
 import _ from 'lodash'
+import { onMounted, onUnmounted } from 'vue';
 
+const router = useRouter(0)
 const keyword = ref('')
 const currentPage = ref(1)
 const pagesize = ref(10)
 const tableList = ref([
-  {
-    name: '',
-    type: '',
-    safeLevel: '',
-    code: '',
-    eTime: '',
-    cTime: ''
-  },
-  {
-    name: '',
-    type: '',
-    safeLevel: '',
-    code: '',
-    eTime: '',
-    cTime: ''
-  },
-  {
-    name: '',
-    type: '',
-    safeLevel: '',
-    code: '',
-    eTime: '',
-    cTime: ''
-  },
-  {
-    name: '',
-    type: '',
-    safeLevel: '',
-    code: '',
-    eTime: '',
-    cTime: ''
-  },
-  {
-    name: '',
-    type: '',
-    safeLevel: '',
-    code: '',
-    eTime: '',
-    cTime: ''
-  },
-  {
-    name: '',
-    type: '',
-    safeLevel: '',
-    code: '',
-    eTime: '',
-    cTime: ''
-  },
-  {
-    name: '',
-    type: '',
-    safeLevel: '',
-    code: '',
-    eTime: '',
-    cTime: ''
-  },
-  {
-    name: '',
-    type: '',
-    safeLevel: '',
-    code: '',
-    eTime: '',
-    cTime: ''
-  },
-  {
-    name: '',
-    type: '',
-    safeLevel: '',
-    code: '',
-    eTime: '',
-    cTime: ''
-  },
-  {
-    name: '',
-    type: '',
-    safeLevel: '',
-    code: '',
-    eTime: '',
-    cTime: ''
-  },{
-    name: '',
-    type: '',
-    safeLevel: '',
-    code: '',
-    eTime: '',
-    cTime: ''
-  },{
-    name: '',
-    type: '',
-    safeLevel: '',
-    code: '',
-    eTime: '',
-    cTime: ''
-  },{
-    name: '',
-    type: '',
-    safeLevel: '',
-    code: '',
-    eTime: '',
-    cTime: ''
-  },{
-    name: '',
-    type: '',
-    safeLevel: '',
-    code: '',
-    eTime: '',
-    cTime: ''
-  },{
-    name: '',
-    type: '',
-    safeLevel: '',
-    code: '',
-    eTime: '',
-    cTime: ''
-  },{
-    name: '',
-    type: '',
-    safeLevel: '',
-    code: '',
-    eTime: '',
-    cTime: ''
-  },{
-    name: '',
-    type: '',
-    safeLevel: '',
-    code: '',
-    eTime: '',
-    cTime: ''
-  },{
-    name: '',
-    type: '',
-    safeLevel: '',
-    code: '',
-    eTime: '',
-    cTime: ''
-  },{
-    name: '',
-    type: '',
-    safeLevel: '',
-    code: '',
-    eTime: '',
-    cTime: ''
-  },{
-    name: '',
-    type: '',
-    safeLevel: '',
-    code: '',
-    eTime: '',
-    cTime: ''
-  },{
-    name: '',
-    type: '',
-    safeLevel: '',
-    code: '',
-    eTime: '',
-    cTime: ''
-  },{
-    name: '',
-    type: '',
-    safeLevel: '',
-    code: '',
-    eTime: '',
-    cTime: ''
-  },{
-    name: '',
-    type: '',
-    safeLevel: '',
-    code: '',
-    eTime: '',
-    cTime: ''
-  },{
-    name: '',
-    type: '',
-    safeLevel: '',
-    code: '',
-    eTime: '',
-    cTime: ''
-  },{
-    name: '',
-    type: '',
-    safeLevel: '',
-    code: '',
-    eTime: '',
-    cTime: ''
-  },{
-    name: '',
-    type: '',
-    safeLevel: '',
-    code: '',
-    eTime: '',
-    cTime: ''
-  },
+  // {
+  //   name: '',
+  //   type: '',
+  //   safeLevel: '',
+  //   code: '',
+  //   eTime: '',
+  //   cTime: ''
+  // },
 ])
 const cloneSearchData = ref([])
 const searchId = ref(1)
+const tableHeight = ref(0)
 
 const handlerCurrentChange = (val) => {
   currentPage.value = val
 }
 const handleSizeChange = () => {
   currentPage.value = 1
+}
+// 新建项目
+const addProject = () => {
+  router.push({
+    path: '/pm/taskNeed'
+  })
 }
 
 function tableHeaderCellStyle() {
@@ -277,7 +103,7 @@ const search = (e) => {
     cloneSearchData.value = _.cloneDeep(tableList.value)
     searchId.value = 0
   }
-  let codeArr = ["name", "safeLevel", "type",'code']
+  let codeArr = ["name", "safeLevel", "type", 'code']
   let searchReg = new RegExp(e)
   let filterArr = cloneSearchData.value.filter((data) => {
     return Object.values(
@@ -288,6 +114,15 @@ const search = (e) => {
   })
   tableList.value = filterArr
 }
+onMounted(() => {
+  tableHeight.value = window.innerHeight - 300
+  window.addEventListener('resize', () => {
+    tableHeight.value = window.innerHeight - 300
+  })
+})
+onUnmounted(()=>{
+  window.removeEventListener('resize',()=>{})
+})
 </script>
 <style lang="scss" scoped>
 .list-info {
@@ -297,7 +132,6 @@ const search = (e) => {
   padding: 15px;
   margin: 0 20px;
   box-shadow: 0px 0px 22px rgba(0, 0, 0, .1);
-  overflow-y: auto;
 }
 
 .header {
@@ -324,4 +158,5 @@ const search = (e) => {
   margin-top: 30px;
   display: flex;
   justify-content: center;
-}</style>
+}
+</style>

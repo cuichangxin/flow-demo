@@ -23,6 +23,7 @@ import Card from '../components/business/broad/card.vue'
 import Axios from 'axios'
 import vScaleScreen from 'v-scale-screen'
 
+const { proxy } = getCurrentInstance()
 let list = ref({})
 const serial = ref(15)
 const timer = ref(null)
@@ -53,6 +54,9 @@ onMounted(() => {
   //   getJson()
   // }, 7000)
   getJson()
+  proxy.$axios.getBroadLine().then((res) => {
+    console.log(res);
+  })
 })
 const getJson = () => {
   Axios.get(`./mock/flow/${serial.value}.json`).then((res) => {

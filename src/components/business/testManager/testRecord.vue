@@ -149,6 +149,7 @@ const tableData = reactive({
   ]
 })
 let copyData = _.cloneDeep(tableData.tableData)
+let recordCopyData = _.cloneDeep(recordAllList.value)
 const searchId = ref(1)
 const cloneSearchData = ref([])
 const currentPage = ref(1)
@@ -194,10 +195,13 @@ function cellStyle({ row, column, rowIndex, columnIndex }) {
 const handleSelect = (val) => {
   if (val === '1') {
     tableData.tableData = copyData
-  }else if (val === '2') {
+    recordAllList.value = recordCopyData
+  } else if (val === '2') {
     tableData.tableData = dataList_2
-  }else if (val === '3') {
+    recordAllList.value = recordAllList_2
+  } else if (val === '3') {
     tableData.tableData = dataList_3
+    recordAllList.value = recordAllList_3
   }
 }
 
@@ -239,6 +243,34 @@ const dataList_3 = [
     testCaseCount: '18',
     testRes: '通过',
     cover: '100%'
+  },
+]
+const recordAllList_2 = [
+  {
+    recordName: '用例总数',
+    value: '233'
+  },
+  {
+    recordName: '通过',
+    value: '125'
+  },
+  {
+    recordName: '未通过',
+    value: '108'
+  },
+]
+const recordAllList_3 = [
+  {
+    recordName: '用例总数',
+    value: '491'
+  },
+  {
+    recordName: '通过',
+    value: '323'
+  },
+  {
+    recordName: '未通过',
+    value: '168'
   },
 ]
 </script>

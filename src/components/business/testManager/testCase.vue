@@ -2,7 +2,13 @@
   <div class="test_case">
     <div class="tree-box">
       <el-scrollbar :height="treeHeight">
-        <el-tree :data="treeData.list"></el-tree>
+        <el-tree :data="treeData.list" @node-click="handleTree">
+          <template #default="{ node, data }">
+            <span class="custom-tree-node">
+              <span>{{ node.label }}</span>
+            </span>
+          </template>
+        </el-tree>
       </el-scrollbar>
     </div>
     <div class="test_case_wrapper">
@@ -11,13 +17,13 @@
         <div class="flex">
           <div class="item">
             <label>对应需求名称</label>
-            <el-input v-model="formList.needName"></el-input>
+            <el-input v-model="formList.needName" :disabled="disabledFlag"></el-input>
           </div>
           <div class="item">
             <label>对应需求ID</label>
-            <el-input v-model="formList.needId"></el-input>
+            <el-input v-model="formList.needId" :disabled="disabledFlag"></el-input>
           </div>
-          <el-button class="button" type="info">
+          <el-button class="button" type="info" :disabled="disabledFlag">
             <el-icon>
               <Plus />
             </el-icon>
@@ -46,16 +52,18 @@
         </el-table>
         <div class="handle">
           <span class="handle_title">处理步骤</span>
-          <el-icon class="icon_add" size="20" color="#0095d9" @click="addFrom">
-            <CirclePlus />
-          </el-icon>
+          <el-button link @click="addFrom" :disabled="disabledFlag">
+            <el-icon class="icon_add" size="20" :color="disabledFlag ? '' : '#0095d9'">
+              <CirclePlus />
+            </el-icon>
+          </el-button>
           <div class="handle_content">
             <el-form :inline="true" :model="formInline">
               <el-form-item prop="caseName" label="用例名称">
-                <el-input v-model="formList.needName"></el-input>
+                <el-input v-model="formList.needName" :disabled="disabledFlag"></el-input>
               </el-form-item>
               <el-form-item prop="caseId" label="用例ID">
-                <el-input v-model="formList.needName"></el-input>
+                <el-input v-model="formList.needName" :disabled="disabledFlag"></el-input>
               </el-form-item>
               <el-table :data="formInline.suppContact" :max-height="tableHeight">
                 <el-table-column prop="id" label="序号" width="100" type="index"
@@ -63,7 +71,7 @@
                 <el-table-column prop="operation" label="操作">
                   <template #default="scope">
                     <el-form-item :prop="'suppContact.' + scope.$index + '.operation'">
-                      <el-select v-model="scope.row.operation">
+                      <el-select v-model="scope.row.operation" :disabled="disabledFlag">
                         <el-option label="" value=""></el-option>
                       </el-select>
                     </el-form-item>
@@ -72,7 +80,7 @@
                 <el-table-column prop="operand" label="操作对象">
                   <template #default="scope">
                     <el-form-item :prop="'suppContact.' + scope.$index + '.operand'">
-                      <el-select v-model="scope.row.operand">
+                      <el-select v-model="scope.row.operand" :disabled="disabledFlag">
                         <el-option label="" value=""></el-option>
                       </el-select>
                     </el-form-item>
@@ -81,7 +89,7 @@
                 <el-table-column prop="operationInput" width="160">
                   <template #default="scope">
                     <el-form-item :prop="'suppContact.' + scope.$index + '.operationInput'">
-                      <el-input v-model="scope.row.operationInput" class="operation_input"></el-input>
+                      <el-input v-model="scope.row.operationInput" :disabled="disabledFlag" class="operation_input"></el-input>
                     </el-form-item>
                   </template>
                 </el-table-column>
@@ -95,292 +103,23 @@
 </template>
 <script setup>
 import { Plus, Edit, Delete, CirclePlus } from '@element-plus/icons-vue'
-import { nextTick } from 'vue';
+
+const { proxy } = getCurrentInstance(0)
 
 const treeData = reactive({
-  list: [
-    {
-      label: '功能需求',
-      id: '1',
-      children: [
-        {
-          id: '1-1',
-          label: '制导控制模块处理功能',
-          children: [
-            {
-              id: '1-1-1',
-              label: '射前准备段功能',
-              children: []
-            },
-            {
-              id: '1-1-2',
-              label: '助推飞行段功能',
-              children: []
-            },
-            {
-              id: '1-1-3',
-              label: '芯一级飞行段功能',
-              children: []
-            },
-            {
-              id: '1-1-4',
-              label: '舱箭分离及后续飞行段',
-              children: []
-            },
-            {
-              id: '1-1-5',
-              label: '遥测数据文件要求',
-              children: []
-            },
-            {
-              id: '1-1-6',
-              label: '制导系统模拟飞行功能',
-              children: []
-            },
-            {
-              id: '1-1-7',
-              label: '制导系统飞行软件工作',
-              children: []
-            },
-            {
-              id: '1-1-8',
-              label: '制导周期功能',
-              children: []
-            },
-            {
-              id: '1-1-9',
-              label: '制导系统诸元要求',
-              children: []
-            },
-          ]
-        },
-        {
-          id: '1-2',
-          label: '姿态控制模块处理功能',
-          children: [
-            {
-              id: '1-2-1',
-              label: '通用数据处理要求',
-              children: [
-                {
-                  id: '1-2-1-1',
-                  label: '姿态角简单计算',
-                  children: []
-                },
-                {
-                  id: '1-2-1-2',
-                  label: '姿态角偏差计算',
-                  children: []
-                },
-                {
-                  id: '1-2-1-3',
-                  label: '程序角计算',
-                  children: []
-                },
-                {
-                  id: '1-2-1-4',
-                  label: '姿态增益计算',
-                  children: []
-                },
-                {
-                  id: '1-2-1-5',
-                  label: '姿态网络计算',
-                  children: []
-                },
-              ]
-            },
-            {
-              id: '1-2-2',
-              label: '姿控助推控制功能',
-              children: []
-            },
-            {
-              id: '1-2-3',
-              label: '姿控一级控制功能',
-              children: []
-            },
-            {
-              id: '1-2-4',
-              label: '姿控模飞要求功能',
-              children: []
-            },
-            {
-              id: '1-2-5',
-              label: '下传特征诸元要求',
-              children: []
-            },
-            {
-              id: '1-2-6',
-              label: '姿控控制功能',
-              children: []
-            },
-            {
-              id: '1-2-7',
-              label: '姿控诸元要求',
-              children: []
-            },
-          ]
-        },
-        {
-          id: '1-3',
-          label: '综合控制模块处理功能',
-          children: [
-            {
-              id: '1-3-1',
-              label: '综合模块数据录入功能',
-              children: []
-            },
-            {
-              id: '1-3-2',
-              label: '综合模块数据输出功能',
-              children: []
-            },
-            {
-              id: '1-3-3',
-              label: '姿态自毁控制',
-              children: []
-            },
-            {
-              id: '1-3-4',
-              label: 'CRC循环自检',
-              children: []
-            },
-            {
-              id: '1-3-5',
-              label: '助推耗尽关机',
-              children: []
-            },
-            {
-              id: '1-3-6',
-              label: '程序运行指示控制功能',
-              children: []
-            },
-            {
-              id: '1-3-7',
-              label: 'AD转换控制功能',
-              children: []
-            },
-            {
-              id: '1-3-8',
-              label: '计算机遥测字处理功能',
-              children: []
-            },
-            {
-              id: '1-3-9',
-              label: '综合遥测控制功能',
-              children: []
-            },
-            {
-              id: '1-3-10',
-              label: '点名自检处理功能',
-              children: []
-            },
-            {
-              id: '1-3-11',
-              label: '信号处理功能',
-              children: []
-            },
-            {
-              id: '1-3-12',
-              label: '确定当前工作的总线',
-              children: []
-            },
-            {
-              id: '1-3-13',
-              label: '综合模飞软件要求',
-              children: []
-            },
-          ]
-        },
-      ]
-    },
-    {
-      label: '性能需求',
-      id: '2',
-      children: [
-        {
-          id: '2-1',
-          label: '定时切换的时间误差≤40ms',
-          children: []
-        }
-      ]
-    },
-    {
-      label: '安全性需求',
-      id: '3',
-      children: [
-        {
-          id: '3-1',
-          label: '三取二及取中间值功能',
-          children: [
-            {
-              id: '3-1-1',
-              label: '对三机信号、转段标志',
-              children: []
-            },
-            {
-              id: '3-1-2',
-              label: '对接收指令、制导段标',
-              children: []
-            },
-            {
-              id: '3-1-3',
-              label: '对三机开算、点火、起飞',
-              children: []
-            },
-            {
-              id: '3-1-4',
-              label: '起飞时刻制导初始化时间',
-              children: []
-            },
-          ]
-        },
-        {
-          id: '3-2',
-          label: '信号滤波处理',
-          children: [
-            {
-              id: '3-2-1',
-              label: '开算信号，要求连续查',
-              children: []
-            },
-            {
-              id: '3-2-2',
-              label: '点火信号，要求连续查',
-              children: []
-            },
-            {
-              id: '3-2-3',
-              label: '起飞信号，要求连续查',
-              children: []
-            },
-          ]
-        },
-      ]
-    },
-    {
-      label: '可靠性需求',
-      id: '4',
-      children: [
-        {
-          id: '4-1',
-          label: '制导控制模块处理功能',
-          children: []
-        }
-      ]
-    },
-  ]
+  list: []
 })
 const formList = ref({
   needName: '姿态自毁控制功能',
   needId: 'RQ_ZTZHKZGN'
 })
 const tableData = ref([
-  {
-    name: '',
-    id: ''
-  }
+  // {
+  //   name: '',
+  //   id: ''
+  // }
 ])
+const disabledFlag = ref(true) // 目前禁用所有可修改项
 const tableHeight = ref(0)
 const treeHeight = ref(0)
 const formInline = reactive({
@@ -395,6 +134,10 @@ const addFrom = () => {
     operationInput: ''
   })
 }
+const handleTree = (node) => {
+  console.log(node);
+}
+
 onMounted(() => {
   nextTick(() => {
     tableHeight.value = window.innerHeight - 478
@@ -403,6 +146,10 @@ onMounted(() => {
   window.addEventListener('resize', () => {
     tableHeight.value = window.innerHeight - 478
     treeHeight.value = window.innerHeight - 150
+  })
+  proxy.$axios.getTestTree().then((res) => {
+    console.log(res);
+    treeData.list = res.data
   })
 })
 onUnmounted(() => {
@@ -420,19 +167,20 @@ onUnmounted(() => {
 
 .tree-box {
   width: 200px;
-  border-radius: 8px;
-  overflow: auto;
-  /* height: calc(96% - 42px); */
   height: calc(100% - 76px);
 }
-
+.el-tree{
+  color: #0e0e0e;
+  display: flex;
+  flex-wrap: wrap;
+}
+:deep(.el-tree-node){
+  flex: 1;
+}
 .el-scrollbar {
+  border-radius: 8px;
   box-shadow: 0px 0px 22px rgba(0, 0, 0, 0.1);
   background-color: #fff;
-}
-
-:deep(.el-tree-node__children) {
-  /* display: inline-block !important; */
 }
 
 :deep(.el-tree-node__content) {
@@ -524,6 +272,5 @@ onUnmounted(() => {
   position: absolute;
   left: 50px;
   top: 60px;
-  cursor: pointer;
 }
 </style>

@@ -30,19 +30,14 @@ const stepsList = ref([
 </script>
 <style lang="scss" scoped>
 :deep(.el-step__icon){
-  width: 40px;
-  height: 40px;
-  font-size: 20px;
-  /* background: #b6b6b6; */
-  /* color: #fff; */
-  /* border: none; */
+  width: 30px;
+  height: 30px;
 }
 :deep(.el-step__description){
-  font-size: 17px;
-  /* color: #b6b6b6; */
+  font-size: 15px;
   margin-top: 10px;
 }
 :deep(.el-step.is-horizontal .el-step__line){
-  top: 19px;
+  top: 14px;
 }
 </style>

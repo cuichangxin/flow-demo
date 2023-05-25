@@ -27,24 +27,24 @@ const useList = reactive([
   {
     id: '2',
     name: '项目管理',
-    link: '/pm',
+    link: '/pm/pmList',
     icon: 'icon-project_management',
     hide:Cookies.get('roleId') == '7' ? true:false,
     children:[
-      {
-        id:'2-1',
-        name:'项目列表',
-        link:'/pm/pmList',
-        icon:'icon-wenjianjia',
-        hide:Cookies.get('roleId') == '7' ? true:false,
-      },
-      {
-        id:'2-2',
-        name:'任务需求',
-        link:'/pm/taskneed',
-        icon:'icon-wenjianjia',
-        hide:Cookies.get('roleId') == '7' ? true:false,
-      },
+      // {
+      //   id:'2-1',
+      //   name:'项目列表',
+      //   link:'/pm/pmList',
+      //   icon:'icon-wenjianjia',
+      //   hide:Cookies.get('roleId') == '7' ? true:false,
+      // },
+      // {
+      //   id:'2-2',
+      //   name:'任务需求',
+      //   link:'/pm/taskneed',
+      //   icon:'icon-wenjianjia',
+      //   hide:Cookies.get('roleId') == '7' ? true:false,
+      // },
     ]
   },
   {

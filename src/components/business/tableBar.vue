@@ -1,6 +1,5 @@
 <template>
-  <!-- <el-table :data="tableData" stripe @row-click="onRowClick" class="table" :max-height="domH-56"> -->
-  <el-table :data="tableData" stripe @row-click="onRowClick" class="table">
+  <el-table :data="tableData" stripe @row-click="onRowClick" class="table" :max-height="domH">
     <el-table-column prop="key" label="属性名称" />
     <el-table-column prop="value" label="值">
       <template #default="scope">
@@ -23,7 +22,8 @@ let props = defineProps({
     default: () => []
   },
   domH:{
-    type:Number
+    type:Number,
+    default:0
   }
 })
 let emit = defineEmits(['saveTable'])
@@ -54,6 +54,7 @@ const blur = () => {
   editIndex.value = -1
   emit('saveTable', tableData.value)
 }
+console.log(props.domH);
 </script>
 <style lang="scss" scoped>
 .table {

@@ -36,7 +36,9 @@ export const allStore = defineStore('all',{
     return {
       taskDetail:{},
       userId:'',
-      taskId:''
+      taskId:'',
+      projectInfo:{}, // 新建项目配置信息
+      dragstartItem:{}, // 模型拖动的数据
     }
   },
   actions:{

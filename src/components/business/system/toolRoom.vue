@@ -32,28 +32,32 @@
         </div>
       </div>
       <div v-else class="add_tool">
-        <el-form :model="toolForm" inline label-position="right" label-width="100px" class="form_box">
-          <el-form-item label="工具名称">
+        <el-form :model="toolForm" label-position="right" label-width="100px" ref="formRef" class="form_box">
+          <el-form-item label="工具名称" prop="toolName">
             <el-input v-model="toolForm.toolName"></el-input>
           </el-form-item>
-          <el-form-item label="工具版本">
+          <el-form-item label="工具版本" prop="toolVersion">
             <el-input v-model="toolForm.toolVersion"></el-input>
           </el-form-item>
-          <el-form-item label="国别">
+          <el-form-item label="国别" prop="make">
             <el-input v-model="toolForm.make"></el-input>
           </el-form-item>
-          <el-form-item label="工具类型">
+          <el-form-item label="工具类型" prop="toolType">
             <el-select v-model="toolForm.toolType">
               <el-option label="" value=""></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="接口定义">
+          <el-form-item label="接口定义" prop="port">
             <el-table :data="toolForm.port">
               <el-table-column prop="feature" label="功能"></el-table-column>
               <el-table-column prop="portName" label="接口名称"></el-table-column>
               <el-table-column prop="input" label="输入"></el-table-column>
               <el-table-column prop="output" label="输出"></el-table-column>
             </el-table>
+          </el-form-item>
+          <el-form-item class="last_child">
+            <el-button type="info" class="call-off" @click="callOff">取消</el-button>
+            <el-button type="primary" @click="toolEnter">确定</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -256,24 +260,33 @@ const toolList = ref([
   },
 ])
 const toolH = ref('')
-const addToolFlag = ref(true)
+const addToolFlag = ref(false)
 const toolForm = reactive({
   toolName: '',
   toolVersion: '',
   make: '',
   toolType: '',
   port: [
-    {
-      feature:'',
-      portName:'',
-      input:'',
-      output:''
-    }
+    // {
+    //   feature:'',
+    //   portName:'',
+    //   input:'',
+    //   output:''
+    // },
   ]
 })
+const formRef = ref(null)
+
 
 const addTool = () => {
   addToolFlag.value = true
+}
+const toolEnter = () => {
+  addToolFlag.value = false
+}
+const callOff = () => {
+  formRef.value.resetFields()
+  addToolFlag.value = false
 }
 
 onMounted(() => {
@@ -379,13 +392,34 @@ onUnmounted(() => {
 .add_tool {
   border: 1px solid #bdbdbd;
   padding: 20px;
-
+  height: 100%;
 }
 
 .form_box {
   display: grid;
   justify-content: space-around;
-  grid-template-columns: repeat(auto-fill, 350px);
+  grid-template-columns: repeat(2, 400px);
   grid-gap: 0 30px;
+
+  :deep(.el-form-item) {
+    &:nth-last-child(2){
+      grid-column-start: span 2;
+    }
+  }
+}
+
+.el-select {
+  width: 100%;
+}
+.last_child{
+  width: 100%;
+  grid-column-start: span 2;
+  :deep(.el-form-item__content){
+    margin-left: 0 !important;
+    justify-content: center;
+  }
+}
+.call-off{
+  margin-right: 100px;
 }
 </style>

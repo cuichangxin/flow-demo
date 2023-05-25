@@ -1,7 +1,7 @@
 <template>
   <el-container class="container">
     <el-main class="main">
-      <div class="go_back_wrapper" :style="{ height: `${windowH - 100}px` }">
+      <div class="go_back_wrapper" :style="{ height: `${windowH}px` }">
         <div class="select_wrapper">
           <div class="element">
             <label>行元素类型：</label>
@@ -346,28 +346,6 @@ const midW = () => {
   })
 }
 const renderContent = (h, { node, data }) => {
-  // return data.bgTarget && node.childNodes.length <= 0 ? (
-  //   <span class="custom-tree-node no_bg">
-  //     <i class="iconfont icon-wenjian"></i>
-  //     <span class="tree-label">{node.label}</span>
-  //     <span class="element-land-line"></span>
-  //     <span class="element-after-line"></span>
-  //   </span >
-  // ) : !data.bgTarget && node.childNodes.length <= 0 ? (
-  //   <span class="custom-tree-node">
-  //     <i class="iconfont icon-wenjian"></i>
-  //     <span class="tree-label">{node.label}</span>
-  //     <span class="element-land-line"></span>
-  //     <span class="element-after-line"></span>
-  //   </span >
-  // ) : (
-  //   <span class="custom-tree-node">
-  //     <i class="iconfont icon-wenjianjia1"></i>
-  //     <span class="tree-label">{node.label}</span>
-  //     <span class="element-land-line"></span>
-  //     <span class="element-after-line"></span>
-  //   </span >
-  // )
   return h(
     'span',
     {
@@ -380,31 +358,6 @@ const renderContent = (h, { node, data }) => {
   )
 }
 const renderContentRow = (h, { node, data }) => {
-  // return data.cellNum > 0 && node.childNodes.length <= 0 ? (
-  //   <span class="custom-tree-node">
-  //     <i class="iconfont icon-wenjian"></i>
-  //     <span class="tree-label">{node.label}</span>
-  //     <span class="element-title-line"></span>
-  //     <span class="element-land-line"></span>
-  //     <span class="element-after-line"></span>
-  //   </span>
-  // ) : data.cellNum <= 0 && node.childNodes.length <= 0 ? (
-  //   <span class="custom-tree-node no_bg">
-  //     <i class="iconfont icon-wenjian"></i>
-  //     <span class="tree-label">{node.label}</span>
-  //     <span class="element-title-line"></span>
-  //     <span class="element-land-line"></span>
-  //     <span class="element-after-line"></span>
-  //   </span>
-  // ) : (
-  //   <span class="custom-tree-node">
-  //     <i class="iconfont icon-wenjianjia1"></i>
-  //     <span class="tree-label">{node.label}</span>
-  //     <span class="element-title-line"></span>
-  //     <span class="element-land-line"></span>
-  //     <span class="element-after-line"></span>
-  //   </span>
-  // )
   return h(
     'span',
     {
@@ -420,7 +373,7 @@ const renderContentRow = (h, { node, data }) => {
 const getRowInfo = () => {
   return new Promise((resolve, reject) => {
     Axios.get(`./mock/goBackData/rowel/${rowValue.value}.json`).then((res) => {
-      rowTree.value = res.data.rowTree
+      rowTree.value = res.rowTree
       resolve('row')
     })
   })
@@ -428,7 +381,7 @@ const getRowInfo = () => {
 const getColumnInfo = () => {
   return new Promise((resolve, reject) => {
     Axios.get(`./mock/goBackData/columnel/${columnValue.value}.json`).then((res) => {
-      columnTree.value = res.data.columnTree
+      columnTree.value = res.columnTree
       resolve('column')
     })
   })
@@ -436,7 +389,7 @@ const getColumnInfo = () => {
 const getUnite = () => {
   return new Promise((resolve, reject) => {
     Axios.get(`./mock/goBackData/unite/${rowValue.value + columnValue.value}.json`).then((res) => {
-      cellRelation.value = res.data.cellRelation
+      cellRelation.value = res.cellRelation
       resolve('unite')
     })
   })
@@ -450,9 +403,9 @@ const postAll = () => {
 
 onMounted(() => {
   postAll()
-  windowH.value = window.innerHeight
+  windowH.value = window.innerHeight - 160
   window.addEventListener('resize', () => {
-    windowH.value = window.innerHeight
+    windowH.value = window.innerHeight - 160
   })
 })
 onUnmounted(() => {
@@ -468,6 +421,7 @@ onUnmounted(() => {
   /* height: 100%; */
   display: flex;
   justify-content: center;
+  padding-top: 0;
 }
 
 .go_back_wrapper {

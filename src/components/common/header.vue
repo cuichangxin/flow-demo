@@ -1,7 +1,7 @@
 <template>
   <el-header class="header" :class="{ 'fade': isOut }">
     <div v-if="!isOut" class="title_box">
-      <img class="logo" src="../../assets/image/logo.png" />
+      <img class="logo" src="../../assets/image/login-logo.png" />
       <h2>航天软件智能生产线</h2>
     </div>
     <p v-if="!isOut" class="user_info">
@@ -103,6 +103,9 @@ const handleDrop = (command) => {
     color: #fff;
     font-family: SourceHanSansSC-regular;
     margin-left: 8px;
+    background-image:-webkit-linear-gradient(bottom,rgb(240, 237, 237),#d3d2cf); 
+    -webkit-background-clip:text; 
+    -webkit-text-fill-color:transparent;
   }
 }
 
