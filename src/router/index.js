@@ -7,7 +7,6 @@ const constantRoutes = [
     name: 'index',
     redirect: '/myTask',
     component: () => import('@/page/index.vue'),
-
     children: [
       {
         path: '/work',

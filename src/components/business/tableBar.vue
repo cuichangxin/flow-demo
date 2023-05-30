@@ -1,7 +1,7 @@
 <template>
   <el-table :data="tableData" stripe @row-click="onRowClick" class="table" :max-height="domH">
-    <el-table-column prop="key" label="属性名称" />
-    <el-table-column prop="value" label="值">
+    <el-table-column prop="key" :label="tableHeader.name !== '' ? tableHeader.name : '属性'" />
+    <el-table-column prop="value" :label="tableHeader.code !== '' ? tableHeader.code : '属性值'">
       <template #default="scope">
         <span v-show="scope.$index !== editIndex">{{ scope.row.value }}</span>
         <el-input v-show="scope.$index === editIndex" v-model="scope.row.value" size="small" :ref="inputRef" clearable
@@ -18,8 +18,8 @@
 
 let props = defineProps({
   tableList: {
-    type: Array,
-    default: () => []
+    type: Object,
+    default: () => {}
   },
   domH:{
     type:Number,
@@ -28,6 +28,10 @@ let props = defineProps({
 })
 let emit = defineEmits(['saveTable'])
 const tableData = ref([])
+const tableHeader = ref({
+  name:'',
+  code:''
+})
 const editIndex = ref(-1)
 const inputRef = el => {
   if (el && el.ref !== undefined) {
@@ -37,8 +41,10 @@ const inputRef = el => {
 }
 
 watch(() => props.tableList, (n) => {
-  if (n !== null) {
-    tableData.value = n
+  if (n !== undefined) {
+    tableHeader.value.name = n.name
+    tableHeader.value.code = n.code
+    tableData.value = n.tableData
   }else {
     tableData.value = []
   }
@@ -54,14 +60,12 @@ const blur = () => {
   editIndex.value = -1
   emit('saveTable', tableData.value)
 }
-console.log(props.domH);
 </script>
 <style lang="scss" scoped>
 .table {
   width: 100%;
   height: 100%;
-  max-height: calc(100% - 60px);
-  border-radius: 0 0 20px 20px;
+  border-radius: 0 0 3px 3px;
 }
 .no-data{
   width: 100px;

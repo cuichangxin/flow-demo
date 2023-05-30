@@ -132,7 +132,7 @@ const submit = (row) => {
       local = null
       break;
     case '3':
-      local = localStorage.getItem('g6Data')
+      local = localStorage.getItem('emulationData')
       break;
     case '4':
       local = {

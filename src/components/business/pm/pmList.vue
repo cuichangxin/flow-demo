@@ -32,12 +32,7 @@
         </el-table-column>
         <el-table-column align="center" label="操作" width="150">
           <template #default="scope">
-            <el-button link @click="remove(scope.row, 'issueTableData')">
-              <el-icon size="18" color="#0095d9">
-                <Edit />
-              </el-icon>
-            </el-button>
-            <el-button link @click="remove(scope.row, 'issueTableData')">
+            <el-button link @click="removeItem(scope.row)">
               <el-icon size="18" color="#f20c00">
                 <Delete />
               </el-icon>
@@ -56,7 +51,6 @@
 <script setup>
 import { Search, Plus, Delete, Edit } from '@element-plus/icons-vue'
 import _ from 'lodash'
-import { onMounted, onUnmounted } from 'vue';
 
 const router = useRouter(0)
 const keyword = ref('')
@@ -114,6 +108,10 @@ const search = (e) => {
   })
   tableList.value = filterArr
 }
+const removeItem = (row) => {
+  console.log(row);
+}
+
 onMounted(() => {
   tableHeight.value = window.innerHeight - 300
   window.addEventListener('resize', () => {

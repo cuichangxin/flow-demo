@@ -1,101 +1,94 @@
 <template>
-  <div class="geMenubarContainer">
-    <ul>
-      <li v-for="item in list" :key="item.title">{{ item.title }}</li>
-    </ul>
-  </div>
-  <div class="geToolbarContainer" id="toolbar">
-    <div class="geToolbar"></div>
-  </div>
+  <el-menu mode="horizontal" @select="itemClick">
+    <shapeElMenu :menus="list"></shapeElMenu>
+  </el-menu>
 </template>
 <script setup>
-const list = reactive([
+import { watch } from 'vue';
+import shapeElMenu from './shape/shapeElMenu.vue';
+
+const props = defineProps({
+  canRedo:{
+    type:Boolean,
+    default:false
+  },
+  canUndo:{
+    type:Boolean,
+    default:false
+  }
+})
+const emit = defineEmits(['handleMenu'])
+const list = ref([
   {
     title: '文件',
+    children: [
+      {
+        title: '保存',
+      },
+      {
+        title: '另存为',
+      },
+    ]
   },
   {
     title: '编辑',
+    children: [
+      {
+        title: '撤销',
+      },
+      {
+        title: '重做',
+      },
+    ]
   },
   {
     title: '查看',
+    children: [
+      {
+        title: '格式',
+      },
+      {
+        title:'缩略图',
+      },
+    ]
   },
-  {
-    title: '调整图形',
-  },
-
 ])
+
+const itemClick = (index,indexPath,item)=>{
+  emit('handleMenu',index)
+}
+
+watchEffect(()=>{
+  list.value.forEach(item=>{
+    if (item.children && item.children.length) {
+      item.children.forEach(child=>{
+        if (child.title === '撤销') {
+          child.disabled = !props.canUndo
+        }
+        if (child.title === '重做') {
+          child.disabled = !props.canRedo
+        }
+      })
+    }
+  })
+})
 </script>
 <style lang="scss" scoped>
-.geMenubarContainer,
-.geToolbarContainer {
+.el-menu {
   height: 40px;
   width: 100%;
-  background-color: #ececec;
-  padding: 0 10px;
-  border-bottom: 1px solid #c3c4c7;
+  border-radius: 2px;
+  margin-bottom: 10px;
+  background-color: #e8ecef;
 }
 
-ul {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  display: flex;
-  align-items: center;
-
-  li {
-    list-style: none;
-    font-size: 15px;
-    margin: 0 16px 0 0;
-    padding: 4px;
-    cursor: pointer;
-  }
+.el-menu--horizontal {
+  border-bottom: 1px solid #d2d2d2;
+  margin-bottom: 0;
 }
 
-.geToolbarContainer {
-  height: 38px;
-  position: relative;
+:deep(.el-sub-menu__title),
+:deep(.el-menu-item) {
+  border-radius: 3px !important;
 }
-
-.geToolbar {
-  padding: 5px 0px 0px 6px;
-  box-shadow: inset 0 1px 0 0 #fff;
-}
-
-:deep(.g6-component-toolbar) {
-  width: 100%;
-  height: 100%;
-  background-color: transparent;
-  border: none;
-  padding:0 0 0 10px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  li {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 10px;
-    padding: 3px;
-    img {
-      width: 18px;
-      height: 18px;
-    }
-    &:hover{
-      background-color: #dcdde0;
-    }
-  }
-  .right{
-    float: right;
-  }
-  .add_j{
-    display: flex;
-    img{
-      &:nth-child(2){
-        width: 14px;
-        height: 13px;
-        margin-top: 2px;
-      }
-    }
-  }
-}</style>
+</style>

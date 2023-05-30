@@ -1,6 +1,6 @@
 <template>
-  <!-- <shapeHeader></shapeHeader> -->
   <div class="test-info" :style="{ height: `${mainH}px` }">
+    <shapeHeader @handleMenu="handleMenu" :canRedo="canRedo" :canUndo="canUndo"></shapeHeader>
     <el-container class="el-container-layout">
       <el-aside class="el-aside el-aside-left" :class="{ 'fade': isOut }">
         <h4 v-if="!isOut" class="title">仿真组件库</h4>
@@ -9,19 +9,21 @@
             <testElMenu :menus="menuList" :drag="true" :openFlag="openFlag"></testElMenu>
           </el-menu>
         </el-scrollbar>
-        <div class="click" @click="out"></div>
+        <markPoiner :isOut="isOut" :color="'#fff'" @hideMenu="hideMenu"></markPoiner>
       </el-aside>
       <el-container class="layout-wrapper">
         <div class="canvas-wrapper" :style="{ paddingBottom: isOutB ? '0' : '' }">
           <div style="width:100%; min-width: 0;">
             <h4 class="title">仿真测试环境</h4>
             <!-- canvas容器 -->
-            <div id="graph" class="container" ref="graphRef"></div>
+            <div id="graph" class="container" ref="graphRef">
+              <div id="graph-container" class="graph-container"></div>
+            </div>
           </div>
           <div class="el-aside-right" :class="{ 'fade_r': isOutR }">
-            <h4 class="aside-title">属性栏</h4>
+            <h4 v-if="!isOutR" class="aside-title">属性栏</h4>
             <tableBar :tableList="tableList" :domH="domH" @saveTable="saveTable"></tableBar>
-            <div class="right_out" @click="outR"></div>
+            <markPoiner :isOut="isOutR" :direction="'left'" :color="'#fff'" @hideMenu="outRHideMenu"></markPoiner>
           </div>
         </div>
         <el-footer class="el-footer" :class="{ 'fade': isOutB }">
@@ -38,34 +40,58 @@
             </el-radio-group>
             <div class="terminal-item"></div>
           </div>
-          <div class="out" :class="{ 'h': isOutB }" @click="outB"></div>
+          <markPoiner :class="{ 'top_mark': isOutB }" :isOut="isOutB" :direction="'top'" :color="'#fff'"
+            @hideMenu="outBHideMenu"></markPoiner>
         </el-footer>
       </el-container>
     </el-container>
-    <nodeConfigDrawer :drawerHidden="drawerHidden" :config="config" @closes="closesD" @updateNode="updateNode">
-    </nodeConfigDrawer>
+    <!-- 小地图 -->
+    <div class="minimap_dialog"
+      :style="{ left: `${minimapPoint.x}px`, top: `${minimapPoint.y}px`, visibility: minimapMark ? '' : 'hidden' }">
+      <header class="mxWindowTitle" @mousedown="minimapDrop">
+        <span>缩略图</span>
+        <el-button link @click="closeMap">
+          <el-icon class="close" size="15">
+            <CloseBold />
+          </el-icon>
+        </el-button>
+      </header>
+      <div class="minimap" id="minimap"></div>
+    </div>
   </div>
 </template>
 <script setup>
 import tableBar from '@/components/business/tableBar.vue';
 import testElMenu from '@/components/business/testElMenu.vue';
-import nodeConfigDrawer from '@/components/common/nodeConfigDrawer.vue'
 import shapeHeader from '@/components/common/shapeHeader.vue'
-import G6 from '@antv/g6'
-import registerFactory from 'welabx-g6'
-import insertCss from 'insert-css'
-import { getImgSize, fittingString } from '../utils/utils'
-import _ from 'lodash'
-import { allStore } from '../store';
+import markPoiner from '../components/common/mark/markPoiner.vue';
 
-const store = allStore()
+import { getImgSize } from '../utils/utils'
+import _ from 'lodash'
+import { Graph, Shape } from '@antv/x6'
+import { Transform } from '@antv/x6-plugin-transform'
+import { Selection } from '@antv/x6-plugin-selection'
+import { Snapline } from '@antv/x6-plugin-snapline'
+import { Keyboard } from '@antv/x6-plugin-keyboard'
+import { Clipboard } from '@antv/x6-plugin-clipboard'
+import { History } from '@antv/x6-plugin-history'
+import { MiniMap } from '@antv/x6-plugin-minimap'
+// import { Scroller } from "@antv/x6-plugin-scroller";
+import insertCss from 'insert-css'
+import Cookies from 'js-cookie'
+import { CloseBold } from '@element-plus/icons-vue'
+
 const instance = getCurrentInstance()
-instance.proxy.$bus.on('resize', (val) => {
-  size()
-  if (val !== undefined && !val) {
-    mainH.value = mainH.value - 60
-  } else if (val !== undefined && val) {
-    mainH.value = mainH.value + 60
+instance.proxy.$bus.on('*', (name, val) => {
+  if (name === 'resize') {
+    if (val !== undefined && !val) {
+      mainH.value = mainH.value - 60
+    } else if (val !== undefined && val) {
+      mainH.value = mainH.value + 60
+    }
+  }
+  if (name === 'dragStart') {
+    dragStart(val)
   }
 })
 const radio = ref('控制台')
@@ -83,50 +109,55 @@ let menuList = reactive([
     children: [
       {
         id: '1-1',
-        label: '姿态动力学',
+        label: '1553B',
         drag: true,
         shape: 'image',
         img: new URL('/src/assets/image/1553b.png', import.meta.url).href,
-        list: [
-          {
-            key: '处理器',
-            value: ''
-          },
-          {
-            key: '频率',
-            value: ''
-          },
-          {
-            key: '内存',
-            value: ''
-          }
-        ],
+        list: {
+          name: '属性',
+          code: '属性值',
+          tableData: [
+            {
+              key: '处理器',
+              value: 'BM3803'
+            },
+            {
+              key: '频率',
+              value: '50MHZ'
+            },
+            {
+              key: '内存',
+              value: '2M'
+            }
+          ]
+        }
       },
       {
         id: '1-2',
         label: '环境扰动力/力矩模型',
         drag: true,
-        shape: 'circle-node',
+        shape: 'custom-rect',
         fill: '#61c0bf'
       },
       {
         id: '1-3',
         label: '数值积分轨道动力学',
         drag: true,
-        shape: 'ellipse-node',
+        shape: 'custom-circle',
         fill: '#00adb5'
       },
       {
         id: '1-4',
         label: '空间环境磁场',
         drag: true,
-        shape: 'diamond-node',
+        shape: 'custom-ellipse',
         fill: '#ea5455'
       },
       {
         id: '1-5',
         label: '19根数外推轨道动力学',
         drag: true,
+        shape: 'custom-polygon-rhombus',
         fill: '#07689f'
       },
     ]
@@ -140,6 +171,7 @@ let menuList = reactive([
         id: '2-1',
         label: '单轴模拟太阳敏感器组',
         drag: true,
+        shape: 'custom-polygon-quad'
       },
       {
         id: '2-2',
@@ -148,7 +180,7 @@ let menuList = reactive([
       },
       {
         id: '2-3',
-        label: '加速度计',
+        label: '捷联惯组模型',
         drag: true,
         shape: 'image',
         img: new URL('../assets/image/jielian.png', import.meta.url).href
@@ -170,14 +202,14 @@ let menuList = reactive([
       },
       {
         id: '2-7',
-        label: '陀螺组模型',
+        label: '激光陀螺模型',
         drag: true,
         shape: 'image',
         img: new URL('../assets/image/tuoluo.jpg', import.meta.url).href
       },
       {
         id: '2-8',
-        label: '圆锥扫描红外',
+        label: 'gps模型',
         drag: true,
         shape: 'image',
         img: new URL('../assets/image/gps.png', import.meta.url).href
@@ -222,20 +254,31 @@ let menuList = reactive([
     children: [
       {
         id: '4-1',
-        label: 'C7Y1箭机模型',
+        label: 'UART',
         drag: true,
         shape: 'image',
         img: new URL('../assets/image/UART.png', import.meta.url).href
       },
       {
         id: '4-2',
-        label: 'C7Y2箭机模型',
+        label: '遥测仿真监控',
+        shape: 'image',
         drag: true,
+        img: new URL('../assets/image/yaoce.png', import.meta.url).href
       },
       {
         id: '4-3',
-        label: 'C7Y3箭机模型',
+        label: '伺服机构模型',
         drag: true,
+        shape: 'image',
+        img: new URL('../assets/image/cifu.png', import.meta.url).href
+      },
+      {
+        id: '4-4',
+        label: '动力学模型',
+        drag: true,
+        shape: 'image',
+        img: new URL('../assets/image/donglixue.png', import.meta.url).href
       },
     ]
   },
@@ -327,8 +370,103 @@ let menuList = reactive([
     label: '箭载计算机',
     drag: true,
     shape: 'image',
-    img: new URL('../assets/image/jisuanji.png', import.meta.url).href
-  }
+    img: new URL('../assets/image/jisuanji.png', import.meta.url).href,
+    list: {
+      name: '属性',
+      code: '属性值',
+      tableData: [
+        {
+          key: '处理器',
+          value: 'BM3803'
+        },
+        {
+          key: '频率',
+          value: '50MHZ'
+        },
+        {
+          key: '内存',
+          value: '2M'
+        },
+        {
+          key: '15538_1',
+          value: '10'
+        },
+        {
+          key: 'UART_1',
+          value: '2'
+        },
+        {
+          key: 'UART_2',
+          value: '3'
+        },
+        {
+          key: '15538_2',
+          value: '15'
+        },
+        {
+          key: '15538_3',
+          value: '12'
+        },
+        {
+          key: '15538_4',
+          value: '18'
+        },
+      ]
+    }
+  },
+  {
+    id: '10',
+    label: '时序模型',
+    drag: true,
+    shape: 'image',
+    img: new URL('../assets/image/shixu.png', import.meta.url).href,
+    list: {
+      name: '时序',
+      code: '事件',
+      tableData: [
+        {
+          key: '-40.0',
+          value: '摆杆牵动'
+        },
+        {
+          key: '-30.0',
+          value: '摆杆摆开到位'
+        },
+        {
+          key: '-3.0',
+          value: '点火'
+        },
+        {
+          key: '+0.0',
+          value: '起飞'
+        },
+        {
+          key: '+12.0',
+          value: '程序转弯'
+        },
+        {
+          key: '+120.0',
+          value: '逃逸塔分离'
+        },
+        {
+          key: '+154.80',
+          value: '助推器分离'
+        },
+        {
+          key: '',
+          value: '芯一级预令关机'
+        },
+        {
+          key: '+159.0',
+          value: '芯一级主令关机'
+        },
+        {
+          key: '+159.50',
+          value: '一二级分离'
+        },
+      ]
+    }
+  },
 ])
 const openFlag = ref({})
 const tableList = ref([])
@@ -337,9 +475,253 @@ const mainH = ref('')
 const isOut = ref(false)
 const isOutR = ref(false)
 const isOutB = ref(false)
-const drawerHidden = ref(false)
-const config = ref({})
-const atItem = ref({})
+const dragItem = ref('')
+const canUndo = ref(false) // 是否能撤销
+const canRedo = ref(false) // 是否能重做
+const minimapPoint = reactive({
+  x: '',
+  y: ''
+})
+const minimapMark = ref(false)
+
+// 绝对定位连接桩
+const absolutePorts = {
+  groups: {
+    top: {
+      position: 'top',
+      attrs: {
+        circle: {
+          r: 4,
+          magnet: true,
+          stroke: '#5F95FF',
+          strokeWidth: 1,
+          fill: '#fff',
+          style: {
+            visibility: 'hidden',
+          },
+        },
+      },
+    },
+    right: {
+      position: 'right',
+      attrs: {
+        circle: {
+          r: 4,
+          magnet: true,
+          stroke: '#5F95FF',
+          strokeWidth: 1,
+          fill: '#fff',
+          style: {
+            visibility: 'hidden',
+          },
+        },
+      },
+    },
+    bottom: {
+      position: 'bottom',
+      attrs: {
+        circle: {
+          r: 4,
+          magnet: true,
+          stroke: '#5F95FF',
+          strokeWidth: 1,
+          fill: '#fff',
+          style: {
+            visibility: 'hidden',
+          },
+        },
+      },
+    },
+    left: {
+      position: 'left',
+      attrs: {
+        circle: {
+          r: 4,
+          magnet: true,
+          stroke: '#5F95FF',
+          strokeWidth: 1,
+          fill: '#fff',
+          style: {
+            visibility: 'hidden',
+          },
+        },
+      },
+    },
+  },
+  items: [
+    {
+      group: 'top',
+    },
+    {
+      group: 'right',
+    },
+    {
+      group: 'bottom',
+    },
+    {
+      group: 'left',
+    },
+  ],
+}
+
+// 多个连接桩
+const ports = {
+  groups: {
+    top: {
+      position: 'top',
+      attrs: {
+        circle: {
+          r: 4,
+          magnet: true,
+          stroke: '#5F95FF',
+          strokeWidth: 1,
+          fill: '#fff',
+          style: {
+            visibility: 'hidden',
+          },
+        },
+      },
+    },
+    right: {
+      position: 'right',
+      attrs: {
+        circle: {
+          r: 4,
+          magnet: true,
+          stroke: '#5F95FF',
+          strokeWidth: 1,
+          fill: '#fff',
+          style: {
+            visibility: 'hidden',
+          },
+        },
+      },
+    },
+    left: {
+      position: 'left',
+      attrs: {
+        circle: {
+          r: 4,
+          magnet: true,
+          stroke: '#5F95FF',
+          strokeWidth: 1,
+          fill: '#fff',
+          style: {
+            visibility: 'hidden',
+          },
+        },
+      },
+    },
+    bottom: {
+      position: 'bottom',
+      attrs: {
+        circle: {
+          r: 4,
+          magnet: true,
+          stroke: '#5F95FF',
+          strokeWidth: 1,
+          fill: '#fff',
+          style: {
+            visibility: 'hidden',
+          },
+        },
+      },
+    },
+  },
+  items: [
+    {
+      id: 'prot1',
+      group: 'top',
+    },
+    {
+      id: 'prot2',
+      group: 'top',
+    },
+    {
+      id: 'prot3',
+      group: 'top',
+    },
+    {
+      id: 'prot4',
+      group: 'top',
+    },
+    {
+      id: 'prot5',
+      group: 'left'
+    },
+    {
+      id: 'prot6',
+      group: 'left'
+    },
+    {
+      id: 'prot7',
+      group: 'left'
+    },
+    {
+      id: 'prot8',
+      group: 'left'
+    },
+    {
+      id: 'prot9',
+      group: 'right'
+    },
+    {
+      id: 'prot10',
+      group: 'right'
+    },
+    {
+      id: 'prot11',
+      group: 'right'
+    },
+    {
+      id: 'prot12',
+      group: 'right'
+    },
+    {
+      id: 'prot13',
+      group: 'bottom'
+    },
+    {
+      id: 'prot14',
+      group: 'bottom'
+    },
+    {
+      id: 'prot15',
+      group: 'bottom'
+    },
+    {
+      id: 'prot16',
+      group: 'bottom'
+    },
+  ],
+}
+// 椭圆连接桩
+const ellipsePorts = {
+  groups: {
+    ellipse: {
+      position: {
+        name: 'ellipseSpread',
+        args: {
+          start: 45,
+        }
+      },
+      attrs: {
+        circle: {
+          r: 4,
+          magnet: true,
+          stroke: '#5F95FF',
+          strokeWidth: 1,
+          fill: '#fff',
+          width: 10,
+          height: 10,
+          style: {
+            visibility: 'hidden',
+          },
+        },
+      },
+    }
+  }
+}
 
 const open = (index) => {
   openFlag.value = {
@@ -353,558 +735,585 @@ const close = (index) => {
     flag: false
   }
 }
-
-const closesD = (val) => {
-  drawerHidden.value = val
+// 开始拖动
+const dragStart = (item) => {
+  dragItem.value = item
+  // 元素行为 移动
+  graphRef.value.addEventListener("dragenter", dragenter);
+  // 目标元素经过 禁止默认事件
+  graphRef.value.addEventListener("dragover", dragover);
+  // 离开目标元素设置元素的放置行为  不能拖放
+  graphRef.value.addEventListener("dragleave", dragleave);
+  // 拖动元素在目标元素松手时添加元素到画布
+  graphRef.value.addEventListener("drop", drop);
 }
-
-function getImgUrl(img) {
-  return new URL(`../assets/image/${img}`, import.meta.url).href
+const dragenter = (e) => {
+  e.dataTransfer.dropEffect = "move"
 }
-const createGraphic = () => {
-  const grid = new G6.Grid()
-  const menu = new G6.Menu({
-    offsetX: -400,
-    offsetY: -180,
-    itemTypes: ['node'],
-    getContent(e) {
-      const outDiv = document.createElement('div')
-
-      outDiv.style.width = '80px'
-      outDiv.style.cursor = 'pointer'
-      outDiv.style.padding = '0'
-      outDiv.innerHTML = '<p id="editCss">编辑样式</p>'
-      insertCss(`
-        #editCss:hover{
-          background-color:#a8a9aa;
-        }
-        #editCss{
-          padding:5px;
-          margin:0;
-        }
-      `)
-      return outDiv
-    },
-    handleMenuClick(target, item) {
-      const { id } = target
-      switch (id) {
-        case 'editCss':
-          editCss(item)
-          break;
-        default:
-          break;
-      }
-    },
-  })
-  const toolbar = new G6.ToolBar({
-    container: 'toolbar',
-    getContent: () => {
-      return `
-      <ul>
-        <div class='box'>
-          <li code='layout' class='add_j'>
-            <img src=${getImgUrl('buju.png')} />
-            <img src=${getImgUrl('jiantouxia.png')} />
-          </li>
-          <li code='up'>
-            <img src=${getImgUrl('fangda-copy.png')} />
-          </li>
-          <li code='down'>
-            <img src=${getImgUrl('suoxiao.png')} />
-          </li>
-          <li code='undo'>
-            <img src=${getImgUrl('chexiao.png')} />
-          </li>
-          <li code='redo'>
-            <img src=${getImgUrl('zhongzuo.png')} />
-          </li>
-          <li code='remove'>
-            <img src=${getImgUrl('shanchu.png')} />
-          </li>
-          <li code='more' class='add_j'>
-            <img src=${getImgUrl('jiahaocu.png')} />
-            <img src=${getImgUrl('jiantouxia.png')} />
-          </li>  
-        </div>
-        <div class='right box'>
-          <li code='full'>
-            <img src=${getImgUrl('quanping.png')} />
-          </li>
-          <li code='mize'>
-            <img src=${getImgUrl('shangshuangjiantou.png')} />
-          </li>  
-        </div>
-      </ul>`
-    },
-    handleClick: (code, graph) => {
-      if (code === 'layout') {
-        console.log('123');
-      } else if (code === 'up') {
-
-      } else if (code === 'down') {
-
-      } else if (code === 'undo') {
-        toolbar.undo()
-      } else if (code === 'redo') {
-        toolbar.redo()
-      } else if (code === 'remove') {
-
-      } else if (code === 'more') {
-
-      } else if (code === 'full') {
-
-      } else if (code === 'mize') {
-
-      } else {
-        // toolbar.undo()
-        toolbar.handleDefaultOperator(code)
-      }
-    }
-  })
-  const cfg = registerFactory(G6, {
-    container: "graph",
-    width: graphRef.value.clientWidth,
-    height: graphRef.value.clientHeight,
-    layout: {
-      type: "", // 位置将固定
-    },
-    autoPaint: true,
-    // 设置为true 启用撤销/重做功能
-    enabledStack: true,
-    // 所有节点默认配置
-    defaultNode: {
-      type: "rect-node",
-      style: {
-        radius: 5,
-        width: 100,
-        height: 50,
-        cursor: "move",
-        fill: "#ecf3ff",
+const dragover = (e) => {
+  e.preventDefault()
+}
+const dragleave = (e) => {
+  e.dataTransfer.dropEffect = "none"
+}
+// 拖动松开添加节点
+const drop = (e) => {
+  if (dragItem.value.img) {
+    getImgSize(dragItem.value.img).then((res) => {
+      graph.addNode({
+        shape: dragItem.value.shape,
+        x: e.layerX,
+        y: e.layerY,
+        width: res.width,
+        height: res.height,
+        label: dragItem.value.label,
+        attrs: {
+          image: {
+            'xlink:href': dragItem.value.img
+          },
+          label: {
+            refX: 0.5, // 标题水平位置
+            refY: '100%',// 标题垂直位置
+            refY2: 6, // 标题和节点之间的距离
+            textAnchor: 'middle',
+            textVerticalAnchor: 'top',
+            fontSize: 12,
+            fill: '#333',
+          },
+        },
+        ports: { ...ports },
+        list: dragItem.value.list
+      })
+    })
+  } else {
+    const node = graph.addNode({
+      shape: dragItem.value.shape !== undefined ? dragItem.value.shape : 'custom-rect',
+      x: e.layerX,
+      y: e.layerY,
+      width: dragItem.value.shape === 'circle' ? 70 : 100,
+      height: 70,
+      label: dragItem.value.label,
+      attrs: {
+        label: {
+          fontSize: 12,
+          fill: '#333',
+        },
+        body: {
+          // stroke: '#ffa940',
+          // fill: '#ffd591',
+          // rx: 10,
+          // ry: 10,
+        },
       },
-      labelCfg: {
-        fontSize: 20,
-        style: {
-          cursor: "move",
+      // ports: dragItem.value.shape === 'ellipse' ? { ...ellipsePorts } : dragItem.value.shape === 'circle' ? { ...absolutePorts } : { ...ports },
+      list: dragItem.value.list
+    })
+    if (dragItem.value.shape === 'custom-ellipse') {
+      Array.from({ length: 10 }).forEach((_, index) => {
+        node.addPort({
+          id: `${index}`,
+          group: 'ellipse',
+          // attrs: { text: { text: index } },
+        })
+      })
+    }
+  }
+
+  graphRef.value.removeEventListener("dragenter", dragenter);
+  graphRef.value.removeEventListener("dragover", dragover);
+  graphRef.value.removeEventListener("dragleave", dragleave);
+  graphRef.value.removeEventListener("drop", drop);
+  setTimeout(() => {
+    dragItem.value = null
+  }, 400)
+}
+// 控制连接桩显示/隐藏
+const showPorts = (ports, show) => {
+  for (let i = 0, len = ports.length; i < len; i += 1) {
+    ports[i].style.visibility = show ? 'visible' : 'hidden'
+  }
+}
+
+// 初始化创建画布
+const createGraphic = () => {
+  // #region 构建自定义图形
+  // 平行四边形
+  Graph.registerNode(
+    'custom-polygon-quad',
+    {
+      inherit: 'polygon',
+      width: 100,
+      height: 60,
+      attrs: {
+        body: {
+          strokeWidth: 1,
+          stroke: '#333',
+          fill: '#fff',
+          refPoints: '10,0 40,0 30,20 0,20',
+        },
+        text: {
+          fontSize: 12,
+          fill: '#262626',
+        },
+      },
+      ports: {
+        ...absolutePorts,
+        items: [
+          {
+            group: 'top',
+          },
+          {
+            group: 'bottom',
+          },
+        ],
+      }
+    },
+    true
+  )
+  // 菱形
+  Graph.registerNode(
+    'custom-polygon-rhombus',
+    {
+      inherit: 'polygon',
+      width: 100,
+      height: 60,
+      attrs: {
+        body: {
+          strokeWidth: 1,
+          stroke: '#333',
+          fill: '#fff',
+          refPoints: '0,10 10,0 20,10 10,20',
+        },
+        text: {
+          fontSize: 12,
+          fill: '#262626',
+        },
+      },
+      ports: { ...absolutePorts }
+    },
+    true
+  )
+  // 矩形
+  Graph.registerNode(
+    'custom-rect',
+    {
+      inherit: 'rect',
+      width: 100,
+      height: 70,
+      attrs: {
+        body: {
+          strokeWidth: 1,
+          stroke: '#333',
+          fill: '#fff',
+        },
+        text: {
+          fontSize: 12,
+          fill: '#262626',
+        },
+      },
+      ports: { ...ports },
+    },
+    true,
+  )
+  // 圆形
+  Graph.registerNode(
+    'custom-circle',
+    {
+      inherit: 'circle',
+      width: 50,
+      height: 50,
+      attrs: {
+        body: {
+          strokeWidth: 1,
+          stroke: '#333',
+          fill: '#fff',
+        },
+        text: {
+          fontSize: 12,
+          fill: '#262626',
+        },
+      },
+      ports: { ...absolutePorts },
+    },
+    true,
+  )
+  // 椭圆
+  Graph.registerNode(
+    'custom-ellipse',
+    {
+      inherit: 'ellipse',
+      width: 100,
+      height: 70,
+      attrs: {
+        body: {
+          strokeWidth: 1,
+          stroke: '#333',
+          fill: '#fff',
+        },
+        text: {
+          fontSize: 12,
+          fill: '#262626',
+        },
+      },
+      ports: { ...ellipsePorts },
+    },
+    true,
+  )
+  // #endregion
+  const parentDom = document.getElementById('graph')
+  const graphDom = document.getElementById('graph-container')
+  graph = new Graph({
+    container: graphDom,
+    width: parentDom.clientWidth,
+    height: parentDom.clientHeight,
+    grid: true,
+    panning: {
+      enabled: true // 开启拖拽平移
+    },
+    mousewheel: {
+      enabled: true,
+      modifiers: ['ctrl', 'meta'],
+    },
+    connecting: {
+      router: 'manhattan',
+      connector: {
+        name: 'rounded',
+        args: {
+          radius: 8,
+        },
+      },
+      anchor: 'center',
+      connectionPoint: 'anchor',
+      allowBlank: false,
+      snap: {
+        radius: 20,
+      },
+      createEdge() {
+        return new Shape.Edge({
+          attrs: {
+            line: {
+              stroke: '#A2B1C3',
+              strokeWidth: 2,
+              targetMarker: {
+                name: 'block',
+                width: 12,
+                height: 8,
+              },
+            },
+          },
+          zIndex: 0,
+        })
+      },
+      validateConnection({ targetMagnet }) {
+        return !!targetMagnet
+      },
+    },
+    highlighting: {
+      magnetAdsorbed: {
+        name: 'stroke',
+        args: {
+          attrs: {
+            fill: '#5F95FF',
+            stroke: '#5F95FF',
+          },
         },
       },
     },
-    // 所有边的默认配置
-    defaultEdge: {
-      type: "polyline-edge",
-      style: {
-        radius: 5,
-        offset: 15,
-        stroke: "#aab7c3",
-        lineAppendWidth: 10, // 防止线太细没法点中
-        endArrow: true,
-      },
-    },
-    // 覆盖全局样式
-    nodeStateStyles: {
-      "nodeState:default": {
-        stroke: '',
-        // lineWidth: 0,
-      },
-      "nodeState:hover": {
-        stroke: '#007bbb',
-        // lineWidth: 3,
-        shadowColor: '#007bbb',
-        shadowBlur: 6
-      },
-      "nodeState:selected": {
-        stroke: '#007bbb',
-        lineWidth: 2,
-        shadowColor: '#007bbb',
-        shadowBlur: 6
-      },
-    },
-    // 默认边不同状态下的样式集合
-    edgeStateStyles: {
-      "edgeState:default": {
-        stroke: "#aab7c3",
-      },
-      "edgeState:selected": {
-        stroke: "#1890FF",
-      },
-      "edgeState:hover": {
-        animate: true,
-        animationType: "dash",
-        stroke: "#1890FF",
-      },
-    },
-    modes: {
-      default: ["drag-canvas", "drag-shadow-node", "canvas-event", "delete-item", "select-node", "hover-node", "active-edge", "zoom-canvas",],
-      originDrag: ["drag-canvas", "drag-node", "canvas-event", "delete-item", "select-node", "hover-node", "active-edge",],
-    },
-    plugins: [grid, menu]
-  });
+  })
+  // 使用插件
+  graph
+    .use(
+      new Transform({
+        resizing: true,
+        rotating: true,
+      }),
+    )
+    .use(
+      new Selection({
+        rubberband: true,
+        showNodeSelectionBox: true,
+        modifiers: ['ctrl', 'meta'] // 防止拖拽平移冲突，配合快键键框选
+      }),
+    )
+    .use(new Snapline())
+    .use(new Keyboard())
+    .use(new Clipboard())
+    .use(new History({
+      enabled: true,
+    }))
+    .use(new MiniMap({
+      container: document.getElementById('minimap'),
+      width: document.getElementById('minimap').clientWidth,
+      height: document.getElementById('minimap').clientHeight
+    }))
 
-  graph = new G6.Graph(cfg)
-  graph.read(graphData.value)
-  window.$welabxG6 = graph
+  // 快捷键事件
+  graph.bindKey(['meta+c', 'ctrl+c'], () => {
+    const cells = graph.getSelectedCells()
+    if (cells.length) {
+      graph.copy(cells)
+    }
+    return false
+  })
+  graph.bindKey(['meta+x', 'ctrl+x'], () => {
+    const cells = graph.getSelectedCells()
+    if (cells.length) {
+      graph.cut(cells)
+    }
+    return false
+  })
+  graph.bindKey(['meta+v', 'ctrl+v'], () => {
+    if (!graph.isClipboardEmpty()) {
+      const cells = graph.paste({ offset: 32 })
+      graph.cleanSelection()
+      graph.select(cells)
+    }
+    return false
+  })
+
+  // undo redo
+  graph.bindKey(['meta+z', 'ctrl+z'], () => {
+    if (graph.canUndo()) {
+      graph.undo()
+    }
+    return false
+  })
+  graph.bindKey(['meta+shift+z', 'ctrl+shift+z'], () => {
+    if (graph.canRedo()) {
+      graph.redo()
+    }
+    return false
+  })
+
+  // select all
+  graph.bindKey(['meta+a', 'ctrl+a'], () => {
+    const nodes = graph.getNodes()
+    if (nodes) {
+      graph.select(nodes)
+    }
+  })
+
+  // delete
+  graph.bindKey('backspace', () => {
+    const cells = graph.getSelectedCells()
+    if (cells.length) {
+      graph.removeCells(cells)
+    }
+  })
+
+  // zoom
+  graph.bindKey(['ctrl+1', 'meta+1'], () => {
+    const zoom = graph.zoom()
+    if (zoom < 1.5) {
+      graph.zoom(0.1)
+    }
+  })
+  graph.bindKey(['ctrl+2', 'meta+2'], () => {
+    const zoom = graph.zoom()
+    if (zoom > 0.5) {
+      graph.zoom(-0.1)
+    }
+  })
+  insertCss(`
+    #container {
+      display: flex;
+      border: 1px solid #dfe3e8;
+    }
+    #stencil {
+      width: 180px;
+      height: 100%;
+      position: relative;
+      border-right: 1px solid #dfe3e8;
+    }
+    #graph-container {
+      width: calc(100% - 180px);
+      height: 100%;
+    }
+    .x6-widget-stencil  {
+      background-color: #fff;
+    }
+    .x6-widget-stencil-title {
+      background-color: #fff;
+    }
+    .x6-widget-stencil-group-title {
+      background-color: #fff !important;
+    }
+    .x6-widget-transform {
+      margin: -1px 0 0 -1px;
+      padding: 0px;
+      border: 1px solid #239edd;
+    }
+    .x6-widget-transform > div {
+      border: 1px solid #239edd;
+    }
+    .x6-widget-transform > div:hover {
+      background-color: #3dafe4;
+    }
+    .x6-widget-transform-active-handle {
+      background-color: #3dafe4;
+    }
+    .x6-widget-transform-resize {
+      border-radius: 0;
+    }
+    .x6-widget-selection-inner {
+      border: 1px solid #239edd;
+    }
+    .x6-widget-selection-box {
+      opacity: 0;
+    }
+  `)
+  graph.fromJSON(graphData.value.cells)
 }
 // 初始化图事件
 const initGraphEvent = () => {
-  // 拖动菜单项节点进入画布
-  graph.on("drop", (e) => {
-
-    const { originalEvent } = e
-    if (originalEvent.dataTransfer) {
-      const transferData = originalEvent.dataTransfer.getData("dragComponent");
-      if (transferData) {
-        addNode(transferData, e);
-        setTimeout(() => {
-          saveG6Json()
-        }, 100)
-      }
-    }
-  });
-
-  // 拖动节点的事件
-  graph.on("node:drop", (e) => {
-    e.item.getOutEdges().forEach((edge) => {
-      edge.clearStates("edgeState");
-    });
-    saveG6Json();
-  });
-
-  // 选中节点后的事件
-  graph.on("after-node-selected", (e) => {
-    if (e && e.item) {
-      const model = e.item.get("model");
-      tableList.value = model.list
-    }
-  });
-
-  // 鼠标移入节点的事件
-  graph.on("on-node-mouseenter", (e) => {
-    if (e && e.item) {
-      e.item.getOutEdges().forEach((edge) => {
-        edge.clearStates("edgeState");
-        edge.setState("edgeState", "hover");
-      });
-    }
-  });
-
-  // 鼠标拖拽到画布外时特殊处理
-  graph.on("canvas:mouseleave", (e) => {
-    graph.getNodes().forEach((x) => {
-      const group = x.getContainer();
-      group.clearAnchor();
-      x.clearStates("anchorActived");
-    });
-  });
-  // 鼠标移出节点清除边的效果
-  graph.on("on-node-mouseleave", (e) => {
-    if (e && e.item) {
-      e.item.getOutEdges().forEach((edge) => {
-        edge.clearStates("edgeState");
-      });
-    }
-  });
-  // 删除节点
-  graph.on("before-node-removed", ({ target, callback }) => {
-    callback(true);
-    saveG6Json();
-  });
-  // 选中边的事件
-  graph.on("after-edge-selected", (e) => {
-    if (e && e.item) {
-      const model = e.item.get('model')
-      tableList.value = model.list
-      graph.updateItem(e.item, {
-        shape: 'line-edge',
-        style: {
-          radius: 10,
-          lineWidth: 2,
-        },
-      })
-    }
-  });
-  // 添加边的事件
-  graph.on(
-    "before-edge-add",
-    ({ source, target, sourceAnchor, targetAnchor }) => {
-      const edge = {
-        id: `${+new Date() + (Math.random() * 10000).toFixed(0)}`,
-        source: source.get("id"),
-        target: target.get("id"),
-        sourceAnchor,
-        targetAnchor,
-        list: [
-          {
-            key: '处理器',
-            value: ''
-          },
-          {
-            key: '频率',
-            value: ''
-          },
-          {
-            key: '内存',
-            value: ''
-          }
-        ],
-      }
-      setTimeout(() => {
-        graph.addItem("edge", edge);
-        saveG6Json()
-      }, 100)
-    }
-  );
-  // 节点拖动结束的事件
-  graph.on("on-node-dragend", (e) => {
-    if (e && e.item) {
-      saveG6Json()
-    }
+  graph.on("node:mouseenter", (e) => {
+    const container = document.getElementById('graph-container')
+    const ports = container.querySelectorAll('.x6-port-body')
+    showPorts(ports, true)
   })
-}
-// 添加节点
-const addNode = (transferData, e) => {
-  const { img } = JSON.parse(transferData);
-  if (img) {
-    getImgSize(img).then((res) => {
-      formatAddNode(transferData, e, { w: res.width, h: res.height })
-    })
-  } else {
-    formatAddNode(transferData, e, { w: 0, h: 0 })
-  }
-}
-const formatAddNode = (transferData, { x, y }, { w, h }) => {
-  const { label, shape, fill, id, img, list } = JSON.parse(transferData);
-  const globalFontSize = 12
-  const mw = img ? 0 : 80
-  const diagonal = Math.sqrt(w * w + h * h)
-  let feed = ''
-  if (img) {
-    for (let i = 0; i < (Math.round(h / 12)); i++) {
-      feed += '\n'
-    }
-  }
-  const model = {
-    label: feed + fittingString(label, mw, globalFontSize),
-    id: id + Date.now(),
-    type: shape == "image" ? "" : shape,
-    style: {
-      fill: shape == "image" ? '' : fill || "#ecf3ff",
-      radius: shape == "image" ? 0 : 5,
-      width: shape == "image" ? w : shape == 'diamond-node' ? '' : shape == 'ellipse-node' ? '' : shape == 'triangle-node' ? '' : 100,
-      height: shape == "image" ? h : shape == 'diamond-node' ? '' : shape == 'ellipse-node' ? '' : shape == 'triangle-node' ? '' : 50,
-      lineWidth: shape == "image" ? 0 : 2,
-      size: shape == 'diamond-node' ? [100, 100] : '',
-      rx: shape == 'ellipse-node' ? 100 : '',
-      ry: shape == 'ellipse-node' ? 30 : ''
-    },
-    labelCfg: {
-      style: {
-        textBaseLine: 'top'
-      }
-    },
-    x,
-    y,
-    logoIcon: {
-      show: shape == "image" ? true : false,
-      x: -(w / 2),
-      y: -(h / 2),
-      img: img,
-      width: w,
-      height: h,
-    },
-    // 锚点集合
-    anchorPoints: shape == 'image' && diagonal <= 125 ? [
-      // [0, 0],
-      [0.2, 0],
-      [0.5, 0],
-      [0.8, 0],
-      [0, 0.2],
-      [0, 0.5],
-      [0, 0.8],
-      // [0, 1],
-      [0.2, 1],
-      [0.5, 1],
-      [0.8, 1],
-      // [1, 0],
-      [1, 0.2],
-      [1, 0.5],
-      [1, 0.8],
-      // [1, 1],
-    ] : shape == 'image' && diagonal >= 125 ? [
-      // [0, 0],
-      [0.2, 0],
-      [0.3, 0],
-      [0.4, 0],
-      [0.5, 0],
-      [0.6, 0],
-      [0.7, 0],
-      [0.8, 0],
-      [0, 0.2],
-      [0, 0.3],
-      [0, 0.4],
-      [0, 0.5],
-      [0, 0.6],
-      [0, 0.7],
-      [0, 0.8],
-      // [0, 1],
-      [0.2, 1],
-      [0.3, 1],
-      [0.4, 1],
-      [0.5, 1],
-      [0.6, 1],
-      [0.7, 1],
-      [0.8, 1],
-      // [1, 0],
-      [1, 0.2],
-      [1, 0.3],
-      [1, 0.4],
-      [1, 0.5],
-      [1, 0.6],
-      [1, 0.7],
-      [1, 0.8],
-      // [1, 1],
-    ] : [
-      [0.5, 0],
-      [1, 0.5],
-      [0.5, 1],
-      [0, 0.5],
-    ],
-    list: JSON.parse(list)
-  }
-  graph.addItem('node', model)
+  graph.on("node:mouseleave", (e) => {
+    const container = document.getElementById('graph-container')
+    const ports = container.querySelectorAll('.x6-port-body')
+    showPorts(ports, false)
+  })
+  graph.on('node:click', (e) => {
+    // 右侧表格数据
+    tableList.value = e.node.store.data.list
+  })
+  graph.on('edge:click', (e) => {
+    console.log(e);
+    console.log(graph.toJSON());
+    tableList.value = []
+  })
+  graph.on('history:change', ({ cmds, options }) => {
+    canUndo.value = graph.canUndo()
+    canRedo.value = graph.canRedo()
+  })
 }
 // 保存数据
-const saveG6Json = () => {
-  localStorage.setItem('g6Data', JSON.stringify(graph.save()))
-}
-// 画布自适应
-const g6Size = () => {
-  window.addEventListener("resize", () => {
-    size()
-  });
+const saveToJson = () => {
+  localStorage.setItem('emulationData', JSON.stringify(graph.toJSON()))
 }
 const saveTable = (data) => {
-  saveG6Json()
+  // saveToJson()
 }
-const out = () => {
+const hideMenu = () => {
   isOut.value = !isOut.value
-  size()
 }
-const outR = () => {
+const outRHideMenu = () => {
   isOutR.value = !isOutR.value
-  size()
 }
-const outB = () => {
+const outBHideMenu = () => {
   isOutB.value = !isOutB.value
-  size()
-  setTimeout(() => {
-    tableSize()
-  }, 300)
+  // setTimeout(() => {
+  tableSize()
+  // }, 300)
 }
-const editCss = (item) => {
-  // console.log(item);
-  drawerHidden.value = true
-  const model = item.get('model')
-  config.value = model
-  atItem.value = item
+const handleMenu = (val) => {
+  if (val === '撤销') {
+    if (graph.canUndo()) {
+      graph.undo()
+    }
+  }
+  if (val === '重做') {
+    if (graph.canRedo()) {
+      graph.redo()
+    }
+  }
+  if (val === '格式') {
+    let booleanArr = [isOut.value, isOutR.value, isOutB.value]
+    let falseFlag = booleanArr.filter(item => {
+      return item === false
+    })
+    let trueFlag = booleanArr.filter(item => {
+      return item === true
+    })
+    if (falseFlag.length > trueFlag.length) {
+      isOut.value = true
+      isOutR.value = true
+      isOutB.value = true
+    }
+    if (trueFlag.length > falseFlag.length) {
+      isOut.value = false
+      isOutR.value = false
+      isOutB.value = false
+    }
+  }
+  if (val === '保存') {
+    saveToJson()
+    instance.proxy.$axios.saveTaskDetail({
+      taskId: Cookies.get('taskId'),
+      daTree: JSON.stringify(graph.toJSON())
+    }).then((res) => {
+      console.log(res);
+    })
+  }
+  if (val === '缩略图') {
+    minimapMark.value = !minimapMark.value
+    if (minimapMark.value === false) {
+      minimapPoint.x = 1017
+      minimapPoint.y = 50
+    }
+  }
 }
-const updateNode = (model) => {
-  graph.updateItem(atItem.value, model)
-  graphData.value = graph.save()
+const minimapDrop = (e) => {
+  const dom = document.getElementsByClassName('minimap_dialog')[0]
+  let domX = e.clientX - dom.offsetLeft
+  let domY = e.clientY - dom.offsetTop
+  document.onmousemove = (ev) => {
+    minimapPoint.x = ev.clientX - domX
+    minimapPoint.y = ev.clientY - domY
+  }
+  document.onmouseup = () => {
+    document.onmousemove = null
+    document.onmouseup = null
+  }
+}
+const closeMap = () => {
+  minimapMark.value = false
+  minimapPoint.x = 1017
+  minimapPoint.y = 50
+}
 
-  const anchor = atItem.value.getAnchorPoints()
-  console.log(anchor);
-  graph.changeData(graphData.value, false)
-  const stack = _.cloneDeep(graph.getStackData())
-  const redos = [...stack.redoStack].reverse()
-  const undos = [...stack.undoStack].reverse()
-
-  // graph.destroy()
-  // createGraphic()
-  // initGraphEvent()
-  saveG6Json()
-  const item = graph.find('node', (node) => {
-    return node.get('model').id === config.value.id
-  })
-  config.value = item.get('model')
-  atItem.value = item
-  // if (redos.length) {
-  //   redos.forEach((redo,index) => {
-  //     console.log(redo);
-  //     graph.pushStack(redo.action, _.cloneDeep(redo.data), 'redo')
-  //   })
-  // }
-  // if (undos.length) {
-  //   undos.forEach((undo,index) => {
-  //     // if (index === undos.length-1) {
-  //     //   console.log(undo.data.after.nodes[0]);
-  //     //   undo.data.after.nodes[0].style = {
-  //     //     width:'',
-  //     //     height:''
-  //     //   }
-  //     //   undo.data.after.nodes[0].style.width = config.value.style.width
-  //     //   undo.data.after.nodes[0].style.height = config.value.style.height
-  //     // }
-  //     graph.pushStack(undo.action, _.cloneDeep(undo.data), 'undo')
-  //     console.log(undo);
-  //   })
-  // }
-}
-
-function size() {
-  setTimeout(() => {
-    const h = graphRef.value.clientHeight;
-    const w = graphRef.value.clientWidth;
-    graph.changeSize(w, h);
-    //  画布移动到中心
-    graph.fitCenter();
-  }, 300)
-}
 onMounted(() => {
-  const localList = localStorage.getItem('g6Data')
+  const localList = localStorage.getItem('emulationData')
   if (localList !== null) {
     graphData.value = JSON.parse(localList)
   }
-  const nodes = [...document.getElementById('elMenu').querySelectorAll('.menu-icon')]
-  nodes.forEach(node => {
-    node.addEventListener('dragstart', (event) => {
-      const label = node.getAttribute('data-label')
-      const id = node.getAttribute("data-id");
-      const img = node.getAttribute("data-img");
-      const shape = node.getAttribute("data-shape");
-      const fill = node.getAttribute('data-fill')
-      const list = node.getAttribute('data-list')
-      event.dataTransfer.setData('dragComponent', JSON.stringify({ label, id, img, shape, fill, list }))
-    })
-  })
-  // 阻止默认事件
-  document.addEventListener('drop', e => {
-    e.preventDefault()
-  }, false)
-
+  createGraphic()
+  initGraphEvent()
   tableSize()
-
-  instance.proxy.$axios.getTaskDetail({ taskId: store.taskId }).then((res) => {
-    console.log(res);
-  })
-  setTimeout(() => {
-    createGraphic()
-    initGraphEvent()
-    g6Size()
-  },500)
+  // instance.proxy.$axios.getTaskDetail({ taskId: Cookies.get('taskId') }).then((res) => {
+  //   // console.log(res);
+  //   if (res.data !== null) {
+  //     graphData.value = JSON.parse(res.data.daTree)
+  //   }
+  //   createGraphic()
+  //   initGraphEvent()
+  // })
 })
 
 function tableSize() {
   nextTick(() => {
-    domH.value = window.innerHeight - 440
-    mainH.value = window.innerHeight - 138
+    if (isOutB.value) {
+      domH.value = window.innerHeight - 248
+    } else {
+      domH.value = window.innerHeight - 476
+    }
+    mainH.value = window.innerHeight - 158
   })
   window.onresize = () => {
-    domH.value = window.innerHeight - 440
-    mainH.value = window.innerHeight - 138
+    if (isOutB.value) {
+      domH.value = window.innerHeight - 248
+    } else {
+      domH.value = window.innerHeight - 476
+    }
+
+    mainH.value = window.innerHeight - 158
   }
 }
 
 onUnmounted(() => {
-  // graph.destroy()
   window.onresize = null
   window.removeEventListener('resize', () => { })
 })
@@ -912,53 +1321,43 @@ onUnmounted(() => {
 
 <style lang="scss" scoped>
 .test-info {
-  width: 100%;
   height: 100%;
-  padding: 0 20px 20px;
-  /* background-color: #f0f0f4; */
+  margin: 0 20px;
+  background-color: #f4f4f4;
+  border-radius: 3px;
   transition: height .2s linear;
+  box-shadow: 0px 0px 22px rgba(0, 0, 0, 0.2);
+  position: relative;
 }
 
 .el-container-layout {
   width: 100%;
-  height: 100%;
+  height: calc(100% - 41px);
 }
 
 .el-aside {
   width: 220px;
   margin-bottom: 0;
-  border-radius: 10px;
+  border-radius: 3px;
   padding: 0;
   background-color: #fff;
-  box-shadow: 0px 0px 12px rgba(0, 0, 0, .12);
 }
 
 .el-aside-right {
-  margin-left: 20px;
-  border-radius: 10px;
+  margin-left: 10px;
+  border-radius: 3px;
   position: relative;
   z-index: 10;
   width: 260px;
   transition: width .2s linear;
 
   .aside-title {
-    border-radius: 10px 10px 0 0;
+    /* border-radius: 3px 3px 0 0; */
   }
 
-  .right_out {
-    width: 10px;
-    height: 20px;
-    background-color: #8e9eab;
-    border-radius: 10px 0 0 10px;
-    position: absolute;
-    left: -10px;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 10;
-    cursor: pointer;
-
-    &:hover {
-      background-color: #146ec2;
+  &:hover {
+    .click {
+      opacity: 1;
     }
   }
 
@@ -968,6 +1367,7 @@ onUnmounted(() => {
 }
 
 .el-aside-left {
+  margin-left: 10px;
   overflow: visible;
   position: relative;
   transition: width .2s linear;
@@ -975,12 +1375,12 @@ onUnmounted(() => {
   .title {
     font-size: 15px;
     text-align: center;
-    padding: 15px 0;
+    padding: 11px 0;
     margin-bottom: 0;
     margin-top: 0;
     border-bottom: 1px solid rgb(222, 219, 219);
     background: #d0d7d8;
-    border-radius: 10px 10px 0 0;
+    /* border-radius: 3px 3px 0 0; */
   }
 
   .icons {
@@ -988,36 +1388,19 @@ onUnmounted(() => {
     justify-content: center;
   }
 
-  .click {
-    width: 10px;
-    height: 20px;
-    background-color: #8e9eab;
-    border-radius: 0 10px 10px 0;
-    position: absolute;
-    right: -10px;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 10;
-    cursor: pointer;
+  &.transform {
+    width: 0;
+  }
 
-    &:hover {
-      background-color: #146ec2;
+  &:hover {
+    .click {
+      opacity: 1;
     }
   }
 
   &.fade {
     width: 0;
   }
-}
-
-:deep(.el-menu) {
-  border-right: none;
-}
-
-:deep(.el-sub-menu__title),
-:deep(.el-menu-item) {
-  border-radius: 8px;
-  border: 1px solid transparent;
 }
 
 .el-scrollbar-info {
@@ -1031,37 +1414,45 @@ onUnmounted(() => {
 }
 
 .canvas-wrapper {
+  padding-top: 0;
   display: flex;
-  overflow: hidden;
+  padding-right: 0;
   flex: 1;
-  margin-left: 20px;
+  padding: 0 10px 0 10px;
+  overflow: hidden;
 
   .title {
     font-size: 17px;
     text-align: center;
     margin: 0;
     width: 100%;
-    padding: 15px 0;
+    padding: 11px 0;
     background: #d0d7d8;
-    border-radius: 10px 10px 0 0;
+    border-radius: 3px 3px 0 0;
   }
 
   .container {
     width: 100%;
-    height: calc(100% - 57px);
-    box-shadow: 0px 0px 12px rgba(0, 0, 0, .12);
-    border-radius: 0 0 10px 10px;
+    height: calc(100% - 50px);
+    border-radius: 0 0 3px 3px;
     background-color: #fff;
     position: relative;
     z-index: 1;
     overflow: hidden;
+    display: flex;
+  }
+
+  .graph-container {
+    width: 100%;
+    height: 100% !important;
+    flex: 1 1;
   }
 }
 
 .aside-title {
   font-size: 15px;
   text-align: center;
-  padding: 15px 0;
+  padding: 11px 0;
   margin-bottom: 0;
   margin-top: 0;
   border-bottom: 1px solid rgb(222, 219, 219);
@@ -1069,7 +1460,8 @@ onUnmounted(() => {
 }
 
 .el-footer {
-  margin-left: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
   padding: 0;
   height: 227px;
   position: relative;
@@ -1105,8 +1497,7 @@ onUnmounted(() => {
     width: 100%;
     height: 200px;
     background-color: #fff;
-    box-shadow: 0px 0px 12px rgba(0, 0, 0, .12);
-    border-radius: 0 0 10px 10px;
+    border-radius: 0 0 3px 3px;
     margin-top: 8px;
   }
 
@@ -1120,87 +1511,64 @@ onUnmounted(() => {
     height: calc(100% - 34px);
   }
 
-  .out {
-    width: 20px;
-    height: 10px;
-    background-color: #8e9eab;
-    border-radius: 10px 10px 0 0;
-    position: absolute;
-    right: 50%;
-    top: 18px;
-    transform: translateX(-50%);
-    z-index: 10;
-    cursor: pointer;
-
-    &:hover {
-      background-color: #146ec2;
-    }
-
-    &.h {
-      top: 10px;
-    }
-  }
-
   &.fade {
     height: 0;
   }
+
+  &:hover {
+    .click {
+      opacity: 1;
+    }
+  }
+
+  /* .top_mark{
+    bottom: -17px;
+  } */
 }
 
-:deep(.g6-component-contextmenu) {
-  padding: 8px 0;
+:deep(.el-menu) {
+  border-right: none;
 }
 
-.drawer {
-  /* width: 25%; */
-  padding: 60px 0 20px;
+:deep(.el-sub-menu__title),
+:deep(.el-menu-item) {
+  border-radius: 8px;
+  border: 1px solid transparent;
+}
+
+.minimap_dialog {
   position: absolute;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  z-index: 10;
-  background-color: #fff;
-  box-shadow: 0 0 40px 0 rgba(0, 0, 0, 0.1);
-  transform: translateX(100%);
-  transition: transform .3s ease-in-out;
+  left: 1017px;
+  top: 50px;
+  z-index: 99;
+  width: 180px;
+  height: 180px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 2px #C0C0C0;
 
-  .panel-title {
-    padding: 5px 10px;
-    background-color: #e4e4e4;
-    font-size: 15px;
-    font-weight: 600;
-  }
+  .mxWindowTitle {
+    color: rgb(112, 112, 112);
+    background: #f1f3f4;
+    padding: 4px;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    font-size: 13px;
+    height: 22px;
+    line-height: 1;
+    border-radius: 5px 5px 0 0;
+    text-align: center;
+    position: relative;
+    cursor: move;
 
-  .config-data {
-    padding: 20px;
-  }
-
-  .config-item {
-    font-size: 14px;
-    margin: 10px 0 20px;
-
-    .label {
-      padding: 0 16px 0 0;
-    }
-
-    .size {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-
-      span {
-        font-size: 13px;
-        color: #545556;
-      }
+    .close {
+      position: absolute;
+      right: 4px;
+      cursor: pointer;
     }
   }
 
-  .flex {
-    display: flex;
-    justify-content: flex-start;
-  }
-
-  &.hidden {
-    transform: translateX(0);
+  .minimap {
+    height: 158px;
   }
 }
 </style>

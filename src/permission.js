@@ -1,11 +1,10 @@
 import Cookies from 'js-cookie'
 import router from './router'
 
-const whiteList = ['/login','/broad'];
+const whiteList = ['/login', '/broad'];
 
 router.beforeEach((to, from, next) => {
   if (Cookies.get('userId')) {
-    // 有token
     if (to.path === '/login') {
       next({ path: '/' })
     } else {

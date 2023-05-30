@@ -53,33 +53,29 @@ import tableBar from '@/components/business/tableBar.vue';
 import testElMenu from '@/components/business/testElMenu.vue';
 import nodeConfigDrawer from '@/components/common/nodeConfigDrawer.vue'
 import shapeHeader from '@/components/common/shapeHeader.vue'
-import G6 from '@antv/g6'
-import registerFactory from 'welabx-g6'
-import insertCss from 'insert-css'
-import { getImgSize, fittingString } from '../utils/utils'
+import { getImgSize } from '../utils/utils'
 import _ from 'lodash'
-import { allStore } from '../store';
-
 import { Graph, Shape } from '@antv/x6'
-import { Stencil } from '@antv/x6-plugin-stencil'
 import { Transform } from '@antv/x6-plugin-transform'
 import { Selection } from '@antv/x6-plugin-selection'
 import { Snapline } from '@antv/x6-plugin-snapline'
 import { Keyboard } from '@antv/x6-plugin-keyboard'
 import { Clipboard } from '@antv/x6-plugin-clipboard'
 import { History } from '@antv/x6-plugin-history'
-import { watch } from 'vue';
+import insertCss from 'insert-css'
 
 
-const store = allStore()
-const { dragstartItem } = storeToRefs(store)
 const instance = getCurrentInstance()
-instance.proxy.$bus.on('resize', (val) => {
-  size()
-  if (val !== undefined && !val) {
-    mainH.value = mainH.value - 60
-  } else if (val !== undefined && val) {
-    mainH.value = mainH.value + 60
+instance.proxy.$bus.on('*', (name, val) => {
+  if (name === 'resize') {
+    if (val !== undefined && !val) {
+      mainH.value = mainH.value - 60
+    } else if (val !== undefined && val) {
+      mainH.value = mainH.value + 60
+    }
+  }
+  if (name === 'dragStart') {
+    dragStart(val)
   }
 })
 const radio = ref('控制台')
@@ -348,9 +344,137 @@ const drawerHidden = ref(false)
 const config = ref({})
 const atItem = ref({})
 const dragItem = ref('')
-watch(dragstartItem, (n) => {
-  dragStart(n)
-})
+
+const ports = {
+  groups: {
+    top: {
+      position: 'top',
+      attrs: {
+        circle: {
+          r: 4,
+          magnet: true,
+          stroke: '#5F95FF',
+          strokeWidth: 1,
+          fill: '#fff',
+          style: {
+            visibility: 'hidden',
+          },
+        },
+      },
+    },
+    right: {
+      position: 'right',
+      attrs: {
+        circle: {
+          r: 4,
+          magnet: true,
+          stroke: '#5F95FF',
+          strokeWidth: 1,
+          fill: '#fff',
+          style: {
+            visibility: 'hidden',
+          },
+        },
+      },
+    },
+    left: {
+      position: 'left',
+      attrs: {
+        circle: {
+          r: 4,
+          magnet: true,
+          stroke: '#5F95FF',
+          strokeWidth: 1,
+          fill: '#fff',
+          style: {
+            visibility: 'hidden',
+          },
+        },
+      },
+    },
+    bottom: {
+      position: 'bottom',
+      attrs: {
+        circle: {
+          r: 4,
+          magnet: true,
+          stroke: '#5F95FF',
+          strokeWidth: 1,
+          fill: '#fff',
+          style: {
+            visibility: 'hidden',
+          },
+        },
+      },
+    },
+  },
+  items: [
+    {
+      id: 'prot1',
+      group: 'top',
+    },
+    {
+      id: 'prot2',
+      group: 'top',
+    },
+    {
+      id: 'prot3',
+      group: 'top',
+    },
+    {
+      id: 'prot4',
+      group: 'top',
+    },
+    {
+      id: 'prot5',
+      group: 'left'
+    },
+    {
+      id: 'prot6',
+      group: 'left'
+    },
+    {
+      id: 'prot7',
+      group: 'left'
+    },
+    {
+      id: 'prot8',
+      group: 'left'
+    },
+    {
+      id: 'prot9',
+      group: 'right'
+    },
+    {
+      id: 'prot10',
+      group: 'right'
+    },
+    {
+      id: 'prot11',
+      group: 'right'
+    },
+    {
+      id: 'prot12',
+      group: 'right'
+    },
+    {
+      id: 'prot13',
+      group: 'bottom'
+    },
+    {
+      id: 'prot14',
+      group: 'bottom'
+    },
+    {
+      id: 'prot15',
+      group: 'bottom'
+    },
+    {
+      id: 'prot16',
+      group: 'bottom'
+    },
+  ],
+}
 
 const open = (index) => {
   openFlag.value = {
@@ -365,7 +489,7 @@ const close = (index) => {
   }
 }
 const dragStart = (item) => {
-  dragItem.value = item;
+  dragItem.value = item
   // 元素行为 移动
   graphRef.value.addEventListener("dragenter", dragenter);
   // 目标元素经过 禁止默认事件
@@ -386,7 +510,6 @@ const dragleave = (e) => {
   e.dataTransfer.dropEffect = "none"
 }
 const drop = (e) => {
-  console.log(dragItem.value.img);
   if (dragItem.value.img) {
     getImgSize(dragItem.value.img).then((res) => {
       graph.addNode({
@@ -406,88 +529,12 @@ const drop = (e) => {
             refY2: 6, // 标题和节点之间的距离
             textAnchor: 'middle',
             textVerticalAnchor: 'top',
-            // fontSize: 12,
+            fontSize: 12,
             fill: '#333',
           },
         },
-        ports: {
-          groups: {
-            top: {
-              position: 'top',
-              attrs: {
-                circle: {
-                  r: 4,
-                  magnet: true,
-                  stroke: '#5F95FF',
-                  strokeWidth: 1,
-                  fill: '#fff',
-                  style: {
-                    visibility: 'hidden',
-                  },
-                },
-              },
-            },
-            right: {
-              position: 'right',
-              attrs: {
-                circle: {
-                  r: 4,
-                  magnet: true,
-                  stroke: '#5F95FF',
-                  strokeWidth: 1,
-                  fill: '#fff',
-                  style: {
-                    visibility: 'hidden',
-                  },
-                },
-              },
-            },
-            bottom: {
-              position: 'bottom',
-              attrs: {
-                circle: {
-                  r: 4,
-                  magnet: true,
-                  stroke: '#5F95FF',
-                  strokeWidth: 1,
-                  fill: '#fff',
-                  style: {
-                    visibility: 'hidden',
-                  },
-                },
-              },
-            },
-            left: {
-              position: 'left',
-              attrs: {
-                circle: {
-                  r: 4,
-                  magnet: true,
-                  stroke: '#5F95FF',
-                  strokeWidth: 1,
-                  fill: '#fff',
-                  style: {
-                    visibility: 'hidden',
-                  },
-                },
-              },
-            },
-          },
-          items: [
-            {
-              group: 'top',
-            },
-            {
-              group: 'right',
-            },
-            {
-              group: 'bottom',
-            },
-            {
-              group: 'left',
-            },
-          ],
-        },
+        ports: { ...ports },
+        list: dragItem.value.list
       })
     })
   } else {
@@ -505,16 +552,18 @@ const drop = (e) => {
           refY2: 6, // 标题和节点之间的距离
           textAnchor: 'middle',
           textVerticalAnchor: 'top',
-          fontSize: 14,
+          fontSize: 12,
           fill: '#333',
         },
         body: {
-          stroke: '#ffa940',
-          fill: '#ffd591',
-          rx: 10,
-          ry: 10,
+          // stroke: '#ffa940',
+          // fill: '#ffd591',
+          // rx: 10,
+          // ry: 10,
         },
       },
+      ports: { ...ports },
+      list: dragItem.value.list
     })
   }
 
@@ -522,6 +571,9 @@ const drop = (e) => {
   graphRef.value.removeEventListener("dragover", dragover);
   graphRef.value.removeEventListener("dragleave", dragleave);
   graphRef.value.removeEventListener("drop", drop);
+  setTimeout(() => {
+    dragItem.value = null
+  }, 400)
 }
 
 // 控制连接桩显示/隐藏
@@ -534,13 +586,10 @@ const closesD = (val) => {
   drawerHidden.value = val
 }
 
-function getImgUrl(img) {
-  return new URL(`../assets/image/${img}`, import.meta.url).href
-}
+// 初始化创建画布
 const createGraphic = () => {
   const parentDom = document.getElementById('graph')
   const graphDom = document.getElementById('graph-container')
-  console.log(parentDom.clientHeight);
   const cfg = {
     container: graphDom,
     width: parentDom.clientWidth,
@@ -600,101 +649,180 @@ const createGraphic = () => {
     },
   }
   graph = new Graph(cfg)
-  console.log(graph);
+  // 使用插件
+  graph
+    .use(
+      new Transform({
+        resizing: true,
+        rotating: true,
+      }),
+    )
+    .use(
+      new Selection({
+        rubberband: true,
+        showNodeSelectionBox: true,
+      }),
+    )
+    .use(new Snapline())
+    .use(new Keyboard())
+    .use(new Clipboard())
+    .use(new History({
+      enabled: true,
+    }))
+
+  // 快捷键事件
+  graph.bindKey(['meta+c', 'ctrl+c'], () => {
+    const cells = graph.getSelectedCells()
+    if (cells.length) {
+      graph.copy(cells)
+    }
+    return false
+  })
+  graph.bindKey(['meta+x', 'ctrl+x'], () => {
+    const cells = graph.getSelectedCells()
+    if (cells.length) {
+      graph.cut(cells)
+    }
+    return false
+  })
+  graph.bindKey(['meta+v', 'ctrl+v'], () => {
+    if (!graph.isClipboardEmpty()) {
+      const cells = graph.paste({ offset: 32 })
+      graph.cleanSelection()
+      graph.select(cells)
+    }
+    return false
+  })
+
+  // undo redo
+  graph.bindKey(['meta+z', 'ctrl+z'], () => {
+    if (graph.canUndo()) {
+      graph.undo()
+    }
+    return false
+  })
+  graph.bindKey(['meta+shift+z', 'ctrl+shift+z'], () => {
+    if (graph.canRedo()) {
+      graph.redo()
+    }
+    return false
+  })
+
+  // select all
+  graph.bindKey(['meta+a', 'ctrl+a'], () => {
+    const nodes = graph.getNodes()
+    if (nodes) {
+      graph.select(nodes)
+    }
+  })
+
+  // delete
+  graph.bindKey('backspace', () => {
+    const cells = graph.getSelectedCells()
+    if (cells.length) {
+      graph.removeCells(cells)
+    }
+  })
+
+  // zoom
+  graph.bindKey(['ctrl+1', 'meta+1'], () => {
+    const zoom = graph.zoom()
+    if (zoom < 1.5) {
+      graph.zoom(0.1)
+    }
+  })
+  graph.bindKey(['ctrl+2', 'meta+2'], () => {
+    const zoom = graph.zoom()
+    if (zoom > 0.5) {
+      graph.zoom(-0.1)
+    }
+  })
+  insertCss(`
+    #container {
+      display: flex;
+      border: 1px solid #dfe3e8;
+    }
+    #stencil {
+      width: 180px;
+      height: 100%;
+      position: relative;
+      border-right: 1px solid #dfe3e8;
+    }
+    #graph-container {
+      width: calc(100% - 180px);
+      height: 100%;
+    }
+    .x6-widget-stencil  {
+      background-color: #fff;
+    }
+    .x6-widget-stencil-title {
+      background-color: #fff;
+    }
+    .x6-widget-stencil-group-title {
+      background-color: #fff !important;
+    }
+    .x6-widget-transform {
+      margin: -1px 0 0 -1px;
+      padding: 0px;
+      border: 1px solid #239edd;
+    }
+    .x6-widget-transform > div {
+      border: 1px solid #239edd;
+    }
+    .x6-widget-transform > div:hover {
+      background-color: #3dafe4;
+    }
+    .x6-widget-transform-active-handle {
+      background-color: #3dafe4;
+    }
+    .x6-widget-transform-resize {
+      border-radius: 0;
+    }
+    .x6-widget-selection-inner {
+      border: 1px solid #239edd;
+    }
+    .x6-widget-selection-box {
+      opacity: 0;
+    }
+  `)
 }
 // 初始化图事件
 const initGraphEvent = () => {
-  // 拖动菜单项节点进入画布
-  graph.on("graph:mouseenter", (e) => {
+  graph.on("node:mouseenter", (e) => {
     const container = document.getElementById('graph-container')
     const ports = container.querySelectorAll('.x6-port-body')
-    showPorts(ports,true)
+    showPorts(ports, true)
   })
-  graph.on("graph:mouseleave", (e) => {
+  graph.on("node:mouseleave", (e) => {
     const container = document.getElementById('graph-container')
     const ports = container.querySelectorAll('.x6-port-body')
-    showPorts(ports,false)
+    showPorts(ports, false)
   })
-}
-// 添加节点
-const addNode = (transferData, e) => {
-  const { img } = JSON.parse(transferData);
-  if (img) {
-    getImgSize(img).then((res) => {
-      formatAddNode(transferData, e, { w: res.width, h: res.height })
-    })
-  } else {
-    formatAddNode(transferData, e, { w: 0, h: 0 })
-  }
-}
-const formatAddNode = (transferData, { x, y }, { w, h }) => {
-  const { label, shape, fill, id, img, list } = JSON.parse(transferData);
-  const globalFontSize = 12
-  const mw = img ? 0 : 80
-  const diagonal = Math.sqrt(w * w + h * h)
-  let feed = ''
-  if (img) {
-    for (let i = 0; i < (Math.round(h / 12)); i++) {
-      feed += '\n'
-    }
-  }
-  const model = {
-    label: feed + fittingString(label, mw, globalFontSize),
-    id: id + Date.now(),
-    type: shape == "image" ? "" : shape,
-    style: {
-      fill: shape == "image" ? '' : fill || "#ecf3ff",
-      radius: shape == "image" ? 0 : 5,
-      width: shape == "image" ? w : shape == 'diamond-node' ? '' : shape == 'ellipse-node' ? '' : shape == 'triangle-node' ? '' : 100,
-      height: shape == "image" ? h : shape == 'diamond-node' ? '' : shape == 'ellipse-node' ? '' : shape == 'triangle-node' ? '' : 50,
-      lineWidth: shape == "image" ? 0 : 2,
-      size: shape == 'diamond-node' ? [100, 100] : '',
-      rx: shape == 'ellipse-node' ? 100 : '',
-      ry: shape == 'ellipse-node' ? 30 : ''
-    },
-    labelCfg: {
-      style: {
-        textBaseLine: 'top'
-      }
-    },
-    x,
-    y,
-    logoIcon: {
-      show: shape == "image" ? true : false,
-      x: -(w / 2),
-      y: -(h / 2),
-      img: img,
-      width: w,
-      height: h,
-    },
-    list: JSON.parse(list)
-  }
-  graph.addItem('node', model)
+  graph.on('node:click', (e) => {
+    // 右侧表格数据
+    tableList.value = e.node.store.data.list
+  })
+  graph.on('edge:click', (e) => {
+    console.log(e);
+    console.log(graph.toJSON());
+    tableList.value = []
+  })
 }
 // 保存数据
-const saveG6Json = () => {
+const saveToJson = () => {
   localStorage.setItem('g6Data', JSON.stringify(graph.save()))
 }
-// 画布自适应
-const g6Size = () => {
-  window.addEventListener("resize", () => {
-    size()
-  });
-}
 const saveTable = (data) => {
-  saveG6Json()
+  saveToJson()
 }
 const out = () => {
   isOut.value = !isOut.value
-  size()
 }
 const outR = () => {
   isOutR.value = !isOutR.value
-  size()
 }
 const outB = () => {
   isOutB.value = !isOutB.value
-  size()
   setTimeout(() => {
     tableSize()
   }, 300)
@@ -706,62 +834,15 @@ const editCss = (item) => {
   config.value = model
   atItem.value = item
 }
-const updateNode = (model) => {
-  graph.updateItem(atItem.value, model)
-  graphData.value = graph.save()
-
-  const anchor = atItem.value.getAnchorPoints()
-  console.log(anchor);
-  graph.changeData(graphData.value, false)
-  const stack = _.cloneDeep(graph.getStackData())
-  const redos = [...stack.redoStack].reverse()
-  const undos = [...stack.undoStack].reverse()
-
-  // graph.destroy()
-  // createGraphic()
-  // initGraphEvent()
-  saveG6Json()
-  const item = graph.find('node', (node) => {
-    return node.get('model').id === config.value.id
-  })
-  config.value = item.get('model')
-  atItem.value = item
-}
-
-function size() {
-  setTimeout(() => {
-    const h = graphRef.value.clientHeight;
-    const w = graphRef.value.clientWidth;
-    graph.changeSize(w, h);
-    //  画布移动到中心
-    graph.fitCenter();
-  }, 300)
-}
 onMounted(() => {
   const localList = localStorage.getItem('g6Data')
   if (localList !== null) {
     graphData.value = JSON.parse(localList)
   }
-  setTimeout(() => {
-    createGraphic()
-    initGraphEvent()
-  }, 200)
-  const nodes = [...document.getElementById('elMenu').querySelectorAll('.menu-icon')]
-  nodes.forEach(node => {
-    node.addEventListener('dragstart', (event) => {
-      const label = node.getAttribute('data-label')
-      const id = node.getAttribute("data-id");
-      const img = node.getAttribute("data-img");
-      const shape = node.getAttribute("data-shape");
-      const fill = node.getAttribute('data-fill')
-      const list = node.getAttribute('data-list')
-      event.dataTransfer.setData('dragComponent', JSON.stringify({ label, id, img, shape, fill, list }))
-    })
-  })
-  // 阻止默认事件
-  document.addEventListener('drop', e => {
-    e.preventDefault()
-  }, false)
+  // setTimeout(() => {
+  createGraphic()
+  initGraphEvent()
+  // }, 200)
   tableSize()
 })
 
@@ -777,7 +858,6 @@ function tableSize() {
 }
 
 onUnmounted(() => {
-  // graph.destroy()
   window.onresize = null
   window.removeEventListener('resize', () => { })
 })
@@ -1078,5 +1158,9 @@ onUnmounted(() => {
   &.hidden {
     transform: translateX(0);
   }
+}
+
+.x6-widget-transform-resize {
+  border-radius: 0;
 }
 </style>

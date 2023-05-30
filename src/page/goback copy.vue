@@ -32,29 +32,15 @@
                 </div>
                 <!-- 左侧行 -->
                 <div class="tree_box_info">
-                  <!-- <el-tree v-if="isShow" :data="rowTree" node-key="key" :indent="treeProps.indent" default-expand-all
-                    :expand-on-click-node="false" :render-content="renderContentRow"> -->
                   <el-tree v-if="isShow" :data="rowTree" node-key="key" :indent="treeProps.indent" default-expand-all
-                    :expand-on-click-node="false">
-                    <template v-slot:default="{ node }">
-                      <element-tree-line :node="node" :showLabelLine="true">
-                        <template v-slot:node-label>
-                          <span>{{ node.label }}</span>
-                        </template>
-                        <template v-slot:after-node-label>
-                          <div class="num_box">
-                            <div class="cell-item">{{ node.label }}</div>
-                          </div>
-                        </template>
-                      </element-tree-line>
-                    </template>
+                    :expand-on-click-node="false" :render-content="renderContentRow">
                   </el-tree>
 
-                  <!-- <div class="num_box">
+                  <div class="num_box">
                     <div v-for="(item, index) in cellNumList" :key="index"
                       :style="{ background: item === 0 ? '#e46a64' : '' }" class="cell-item">{{ item == 0 ? '' : item }}
                     </div>
-                  </div> -->
+                  </div>
                 </div>
               </div>
 
@@ -94,7 +80,7 @@
 <script setup>
 import _ from "lodash";
 import Axios from 'axios'
-
+import { nextTick, onUnmounted } from "vue";
 const treeProps = {
   indent: 16,
   showLabelLine: true,
@@ -244,7 +230,6 @@ const initMatrix = () => {
   let sizeBox = {} // 列灰色格子交集数量
   let allUnite = [] // 所有交集数据
   nextTick(() => {
-    console.log(cellRelation.value);
     rowTree.value.forEach((item, index) => {
       idx = index
       relationGroup[item.name] = []
@@ -292,6 +277,7 @@ const initMatrix = () => {
           if (index == (rowTree.value.length - 1) && idx == (item.children.length - 1)) {
             lastChild.value = child.key
           }
+
         })
       }
 
@@ -340,11 +326,11 @@ const initMatrix = () => {
       //   console.log(leftBlankH.value)
       // })
       setTimeout(() => {
+        console.log(topColumn.value.clientHeight)
         leftBlankH.value = topColumn.value.clientHeight
       }, 100)
     }
   })
-  console.log(rowTree.value);
 }
 const midW = () => {
   let columnNum = 0
@@ -427,95 +413,142 @@ onUnmounted(() => {
 })
 </script>
 <style lang="scss" scoped>
+.container {
+  /* height: 100%; */
+}
+
 .main {
+  /* height: 100%; */
   display: flex;
   justify-content: center;
   padding-top: 0;
 }
 
 .go_back_wrapper {
+  /* max-height: 800px; */
   width: 100%;
-  padding: 0 20px;
+  padding: 0 50px;
   background: #fff;
-  border-radius: 8px;
+  border-radius: 10px;
   border: 1px solid rgb(216, 213, 213);
-}
 
-.select_wrapper {
-  width: 100%;
-  height: 120px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  .select_wrapper {
+    width: 100%;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-  .element {
-    &:nth-child(1) {
-      margin-right: 100px;
-    }
-  }
-}
-
-.table_wrapper {
-  display: inline-block;
-  width: auto;
-  max-width: 100%;
-  height: calc(100% - 140px);
-  overflow-y: auto;
-
-  .table_info {
-    border: 1px solid #333;
-
-    .content {
-      display: flex;
-
-      .flex {
-        width: calc(100% - 440px);
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        overflow-x: auto;
+    .element {
+      label {
+        font-size: 15px;
       }
 
-      .top-column {
-        min-width: 40px;
+      &:nth-child(1) {
+        margin-right: 100px;
+      }
+
+      :deep(.el-select) {
+        width: 280px;
+      }
+    }
+  }
+
+  .table_wrapper {
+    display: inline-block;
+    width: auto;
+    max-width: 100%;
+    height: calc(100% - 140px);
+    overflow-y: auto;
+
+    .table_info {
+      border: 1px solid #333;
+
+      .content {
         display: flex;
 
-        .el-tree {
-          display: flex;
+        .w {
+          .top-left-box {
+            width: 440px;
+            border-bottom: 1px solid #333;
+            display: flex;
+            justify-content: flex-end;
+
+            .blank {
+              width: 40px;
+              border-right: 1px solid;
+              border-left: 1px solid;
+              display: flex;
+              flex-direction: column;
+              justify-content: space-between;
+              align-items: center;
+            }
+          }
+
+          .tree_box_info {
+            display: flex;
+
+            .num_box {
+              width: 40px;
+              display: flex;
+              flex-wrap: wrap;
+
+              .cell-item {
+                width: 100%;
+                height: 40px;
+                border: 1px solid #333;
+                background: rgb(213, 213, 213);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-top: none;
+
+                &:last-child {
+                  border-bottom: none;
+                }
+              }
+            }
+          }
+
+          .el-tree {
+            width: calc(100% - 40px);
+          }
 
           :deep(.el-tree-node) {
             position: relative;
-            width: 100%;
-            white-space: pre-line;
 
             .el-tree-node__expand-icon {
               display: none;
             }
 
-            .icon-wenjianjia1 {
-              color: #f7c53c;
-              padding-right: 3px;
-              padding-left: 10px;
-              position: relative;
-              z-index: 9;
-            }
-
             .el-tree-node__content {
               position: relative;
+              height: 40px;
 
               .custom-tree-node {
                 display: flex;
                 align-items: center;
                 flex: 1;
+                position: relative;
 
                 .element-land-line {
                   flex: 1;
                   border-top: 1px dashed #9a9a9d;
-                  margin: 0 20px 0 4px;
+                  margin: 0 10px 0 8px;
                 }
 
                 .tree-label {
                   white-space: nowrap;
+                }
+
+                .icon-wenjianjia1 {
+                  color: #f7c53c;
+                  padding-left: 12px;
+                  padding-right: 6px;
+                }
+
+                .icon-wenjian {
+                  padding-left: 25px;
                 }
               }
 
@@ -525,156 +558,209 @@ onUnmounted(() => {
             }
 
             .el-tree-node__children {
-              display: flex;
-              height: calc(100% - 40px);
               overflow: visible;
 
-              .el-tree-node {
-                width: 40px;
-                border-left: 1px solid transparent;
-              }
-
               .el-tree-node__content {
-                height: 100%;
+                height: 40px;
               }
 
               .custom-tree-node {
-                width: 40px;
-                height: 100%;
+                position: relative;
                 display: flex;
-                flex-direction: column;
                 align-items: center;
                 flex: 1;
+                height: 100%;
 
                 .tree-label {
                   display: flex;
                   align-items: center;
-                  width: 20px;
-                  min-height: 100px;
                   color: #333;
-                  text-align: center;
-                  white-space: pre-line;
-                  writing-mode: vertical-rl;
-
-                  .icon-wenjian {
-                    padding-bottom: 10px;
-                  }
                 }
 
-                .element-land-line {
+                .element-title-line {
                   display: block;
-                  height: 20px;
-                  flex: none;
-                  border-top: none;
-                  margin: 0;
                   border-left: 1px dashed #9a9a9d;
+                  height: 100%;
                   position: absolute;
-                  top: -20px;
+                  left: 0;
+                  top: 0;
                 }
 
                 .element-after-line {
-                  flex: 1;
-                  border-left: 1px dashed #9a9a9d;
-                  margin: 10px 0;
+                  border-top: 1px dashed #9a9a9d;
+                  width: 15px;
+                  position: absolute;
+                  left: 3px;
+                }
+
+                .last-element-title-line {
+                  height: 50%;
                 }
               }
             }
           }
-
-          :deep(.el-tree-node__content) {
-            width: 100%;
-            height: 40px;
-            display: flex;
-          }
         }
-      }
 
-      .mid_cell {
-        display: flex;
-        flex-wrap: wrap;
-        overflow: hidden;
+        .flex {
+          width: calc(100% - 440px);
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-start;
+          overflow-x: auto;
+        }
 
-        .cell-info {
+        .top-column {
+          min-width: 40px;
           display: flex;
 
-          .cell-item {
+          .el-tree {
+            display: flex;
+
+            :deep(.el-tree-node) {
+              position: relative;
+              width: 100%;
+              white-space: pre-line;
+
+              .el-tree-node__expand-icon {
+                display: none;
+              }
+
+              .icon-wenjianjia1 {
+                color: #f7c53c;
+                padding-right: 3px;
+                padding-left: 10px;
+                position: relative;
+                z-index: 9;
+              }
+
+              .el-tree-node__content {
+                position: relative;
+
+                .custom-tree-node {
+                  display: flex;
+                  align-items: center;
+                  flex: 1;
+
+                  .element-land-line {
+                    flex: 1;
+                    border-top: 1px dashed #9a9a9d;
+                    margin: 0 20px 0 4px;
+                  }
+
+                  .tree-label {
+                    white-space: nowrap;
+                  }
+                }
+
+                .no_bg {
+                  background: #e46a64;
+                }
+              }
+
+              .el-tree-node__children {
+                display: flex;
+                height: calc(100% - 40px);
+                overflow: visible;
+
+                .el-tree-node {
+                  width: 40px;
+                  border-left: 1px solid transparent;
+                }
+
+                .el-tree-node__content {
+                  height: 100%;
+                }
+
+                .custom-tree-node {
+                  width: 40px;
+                  height: 100%;
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  flex: 1;
+
+                  .tree-label {
+                    display: flex;
+                    align-items: center;
+                    width: 20px;
+                    min-height: 100px;
+                    color: #333;
+                    text-align: center;
+                    white-space: pre-line;
+                    writing-mode: vertical-rl;
+
+                    .icon-wenjian {
+                      padding-bottom: 10px;
+                    }
+                  }
+
+                  .element-land-line {
+                    display: block;
+                    height: 20px;
+                    flex: none;
+                    border-top: none;
+                    margin: 0;
+                    border-left: 1px dashed #9a9a9d;
+                    position: absolute;
+                    top: -20px;
+                  }
+
+                  .element-after-line {
+                    flex: 1;
+                    border-left: 1px dashed #9a9a9d;
+                    margin: 10px 0;
+                  }
+                }
+              }
+            }
+
+            :deep(.el-tree-node__content) {
+              width: 100%;
+              height: 40px;
+              display: flex;
+            }
+          }
+        }
+
+        .mid_cell {
+          display: flex;
+          flex-wrap: wrap;
+          overflow: hidden;
+
+          .cell-info {
+            display: flex;
+
+            .cell-item {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              width: 40px;
+              height: 41px;
+              min-width: 40px;
+              border: 1px solid #333;
+              border-right: none;
+              background: rgb(213, 213, 213);
+            }
+          }
+
+          .cell {
+            width: 40px;
+            height: 40px;
+            border-left: 1px solid #bbc8d1;
+            border-bottom: 1px solid #bbc8d1;
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 40px;
-            height: 41px;
-            min-width: 40px;
-            border: 1px solid #333;
-            border-right: none;
-            background: rgb(213, 213, 213);
-          }
-        }
 
-        .cell {
-          width: 40px;
-          height: 40px;
-          border-left: 1px solid #bbc8d1;
-          border-bottom: 1px solid #bbc8d1;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-
-          .img_jiantou {
-            width: 18px;
-            height: 18px;
-            transform: rotate(45deg);
+            .img_jiantou {
+              width: 18px;
+              height: 18px;
+              transform: rotate(45deg);
+            }
           }
         }
       }
     }
-  }
-}
-
-.w {
-  .top-left-box {
-    width: 440px;
-    border-bottom: 1px solid #333;
-    display: flex;
-    justify-content: flex-end;
-
-    .blank {
-      width: 40px;
-      border-right: 1px solid;
-      border-left: 1px solid;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: center;
-    }
-  }
-
-  .tree_box_info {
-    display: flex;
-
-    .num_box {
-      width: 40px;
-      display: flex;
-      flex-wrap: wrap;
-
-      .cell-item {
-        width: 100%;
-        height: 40px;
-        border: 1px solid #333;
-        background: rgb(213, 213, 213);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-top: none;
-      }
-    }
-  }
-
-  .el-tree {
-    width: 100%;
-  }
-
-  :deep(.el-tree-node__content) {
-    height: 40px;
   }
 }
 </style>

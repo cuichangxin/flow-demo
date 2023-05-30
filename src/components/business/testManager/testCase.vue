@@ -5,6 +5,7 @@
         <el-tree :data="treeData.list" @node-click="handleTree">
           <template #default="{ node, data }">
             <span class="custom-tree-node">
+              <span v-if="data.params && data.params.confirm" class="affirm">待确认</span>
               <span>{{ node.label }}</span>
             </span>
           </template>
@@ -13,120 +14,166 @@
     </div>
     <div class="test_case_wrapper">
       <header class="header">测试用例</header>
-      <div class="content">
-        <div class="flex">
-          <div class="item">
-            <label>对应需求名称</label>
-            <el-input v-model="formList.needName" :disabled="disabledFlag"></el-input>
+      <el-scrollbar :height="areaHeight">
+        <div class="content">
+          <div class="flex">
+            <div class="item">
+              <label>对应需求名称</label>
+              <el-input v-model="useCase.label" :disabled="disabledFlag"></el-input>
+            </div>
+            <div class="item">
+              <label>对应需求ID</label>
+              <el-input v-model="useCase.params.id" :disabled="disabledFlag"></el-input>
+            </div>
+            <el-button class="button" type="info" :disabled="disabledFlag" @click="addCase">
+              <el-icon>
+                <Plus />
+              </el-icon>
+              添加用例
+            </el-button>
           </div>
-          <div class="item">
-            <label>对应需求ID</label>
-            <el-input v-model="formList.needId" :disabled="disabledFlag"></el-input>
+          <el-table class="table" :data="tableData" border>
+            <el-table-column align="center" prop="name" label="用例名称">
+            </el-table-column>
+            <el-table-column align="center" prop="id" label="用例ID">
+            </el-table-column>
+            <el-table-column align="center" label="操作" width="150">
+              <template #default="scope">
+                <el-button link @click="edit(scope.row)">
+                  <el-icon size="18" color="#0095d9">
+                    <Edit />
+                  </el-icon>
+                </el-button>
+                <el-button link @click="remove(scope.row)">
+                  <el-icon size="18" color="#f20c00">
+                    <Delete />
+                  </el-icon>
+                </el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+          <!-- 处理步骤 -->
+          <div class="handle">
+            <span class="handle_title">处理步骤</span>
+            <el-button link @click="addFrom" :disabled="disabledFlag">
+              <el-icon class="icon_add" size="20" :color="disabledFlag ? '' : '#0095d9'">
+                <CirclePlus />
+              </el-icon>
+            </el-button>
+            <div class="handle_content">
+              <el-form :inline="true" :model="formInline">
+                <el-form-item prop="caseName" label="用例名称">
+                  <el-input v-model="formInline.caseName" :disabled="disabledFlag"></el-input>
+                </el-form-item>
+                <el-form-item prop="caseId" label="用例ID">
+                  <el-input v-model="formInline.caseId" :disabled="disabledFlag"></el-input>
+                </el-form-item>
+                <el-table :data="formInline.suppContact" :max-height="tableHeight">
+                  <el-table-column prop="id" label="序号" width="100" type="index"
+                    :index="index => index + 1"></el-table-column>
+                  <el-table-column prop="operation" label="操作">
+                    <template #default="scope">
+                      <el-form-item :prop="'suppContact.' + scope.$index + '.operation'">
+                        <el-select v-model="scope.row.operation" :disabled="disabledFlag">
+                          <el-option v-for="item in operationList" :key="item.label" :label="item.label" :value="item.value"></el-option>
+                        </el-select>
+                      </el-form-item>
+                    </template>
+                  </el-table-column>
+                  <el-table-column prop="operand" label="操作对象">
+                    <template #default="scope">
+                      <el-form-item :prop="'suppContact.' + scope.$index + '.operand'">
+                        <el-select v-model="scope.row.operand" :disabled="disabledFlag">
+                          <el-option label="" value=""></el-option>
+                        </el-select>
+                      </el-form-item>
+                    </template>
+                  </el-table-column>
+                  <el-table-column prop="operationInput" width="160">
+                    <template #default="scope">
+                      <el-form-item :prop="'suppContact.' + scope.$index + '.operationInput'">
+                        <el-input v-model="scope.row.operationInput" :disabled="disabledFlag"
+                          class="operation_input"></el-input>
+                      </el-form-item>
+                    </template>
+                  </el-table-column>
+                </el-table>
+              </el-form>
+            </div>
           </div>
-          <el-button class="button" type="info" :disabled="disabledFlag">
-            <el-icon>
-              <Plus />
-            </el-icon>
-            添加用例
-          </el-button>
+
+          <div class="btn_box">
+            <el-button class="enter_btn" type="primary" :disabled="disabledFlag">确认</el-button>
+          </div>
         </div>
-        <el-table class="table" :data="tableData" border>
-          <el-table-column align="center" prop="name" label="用例名称">
-          </el-table-column>
-          <el-table-column align="center" prop="id" label="用例ID">
-          </el-table-column>
-          <el-table-column align="center" label="操作" width="150">
-            <template #default="scope">
-              <el-button link @click="remove(scope.row)">
-                <el-icon size="18" color="#0095d9">
-                  <Edit />
-                </el-icon>
-              </el-button>
-              <el-button link @click="remove(scope.row)">
-                <el-icon size="18" color="#f20c00">
-                  <Delete />
-                </el-icon>
-              </el-button>
-            </template>
-          </el-table-column>
-        </el-table>
-        <div class="handle">
-          <span class="handle_title">处理步骤</span>
-          <el-button link @click="addFrom" :disabled="disabledFlag">
-            <el-icon class="icon_add" size="20" :color="disabledFlag ? '' : '#0095d9'">
-              <CirclePlus />
-            </el-icon>
-          </el-button>
-          <div class="handle_content">
-            <el-form :inline="true" :model="formInline">
-              <el-form-item prop="caseName" label="用例名称">
-                <el-input v-model="formList.needName" :disabled="disabledFlag"></el-input>
-              </el-form-item>
-              <el-form-item prop="caseId" label="用例ID">
-                <el-input v-model="formList.needName" :disabled="disabledFlag"></el-input>
-              </el-form-item>
-              <el-table :data="formInline.suppContact" :max-height="tableHeight">
-                <el-table-column prop="id" label="序号" width="100" type="index"
-                  :index="index => index + 1"></el-table-column>
-                <el-table-column prop="operation" label="操作">
-                  <template #default="scope">
-                    <el-form-item :prop="'suppContact.' + scope.$index + '.operation'">
-                      <el-select v-model="scope.row.operation" :disabled="disabledFlag">
-                        <el-option label="" value=""></el-option>
-                      </el-select>
-                    </el-form-item>
-                  </template>
-                </el-table-column>
-                <el-table-column prop="operand" label="操作对象">
-                  <template #default="scope">
-                    <el-form-item :prop="'suppContact.' + scope.$index + '.operand'">
-                      <el-select v-model="scope.row.operand" :disabled="disabledFlag">
-                        <el-option label="" value=""></el-option>
-                      </el-select>
-                    </el-form-item>
-                  </template>
-                </el-table-column>
-                <el-table-column prop="operationInput" width="160">
-                  <template #default="scope">
-                    <el-form-item :prop="'suppContact.' + scope.$index + '.operationInput'">
-                      <el-input v-model="scope.row.operationInput" :disabled="disabledFlag" class="operation_input"></el-input>
-                    </el-form-item>
-                  </template>
-                </el-table-column>
-              </el-table>
-            </el-form>
-          </div>
-        </div>
-      </div>
+      </el-scrollbar>
     </div>
+    <!-- 添加用例抽屉 -->
+    <el-drawer v-model="drawer" title="添加用例">
+      <el-form :model="caseFormCase" label-position="right" label-width="80px" ref="caseFormRef">
+        <el-form-item prop="name" label="用例名称">
+          <el-input v-model="caseFormCase.name"></el-input>
+        </el-form-item>
+        <el-form-item prop="id" label="用例ID">
+          <el-input v-model="caseFormCase.id"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="info" @click="caseOff">取消</el-button>
+          <el-button type="primary" @click="caseEnter">确定</el-button>
+        </el-form-item>
+      </el-form>
+    </el-drawer>
   </div>
 </template>
 <script setup>
 import { Plus, Edit, Delete, CirclePlus } from '@element-plus/icons-vue'
 
-const { proxy } = getCurrentInstance(0)
+const { proxy } = getCurrentInstance()
 
+// 左侧树数据
 const treeData = reactive({
   list: []
 })
-const formList = ref({
-  needName: '姿态自毁控制功能',
-  needId: 'RQ_ZTZHKZGN'
+// 当前用例全部数据
+const useCase = ref({
+  label:'',
+  params:{
+    id:''
+  }
 })
-const tableData = ref([
-  // {
-  //   name: '',
-  //   id: ''
-  // }
+// 用例抽屉表单数据
+const caseFormCase = ref({
+  name:'',
+  id:''
+})
+const drawer = ref(false)
+// 用例表格数据
+const tableData = ref([])
+const caseFormRef = ref(null)
+const operationList = ref([
+  {
+    value:'注入',
+    label:'注入'
+  },
+  {
+    value:'监听',
+    label:'监听'
+  },
+  {
+    value:'判断',
+    label:'判断'
+  },
 ])
 const disabledFlag = ref(true) // 目前禁用所有可修改项
 const tableHeight = ref(0)
 const treeHeight = ref(0)
+const areaHeight = ref(0)
 const formInline = reactive({
   suppContact: [],
   caseName: '',
   caseId: ''
 })
+
 const addFrom = () => {
   formInline.suppContact.push({
     operation: '',
@@ -135,17 +182,51 @@ const addFrom = () => {
   })
 }
 const handleTree = (node) => {
-  console.log(node);
+  if (node.params && node.params.confirm) {
+    useCase.value = node
+    disabledFlag.value = false
+  }
+}
+const addCase = () => {
+  drawer.value = true
+}
+const caseEnter = () => {
+  caseFormRef.value.validate((valid)=>{
+    if (valid) {
+      tableData.value.push({
+        name:caseFormCase.value.name,
+        id:caseFormCase.value.id
+      })
+      drawer.value = false
+      caseFormRef.value.resetFields()
+    }else {
+      console.log('submit 失败');
+    }
+  })
+}
+const caseOff = () => {
+  drawer.value = false
+  caseFormRef.value.resetFields()
+}
+const edit = (row) => {
+  formInline.caseName = row.name
+  formInline.caseId = row.id
+}
+const remove = (row) => {
+  const index = tableData.value.indexOf(row)
+  tableData.value.splice(index,1)
 }
 
 onMounted(() => {
   nextTick(() => {
     tableHeight.value = window.innerHeight - 478
     treeHeight.value = window.innerHeight - 150
+    areaHeight.value = window.innerHeight - 190
   })
   window.addEventListener('resize', () => {
     tableHeight.value = window.innerHeight - 478
     treeHeight.value = window.innerHeight - 150
+    areaHeight.value = window.innerHeight - 190
   })
   proxy.$axios.getTestTree().then((res) => {
     console.log(res);
@@ -169,14 +250,17 @@ onUnmounted(() => {
   width: 200px;
   height: calc(100% - 76px);
 }
-.el-tree{
+
+.el-tree {
   color: #0e0e0e;
   display: flex;
   flex-wrap: wrap;
 }
-:deep(.el-tree-node){
+
+:deep(.el-tree-node) {
   flex: 1;
 }
+
 .el-scrollbar {
   border-radius: 8px;
   box-shadow: 0px 0px 22px rgba(0, 0, 0, 0.1);
@@ -211,7 +295,8 @@ onUnmounted(() => {
   padding: 10px 20px;
   background-color: #fff;
   border-radius: 0 0 8px 8px;
-  height: 100%;
+  height: calc(100% - 40px);
+  position: relative;
 
   .item {
     display: inline-flex;
@@ -228,6 +313,14 @@ onUnmounted(() => {
     &:nth-child(1) {
       margin-right: 20px;
     }
+  }
+}
+.btn_box{
+  width: 100%;
+  text-align: right;
+  .enter_btn {
+    margin-top: 30px;
+    margin-bottom: 10px;
   }
 }
 
@@ -261,6 +354,7 @@ onUnmounted(() => {
     flex: 1;
     border: 1px solid #dddcdc;
     padding: 10px;
+    min-width: 0;
   }
 }
 
@@ -272,5 +366,17 @@ onUnmounted(() => {
   position: absolute;
   left: 50px;
   top: 60px;
+}
+.custom-tree-node{
+  .affirm{
+    display: inline-block;
+    padding: 3px;
+    background-color: #feab25;
+    border-radius: 4px;
+    font-size: 12px;
+    color: #fff;
+    font-weight: bold;
+    margin-right: 4px;
+  }
 }
 </style>

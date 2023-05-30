@@ -44,10 +44,16 @@
           </el-form-item>
           <el-form-item label="工具类型" prop="toolType">
             <el-select v-model="toolForm.toolType">
-              <el-option label="" value=""></el-option>
+              <el-option v-for="item in toolTypeList" :key="item.label" :label="item.label"
+                :value="item.value"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="接口定义" prop="port">
+            <el-button link class="icon_add" @click="addPort">
+              <el-icon size="20" :color="'#0095d9'">
+                <CirclePlus />
+              </el-icon>
+            </el-button>
             <el-table :data="toolForm.port">
               <el-table-column prop="feature" label="功能"></el-table-column>
               <el-table-column prop="portName" label="接口名称"></el-table-column>
@@ -56,17 +62,36 @@
             </el-table>
           </el-form-item>
           <el-form-item class="last_child">
-            <el-button type="info" class="call-off" @click="callOff">取消</el-button>
-            <el-button type="primary" @click="toolEnter">确定</el-button>
+            <el-button type="info" class="call-off" @click="callOff('formRef')">取消</el-button>
+            <el-button type="primary" @click="toolEnter('formRef')">确定</el-button>
           </el-form-item>
         </el-form>
       </div>
     </el-scrollbar>
+    <el-drawer title="接口定义" v-model="drawer">
+      <el-form :model="portForm" label-position="right" label-width="100px" ref="portRef">
+        <el-form-item label="功能" prop="feature" :required="true">
+          <el-input v-model="portForm.feature"></el-input>
+        </el-form-item>
+        <el-form-item label="接口名称" prop="portName" :required="true">
+          <el-input v-model="portForm.portName"></el-input>
+        </el-form-item>
+        <el-form-item label="输入" prop="input" :required="true">
+          <el-input v-model="portForm.input"></el-input>
+        </el-form-item>
+        <el-form-item label="输出" prop="output" :required="true">
+          <el-input v-model="portForm.output"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="info" class="call-off" @click="callOff('portRef')">取消</el-button>
+          <el-button type="primary" @click="toolEnter('portRef')">确定</el-button>
+        </el-form-item>
+      </el-form>
+    </el-drawer>
   </div>
 </template>
 <script setup>
-import { Plus } from '@element-plus/icons-vue'
-import { onUnmounted } from 'vue';
+import { Plus, CirclePlus } from '@element-plus/icons-vue'
 
 const treeData = reactive({
   list: [
@@ -266,27 +291,72 @@ const toolForm = reactive({
   toolVersion: '',
   make: '',
   toolType: '',
-  port: [
-    // {
-    //   feature:'',
-    //   portName:'',
-    //   input:'',
-    //   output:''
-    // },
-  ]
+  port: []
 })
+const drawer = ref(false)
 const formRef = ref(null)
-
+const portForm = ref({
+  feature: '',
+  portName: '',
+  input: '',
+  output: ''
+})
+const portRef = ref(null)
+const toolTypeList = ref([
+  {
+    label: '自动化执行工具',
+    value: '自动化执行工具'
+  },
+  {
+    label: '人工交互工具',
+    value: '人工交互工具'
+  },
+])
 
 const addTool = () => {
   addToolFlag.value = true
 }
-const toolEnter = () => {
-  addToolFlag.value = false
+const toolEnter = (val) => {
+  if (val === 'portRef') {
+    portRef.value.validate((valid) => {
+      if (valid) {
+        toolForm.port.push(portForm.value)
+        drawer.value = false
+        portRef.value.resetFields()
+      } else {
+        console.log('submit 失败');
+      }
+    })
+  }
+  if (val === 'formRef') {
+    formRef.value.validate((valid) => {
+      if (valid) {
+        toolList.value.push({
+          name: toolForm.toolName,
+          version: toolForm.toolVersion,
+          manufacturer: toolForm.make,
+          imgUrl: new URL('../../../assets/image/item.png', import.meta.url).href,
+        },)
+        addToolFlag.value = false
+        formRef.value.resetFields()
+      } else {
+        console.log('submit 失败');
+      }
+    })
+  }
 }
-const callOff = () => {
-  formRef.value.resetFields()
-  addToolFlag.value = false
+const callOff = (val) => {
+  if (val === 'portRef') {
+    portRef.value.resetFields()
+    drawer.value = false
+  }
+  if (val === 'formRef') {
+    formRef.value.resetFields()
+    addToolFlag.value = false
+  }
+}
+const addPort = () => {
+  drawer.value = true
 }
 
 onMounted(() => {
@@ -398,11 +468,11 @@ onUnmounted(() => {
 .form_box {
   display: grid;
   justify-content: space-around;
-  grid-template-columns: repeat(2, 400px);
+  grid-template-columns: repeat(2, 386px);
   grid-gap: 0 30px;
 
   :deep(.el-form-item) {
-    &:nth-last-child(2){
+    &:nth-last-child(2) {
       grid-column-start: span 2;
     }
   }
@@ -411,15 +481,24 @@ onUnmounted(() => {
 .el-select {
   width: 100%;
 }
-.last_child{
+
+.last_child {
   width: 100%;
   grid-column-start: span 2;
-  :deep(.el-form-item__content){
+
+  :deep(.el-form-item__content) {
     margin-left: 0 !important;
     justify-content: center;
   }
 }
-.call-off{
+
+.call-off {
   margin-right: 100px;
+}
+
+.icon_add {
+  margin-left: auto;
+  margin-bottom: 5px;
+  margin-top: 5px;
 }
 </style>

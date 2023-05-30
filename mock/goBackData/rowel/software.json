@@ -7,35 +7,60 @@
       "children": [
         {
           "key": "1-1",
-          "label": "SD_ZDKZ 制导控制"
+          "label": "SD_ZDKZ 制导控制",
+          "linkNum":8,
+          "children": [
+            {
+              "key": "1-1-1",
+              "label": "SD_ZTKZ 姿态1控制",
+              "linkNum":4
+            },
+            {
+              "key": "1-1-2",
+              "label": "SD_ZTKZ 姿态2控制",
+              "linkNum":2
+            },
+            {
+              "key": "1-1-3",
+              "label": "SD_ZTKZ 姿态3控制",
+              "linkNum":2
+            }
+          ]
         },
         {
           "key": "1-2",
-          "label": "SD_ZTKZ 姿态控制"
+          "label": "SD_ZTKZ 姿态控制",
+          "linkNum":9
         },
         {
           "key": "1-3",
-          "label": "SD_SJYCRW 数据遥测任务"
+          "label": "SD_SJYCRW 数据遥测任务",
+          "linkNum":10
         },
         {
           "key": "1-4",
-          "label": "SD_ADZXSJCJ AD总线数据采集任务"
+          "label": "SD_ADZXSJCJ AD总线数据采集任务",
+          "linkNum":9
         },
         {
           "key": "1-5",
-          "label": "SD_IOZXSJCJ IO总线数据采集任务"
+          "label": "SD_IOZXSJCJ IO总线数据采集任务",
+          "linkNum":8
         },
         {
           "key": "1-6",
-          "label": "SD_CKZXSJCJ 串口总线数据采集任务"
+          "label": "SD_CKZXSJCJ 串口总线数据采集任务",
+          "linkNum":8
         },
         {
           "key": "1-7",
-          "label": "SD_JDZXSJCJ 箭地总线数据采集任务"
+          "label": "SD_JDZXSJCJ 箭地总线数据采集任务",
+          "linkNum":3
         },
         {
           "key": "1-8",
-          "label": "SD_SXCLRW 时序处理任务"
+          "label": "SD_SXCLRW 时序处理任务",
+          "linkNum":0
         }
       ]
     }

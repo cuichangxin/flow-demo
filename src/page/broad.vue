@@ -28,7 +28,6 @@ let list = ref({})
 const serial = ref(15)
 const timer = ref(null)
 const flag = ref(true)
-const timeOut = ref(null)
 onMounted(() => {
   window.addEventListener('storage', e => {
     if (e.key == 'next') {

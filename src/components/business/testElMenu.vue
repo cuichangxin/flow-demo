@@ -31,6 +31,7 @@
 <script setup>
 import { allStore } from '../../store';
 
+const instance = getCurrentInstance()
 const store = allStore()
 const props = defineProps({
   menus: {
@@ -64,8 +65,7 @@ watchEffect(() => {
   }
 })
 const dragstart = (e, v) => {
-  console.log(v);
-  store.dragstartItem = v
+  instance.proxy.$bus.emit('dragStart',v)
 }
 </script>
 <style lang="scss" scoped>
