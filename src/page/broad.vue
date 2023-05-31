@@ -25,14 +25,13 @@ import vScaleScreen from 'v-scale-screen'
 
 const { proxy } = getCurrentInstance()
 let list = ref({})
-const serial = ref(15)
+const serial = ref(1)
 const timer = ref(null)
 const flag = ref(true)
 onMounted(() => {
   window.addEventListener('storage', e => {
     if (e.key == 'next') {
       clearInterval(timer.value)
-      serial.value++
       getJson()
     }
     if (e.key == 'reset') {
@@ -53,9 +52,9 @@ onMounted(() => {
   //   getJson()
   // }, 7000)
   getJson()
-  proxy.$axios.getBroadLine().then((res) => {
-    console.log(res);
-  })
+  // proxy.$axios.getBroadLine().then((res) => {
+  //   console.log(res);
+  // })
 })
 const getJson = () => {
   Axios.get(`./mock/flow/${serial.value}.json`).then((res) => {
@@ -66,7 +65,6 @@ const getJson = () => {
 onUnmounted(() => {
   localStorage.removeItem('next')
   localStorage.removeItem('reset')
-  // clearTimeout(timeOut.value)
   clearInterval(timer.value)
 })
 </script>

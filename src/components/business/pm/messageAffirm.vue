@@ -1,7 +1,7 @@
 <template>
   <steps :isActive="2"></steps>
-  <div class="wrapper" :style="{ height: `${configHeight}px` }">
-    <el-scrollbar class="scrollbar">
+  <el-scrollbar class="scrollbar" :style="{ height: `${configHeight}px` }">
+    <div class="wrapper">
       <div v-if="!fullFlag" class="flex">
         <div class="affirm_item">
           <span class="label">项目名称:</span>
@@ -12,19 +12,20 @@
         <div class="affirm_item">
           <span class="label">安全关键等级:</span>
           <div class="content">
-            <div class="name_item">{{ projectList.level }}</div>
+            <div class="name_item">{{ projectList.level === 1 ? 'A级' : '' }}</div>
           </div>
         </div>
         <div class="affirm_item">
           <span class="label">进&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;度:</span>
-          <div class="content">
-            <div class="name_item">生产线预计在<em class="time">2023年4月26日</em>完成，比计划完成时间<em class="time">提前5</em>天</div>
+          <div class="content" style="width:99%">
+            <div class="name_item" style="width:99%">生产线预计在<em class="time">{{ formatTime(projectList.eTime)
+            }}</em>完成，比计划完成时间<em class="time">提前5</em>天</div>
           </div>
         </div>
       </div>
       <div class="flow">
         <span class="label" v-if="!fullFlag">活动流程:</span>
-        <div class="flow_info">
+        <div class="flow_info" :style="{ height: fullFlag ? `${configHeight - 35}px` : '' }">
           <div class="full_box" @click="fullScreen">
             <img v-if="!fullFlag" class="img" src="../../../assets/image/quanping_o.png" />
             <img v-else class="img" src="../../../assets/image/quxiaoquanping_o.png" />
@@ -32,7 +33,7 @@
           <div id="graph" class="graph_box"></div>
         </div>
       </div>
-      <div class="tool">
+      <div v-if="!fullFlag" class="tool">
         <span class="label">工具情况:</span>
         <div class="tool_info">
           <el-table :data="tableList" border :header-cell-style="tableHeaderCellStyle">
@@ -50,22 +51,26 @@
           </el-table>
         </div>
       </div>
-      <div class="affirm">
+      <div v-if="!fullFlag" class="affirm">
         <el-button class="button" type="info" @click="goBack">返回上一步</el-button>
         <el-button class="button" type="primary" @click="enter">确认</el-button>
       </div>
-    </el-scrollbar>
-  </div>
+    </div>
+  </el-scrollbar>
 </template>
 <script setup>
 import steps from './common/steps.vue'
 import { allStore } from '../../../store';
 import G6 from '@antv/g6'
-import { fittingString } from '@/utils/utils'
+import { fittingString, formatTime } from '@/utils/utils'
+import Cookies from 'js-cookie'
+import { ElMessage } from 'element-plus'
 
+const { proxy } = getCurrentInstance()
 const store = allStore()
 const router = useRouter()
 const configHeight = ref(0)
+// 工具情况
 const tableList = ref([
   // {
   //   name: '',
@@ -511,22 +516,41 @@ function tableHeaderCellStyle() {
 
 const fullScreen = () => {
   fullFlag.value = !fullFlag.value
+  graph.destroy()
+  setTimeout(() => {
+    initG6()
+  }, 300)
 }
 const goBack = () => {
   router.go(-1)
 }
 const enter = () => {
-
+  proxy.$axios.createProject({
+    optionName: projectList.value.name,
+    type: projectList.value.type,
+    level: projectList.value.level,
+    deLanguage: projectList.value.codeLang,
+    finishTime: formatTime(projectList.value.eTime),
+    createTime: formatTime(),
+    userId: Cookies.get('userId')
+  }).then((res) => {
+    ElMessage({ type: 'success', message: '创建成功，稍后返回列表页' })
+    setTimeout(() => {
+      router.push({
+        name: 'pmList'
+      })
+    }, 1000)
+  })
 }
 const initG6 = () => {
   const container = document.getElementById('graph')
   graph = new G6.Graph({
     container: 'graph',
-    width:container.clientWidth,
-    height:container.clientHeight,
+    width: container.clientWidth,
+    height: container.clientHeight,
     fitView: true,
     modes: {
-      default: ['drag-canvas', 'drag-node', 'zoom-canvas'],
+      default: ['drag-canvas', 'zoom-canvas'],
     },
     layout: {
       type: 'dagre',
@@ -555,9 +579,9 @@ const initG6 = () => {
       style: {
         endArrow: true,
         radius: 15,
-        offset:45,
-        lineWidth:2,
-        stroke:'#73879a'
+        offset: 45,
+        lineWidth: 2,
+        stroke: '#73879a'
       },
     },
   })
@@ -570,12 +594,22 @@ const initG6 = () => {
   graph.render();
 }
 onMounted(() => {
-  configHeight.value = window.innerHeight - 245
+  configHeight.value = window.innerHeight - 235
   window.addEventListener('resize', () => {
-    configHeight.value = window.innerHeight - 245
+    configHeight.value = window.innerHeight - 235
   })
-  projectList.value = store.projectInfo
-  initG6()
+  proxy.$axios.projectSubTool({
+    type: store.projectInfo.type,
+    level: store.projectInfo.level,
+    deLanguage: store.projectInfo.codeLang
+  }).then((res) => {
+    console.log(res);
+    flowList.value.nodes = res.data.nodes
+    flowList.value.edges = res.data.edges
+    tableList.value = res.data.attr
+    projectList.value = store.projectInfo
+    initG6()
+  })
 })
 onUnmounted(() => {
   window.removeEventListener('resize', () => { })
@@ -583,16 +617,16 @@ onUnmounted(() => {
 
 </script>
 <style lang="scss" scoped>
-.wrapper {
+.scrollbar {
   height: 680px;
   background-color: #fff;
-  margin: 30px 20px 0;
+  margin: 20px 20px 0;
   border-radius: 8px;
   box-shadow: 0px 0px 12px rgba(0, 0, 0, .12);
-
-  .scrollbar {
-    padding: 20px 50px;
-  }
+}
+.wrapper{
+  width: 100%;
+  padding: 30px;
 }
 
 .affirm_item {
@@ -605,7 +639,6 @@ onUnmounted(() => {
   }
 
   &:nth-child(3) {
-    /* flex: 1; */
     width: 100%;
   }
 }
@@ -619,12 +652,8 @@ onUnmounted(() => {
   flex-wrap: wrap;
 }
 
-.content {
-  /* width: auto; */
-}
-
 .name_item {
-  min-width: 150px;
+  min-width: 280px;
   padding: 0 20px;
   height: 30px;
   background-color: #f4f3f3;
@@ -677,7 +706,8 @@ onUnmounted(() => {
     margin: 0 50px;
   }
 }
-.graph_box{
+
+.graph_box {
   width: 100%;
   height: 100%;
 }

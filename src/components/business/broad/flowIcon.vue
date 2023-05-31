@@ -237,7 +237,7 @@
         </li>
       </div>
       <div class="center_info">
-        <li class="item_box_bg li" v-for="item in infoList.autoList" :key="item.serial">
+        <li class="item_box_bg li" v-for="item in infoList.autoTwoList" :key="item.serial">
           <img v-if="item.status === 1" :src="getImgUrl('dark_robot.png')" />
           <img v-if="item.status === 3" :src="getImgUrl('bright_robot.png')" />
           <img v-if="item.status === 2" :src="getImgUrl('loading_robot.png')" />
@@ -579,6 +579,7 @@ function getImgUrl(img) {
  * @param iconStatus 图标类型 0.人工岗 1.自动岗 2.人工质量 3.自动质量
  */
 const infoList = ref({
+  // 第一排数据
   postList: [
     {
       status: 1,
@@ -641,6 +642,7 @@ const infoList = ref({
       hoverIdx: null,
     },
   ],
+  // 第二排数据
   autoList: [
     {
       status: 1,
@@ -703,6 +705,7 @@ const infoList = ref({
       hoverIdx: null,
     },
   ],
+  // 第三排数据
   autoHostList: [
     {
       status: 1,
@@ -759,6 +762,7 @@ const infoList = ref({
       hoverIdx: null,
     },
   ],
+  // 第四排数据
   autoTwoList: [
     {
       status: 1,
@@ -821,6 +825,7 @@ const infoList = ref({
       hoverIdx: null,
     },
   ],
+  // 第五排数据
   postTwoList: [
     {
       status: 1,
@@ -891,27 +896,27 @@ const isFlag = ref(true)
 const idx = ref(null)
 watch(() => props.list, (n) => {
   if (JSON.stringify(n) == "{}") {
-    lines.value = [];
+    lines.value = []
     infoList.value.postList.forEach((item) => {
-      item.status = 1;
-    });
+      item.status = 1
+    })
     itemList.value.forEach((item) => {
       item.remove()
-    });
+    })
   } else {
-    lines.value = n.postLineList;
+    lines.value = n.postLineList
     infoList.value.postList.forEach((item) => {
       foreach(n,item)
-    });
+    })
     infoList.value.autoList.forEach((item) => {
       foreach(n,item)
-    });
+    })
     infoList.value.autoHostList.forEach((item) => {
       foreach(n,item)
-    });
+    })
     infoList.value.postTwoList.forEach((item) => {
-    });
-    console.log(n.postLineList);
+      foreach(n,item)
+    })
     if (n.postLineList.length) {
       setTimeout(() => {
         init()
@@ -919,6 +924,7 @@ watch(() => props.list, (n) => {
     }
   }
 })
+
 function foreach(val,item) {
   if (val.postList !== undefined) {
     val.postList.forEach((v) => {
@@ -1028,7 +1034,7 @@ const changPosition = () => {
     itemList.value.forEach((item) => {
       item.position()
     })
-  }, 900)
+  }, 300)
 }
 const hovers = (num, code) => {
   infoList.value[code].forEach((item) => {

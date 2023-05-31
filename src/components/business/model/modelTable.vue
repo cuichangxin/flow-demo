@@ -75,7 +75,7 @@
         </el-table>
       </div>
     </div>
-    <div class="click" :class="{'h':isOut}" @click="out"></div>
+    <markPoint class="mark" :isOut="isOut" :direction="'top'" :color="'#fff'" @hideMenu="hideMenu"></markPoint>
 
     <!-- 需求追踪添加 -->
     <el-dialog title="需求追踪" v-model="dialogVisible">
@@ -97,6 +97,7 @@
 <script setup>
 import _ from "lodash";
 import { ElMessage } from "element-plus";
+import markPoint from "../../common/mark/markPoiner.vue";
 
 const instance = getCurrentInstance()
 
@@ -208,8 +209,8 @@ const remove = (row) => {
   config.value.trackList = trackList.value
   instance.proxy.$bus.emit('updateNode', config.value)
 }
-const out = ()=>{
-  isOut.value = !isOut.value
+const hideMenu = (val)=>{
+  isOut.value = val
   instance.proxy.$bus.emit('resize',isOut.value)
 }
 </script>
@@ -225,7 +226,7 @@ const out = ()=>{
     width: 100%;
     height: calc(260px - 20px);
     background: #fff;
-    border-radius: 10px;
+    border-radius: 3px;
     display: flex;
     padding: 10px;
     box-shadow: 0px 0px 12px rgba(0, 0, 0, .12);
@@ -298,27 +299,17 @@ const out = ()=>{
       }
     }
   }
-  .click {
-    width: 20px;
-    height: 10px;
-    background-color: #8e9eab;
-    border-radius: 10px 10px 0 0;
-    position: absolute;
-    right: 50%;
-    top: 22px;
-    transform: translateX(-50%);
-    z-index: 10;
-    cursor: pointer;
-
-    &:hover {
-      background-color: #146ec2;
-    }
-    &.h{
-      top: -10px;
-    }
-  }
   &.fade{
     height: 0;
+    margin-bottom: -10px;
   }
+  &:hover{
+    .click{
+      opacity: 1;
+    }
+  }
+}
+.mark{
+  bottom: 88% !important;
 }
 </style>

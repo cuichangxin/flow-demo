@@ -4,6 +4,7 @@
       "key": "1",
       "name": "nav",
       "label": "SD_DHSJ 导航任务",
+      "linkNum":0,
       "children": [
         {
           "key": "1-1",

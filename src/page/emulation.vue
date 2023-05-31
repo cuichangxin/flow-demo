@@ -97,10 +97,7 @@ instance.proxy.$bus.on('*', (name, val) => {
 const radio = ref('控制台')
 let graph = null
 const graphRef = ref(null)
-const graphData = ref({
-  nodes: [],
-  edges: []
-})
+const graphData = ref({})
 let menuList = reactive([
   {
     id: '1',
@@ -1162,7 +1159,10 @@ const createGraphic = () => {
       opacity: 0;
     }
   `)
-  graph.fromJSON(graphData.value.cells)
+
+  if (Object.keys(graphData.value).length) {
+    graph.fromJSON(graphData.value.cells)
+  }
 }
 // 初始化图事件
 const initGraphEvent = () => {
@@ -1241,12 +1241,12 @@ const handleMenu = (val) => {
   }
   if (val === '保存') {
     saveToJson()
-    instance.proxy.$axios.saveTaskDetail({
-      taskId: Cookies.get('taskId'),
-      daTree: JSON.stringify(graph.toJSON())
-    }).then((res) => {
-      console.log(res);
-    })
+    // instance.proxy.$axios.saveTaskDetail({
+    //   taskId: Cookies.get('taskId'),
+    //   daTree: JSON.stringify(graph.toJSON())
+    // }).then((res) => {
+    //   console.log(res);
+    // })
   }
   if (val === '缩略图') {
     minimapMark.value = !minimapMark.value
@@ -1276,21 +1276,23 @@ const closeMap = () => {
 }
 
 onMounted(() => {
-  const localList = localStorage.getItem('emulationData')
-  if (localList !== null) {
-    graphData.value = JSON.parse(localList)
-  }
-  createGraphic()
-  initGraphEvent()
+  // const localList = localStorage.getItem('emulationData')
+  // if (localList !== null) {
+  //   graphData.value = JSON.parse(localList)
+  // }
+  // createGraphic()
+  // initGraphEvent()
   tableSize()
-  // instance.proxy.$axios.getTaskDetail({ taskId: Cookies.get('taskId') }).then((res) => {
-  //   // console.log(res);
-  //   if (res.data !== null) {
-  //     graphData.value = JSON.parse(res.data.daTree)
-  //   }
-  //   createGraphic()
-  //   initGraphEvent()
-  // })
+  instance.proxy.$axios.getTaskDetail({ taskId: Cookies.get('taskId') }).then((res) => {
+    // console.log(res);
+    if (res.data !== null) {
+      graphData.value = JSON.parse(res.data.daTree)
+    }else {
+      graphData.value = JSON.parse(localStorage.getItem('emulationData'))
+    }
+    createGraphic()
+    initGraphEvent()
+  })
 })
 
 function tableSize() {

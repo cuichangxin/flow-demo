@@ -14,12 +14,12 @@
         </template>
       </el-tree>
     </el-scrollbar>
-    <div class="click" @click="out"></div>
+    <markPoint :isOut="isOut" :direction="'right'" :color="'#fff'" @hideMenu="hideMenu"></markPoint>
   </el-aside>
 </template>
 <script setup>
+import markPoint from "../../common/mark/markPoiner.vue";
 import _ from "lodash";
-import { onUnmounted } from "vue";
 
 const instance = getCurrentInstance()
 
@@ -186,8 +186,8 @@ const handlerTree = (data) => {
   instance.proxy.$bus.emit('showCanvasData', toRaw(data))
   instance.proxy.$bus.emit('addTab', toRaw(data))
 }
-const out = ()=>{
-  isOut.value = !isOut.value
+const hideMenu = (val)=>{
+  isOut.value = val
   instance.proxy.$bus.emit('resize')
 }
 
@@ -203,7 +203,7 @@ onMounted(() => {
   width: 240px;
   height: 100%;
   background: #fff;
-  border-radius: 10px;
+  border-radius: 3px;
   padding: 0;
   box-shadow: 0px 0px 12px rgba(0, 0, 0, .12);
   position: relative;
@@ -218,25 +218,13 @@ onMounted(() => {
     margin-bottom: 0;
     white-space: nowrap;
   }
-
-  .click {
-    width: 10px;
-    height: 20px;
-    background-color: #8e9eab;
-    border-radius: 0 10px 10px 0;
-    position: absolute;
-    right: -10px;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 10;
-    cursor: pointer;
-
-    &:hover {
-      background-color: #146ec2;
-    }
-  }
   &.fade {
     width: 0;
+  }
+  &:hover{
+    .click{
+      opacity: 1;
+    }
   }
 }
 

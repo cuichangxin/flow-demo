@@ -1024,7 +1024,7 @@ const initG6 = () => {
     height,
     fitView: true,
     modes: {
-      default: ['drag-canvas', 'drag-node', 'zoom-canvas'],
+      default: ['drag-canvas', 'zoom-canvas'],
     },
     layout: {
       type: 'dagre',

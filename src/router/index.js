@@ -156,6 +156,11 @@ const constantRoutes = [
     path: '/copy',
     name: 'copy',
     component: () => import('@/page/copy.vue')
+  },
+  {
+    path:'/stepGo',
+    name:'stepGo',
+    component: ()=>import('@/page/stepGo.vue')
   }
 ]
 const router = createRouter({

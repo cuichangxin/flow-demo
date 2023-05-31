@@ -18,17 +18,32 @@
             {{ scope.$index + (currentPage - 1) * pagesize + 1 }}
           </template>
         </el-table-column>
-        <el-table-column align="center" prop="name" label="配置项名称">
+        <el-table-column align="center" prop="optionName" label="配置项名称">
         </el-table-column>
         <el-table-column align="center" prop="type" label="软件类型">
+          <template #default="scope">
+            <span>{{ PROJECTMAP[scope.row.type] }}</span>
+          </template>
         </el-table-column>
-        <el-table-column align="center" prop="safeLevel" label="安全关键等级">
+        <el-table-column align="center" prop="level" label="安全关键等级">
+          <template #default="scope">
+            <span>{{ LEVELMAP[scope.row.level] }}</span>
+          </template>
         </el-table-column>
-        <el-table-column align="center" prop="code" label="开发语言">
+        <el-table-column align="center" prop="deLanguage" label="开发语言">
+          <template #default="scope">
+            <span>{{ CODELANG[scope.row.deLanguage] }}</span>
+          </template>
         </el-table-column>
-        <el-table-column align="center" prop="eTime" label="计划完成时间">
+        <el-table-column align="center" prop="finishTime" label="计划完成时间">
+          <template #default="scope">
+            <span>{{ formatTime(scope.row.finishTime) }}</span>
+          </template>
         </el-table-column>
-        <el-table-column align="center" prop="cTime" label="创建时间">
+        <el-table-column align="center" prop="createTime" label="创建时间">
+          <template #default="scope">
+            <span>{{ formatTime(scope.row.createTime) }}</span>
+          </template>
         </el-table-column>
         <el-table-column align="center" label="操作" width="150">
           <template #default="scope">
@@ -51,21 +66,16 @@
 <script setup>
 import { Search, Plus, Delete, Edit } from '@element-plus/icons-vue'
 import _ from 'lodash'
+import Cookies from 'js-cookie'
+import { formatTime } from '@/utils/utils'
+import { PROJECTMAP,LEVELMAP,CODELANG } from '@/utils/map'
 
+const { proxy } = getCurrentInstance()
 const router = useRouter(0)
 const keyword = ref('')
 const currentPage = ref(1)
 const pagesize = ref(10)
-const tableList = ref([
-  // {
-  //   name: '',
-  //   type: '',
-  //   safeLevel: '',
-  //   code: '',
-  //   eTime: '',
-  //   cTime: ''
-  // },
-])
+const tableList = ref([])
 const cloneSearchData = ref([])
 const searchId = ref(1)
 const tableHeight = ref(0)
@@ -97,7 +107,7 @@ const search = (e) => {
     cloneSearchData.value = _.cloneDeep(tableList.value)
     searchId.value = 0
   }
-  let codeArr = ["name", "safeLevel", "type", 'code']
+  let codeArr = ["optionName", "level", "type", 'deLanguage']
   let searchReg = new RegExp(e)
   let filterArr = cloneSearchData.value.filter((data) => {
     return Object.values(
@@ -116,6 +126,12 @@ onMounted(() => {
   tableHeight.value = window.innerHeight - 300
   window.addEventListener('resize', () => {
     tableHeight.value = window.innerHeight - 300
+  })
+  proxy.$axios.getProjectList({
+    userId:Cookies.get('userId')
+  }).then((res) => {
+    // TODO:搜索 字段名直接修改，不映射
+    tableList.value = res.data
   })
 })
 onUnmounted(()=>{

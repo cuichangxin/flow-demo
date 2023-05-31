@@ -38,9 +38,7 @@ onUnmounted(() => {
 
 .main_info {
   height: 100%;
-  padding-top: 0;
-  padding-right: 0;
-  padding-bottom: 0;
+  padding: 0 0 2px 10px;
   display: flex;
   justify-content: space-between;
   overflow: hidden;

@@ -7,7 +7,7 @@
     </el-tabs>
     <!-- 画布 -->
     <div id="graph" class="canvas" ref="graphRef"
-      :style="{ borderRadius: tabList.length ? '0 0 10px 10px' : '10px', height: tabList.length ? 'calc(100% - 40px)' : '100%' }">
+      :style="{ height: tabList.length ? 'calc(100% - 40px)' : '100%' }">
     </div>
   </div>
 </template>
@@ -472,6 +472,7 @@ onUnmounted(() => {
   box-shadow: 0px 0px 12px rgba(0, 0, 0, .12);
   position: relative;
   z-index: 1;
+  border-radius: 3px;
 }
 
 :deep(.el-tabs--card) {

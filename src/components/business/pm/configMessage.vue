@@ -30,7 +30,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="计划完成时间" required prop="eTime">
-        <el-date-picker v-model="configForm.eTime" type="datetime" placeholder="Select date and time" />
+        <el-date-picker v-model="configForm.eTime" type="date" placeholder="Select date and time" />
       </el-form-item>
       <el-form-item>
         <el-button type="info" class="button" @click="goBack">返回上一步</el-button>
@@ -60,16 +60,16 @@ const configHeight = ref(0)
 const codeLangList = reactive([
   {
     label: 'C语言',
-    value: 'C语言'
+    value: 1
   },
-  {
-    label: 'FPGA',
-    value: 'FPGA'
-  },
-  {
-    label: 'C++',
-    value: 'C++'
-  },
+  // {
+  //   label: 'FPGA',
+  //   value: 'FPGA'
+  // },
+  // {
+  //   label: 'C++',
+  //   value: 'C++'
+  // },
 ])
 // 处理器下拉菜单
 const processorList = reactive([
@@ -94,43 +94,43 @@ const processorList = reactive([
 const typeList = reactive([
   {
     label: '火箭飞控软件',
-    value: '火箭飞控软件'
+    value: 1
   },
-  {
-    label: '测发控软件',
-    value: '测发控软件'
-  },
-  {
-    label: 'GNCC软件',
-    value: 'GNCC软件'
-  },
-  {
-    label: '卫星星务',
-    value: '卫星星务'
-  },
-  {
-    label: '应用软件',
-    value: '应用软件'
-  },
+  // {
+  //   label: '测发控软件',
+  //   value: '测发控软件'
+  // },
+  // {
+  //   label: 'GNCC软件',
+  //   value: 'GNCC软件'
+  // },
+  // {
+  //   label: '卫星星务',
+  //   value: '卫星星务'
+  // },
+  // {
+  //   label: '应用软件',
+  //   value: '应用软件'
+  // },
 ])
 // 安全关键等级下拉菜单
 const levelList = reactive([
   {
     label: 'A级',
-    value: 'A级'
+    value: 1
   },
-  {
-    label: 'B级',
-    value: 'B级'
-  },
-  {
-    label: 'C级',
-    value: 'C级'
-  },
-  {
-    label: 'D级',
-    value: 'D级'
-  },
+  // {
+  //   label: 'B级',
+  //   value: 'B级'
+  // },
+  // {
+  //   label: 'C级',
+  //   value: 'C级'
+  // },
+  // {
+  //   label: 'D级',
+  //   value: 'D级'
+  // },
 ])
 
 const stepNext = () => {

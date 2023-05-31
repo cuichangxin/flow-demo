@@ -60,6 +60,7 @@ const handleDrop = (command) => {
     Cookies.remove('password')
     Cookies.remove('userName')
     Cookies.remove('roleId')
+    Cookies.remove('taskId')
     router.push({
       path:'/login'
     })

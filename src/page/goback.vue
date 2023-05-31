@@ -39,11 +39,11 @@
                     <template v-slot:default="{ node }">
                       <element-tree-line :node="node" :showLabelLine="true">
                         <template v-slot:node-label>
-                          <span>{{ node.label }}</span>
+                          <span>{{ node.label.split('-')[0] }}</span>
                         </template>
                         <template v-slot:after-node-label>
                           <div class="num_box">
-                            <div class="cell-item">{{ node.label }}</div>
+                            <div class="cell-item">{{ node.label.split('-')[1] }}</div>
                           </div>
                         </template>
                       </element-tree-line>
@@ -387,7 +387,17 @@ const renderContentRow = (h, { node, data }) => {
 const getRowInfo = () => {
   return new Promise((resolve, reject) => {
     Axios.get(`./mock/goBackData/rowel/${rowValue.value}.json`).then((res) => {
+      console.log(res);
       rowTree.value = res.rowTree
+      function treeLabel(tree){
+        tree.forEach(item=>{
+          item.label = item.label + '-' + item.linkNum
+          if (item.children && item.children.length) {
+            treeLabel(item.children)
+          }
+        })
+      }
+      treeLabel(rowTree.value)
       resolve('row')
     })
   })

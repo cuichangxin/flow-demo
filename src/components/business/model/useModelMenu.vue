@@ -1,5 +1,6 @@
 <script setup>
 import ModelMenu from './modelMenu.vue'
+import markPoint from '../../common/mark/markPoiner.vue';
 const instance = getCurrentInstance()
 
 const moduleTree = ref([
@@ -398,8 +399,8 @@ onMounted(() => {
   }, false)
 })
 
-const out = ()=>{
-  isOut.value = !isOut.value
+const hideMenu = (val)=>{
+  isOut.value = val
   instance.proxy.$bus.emit('resize')
 }
 </script>
@@ -414,18 +415,18 @@ const out = ()=>{
         <ModelMenu :menus="moduleTree" :drag="true"></ModelMenu>
       </el-menu>
     </el-scrollbar>
-    <div class="click" @click="out"></div>
+    <markPoint :isOut="isOut" :direction="'left'" :color="'#fff'" @hideMenu="hideMenu"></markPoint>
   </el-aside>
 </template>
 
 <style lang="scss" scoped>
 .model_menu {
-  margin-left: 20px;
+  margin-left: 10px;
   padding: 0;
   width: 240px;
   height: 100%;
   background: #fff;
-  border-radius: 10px;
+  border-radius: 3px;
   box-shadow: 0px 0px 12px rgba(0, 0, 0, .12);
   position: relative;
   overflow: visible;
@@ -445,24 +446,13 @@ const out = ()=>{
   .menu_info {
     height: calc(100% - 60px);
   }
-  .click {
-    width: 10px;
-    height: 20px;
-    background-color: #8e9eab;
-    border-radius: 10px 0 0 10px;
-    position: absolute;
-    left: -10px;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 10;
-    cursor: pointer;
-
-    &:hover {
-      background-color: #146ec2;
-    }
-  }
   &.fade{
     width: 0;
+  }
+  &:hover{
+    .click{
+      opacity: 1;
+    }
   }
 }
 

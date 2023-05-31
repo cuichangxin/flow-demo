@@ -11,7 +11,6 @@ const nextnum = ref(0)
 const resetnum = ref(0)
 
 const nextStep = () => {
-  console.log('123');
   nextnum.value++
   localStorage.setItem('next',nextnum.value)
 }
