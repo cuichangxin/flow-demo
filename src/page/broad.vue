@@ -29,6 +29,8 @@ const list = ref({})
 const serial = ref(1)
 const timer = ref(null)
 const flag = ref(true)
+const specArr = [7,9,10,14,15,17,18,19,20,21,22,23]
+
 onMounted(() => {
   timer.value = setInterval(() => {
     boardShow()
@@ -37,8 +39,15 @@ onMounted(() => {
 
 const boardShow = () => {
   proxy.$axios.boardShow({ file: serial.value }).then((res) => {
-    serial.value = res.data
-    getJson(res.data)
+    if (specArr.indexOf(res.data) !== -1) {
+      serial.value = res.data
+      setTimeout(()=>{
+        getJson(res.data)
+      },5000)
+    }else {
+      serial.value = res.data
+      getJson(res.data)
+    }
   })
 }
 
