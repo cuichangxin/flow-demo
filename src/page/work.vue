@@ -3,14 +3,14 @@
     <StepMenu @checkTab="checkTab"></StepMenu>
     <el-container>
       <el-main class="el-main-info">
-        <div class="wrapper" v-if="tabIdx == 0">
+        <div class="wrapper" v-show="tabIdx == 0">
           <Canvas></Canvas>
           <TableControl></TableControl>
         </div>
-        <div class="over" v-if="tabIdx == 1">
+        <div class="over" v-show="tabIdx == 1">
           <OverAll></OverAll>
         </div>
-        <div class="relation" v-if="tabIdx == 2">
+        <div class="relation" v-show="tabIdx == 2">
           <TaskRelation v-show="tabIdx == 2"></TaskRelation>
         </div>
       </el-main>
@@ -23,10 +23,20 @@ import Canvas from '../components/business/work/midCanvas.vue'
 import TableControl from '../components/business/work/taskControl.vue'
 import OverAll from '../components/business/work/overAll.vue'
 import TaskRelation from '../components/business/work/taskRelation.vue'
+import Cookies from 'js-cookie'
 
+const { proxy } = getCurrentInstance()
 const tabIdx = ref(0)
 const checkTab = (index) => {
   tabIdx.value = index
+}
+function saveHandle(val){
+  proxy.$axios.saveTaskDetail({
+    taskId: Cookies.get('taskId'),
+    daTree:val
+  }).then(() => {
+    console.log('保存 ---- success');
+  })
 }
 </script>
 <style lang="scss" scoped>

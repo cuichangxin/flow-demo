@@ -1,12 +1,19 @@
 import Cookies from 'js-cookie'
 import router from './router'
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
+import { getToken } from './utils/auth';
 
+NProgress.configure({ showSpinner: false });
 const whiteList = ['/login', '/broad'];
 
 router.beforeEach((to, from, next) => {
-  if (Cookies.get('userId')) {
+  NProgress.start()
+  // 有token
+  if (getToken()) {
     if (to.path === '/login') {
       next({ path: '/' })
+      NProgress.done()
     } else {
       next()
     }
@@ -17,6 +24,10 @@ router.beforeEach((to, from, next) => {
       next()
     } else {
       next(`/login?redirect=${to.fullPath}`) // 否则全部重定向到登录页
+      NProgress.done()
     }
   }
+})
+router.afterEach(() => {
+  NProgress.done()
 })

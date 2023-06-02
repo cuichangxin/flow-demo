@@ -226,10 +226,10 @@ const drawerOff = () => {
   drawer.value = false;
 }
 onMounted(()=>{
-  let task = localStorage.getItem('dragData')
+  let allWork = localStorage.getItem('workData')
   let relation = localStorage.getItem('relationData')
-  if (task) {
-    taskList.value = JSON.parse(task)
+  if (allWork) {
+    taskList.value = JSON.parse(allWork).dragData
   }
   if (relation) {
     issueTableData.value = JSON.parse(relation)[tabIndex.value].issueTableData

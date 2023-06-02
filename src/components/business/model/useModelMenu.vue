@@ -376,6 +376,141 @@ const moduleTree = ref([
         active: false,
         children: [],
       },
+      {
+        id: "3-5",
+        label: "程序角",
+        hide: false,
+        active: false,
+        children: [],
+      },
+      {
+        id: "3-6",
+        label: "调整程序角计算",
+        fill:'#fdf2a0',
+        hide: false,
+        active: false,
+        children: [],
+      },
+      {
+        id: "3-7",
+        label: "姿态角",
+        hide: false,
+        active: false,
+        children: [],
+      },
+      {
+        id: "3-8",
+        label: "调姿程序角计算",
+        fill:'#fdf2a0',
+        hide: false,
+        active: false,
+        children: [],
+      },
+      {
+        id: "3-9",
+        label: "增益1",
+        hide: false,
+        active: false,
+        children: [],
+      },
+      {
+        id: "3-10",
+        label: "角速度",
+        hide: false,
+        active: false,
+        children: [],
+      },
+      {
+        id: "3-11",
+        label: "限速处理",
+        fill:'#fdf2a0',
+        hide: false,
+        active: false,
+        children: [],
+      },
+      {
+        id: "3-12",
+        label: "增益2",
+        hide: false,
+        active: false,
+        children: [],
+      },
+      {
+        id: "3-13",
+        label: "网络",
+        fill:'#fdf2a0',
+        hide: false,
+        active: false,
+        children: [],
+      },
+      {
+        id: "3-14",
+        label: "导引量",
+        hide: false,
+        active: false,
+        children: [],
+      },
+      {
+        id: "3-15",
+        label: "限幅处理",
+        fill:'#fdf2a0',
+        hide: false,
+        active: false,
+        children: [],
+      },
+      {
+        id: "3-16",
+        label: "增益3",
+        hide: false,
+        active: false,
+        children: [],
+      },
+      {
+        id: "3-17",
+        label: "导引网络",
+        fill:'#fdf2a0',
+        hide: false,
+        active: false,
+        children: [],
+      },
+      {
+        id: "3-18",
+        label: "控制方程",
+        fill:'#fdf2a0',
+        hide: false,
+        active: false,
+        children: [],
+      },
+      {
+        id: "3-19",
+        label: "数据分解",
+        fill:'#fdf2a0',
+        hide: false,
+        active: false,
+        children: [],
+      },
+      {
+        id: "3-20",
+        label: "伺服控制器",
+        hide: false,
+        active: false,
+        children: [],
+      },
+      {
+        id: "3-21",
+        label: "非线性",
+        fill:'#fdf2a0',
+        hide: false,
+        active: false,
+        children: [],
+      },
+      {
+        id: "3-22",
+        label: "控制指令",
+        hide: false,
+        active: false,
+        children: [],
+      },
     ],
   },
 ])
@@ -433,8 +568,8 @@ const hideMenu = (val)=>{
   transition: width .2s linear;
 
   h4 {
-    margin-bottom: 0;
-    padding-bottom: 20px;
+    margin: 0;
+    padding: 15px 0;
     border-bottom: 1px solid #e4e8ea;
     text-align: center;
   }

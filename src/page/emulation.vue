@@ -479,6 +479,7 @@ const minimapPoint = reactive({
   x: '',
   y: ''
 })
+// 小地图开关
 const minimapMark = ref(false)
 
 // 绝对定位连接桩
@@ -963,7 +964,21 @@ const createGraphic = () => {
     container: graphDom,
     width: parentDom.clientWidth,
     height: parentDom.clientHeight,
-    grid: true,
+    grid: {
+      visible: true,
+      type: 'doubleMesh',
+      args: [
+        {
+          color: '#eee', // 主网格线颜色
+          thickness: 1, // 主网格线宽度
+        },
+        {
+          color: '#ddd', // 次网格线颜色
+          thickness: 1, // 次网格线宽度
+          factor: 4, // 主次网格线间隔
+        },
+      ],
+    },
     panning: {
       enabled: true // 开启拖拽平移
     },
@@ -1163,6 +1178,7 @@ const createGraphic = () => {
   if (Object.keys(graphData.value).length) {
     graph.fromJSON(graphData.value.cells)
   }
+  graph.centerContent()
 }
 // 初始化图事件
 const initGraphEvent = () => {
@@ -1241,12 +1257,12 @@ const handleMenu = (val) => {
   }
   if (val === '保存') {
     saveToJson()
-    // instance.proxy.$axios.saveTaskDetail({
-    //   taskId: Cookies.get('taskId'),
-    //   daTree: JSON.stringify(graph.toJSON())
-    // }).then((res) => {
-    //   console.log(res);
-    // })
+    instance.proxy.$axios.saveTaskDetail({
+      taskId: Cookies.get('taskId'),
+      daTree: JSON.stringify(graph.toJSON())
+    }).then((res) => {
+      console.log(res);
+    })
   }
   if (val === '缩略图') {
     minimapMark.value = !minimapMark.value
@@ -1276,18 +1292,12 @@ const closeMap = () => {
 }
 
 onMounted(() => {
-  // const localList = localStorage.getItem('emulationData')
-  // if (localList !== null) {
-  //   graphData.value = JSON.parse(localList)
-  // }
-  // createGraphic()
-  // initGraphEvent()
   tableSize()
   instance.proxy.$axios.getTaskDetail({ taskId: Cookies.get('taskId') }).then((res) => {
     // console.log(res);
     if (res.data !== null) {
       graphData.value = JSON.parse(res.data.daTree)
-    }else {
+    } else {
       graphData.value = JSON.parse(localStorage.getItem('emulationData'))
     }
     createGraphic()

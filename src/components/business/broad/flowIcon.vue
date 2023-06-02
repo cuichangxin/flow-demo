@@ -562,10 +562,14 @@
 </template>
 <script setup>
 import LeaderLine from '@/utils/leader-line.min.js';
+import { watch } from 'vue';
 let props = defineProps({
   list: {
     type: Object,
     default: () => []
+  },
+  serial:{
+    type:[Number,String]
   }
 })
 
@@ -894,7 +898,8 @@ const itemList = ref([])
 const timer = ref(null)
 const isFlag = ref(true)
 const idx = ref(null)
-watch(() => props.list, (n) => {
+watch([() => props.list,() => props.serial], ([n,serial],[nOld,serialOld]) => {
+  console.log(serial,serialOld);
   if (JSON.stringify(n) == "{}") {
     lines.value = []
     infoList.value.postList.forEach((item) => {
@@ -917,7 +922,7 @@ watch(() => props.list, (n) => {
     infoList.value.postTwoList.forEach((item) => {
       foreach(n,item)
     })
-    if (n.postLineList.length) {
+    if (n.postLineList.length && (serial !== serialOld)) {
       setTimeout(() => {
         init()
       }, 500)
@@ -1064,7 +1069,7 @@ onUnmounted(() => {
 <style lang="scss" scoped>
 .flow_icon {
   width: 100%;
-  /* height: 450px; */
+  height: 450px;
   background: rgba(0, 0, 0, 0.4);
   border-radius: 10px;
   padding: 10px;
@@ -1094,14 +1099,14 @@ onUnmounted(() => {
     }
 
     .bg_box {
-      height: 60px;
+      height: 74px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: rgba(15, 107, 213, 0.4);
-      border-radius: 30px;
+      background: rgba(15, 107, 213, 0.5);
+      border-radius: 60px;
       position: relative;
-      padding: 0 5px;
+      padding: 0 10px;
 
       .person_type {
         font-size: 12px;
@@ -1121,28 +1126,34 @@ onUnmounted(() => {
       align-items: flex-end;
       justify-content: center;
       position: relative;
-      padding: 0 4px;
+      padding: 0 10px;
 
       img {
-        width: 50px;
-        height: 50px;
+        width: 60px;
+        height: 60px;
       }
     }
 
     #alone_bg {
+      width: 65px;
       background: url("../../../assets/image/cloud_2.png") no-repeat;
       background-size: 100% 100%;
+      img{
+        width: 60px;
+        height: 60px;
+      }
     }
 
     .item_box_bg {
-      width: 50px;
-      height: 30px;
+      width: 55px;
+      height: 50px;
       background: url("../../../assets/image/cloud_1.png") no-repeat;
-      background-size: 100% 100%;
+      background-size: 100% 60%;
+      background-position: bottom;
 
       img {
-        width: 45px;
-        height: 45px;
+        width: 55px;
+        height: 55px;
       }
     }
 
@@ -1156,7 +1167,7 @@ onUnmounted(() => {
   }
 
   .top_box {
-    /* height: 100px; */
+    height: 100px;
     padding: 8px 0;
     background: url("../../../assets/image/j2_1.png") no-repeat;
     background-size: 100% 100%;
@@ -1164,15 +1175,18 @@ onUnmounted(() => {
   }
 
   .center_box {
-    /* height: 220px; */
+    height: 220px;
     padding: 10px 0;
     background: url("../../../assets/image/j1.png") no-repeat;
     background-size: 100% 100%;
     margin: 6px 0;
+    li{
+      padding: 0;
+    }
   }
 
   .bottom_box {
-    /* height: 100px; */
+    height: 100px;
     padding: 8px 0;
     background: url("../../../assets/image/j2_1.png") no-repeat;
     background-size: 100% 100%;

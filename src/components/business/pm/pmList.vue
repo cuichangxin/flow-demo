@@ -1,6 +1,19 @@
 <template>
   <section class="list-info">
     <header class="header">
+      <el-dropdown @command="handleCommand" class="button">
+        <el-button link style="margin-top: 2px;">
+          <el-icon size="22" color="#0095d9">
+            <SwitchFilled />
+          </el-icon>
+        </el-button>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item v-for="item in tableList" :key="item.optionName" :command="item.id">{{ item.optionName }}</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+
       <el-button class="button" type="primary" @click="addProject">
         <el-icon>
           <Plus />
@@ -18,23 +31,10 @@
             {{ scope.$index + (currentPage - 1) * pagesize + 1 }}
           </template>
         </el-table-column>
-        <el-table-column align="center" prop="optionName" label="配置项名称">
-        </el-table-column>
-        <el-table-column align="center" prop="type" label="软件类型">
-          <template #default="scope">
-            <span>{{ PROJECTMAP[scope.row.type] }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column align="center" prop="level" label="安全关键等级">
-          <template #default="scope">
-            <span>{{ LEVELMAP[scope.row.level] }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column align="center" prop="deLanguage" label="开发语言">
-          <template #default="scope">
-            <span>{{ CODELANG[scope.row.deLanguage] }}</span>
-          </template>
-        </el-table-column>
+        <el-table-column align="center" prop="optionName" label="配置项名称"></el-table-column>
+        <el-table-column align="center" prop="subType" label="软件类型"></el-table-column>
+        <el-table-column align="center" prop="subLevel" label="安全关键等级"></el-table-column>
+        <el-table-column align="center" prop="codeLang" label="开发语言"></el-table-column>
         <el-table-column align="center" prop="finishTime" label="计划完成时间">
           <template #default="scope">
             <span>{{ formatTime(scope.row.finishTime) }}</span>
@@ -45,7 +45,7 @@
             <span>{{ formatTime(scope.row.createTime) }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="操作" width="150">
+        <el-table-column align="center" label="操作" width="100">
           <template #default="scope">
             <el-button link @click="removeItem(scope.row)">
               <el-icon size="18" color="#f20c00">
@@ -64,14 +64,14 @@
   </section>
 </template>
 <script setup>
-import { Search, Plus, Delete, Edit } from '@element-plus/icons-vue'
+import { Search, Plus, Delete, SwitchFilled } from '@element-plus/icons-vue'
 import _ from 'lodash'
 import Cookies from 'js-cookie'
 import { formatTime } from '@/utils/utils'
-import { PROJECTMAP,LEVELMAP,CODELANG } from '@/utils/map'
+import { PROJECTMAP, LEVELMAP, CODELANG } from '@/utils/map'
 
 const { proxy } = getCurrentInstance()
-const router = useRouter(0)
+const router = useRouter()
 const keyword = ref('')
 const currentPage = ref(1)
 const pagesize = ref(10)
@@ -107,7 +107,7 @@ const search = (e) => {
     cloneSearchData.value = _.cloneDeep(tableList.value)
     searchId.value = 0
   }
-  let codeArr = ["optionName", "level", "type", 'deLanguage']
+  let codeArr = ["optionName", "subType", "subLevel", 'codeLang']
   let searchReg = new RegExp(e)
   let filterArr = cloneSearchData.value.filter((data) => {
     return Object.values(
@@ -119,23 +119,43 @@ const search = (e) => {
   tableList.value = filterArr
 }
 const removeItem = (row) => {
-  console.log(row);
+  proxy.$axios.removeProject({
+    id: row.id
+  }).then(res => {
+    proxy.$modal.msgSuccess('删除成功')
+    getProject()
+  })
 }
 
+function getProject() {
+  proxy.$axios.getProjectList({
+    userId: Cookies.get('userId')
+  }).then((res) => {
+    res.data.forEach(item => {
+      item.subType = PROJECTMAP[item.type]
+      item.subLevel = LEVELMAP[item.level]
+      item.codeLang = CODELANG[item.deLanguage]
+    })
+    tableList.value = res.data
+  })
+}
+const handleCommand = (command) => {
+  proxy.$axios.projectChange({id:command}).then((res) => {
+    console.log('success')
+  })
+}
 onMounted(() => {
   tableHeight.value = window.innerHeight - 300
   window.addEventListener('resize', () => {
     tableHeight.value = window.innerHeight - 300
   })
-  proxy.$axios.getProjectList({
-    userId:Cookies.get('userId')
-  }).then((res) => {
-    // TODO:搜索 字段名直接修改，不映射
-    tableList.value = res.data
-  })
+  // getProject()
 })
-onUnmounted(()=>{
-  window.removeEventListener('resize',()=>{})
+onUnmounted(() => {
+  window.removeEventListener('resize', () => { })
+})
+onActivated(() => {
+  getProject()
 })
 </script>
 <style lang="scss" scoped>

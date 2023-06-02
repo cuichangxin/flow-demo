@@ -64,6 +64,7 @@ import { randomRbg } from "@/utils/utils";
 import _ from "lodash";
 import { workStore } from '@/store/index'
 import { storeToRefs } from 'pinia';
+import Cookies from 'js-cookie'
 
 const instance = getCurrentInstance()
 instance.proxy.$bus.on('*', (name, val) => {
@@ -405,6 +406,7 @@ const flyUpdate = (e, item, type) => {
   work.setTableFlyData(flyList.value)
   save()
 }
+// 飞行段节点点击
 const flyClicked = (e, item, index) => {
   document.onkeydown = (e) => {
     // 删除元素
@@ -430,6 +432,12 @@ const fade = () => {
   slideFade.value = !slideFade.value
   parentSize()
 }
+// 获取任务详情
+// const getDetail = ()=>{
+//   instance.proxy.$axios.getTaskDetail({taskId:Cookies.get('taskId')}).then((res) => {
+//     console.log(res);
+//   })
+// }
 
 // 重新计算画布宽高，限制元素边界
 function parentSize() {
@@ -440,6 +448,7 @@ function parentSize() {
 }
 
 onMounted(() => {
+  getDetail()
   work.setScaleLineData(line.value)
   const length = Math.floor(targetContent.value.offsetWidth / 100)
   let count = 0

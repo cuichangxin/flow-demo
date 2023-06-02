@@ -386,7 +386,7 @@ const renderContentRow = (h, { node, data }) => {
 }
 const getRowInfo = () => {
   return new Promise((resolve, reject) => {
-    Axios.get(`./mock/goBackData/rowel/${rowValue.value}.json`).then((res) => {
+    Axios.get(`http://172.20.10.10:8080/mock/goBackData/rowel/${rowValue.value}.json`).then((res) => {
       console.log(res);
       rowTree.value = res.rowTree
       function treeLabel(tree){
@@ -404,7 +404,7 @@ const getRowInfo = () => {
 }
 const getColumnInfo = () => {
   return new Promise((resolve, reject) => {
-    Axios.get(`./mock/goBackData/columnel/${columnValue.value}.json`).then((res) => {
+    Axios.get(`http://172.20.10.10:8080/mock/goBackData/columnel/${columnValue.value}.json`).then((res) => {
       columnTree.value = res.columnTree
       resolve('column')
     })
@@ -412,7 +412,7 @@ const getColumnInfo = () => {
 }
 const getUnite = () => {
   return new Promise((resolve, reject) => {
-    Axios.get(`./mock/goBackData/unite/${rowValue.value + columnValue.value}.json`).then((res) => {
+    Axios.get(`http://172.20.10.10:8080/mock/goBackData/unite/${rowValue.value + columnValue.value}.json`).then((res) => {
       cellRelation.value = res.cellRelation
       resolve('unite')
     })

@@ -1,5 +1,5 @@
 <template>
-  <el-aside class="design_menu" :class="{'fade':isOut}">
+  <el-aside class="design_menu" :class="{ 'fade': isOut }">
     <h4 v-if="!isOut">领域算法设计工具</h4>
     <el-scrollbar class="menu_info">
       <el-tree v-if="tag" :data="moduleTree" :expand-on-click-node="false" :indent="12" @node-click="handlerTree"
@@ -20,6 +20,7 @@
 <script setup>
 import markPoint from "../../common/mark/markPoiner.vue";
 import _ from "lodash";
+import Cookies from 'js-cookie'
 
 const instance = getCurrentInstance()
 
@@ -35,6 +36,12 @@ instance.proxy.$bus.on('*', (name, val) => {
       interTreeNode(val, moduleTree.value)
       setTimeout(() => {
         localStorage.setItem('fileTree', JSON.stringify(moduleTree.value)) // 保存左侧树文件到本地
+        instance.proxy.$axios.saveTaskDetail({
+          taskId: Cookies.get('taskId'),
+          daTree: JSON.stringify(moduleTree.value)
+        }).then((res) => {
+          console.log(res);
+        })
       }, 100)
     }
   }
@@ -186,16 +193,24 @@ const handlerTree = (data) => {
   instance.proxy.$bus.emit('showCanvasData', toRaw(data))
   instance.proxy.$bus.emit('addTab', toRaw(data))
 }
-const hideMenu = (val)=>{
+const hideMenu = (val) => {
   isOut.value = val
   instance.proxy.$bus.emit('resize')
 }
 
 onMounted(() => {
-  let files = localStorage.getItem('fileTree')
-  if (files) {
-    moduleTree.value = JSON.parse(files)
-  }
+  instance.proxy.$axios.getTaskDetail({ taskId: Cookies.get('taskId') }).then((res) => {
+    // console.log(res);
+    if (res.data !== null) {
+      moduleTree.value = JSON.parse(res.data.daTree)
+    } else {
+      moduleTree.value = JSON.parse(localStorage.getItem('fileTree'))
+    }
+  })
+  // let files = localStorage.getItem('fileTree')
+  // if (files) {
+  //   moduleTree.value = JSON.parse(files)
+  // }
 })
 </script>
 <style lang="scss" scoped>
@@ -209,20 +224,22 @@ onMounted(() => {
   position: relative;
   z-index: 10;
   overflow: visible;
-  transition:  width .2s linear;
+  transition: width .2s linear;
 
   h4 {
-    padding-bottom: 20px;
+    padding: 15px 0;
     border-bottom: 1px solid #e4e8ea;
     text-align: center;
-    margin-bottom: 0;
+    margin: 0;
     white-space: nowrap;
   }
+
   &.fade {
     width: 0;
   }
-  &:hover{
-    .click{
+
+  &:hover {
+    .click {
       opacity: 1;
     }
   }

@@ -1,4 +1,5 @@
 <template>
+  <!-- :fullScreen="true" -->
   <vScaleScreen>
     <el-container class="broad_info">
       <el-main>
@@ -6,7 +7,7 @@
           <div class="broad_left">
             <!--顶部占位 -->
             <div class="top_div"></div>
-            <FlowIcon :list="list"></FlowIcon>
+            <FlowIcon :list="list" :serial="serial"></FlowIcon>
             <Flow :list="list"></Flow>
           </div>
           <Card :list="list"></Card>
@@ -24,47 +25,29 @@ import Axios from 'axios'
 import vScaleScreen from 'v-scale-screen'
 
 const { proxy } = getCurrentInstance()
-let list = ref({})
+const list = ref({})
 const serial = ref(1)
 const timer = ref(null)
 const flag = ref(true)
 onMounted(() => {
-  window.addEventListener('storage', e => {
-    if (e.key == 'next') {
-      clearInterval(timer.value)
-      getJson()
-    }
-    if (e.key == 'reset') {
-      clearInterval(timer.value)
-      serial.value = 1
-      flag.value = false
-      nextTick(() => {
-        flag.value = true
-      })
-    }
-  })
-  // timer.value = setInterval(() => {
-  //   if (serial.value > 23) {
-  //     clearInterval(timer.value)
-  //     timer.value = null
-  //     return
-  //   }
-  //   getJson()
-  // }, 7000)
-  getJson()
-  // proxy.$axios.getBroadLine().then((res) => {
-  //   console.log(res);
-  // })
+  timer.value = setInterval(() => {
+    boardShow()
+  }, 3000)
 })
-const getJson = () => {
-  Axios.get(`./mock/flow/${serial.value}.json`).then((res) => {
+
+const boardShow = () => {
+  proxy.$axios.boardShow({ file: serial.value }).then((res) => {
+    serial.value = res.data
+    getJson(res.data)
+  })
+}
+
+const getJson = (num) => {
+  Axios.get(`http://172.20.10.10:8080/mock/flow/${num}.json`).then((res) => {
     list.value = res
-    serial.value++
   })
 }
 onUnmounted(() => {
-  localStorage.removeItem('next')
-  localStorage.removeItem('reset')
   clearInterval(timer.value)
 })
 </script>

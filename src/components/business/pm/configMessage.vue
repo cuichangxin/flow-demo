@@ -1,42 +1,45 @@
 <template>
-  <steps :isActive="1"></steps>
-  <div class="config" :style="{ height: `${configHeight}px` }">
-    <header class="header">配置信息</header>
-    <el-form :model="configForm" label-position="right" label-width="120px" class="form" ref="configFormRef">
-      <el-form-item label="配置项名称" required prop="name">
-        <el-input v-model="configForm.name"></el-input>
-      </el-form-item>
-      <el-form-item label="开发语言" required prop="codeLang">
-        <el-select v-model="configForm.codeLang">
-          <el-option v-for="item in codeLangList" :key="item.label" :label="item.label" :value="item.value"></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="处理器" required prop="processor">
-        <el-select v-model="configForm.processor">
-          <el-option v-for="item in processorList" :key="item.label" :label="item.label" :value="item.value"></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="配置项描述" required prop="desc">
-        <el-input v-model="configForm.desc" type="textarea" :autosize="{ minRows: 2, maxRows: 4 }"></el-input>
-      </el-form-item>
-      <el-form-item label="软件类型" required prop="type">
-        <el-select v-model="configForm.type">
-          <el-option v-for="item in typeList" :key="item.label" :label="item.label" :value="item.value"></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="安全关键等级" required prop="level">
-        <el-select v-model="configForm.level">
-          <el-option v-for="item in levelList" :key="item.label" :label="item.label" :value="item.value"></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="计划完成时间" required prop="eTime">
-        <el-date-picker v-model="configForm.eTime" type="date" placeholder="Select date and time" />
-      </el-form-item>
-      <el-form-item>
-        <el-button type="info" class="button" @click="goBack">返回上一步</el-button>
-        <el-button type="primary" @click="stepNext">下一步</el-button>
-      </el-form-item>
-    </el-form>
+  <div class="config_message_info">
+    <steps :isActive="1"></steps>
+    <div class="config" :style="{ height: `${configHeight}px` }">
+      <header class="header">配置信息</header>
+      <el-form :model="configForm" label-position="right" label-width="120px" class="form" ref="configFormRef">
+        <el-form-item label="配置项名称" required prop="name">
+          <el-input v-model="configForm.name"></el-input>
+        </el-form-item>
+        <el-form-item label="开发语言" required prop="codeLang">
+          <el-select v-model="configForm.codeLang">
+            <el-option v-for="item in codeLangList" :key="item.label" :label="item.label" :value="item.value"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="处理器" required prop="processor">
+          <el-select v-model="configForm.processor">
+            <el-option v-for="item in processorList" :key="item.label" :label="item.label"
+              :value="item.value"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="配置项描述" required prop="desc">
+          <el-input v-model="configForm.desc" type="textarea" :autosize="{ minRows: 2, maxRows: 4 }"></el-input>
+        </el-form-item>
+        <el-form-item label="软件类型" required prop="type">
+          <el-select v-model="configForm.type">
+            <el-option v-for="item in typeList" :key="item.label" :label="item.label" :value="item.value"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="安全关键等级" required prop="level">
+          <el-select v-model="configForm.level">
+            <el-option v-for="item in levelList" :key="item.label" :label="item.label" :value="item.value"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="计划完成时间" required prop="eTime">
+          <el-date-picker v-model="configForm.eTime" type="date" placeholder="Select date and time" />
+        </el-form-item>
+        <el-form-item>
+          <el-button type="info" class="button" @click="goBack">返回上一步</el-button>
+          <el-button type="primary" @click="stepNext">下一步</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
   </div>
 </template>
 <script setup>
@@ -96,10 +99,10 @@ const typeList = reactive([
     label: '火箭飞控软件',
     value: 1
   },
-  // {
-  //   label: '测发控软件',
-  //   value: '测发控软件'
-  // },
+  {
+    label: '综控器监控软件',
+    value: 2
+  },
   // {
   //   label: 'GNCC软件',
   //   value: 'GNCC软件'
@@ -119,14 +122,14 @@ const levelList = reactive([
     label: 'A级',
     value: 1
   },
-  // {
-  //   label: 'B级',
-  //   value: 'B级'
-  // },
-  // {
-  //   label: 'C级',
-  //   value: 'C级'
-  // },
+  {
+    label: 'B级',
+    value: 2
+  },
+  {
+    label: 'C级',
+    value: 3
+  },
   // {
   //   label: 'D级',
   //   value: 'D级'
@@ -140,7 +143,7 @@ const stepNext = () => {
       router.push({
         name: 'messageAffirm'
       })
-    }else {
+    } else {
       console.log('error submit');
     }
   })
@@ -159,6 +162,10 @@ onUnmounted(() => {
 })
 </script>
 <style lang="scss" scoped>
+.config_message_info{
+  width: 100%;
+  height: 100%;
+}
 .config {
   height: calc(100% - 220px);
   background-color: #fff;

@@ -8,14 +8,17 @@ export const TASKSTATUS = {
   '4':'进行中'
 }
 
-// 项目列表
+// 项目列表↓
 // 软件类型
 export const PROJECTMAP = {
-  '1':'火箭飞控软件'
+  '1':'火箭飞控软件',
+  '2':'综控器监控软件'
 }
 // 等级
 export const LEVELMAP = {
-  '1':'A级'
+  '1':'A级',
+  '2':'B级',
+  '3':'C级'
 }
 // 开发语言
 export const CODELANG = {

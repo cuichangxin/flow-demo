@@ -1,62 +1,63 @@
 <template>
-  <steps :isActive="2"></steps>
-  <el-scrollbar class="scrollbar" :style="{ height: `${configHeight}px` }">
-    <div class="wrapper">
-      <div v-if="!fullFlag" class="flex">
-        <div class="affirm_item">
-          <span class="label">项目名称:</span>
-          <div class="content">
-            <div class="name_item">{{ projectList.name }}</div>
+  <div class="affirm_info">
+    <steps :isActive="2"></steps>
+    <el-scrollbar class="scrollbar" :style="{ height: `${configHeight}px` }">
+      <div class="wrapper">
+        <div v-if="!fullFlag" class="flex">
+          <div class="affirm_item">
+            <span class="label">项目名称:</span>
+            <div class="content">
+              <div class="name_item">{{ projectList.name }}</div>
+            </div>
+          </div>
+          <div class="affirm_item">
+            <span class="label">安全关键等级:</span>
+            <div class="content">
+              <div class="name_item">{{ projectList.level === 1 ? 'A级' : '' }}</div>
+            </div>
+          </div>
+          <div class="affirm_item">
+            <span class="label">进&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;度:</span>
+            <div class="content" style="width:99%">
+              <div class="name_item" style="width:99%">生产线预计在<em class="time">2023年06月30日</em>完成，比计划完成时间<em class="time">提前5</em>天</div>
+            </div>
           </div>
         </div>
-        <div class="affirm_item">
-          <span class="label">安全关键等级:</span>
-          <div class="content">
-            <div class="name_item">{{ projectList.level === 1 ? 'A级' : '' }}</div>
+        <div class="flow">
+          <span class="label" v-if="!fullFlag">活动流程:</span>
+          <div class="flow_info" :style="{ height: fullFlag ? `${configHeight - 35}px` : '' }">
+            <div class="full_box" @click="fullScreen">
+              <img v-if="!fullFlag" class="img" src="../../../assets/image/quanping_o.png" />
+              <img v-else class="img" src="../../../assets/image/quxiaoquanping_o.png" />
+            </div>
+            <div id="graph" class="graph_box"></div>
           </div>
         </div>
-        <div class="affirm_item">
-          <span class="label">进&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;度:</span>
-          <div class="content" style="width:99%">
-            <div class="name_item" style="width:99%">生产线预计在<em class="time">{{ formatTime(projectList.eTime)
-            }}</em>完成，比计划完成时间<em class="time">提前5</em>天</div>
+        <div v-if="!fullFlag" class="tool">
+          <span class="label">工具情况:</span>
+          <div class="tool_info">
+            <el-table :data="tableList" border :header-cell-style="tableHeaderCellStyle">
+              <el-table-column align="center" label="序号" width="80">
+                <template #default="scope">
+                  {{ scope.$index + 1 }}
+                </template>
+              </el-table-column>
+              <el-table-column align="center" prop="name" label="活动名称">
+              </el-table-column>
+              <el-table-column align="center" prop="post" label="岗位">
+              </el-table-column>
+              <el-table-column align="center" prop="tool" label="工具">
+              </el-table-column>
+            </el-table>
           </div>
         </div>
-      </div>
-      <div class="flow">
-        <span class="label" v-if="!fullFlag">活动流程:</span>
-        <div class="flow_info" :style="{ height: fullFlag ? `${configHeight - 35}px` : '' }">
-          <div class="full_box" @click="fullScreen">
-            <img v-if="!fullFlag" class="img" src="../../../assets/image/quanping_o.png" />
-            <img v-else class="img" src="../../../assets/image/quxiaoquanping_o.png" />
-          </div>
-          <div id="graph" class="graph_box"></div>
+        <div v-if="!fullFlag" class="affirm">
+          <el-button class="button" type="info" @click="goBack">返回上一步</el-button>
+          <el-button class="button" type="primary" @click="enter">确认</el-button>
         </div>
       </div>
-      <div v-if="!fullFlag" class="tool">
-        <span class="label">工具情况:</span>
-        <div class="tool_info">
-          <el-table :data="tableList" border :header-cell-style="tableHeaderCellStyle">
-            <el-table-column align="center" label="序号" width="80">
-              <template #default="scope">
-                {{ scope.$index + 1 }}
-              </template>
-            </el-table-column>
-            <el-table-column align="center" prop="name" label="活动名称">
-            </el-table-column>
-            <el-table-column align="center" prop="post" label="岗位">
-            </el-table-column>
-            <el-table-column align="center" prop="tool" label="工具">
-            </el-table-column>
-          </el-table>
-        </div>
-      </div>
-      <div v-if="!fullFlag" class="affirm">
-        <el-button class="button" type="info" @click="goBack">返回上一步</el-button>
-        <el-button class="button" type="primary" @click="enter">确认</el-button>
-      </div>
-    </div>
-  </el-scrollbar>
+    </el-scrollbar>
+  </div>
 </template>
 <script setup>
 import steps from './common/steps.vue'
@@ -65,6 +66,7 @@ import G6 from '@antv/g6'
 import { fittingString, formatTime } from '@/utils/utils'
 import Cookies from 'js-cookie'
 import { ElMessage } from 'element-plus'
+import NProgress from 'nprogress'
 
 const { proxy } = getCurrentInstance()
 const store = allStore()
@@ -535,11 +537,12 @@ const enter = () => {
     userId: Cookies.get('userId')
   }).then((res) => {
     ElMessage({ type: 'success', message: '创建成功，稍后返回列表页' })
+    NProgress.start()
     setTimeout(() => {
       router.push({
         name: 'pmList'
       })
-    }, 1000)
+    }, 2000)
   })
 }
 const initG6 = () => {
@@ -617,6 +620,10 @@ onUnmounted(() => {
 
 </script>
 <style lang="scss" scoped>
+.affirm_info{
+  width: 100%;
+  height: 100%;
+}
 .scrollbar {
   height: 680px;
   background-color: #fff;
@@ -624,7 +631,8 @@ onUnmounted(() => {
   border-radius: 8px;
   box-shadow: 0px 0px 12px rgba(0, 0, 0, .12);
 }
-.wrapper{
+
+.wrapper {
   width: 100%;
   padding: 30px;
 }
