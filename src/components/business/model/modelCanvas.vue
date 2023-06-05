@@ -6,55 +6,70 @@
       </el-tab-pane>
     </el-tabs>
     <!-- 画布 -->
-    <div id="graph" class="canvas" ref="graphRef"
-      :style="{ height: tabList.length ? 'calc(100% - 40px)' : '100%' }">
+    <div id="graph" class="canvas" ref="graphRef" :style="{ height: tabList.length ? 'calc(100% - 40px)' : '100%' }">
+      <div id="graph-container" class="graph-container"></div>
+    </div>
+    <!-- 小地图 -->
+    <div class="minimap_dialog"
+      :style="{ left: `${minimapPoint.x}px`, top: `${minimapPoint.y}px`, visibility: minimapMark ? '' : 'hidden' }">
+      <header class="mxWindowTitle" @mousedown="minimapDrop">
+        <span>缩略图</span>
+        <el-button link @click="closeMap">
+          <el-icon class="close" size="15">
+            <CloseBold />
+          </el-icon>
+        </el-button>
+      </header>
+      <div class="minimap" id="minimap"></div>
     </div>
   </div>
 </template>
 <script setup>
-import G6 from "@antv/g6";
-import registerFactory from "welabx-g6";
 import _ from "lodash";
 import { getImgSize, fittingString } from '@/utils/utils'
+
+import { Graph, Shape } from '@antv/x6'
+import { Transform } from '@antv/x6-plugin-transform'
+import { Selection } from '@antv/x6-plugin-selection'
+import { Snapline } from '@antv/x6-plugin-snapline'
+import { Keyboard } from '@antv/x6-plugin-keyboard'
+import { Clipboard } from '@antv/x6-plugin-clipboard'
+import { History } from '@antv/x6-plugin-history'
+import { MiniMap } from '@antv/x6-plugin-minimap'
+import insertCss from 'insert-css'
+import { CloseBold } from '@element-plus/icons-vue'
 
 const instance = getCurrentInstance()
 instance.proxy.$bus.on('*', (name, val) => {
   if (name == 'updateNode') {
-    const model = val
-    // model.label = fittingString(model.label, 80, 12)
-    graph.updateItem(nodeItem.value, model)
-    // 保存数据
-    saveG6Json()
+    nodeItem.value.attr({
+      text: {
+        text: val.label
+      },
+      desc: val.desc,
+      input: val.input,
+      node: val.node,
+      output: val.output,
+      trackList: val.trackList
+    })
   }
   if (name == 'showCanvasData') {
-    if (JSON.stringify(val.g6Node) !== "{}") {
-      graphData.value = val.g6Node
+    if (JSON.stringify(val.node) !== "{}") {
+      graphData.value = val.node
     } else {
-      graphData.value = { nodes: [], edges: [] }
+      graphData.value = {}
     }
     selectId.value = val.id // 左侧菜单当前选中的节点id
-    tabList.value.forEach((item) => {
-      if (item.id === val.id) {
-        TabsValue.value = item.key
-      }
-    })
-    graph.destroy()
+
+    // 销毁画布
+    graph.dispose()
     createGraphic()
     initGraphEvent()
-    g6Size()
-    // model.setNodeConfig(g)
   }
   if (name == 'resize') {
     if (val !== undefined) {
       isOut.value = val
     }
-    setTimeout(() => {
-      const h = graphRef.value.clientHeight
-      const w = graphRef.value.clientWidth
-      graph.changeSize(w, h)
-      // 画布移动到中心
-      graph.fitCenter()
-    }, 300)
   }
   if (name == 'addTab') {
     if (tabList.value.length) {
@@ -80,336 +95,822 @@ instance.proxy.$bus.on('*', (name, val) => {
         ...val
       })
       TabsValue.value = tabList.value.length.toString()
-      nextTick(() => {
-        const h = graphRef.value.clientHeight
-        const w = graphRef.value.clientWidth
-        graph.changeSize(w, h)
-        // 画布移动到中心
-        graph.fitCenter()
-      })
+    }
+  }
+  if (name === 'dragStart') {
+    dragStart(val)
+  }
+  if (name === 'undo') {
+    if (graph.canUndo()) {
+      graph.undo()
+    }
+  }
+  if (name === 'redo') {
+    if (graph.canRedo()) {
+      graph.redo()
+    }
+  }
+  if (name === 'contraction') {
+    isOut.value = val
+  }
+  if (name === 'minimap') {
+    minimapMark.value = !minimapMark.value
+    if (minimapMark.value === false) {
+      minimapPoint.x = 1017
+      minimapPoint.y = 50
     }
   }
 })
 const isOut = ref(false)
+// 绝对定位连接桩
+const absolutePorts = {
+  groups: {
+    top: {
+      position: 'top',
+      attrs: {
+        circle: {
+          r: 4,
+          magnet: true,
+          stroke: '#5F95FF',
+          strokeWidth: 1,
+          fill: '#fff',
+          style: {
+            visibility: 'hidden',
+          },
+        },
+      },
+    },
+    right: {
+      position: 'right',
+      attrs: {
+        circle: {
+          r: 4,
+          magnet: true,
+          stroke: '#5F95FF',
+          strokeWidth: 1,
+          fill: '#fff',
+          style: {
+            visibility: 'hidden',
+          },
+        },
+      },
+    },
+    bottom: {
+      position: 'bottom',
+      attrs: {
+        circle: {
+          r: 4,
+          magnet: true,
+          stroke: '#5F95FF',
+          strokeWidth: 1,
+          fill: '#fff',
+          style: {
+            visibility: 'hidden',
+          },
+        },
+      },
+    },
+    left: {
+      position: 'left',
+      attrs: {
+        circle: {
+          r: 4,
+          magnet: true,
+          stroke: '#5F95FF',
+          strokeWidth: 1,
+          fill: '#fff',
+          style: {
+            visibility: 'hidden',
+          },
+        },
+      },
+    },
+  },
+  items: [
+    {
+      group: 'top',
+    },
+    {
+      group: 'right',
+    },
+    {
+      group: 'bottom',
+    },
+    {
+      group: 'left',
+    },
+  ],
+}
+
+// 多个连接桩
+const ports = {
+  groups: {
+    top: {
+      position: 'top',
+      attrs: {
+        circle: {
+          r: 4,
+          magnet: true,
+          stroke: '#5F95FF',
+          strokeWidth: 1,
+          fill: '#fff',
+          style: {
+            visibility: 'hidden',
+          },
+        },
+      },
+    },
+    right: {
+      position: 'right',
+      attrs: {
+        circle: {
+          r: 4,
+          magnet: true,
+          stroke: '#5F95FF',
+          strokeWidth: 1,
+          fill: '#fff',
+          style: {
+            visibility: 'hidden',
+          },
+        },
+      },
+    },
+    left: {
+      position: 'left',
+      attrs: {
+        circle: {
+          r: 4,
+          magnet: true,
+          stroke: '#5F95FF',
+          strokeWidth: 1,
+          fill: '#fff',
+          style: {
+            visibility: 'hidden',
+          },
+        },
+      },
+    },
+    bottom: {
+      position: 'bottom',
+      attrs: {
+        circle: {
+          r: 4,
+          magnet: true,
+          stroke: '#5F95FF',
+          strokeWidth: 1,
+          fill: '#fff',
+          style: {
+            visibility: 'hidden',
+          },
+        },
+      },
+    },
+  },
+  items: [
+    {
+      id: 'prot1',
+      group: 'top',
+    },
+    {
+      id: 'prot2',
+      group: 'top',
+    },
+    {
+      id: 'prot3',
+      group: 'top',
+    },
+    {
+      id: 'prot4',
+      group: 'top',
+    },
+    {
+      id: 'prot5',
+      group: 'left'
+    },
+    {
+      id: 'prot6',
+      group: 'left'
+    },
+    {
+      id: 'prot7',
+      group: 'left'
+    },
+    {
+      id: 'prot8',
+      group: 'left'
+    },
+    {
+      id: 'prot9',
+      group: 'right'
+    },
+    {
+      id: 'prot10',
+      group: 'right'
+    },
+    {
+      id: 'prot11',
+      group: 'right'
+    },
+    {
+      id: 'prot12',
+      group: 'right'
+    },
+    {
+      id: 'prot13',
+      group: 'bottom'
+    },
+    {
+      id: 'prot14',
+      group: 'bottom'
+    },
+    {
+      id: 'prot15',
+      group: 'bottom'
+    },
+    {
+      id: 'prot16',
+      group: 'bottom'
+    },
+  ],
+}
+// 椭圆连接桩
+const ellipsePorts = {
+  groups: {
+    ellipse: {
+      position: {
+        name: 'ellipseSpread',
+        args: {
+          start: 45,
+        }
+      },
+      attrs: {
+        circle: {
+          r: 4,
+          magnet: true,
+          stroke: '#5F95FF',
+          strokeWidth: 1,
+          fill: '#fff',
+          width: 10,
+          height: 10,
+          style: {
+            visibility: 'hidden',
+          },
+        },
+      },
+    }
+  }
+}
+const dragItem = ref({})
 
 let graph = null // g6实例信息
-const graphData = ref({
-  nodes: [],
-  edges: [],
-})
+const graphData = ref({})
 const nodeItem = ref(null) // 点击节点的信息
 const selectId = ref('')
-const idSort = ref({}) // 控制每个节点的id
 const tabList = ref([])
 const TabsValue = ref('')
 const graphRef = ref(null)
+const minimapPoint = reactive({
+  x: '',
+  y: ''
+})
+// 小地图开关
+const minimapMark = ref(false)
 
-// G6默认配置
-const createGraphic = () => {
-  const grid = new G6.Grid()
-  const cfg = registerFactory(G6, {
-    container: "graph",
-    width: graphRef.value.clientWidth,
-    height: graphRef.value.clientHeight,
-    layout: {
-      type: "", // 位置将固定
-    },
-    // 所有节点默认配置
-    defaultNode: {
-      type: "rect-node",
-      style: {
-        radius: 5,
-        width: 100,
-        height: 50,
-        cursor: "move",
-        fill: "#ecf3ff",
+// 开始拖动
+const dragStart = (item) => {
+  dragItem.value = item
+  // 元素行为 移动
+  graphRef.value.addEventListener("dragenter", dragenter);
+  // 目标元素经过 禁止默认事件
+  graphRef.value.addEventListener("dragover", dragover);
+  // 离开目标元素设置元素的放置行为  不能拖放
+  graphRef.value.addEventListener("dragleave", dragleave);
+  // 拖动元素在目标元素松手时添加元素到画布
+  graphRef.value.addEventListener("drop", drop);
+}
+const dragenter = (e) => {
+  e.dataTransfer.dropEffect = "move"
+}
+const dragover = (e) => {
+  e.preventDefault()
+}
+const dragleave = (e) => {
+  e.dataTransfer.dropEffect = "none"
+}
+// 控制连接桩显示/隐藏
+const showPorts = (ports, show) => {
+  for (let i = 0, len = ports.length; i < len; i += 1) {
+    ports[i].style.visibility = show ? 'visible' : 'hidden'
+  }
+}
+
+// 拖动松开添加节点
+const drop = (e) => {
+  if (dragItem.value.img) {
+    getImgSize(dragItem.value.img).then((res) => {
+      const node = graph.addNode({
+        shape: dragItem.value.shape,
+        x: e.layerX,
+        y: e.layerY,
+        width: res.width,
+        height: res.height,
+        label: dragItem.value.label,
+        attrs: {
+          image: {
+            'xlink:href': dragItem.value.img
+          },
+          label: {
+            refX: 0.5, // 标题水平位置
+            refY: '100%',// 标题垂直位置
+            refY2: 6, // 标题和节点之间的距离
+            textAnchor: 'middle',
+            textVerticalAnchor: 'top',
+            fontSize: 12,
+            fill: '#333',
+          },
+        },
+        ports: { ...ports },
+        desc: '',
+        input: '',
+        output: '',
+        node: {},
+        children: [],
+        trackList: [],
+      })
+      instance.proxy.$bus.emit('addNodes', node)
+      saveG6Json()
+    })
+  } else {
+    const node = graph.addNode({
+      shape: dragItem.value.shape !== undefined ? dragItem.value.shape : 'custom-rect',
+      x: e.layerX,
+      y: e.layerY,
+      label: dragItem.value.label,
+      attrs: {
+        label: {
+          fontSize: 12,
+          fill: '#333',
+        },
+        body: {
+          // stroke: '#ffa940',
+          // fill: '#ffd591',
+          // rx: 10,
+          // ry: 10,
+        },
       },
-      labelCfg: {
-        fontSize: 20,
-        style: {
-          cursor: "move",
+      desc: '',
+      input: '',
+      output: '',
+      node: {},
+      children: [],
+      trackList: [],
+    })
+    if (dragItem.value.shape === 'custom-ellipse') {
+      Array.from({ length: 10 }).forEach((_, index) => {
+        node.addPort({
+          id: `${index}`,
+          group: 'ellipse'
+        })
+      })
+    }
+    instance.proxy.$bus.emit('addNodes', node)
+    saveG6Json()
+  }
+
+  graphRef.value.removeEventListener("dragenter", dragenter);
+  graphRef.value.removeEventListener("dragover", dragover);
+  graphRef.value.removeEventListener("dragleave", dragleave);
+  graphRef.value.removeEventListener("drop", drop);
+  setTimeout(() => {
+    dragItem.value = null
+  }, 400)
+}
+
+// 初始化创建画布
+const createGraphic = () => {
+  // #region 构建自定义图形
+  // 平行四边形
+  Graph.registerNode(
+    'custom-polygon-quad',
+    {
+      inherit: 'polygon',
+      width: 100,
+      height: 60,
+      attrs: {
+        body: {
+          strokeWidth: 1,
+          stroke: '#333',
+          fill: '#fff',
+          refPoints: '10,0 40,0 30,20 0,20',
+        },
+        text: {
+          fontSize: 12,
+          fill: '#262626',
+        },
+      },
+      ports: {
+        ...absolutePorts,
+        items: [
+          {
+            group: 'top',
+          },
+          {
+            group: 'bottom',
+          },
+        ],
+      }
+    },
+    true
+  )
+  // 菱形
+  Graph.registerNode(
+    'custom-polygon-rhombus',
+    {
+      inherit: 'polygon',
+      width: 100,
+      height: 60,
+      attrs: {
+        body: {
+          strokeWidth: 1,
+          stroke: '#333',
+          fill: '#fff',
+          refPoints: '0,10 10,0 20,10 10,20',
+        },
+        text: {
+          fontSize: 12,
+          fill: '#262626',
+        },
+      },
+      ports: { ...absolutePorts }
+    },
+    true
+  )
+  // 矩形
+  Graph.registerNode(
+    'custom-rect',
+    {
+      inherit: 'rect',
+      width: 100,
+      height: 70,
+      attrs: {
+        body: {
+          strokeWidth: 1,
+          stroke: '#333',
+          fill: '#fff',
+        },
+        text: {
+          fontSize: 12,
+          fill: '#262626',
+        },
+      },
+      ports: { ...ports },
+    },
+    true,
+  )
+  // 圆形
+  Graph.registerNode(
+    'custom-circle',
+    {
+      inherit: 'circle',
+      width: 50,
+      height: 50,
+      attrs: {
+        body: {
+          strokeWidth: 1,
+          stroke: '#333',
+          fill: '#fff',
+        },
+        text: {
+          fontSize: 12,
+          fill: '#262626',
+        },
+      },
+      ports: { ...absolutePorts },
+    },
+    true,
+  )
+  // 椭圆
+  Graph.registerNode(
+    'custom-ellipse',
+    {
+      inherit: 'ellipse',
+      width: 100,
+      height: 70,
+      attrs: {
+        body: {
+          strokeWidth: 1,
+          stroke: '#333',
+          fill: '#fff',
+        },
+        text: {
+          fontSize: 12,
+          fill: '#262626',
+        },
+      },
+      ports: { ...ellipsePorts },
+    },
+    true,
+  )
+  // #endregion
+  const parentDom = document.getElementById('graph')
+  const graphDom = document.getElementById('graph-container')
+  graph = new Graph({
+    container: graphDom,
+    width: parentDom.clientWidth,
+    height: parentDom.clientHeight,
+    grid: {
+      visible: true,
+      type: 'doubleMesh',
+      args: [
+        {
+          color: '#eee', // 主网格线颜色
+          thickness: 1, // 主网格线宽度
+        },
+        {
+          color: '#ddd', // 次网格线颜色
+          thickness: 1, // 次网格线宽度
+          factor: 4, // 主次网格线间隔
+        },
+      ],
+    },
+    panning: {
+      enabled: true // 开启拖拽平移
+    },
+    mousewheel: {
+      enabled: true,
+      modifiers: ['ctrl', 'meta'],
+    },
+    connecting: {
+      router: 'manhattan',
+      connector: {
+        name: 'rounded',
+        args: {
+          radius: 8,
+        },
+      },
+      anchor: 'center',
+      connectionPoint: 'anchor',
+      allowBlank: false,
+      snap: {
+        radius: 20,
+      },
+      createEdge() {
+        return new Shape.Edge({
+          attrs: {
+            line: {
+              stroke: '#A2B1C3',
+              strokeWidth: 2,
+              targetMarker: {
+                name: 'block',
+                width: 12,
+                height: 8,
+              },
+            },
+          },
+          zIndex: 0,
+        })
+      },
+      validateConnection({ targetMagnet }) {
+        return !!targetMagnet
+      },
+    },
+    highlighting: {
+      magnetAdsorbed: {
+        name: 'stroke',
+        args: {
+          attrs: {
+            fill: '#5F95FF',
+            stroke: '#5F95FF',
+          },
         },
       },
     },
-    // 所有边的默认配置
-    defaultEdge: {
-      type: "polyline-edge", // 扩展了内置边, 有边的事件
-      style: {
-        radius: 5,
-        offset: 15,
-        stroke: "#aab7c3",
-        lineAppendWidth: 10, // 防止线太细没法点中
-        endArrow: true,
-      },
-    },
-    // 覆盖全局样式
-    nodeStateStyles: {
-      "nodeState:default": {
-        opacity: 1,
-        fill: "#ecf3ff",
-      },
-      "nodeState:hover": {
-        opacity: 0.8,
-      },
-      "nodeState:selected": {
-        opacity: 0.9,
-        fill: "#6db5ee",
-      },
-    },
-    // 默认边不同状态下的样式集合
-    edgeStateStyles: {
-      "edgeState:default": {
-        stroke: "#aab7c3",
-      },
-      "edgeState:selected": {
-        stroke: "#1890FF",
-      },
-      "edgeState:hover": {
-        animate: true,
-        animationType: "dash",
-        stroke: "#1890FF",
-      },
-    },
-    modes: {
-      // 支持的 behavior
-      default: ["drag-canvas", "drag-shadow-node", "canvas-event", "delete-item", "select-node", "hover-node", "active-edge", "zoom-canvas"],
-      originDrag: ["drag-canvas", "drag-node", "canvas-event", "delete-item", "select-node", "hover-node", "active-edge"],
-    },
-    plugins: [grid]
+  })
+  // 使用插件
+  graph
+    .use(
+      new Transform({
+        resizing: true,
+        rotating: true,
+      }),
+    )
+    .use(
+      new Selection({
+        rubberband: true,
+        showNodeSelectionBox: true,
+        modifiers: ['ctrl', 'meta'] // 防止拖拽平移冲突，配合快键键框选
+      }),
+    )
+    .use(new Snapline())
+    .use(new Keyboard())
+    .use(new Clipboard())
+    .use(new History({
+      enabled: true,
+    }))
+  .use(new MiniMap({
+    container: document.getElementById('minimap'),
+    width: document.getElementById('minimap').clientWidth,
+    height: document.getElementById('minimap').clientHeight
+  }))
+
+  // 快捷键事件
+  graph.bindKey(['meta+c', 'ctrl+c'], () => {
+    const cells = graph.getSelectedCells()
+    if (cells.length) {
+      graph.copy(cells)
+    }
+    return false
+  })
+  graph.bindKey(['meta+x', 'ctrl+x'], () => {
+    const cells = graph.getSelectedCells()
+    if (cells.length) {
+      graph.cut(cells)
+    }
+    return false
+  })
+  graph.bindKey(['meta+v', 'ctrl+v'], () => {
+    if (!graph.isClipboardEmpty()) {
+      const cells = graph.paste({ offset: 32 })
+      graph.cleanSelection()
+      graph.select(cells)
+    }
+    return false
   })
 
-  graph = new G6.Graph(cfg)
-  graph.read(graphData.value) // 读取数据
-  window.$welabxG6 = graph
+  // undo redo
+  graph.bindKey(['meta+z', 'ctrl+z'], () => {
+    if (graph.canUndo()) {
+      graph.undo()
+    }
+    return false
+  })
+  graph.bindKey(['meta+shift+z', 'ctrl+shift+z'], () => {
+    if (graph.canRedo()) {
+      graph.redo()
+    }
+    return false
+  })
+
+  // select all
+  graph.bindKey(['meta+a', 'ctrl+a'], () => {
+    const nodes = graph.getNodes()
+    if (nodes) {
+      graph.select(nodes)
+    }
+  })
+
+  // delete
+  graph.bindKey('backspace', () => {
+    const cells = graph.getSelectedCells()
+    if (cells.length) {
+      graph.removeCells(cells)
+    }
+  })
+
+  // zoom
+  graph.bindKey(['ctrl+1', 'meta+1'], () => {
+    const zoom = graph.zoom()
+    if (zoom < 1.5) {
+      graph.zoom(0.1)
+    }
+  })
+  graph.bindKey(['ctrl+2', 'meta+2'], () => {
+    const zoom = graph.zoom()
+    if (zoom > 0.5) {
+      graph.zoom(-0.1)
+    }
+  })
+  insertCss(`
+    #container {
+      display: flex;
+      border: 1px solid #dfe3e8;
+    }
+    #stencil {
+      width: 180px;
+      height: 100%;
+      position: relative;
+      border-right: 1px solid #dfe3e8;
+    }
+    #graph-container {
+      width: calc(100% - 180px);
+      height: 100%;
+    }
+    .x6-widget-stencil  {
+      background-color: #fff;
+    }
+    .x6-widget-stencil-title {
+      background-color: #fff;
+    }
+    .x6-widget-stencil-group-title {
+      background-color: #fff !important;
+    }
+    .x6-widget-transform {
+      margin: -1px 0 0 -1px;
+      padding: 0px;
+      border: 1px solid #239edd;
+    }
+    .x6-widget-transform > div {
+      border: 1px solid #239edd;
+    }
+    .x6-widget-transform > div:hover {
+      background-color: #3dafe4;
+    }
+    .x6-widget-transform-active-handle {
+      background-color: #3dafe4;
+    }
+    .x6-widget-transform-resize {
+      border-radius: 0;
+    }
+    .x6-widget-selection-inner {
+      border: 1px solid #239edd;
+    }
+    .x6-widget-selection-box {
+      opacity: 0;
+    }
+  `)
+
+  if (Object.keys(graphData.value).length) {
+    graph.fromJSON(graphData.value.cells)
+    graph.centerContent()
+  }
 }
 // 初始化图事件
 const initGraphEvent = () => {
-  // 拖动右侧菜单项节点进入画布
-  graph.on("drop", (e) => {
-    const { originalEvent } = e
-    if (originalEvent.dataTransfer) {
-      const transferData = originalEvent.dataTransfer.getData("dragComponent")
-      if (transferData) {
-        addNode(transferData, e)
-      }
+  graph.on("node:mouseenter", (e) => {
+    const container = document.getElementById('graph-container')
+    const ports = container.querySelectorAll('.x6-port-body')
+    showPorts(ports, true)
+  })
+  graph.on("node:mouseleave", (e) => {
+    const container = document.getElementById('graph-container')
+    const ports = container.querySelectorAll('.x6-port-body')
+    showPorts(ports, false)
+  })
+  graph.on('node:click', (e) => {
+    nodeItem.value = e.node
+    instance.proxy.$bus.emit('tableConfig', e.node.store.data)
+  })
+  graph.on('history:change', ({ cmds, options }) => {
+    const undoAndRedo = {
+      canUndo: graph.canUndo(),
+      canRedo: graph.canRedo()
     }
+    instance.proxy.$bus.emit('undoAndRedo', undoAndRedo)
   })
 
-  // 拖定节点的事件
-  graph.on("node:drop", (e) => {
-    e.item.getOutEdges().forEach((edge) => {
-      edge.clearStates("edgeState")
-    })
+  // 拖动节点的事件
+  graph.on("node:mousemove", (e) => {
     saveG6Json()
   })
-
-  // 选中节点后的事件
-  graph.on("after-node-selected", (e) => {
-    if (e && e.item) {
-      const models = e.item.get("model")
-      nodeItem.value = e.item
-      instance.proxy.$bus.emit('tableConfig', models)
-    }
-  })
-
   // 节点双击事件
-  graph.on("after-node-dblclick", (e) => {
-    if (e && e.item) {
-      const models = e.item.get("model")
-      selectId.value = models.id
-      instance.proxy.$bus.emit('aloneNode', models)
-      // changeCanvas() // 切换定义双击节点的画布
-      if (tabList.value.length) {
-        let has = tabList.value.some((item) => {
-          return item.id === models.id
+  graph.on("node:dblclick", (e) => {
+    const models = e.node.store.data
+    selectId.value = models.id
+    instance.proxy.$bus.emit('aloneNode', models)
+    if (tabList.value.length) {
+      let has = tabList.value.some((item) => {
+        return item.id === models.id
+      })
+      if (has) {
+        tabList.value.forEach((d) => {
+          if (d.id === models.id) {
+            TabsValue.value = d.key
+          }
         })
-        if (has) {
-          tabList.value.forEach((d) => {
-            if (d.id === models.id) {
-              TabsValue.value = d.key
-            }
-          })
-        } else {
-          tabList.value.push({
-            key: (tabList.value.length + 1).toString(),
-            ...models
-          })
-        }
       } else {
         tabList.value.push({
-          key: "1",
+          key: (tabList.value.length + 1).toString(),
           ...models
         })
-        nextTick(() => {
-          const h = graphRef.value.clientHeight
-          const w = graphRef.value.clientWidth
-          graph.changeSize(w, h)
-          // 画布移动到中心
-          graph.fitCenter()
-        })
       }
-      instance.proxy.$bus.emit('showCanvasData', models)
-      TabsValue.value = tabList.value.length.toString()
-    }
-  })
-  // 鼠标移入节点的事件
-  graph.on("on-node-mouseenter", (e) => {
-    if (e && e.item) {
-      e.item.getOutEdges().forEach((edge) => {
-        edge.clearStates("edgeState")
-        edge.setState("edgeState", "hover")
+    } else {
+      tabList.value.push({
+        key: "1",
+        ...models
       })
     }
+    instance.proxy.$bus.emit('tabSourceChangeSvg', models)
+    TabsValue.value = tabList.value.length.toString()
   })
-
-  // 鼠标拖拽到画布外时特殊处理
-  graph.on("canvas:mouseleave", (e) => {
-    graph.getNodes().forEach((x) => {
-      const group = x.getContainer()
-      group.clearAnchor()
-      x.clearStates("anchorActived")
-    })
-  })
-  // 鼠标移出节点清除边的效果
-  graph.on("on-node-mouseleave", (e) => {
-    if (e && e.item) {
-      e.item.getOutEdges().forEach((edge) => {
-        edge.clearStates("edgeState")
-      })
-    }
-  })
-  // 删除节点
-  graph.on("before-node-removed", ({ target, callback }) => {
-    callback(true)
-    saveG6Json()
-  })
-  // 选中边后更新边的样式
-  graph.on("after-edge-selected", (e) => {
-    if (e && e.item) {
-      graph.updateItem(e.item, {
-        // shape: 'line-edge',
-        style: {
-          radius: 10,
-          lineWidth: 2,
-        },
-      })
-    }
-  })
-  // 添加边的事件
-  graph.on("before-edge-add", ({ source, target, sourceAnchor, targetAnchor }) => {
-    setTimeout(() => {
-      graph.addItem("edge", {
-        id: `${+new Date() + (Math.random() * 10000).toFixed(0)}`,
-        source: source.get("id"),
-        target: target.get("id"),
-        sourceAnchor,
-        targetAnchor,
-        // label:  '',
-      });
-      saveG6Json()
-      tabSave()
-    }, 100)
-  })
-  // 节点拖动结束的事件
-  graph.on("on-node-dragend", (e) => {
-    if (e && e.item) {
+  // 边连接
+  graph.on("edge:connected", ({ isNew, edge }) => {
+    if (isNew) {
       saveG6Json()
     }
   })
 }
-// 添加节点
-const addNode = (transferData, e) => {
-  // if (!Object.prototype.hasOwnProperty.call(idSort.value, selectId.value)) {
-  //   idSort.value[selectId.value] = 1
-  // } else {
-  //   idSort.value[selectId.value]++
-  // }
-  const { img } = JSON.parse(transferData)
-  if (img) {
-    getImgSize(img).then((res) => {
-      formatAddNode(transferData, e, { w: res.width, h: res.height })
-    })
-  } else {
-    formatAddNode(transferData, e, { w: 0, h: 0 })
-  }
-}
 
-const formatAddNode = (transferData, { x, y }, { w, h }) => {
-  const { label, shape, fill, id, img } = JSON.parse(transferData);
-  const models = {
-    label: fittingString(label, 80, 12),
-    // id: `${selectId.value}-${idSort.value[selectId.value]}`,
-    id: `${+new Date() + (Math.random() * 10000).toFixed(0)}`,
-    type: shape == "image" ? "" : shape,
-    style: {
-      fill: shape == "image" ? '' : fill || "#ecf3ff",
-      radius: shape == "image" ? 0 : 5,
-      width: shape == "image" ? w : 100,
-      height: shape == "image" ? h : 50,
-      lineWidth: shape == "image" ? 0 : 2
-    },
-    labelCfg: {
-      opacity: shape == 'image' ? 0 : 1
-    },
-    nodeStateStyles: {
-      "nodeState:default": {
-        opacity: 1,
-        fill: fill ? fill : img ? '' : '#ecf3ff'
-      },
-      "nodeState:hover": {
-        opacity: 0.8,
-      },
-      "nodeState:selected": {
-        opacity: 0.9,
-        fill: fill ? fill : img ? '' : '#6db5ee',
-      },
-    },
-    x,
-    y,
-    logoIcon: {
-      show: shape == "image" ? true : false,
-      x: -(w / 2),
-      y: -(h / 2),
-      img: img,
-      width: w,
-      height: h,
-    },
-    desc: '',
-    input: '',
-    output: '',
-    g6Node: {},
-    children: [],
-    trackList: [],
-  }
-  graph.addItem('node', models)
-  instance.proxy.$bus.emit('addNodes', models)
-  saveG6Json()
-  tabSave()
-}
-
-// 画布屏幕自适应
-const g6Size = () => {
-  window.addEventListener("resize", () => {
-    setTimeout(() => {
-      const h = graphRef.value.clientHeight
-      const w = graphRef.value.clientWidth
-      graph.changeSize(w, h)
-      // 画布移动到中心
-      graph.fitCenter()
-    }, 100)
-  })
-}
 // 保存画布数据
 const saveG6Json = () => {
-  instance.proxy.$bus.emit('saveData', graph.save())
+  instance.proxy.$bus.emit('saveData', graph.toJSON())
 }
+
 const handlerTabsClick = (tab) => {
-  // console.log(tab);
   const T = tab.props.name
   tabList.value.forEach((item) => {
     if (item.key === T) {
       selectId.value = item.id
-      instance.proxy.$bus.emit('showCanvasData', item)
+      instance.proxy.$bus.emit('tabSourceChangeSvg', item)
       instance.proxy.$bus.emit('aloneNode', item)
     }
   })
@@ -423,7 +924,7 @@ const handlerTabsRemove = (targetName) => {
         let nextTab = tabs[index + 1] || tabs[index - 1]
         if (nextTab) {
           activeName = nextTab.key
-          instance.proxy.$bus.emit('showCanvasData', nextTab)
+          instance.proxy.$bus.emit('tabSourceChangeSvg', nextTab)
           instance.proxy.$bus.emit('aloneNode', nextTab)
         }
       }
@@ -431,27 +932,31 @@ const handlerTabsRemove = (targetName) => {
   }
   TabsValue.value = activeName
   tabList.value = tabs.filter((tab) => tab.key !== targetName);
-  // this.saveG6Json();
 }
-const tabSave = () => {
-  if (tabList.value.length) {
-    tabList.value.forEach(tab => {
-      if (tab.id === selectId.value) {
-        tab.g6Node = graph.save()
-      }
-    })
+const minimapDrop = (e) => {
+  const dom = document.getElementsByClassName('minimap_dialog')[0]
+  let domX = e.clientX - dom.offsetLeft
+  let domY = e.clientY - dom.offsetTop
+  document.onmousemove = (ev) => {
+    minimapPoint.x = ev.clientX - domX
+    minimapPoint.y = ev.clientY - domY
+  }
+  document.onmouseup = () => {
+    document.onmousemove = null
+    document.onmouseup = null
   }
 }
+const closeMap = () => {
+  minimapMark.value = false
+  minimapPoint.x = 1017
+  minimapPoint.y = 50
+}
+
 onMounted(() => {
   nextTick(() => {
     createGraphic()
     initGraphEvent()
-    g6Size()
   })
-})
-onUnmounted(() => {
-  graph.destroy()
-  window.removeEventListener('resize', () => { })
 })
 </script>
 <style lang="scss" scoped>
@@ -473,6 +978,14 @@ onUnmounted(() => {
   position: relative;
   z-index: 1;
   border-radius: 3px;
+  overflow: hidden;
+  display: flex;
+}
+
+.graph-container {
+  width: 100%;
+  height: 100% !important;
+  flex: 1 1;
 }
 
 :deep(.el-tabs--card) {
@@ -486,6 +999,41 @@ onUnmounted(() => {
 
   .is-active {
     background-color: #fff;
+  }
+}
+.minimap_dialog {
+  position: absolute;
+  left: 1017px;
+  top: 50px;
+  z-index: 99;
+  width: 180px;
+  height: 180px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 2px #C0C0C0;
+
+  .mxWindowTitle {
+    color: rgb(112, 112, 112);
+    background: #f1f3f4;
+    padding: 4px;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    font-size: 13px;
+    height: 22px;
+    line-height: 1;
+    border-radius: 5px 5px 0 0;
+    text-align: center;
+    position: relative;
+    cursor: move;
+
+    .close {
+      position: absolute;
+      right: 4px;
+      cursor: pointer;
+    }
+  }
+
+  .minimap {
+    height: 158px;
   }
 }
 </style>

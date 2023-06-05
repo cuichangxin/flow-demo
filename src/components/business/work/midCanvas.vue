@@ -416,9 +416,9 @@ const flyClicked = (e, item, index) => {
     }
   };
   document.onkeyup = () => {
-    document.onkeydown = null;
-    document.onkeyup = null;
-  };
+    document.onkeydown = null
+    document.onkeyup = null
+  }
 }
 // 保存数据到本地
 const save = () => {
@@ -448,7 +448,7 @@ function parentSize() {
 }
 
 onMounted(() => {
-  getDetail()
+  // getDetail()
   work.setScaleLineData(line.value)
   const length = Math.floor(targetContent.value.offsetWidth / 100)
   let count = 0
@@ -465,7 +465,6 @@ onMounted(() => {
     })
     flyList.value = JSON.parse(workData).flyData
   }
-
   instance.proxy.$bus.emit('sendMessage', dragList.value)
 })
 </script>

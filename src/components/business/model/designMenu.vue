@@ -34,19 +34,26 @@ instance.proxy.$bus.on('*', (name, val) => {
   if (name == 'saveData') {
     if (Object.keys(aloneNode.value).length) {
       interTreeNode(val, moduleTree.value)
-      setTimeout(() => {
-        localStorage.setItem('fileTree', JSON.stringify(moduleTree.value)) // 保存左侧树文件到本地
-        instance.proxy.$axios.saveTaskDetail({
-          taskId: Cookies.get('taskId'),
-          daTree: JSON.stringify(moduleTree.value)
-        }).then((res) => {
-          console.log(res);
-        })
-      }, 100)
     }
+    // setTimeout(()=>{
+    //   localStorage.setItem('modelFile',JSON.stringify(moduleTree.value))
+    // },300)
   }
   if (name == 'aloneNode') {
     aloneNode.value = val
+  }
+  if (name === 'tabSourceChangeSvg') {
+    findNode(val,moduleTree.value)
+  }
+  if (name === 'saveFile') {
+    instance.proxy.$axios.saveTaskDetail({
+      taskId:Cookies.get('taskId'),
+      daTree:JSON.stringify(moduleTree.value)
+    })
+    localStorage.setItem('modelFile',JSON.stringify(moduleTree.value))
+  }
+  if (name === 'contraction') {
+    isOut.value = val
   }
 })
 const moduleTree = ref([
@@ -54,48 +61,48 @@ const moduleTree = ref([
     id: "1",
     label: "任务名称",
     hide: false,
-    g6Node: {},
+    node: {},
     active: false,
     children: [
       {
         id: "1-1",
         label: "综合任务",
-        g6Node: {},
+        node: {},
         active: false,
         hide: false,
       },
       {
         id: "1-2",
         label: "姿控任务",
-        g6Node: {},
+        node: {},
         hide: false,
         active: false,
       },
       {
         id: "1-3",
         label: "制导任务",
-        g6Node: {},
+        node: {},
         hide: false,
         active: false,
       },
       {
         id: "1-4",
         label: "数据采集任务",
-        g6Node: {},
+        node: {},
         hide: false,
         active: false,
       },
       {
         id: "1-5",
         label: "遥测任务",
-        g6Node: {},
+        node: {},
         hide: false,
         active: false,
       },
       {
         id: "1-6",
         label: "遥控任务",
-        g6Node: {},
+        node: {},
         hide: false,
         active: false,
       },
@@ -105,48 +112,48 @@ const moduleTree = ref([
     id: "2",
     label: "全局变量",
     hide: false,
-    g6Node: {},
+    node: {},
     active: false,
     children: [
       {
         id: "2-1",
         label: "制导系统诸元参数表",
-        g6Node: {},
+        node: {},
         hide: false,
         active: false,
       },
       {
         id: "2-2",
         label: "姿控系统诸元参数表",
-        g6Node: {},
+        node: {},
         hide: false,
         active: false,
       },
       {
         id: "2-3",
         label: "姿控系统遥测表",
-        g6Node: {},
+        node: {},
         hide: false,
         active: false,
       },
       {
         id: "2-4",
         label: "综合飞行软件诸元参数表",
-        g6Node: {},
+        node: {},
         hide: false,
         active: false,
       },
       {
         id: "2-5",
         label: "综合飞行软件计算机遥测参数表",
-        g6Node: {},
+        node: {},
         hide: false,
         active: false,
       },
       {
         id: "2-6",
         label: "速度数据",
-        g6Node: {},
+        node: {},
         hide: false,
         active: false,
       },
@@ -154,25 +161,23 @@ const moduleTree = ref([
   }
 ])
 const aloneNode = ref({})
-const tag = ref(true) // 只是为了解决添加节点后不显示父节点下拉箭头
 const isOut = ref(false)
+const tag = ref(true) // 只是为了解决添加节点后不显示父节点下拉箭头
 
 // 递归树把节点push到对应树结构中
 const interNode = (val, tree) => {
   tree.forEach((node) => {
     if (node.id == aloneNode.value.id) {
       tag.value = false
-      nextTick(() => {
-        // if (node.children && node.children.length) {
-        //   val.id = node.id + "-" + node.children.length
-        // } else {
-        //   val.id = node.id + "-1"
-        // }
-      })
-      if (!node.children) {
-        node.children = []
+      nextTick(() => {})
+      const nodes = {
+        id:val.id,
+        children:[],
+        label: val.store.data.attrs.text.text,
+        node:{}
       }
-      node.children.push(val)
+      if (!node.children) node.children = []
+      node.children.push(nodes)
       tag.value = true
     } else if (node?.children) {
       interNode(val, node.children);
@@ -182,12 +187,23 @@ const interNode = (val, tree) => {
 const interTreeNode = (val, tree) => {
   tree.forEach((node) => {
     if (node.id == aloneNode.value.id) {
-      node.g6Node = val
+      node.node = val
     } else if (node?.children) {
       interTreeNode(val, node.children)
     }
   })
 }
+
+function findNode(val,tree){
+  tree.forEach(node=>{
+    if (node.id === val.id) {
+      handlerTree(node)
+    }else if (node?.children) {
+      findNode(val,node.children)
+    }
+  })
+}
+
 const handlerTree = (data) => {
   aloneNode.value = data
   instance.proxy.$bus.emit('showCanvasData', toRaw(data))
@@ -200,17 +216,15 @@ const hideMenu = (val) => {
 
 onMounted(() => {
   instance.proxy.$axios.getTaskDetail({ taskId: Cookies.get('taskId') }).then((res) => {
-    // console.log(res);
     if (res.data !== null) {
       moduleTree.value = JSON.parse(res.data.daTree)
     } else {
-      moduleTree.value = JSON.parse(localStorage.getItem('fileTree'))
+      let file = localStorage.getItem('modelFile')
+      if (file) {
+        moduleTree.value = JSON.parse(file)
+      }
     }
   })
-  // let files = localStorage.getItem('fileTree')
-  // if (files) {
-  //   moduleTree.value = JSON.parse(files)
-  // }
 })
 </script>
 <style lang="scss" scoped>

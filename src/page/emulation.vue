@@ -788,8 +788,6 @@ const drop = (e) => {
       shape: dragItem.value.shape !== undefined ? dragItem.value.shape : 'custom-rect',
       x: e.layerX,
       y: e.layerY,
-      width: dragItem.value.shape === 'circle' ? 70 : 100,
-      height: 70,
       label: dragItem.value.label,
       attrs: {
         label: {
@@ -803,7 +801,6 @@ const drop = (e) => {
           // ry: 10,
         },
       },
-      // ports: dragItem.value.shape === 'ellipse' ? { ...ellipsePorts } : dragItem.value.shape === 'circle' ? { ...absolutePorts } : { ...ports },
       list: dragItem.value.list
     })
     if (dragItem.value.shape === 'custom-ellipse') {
@@ -811,7 +808,6 @@ const drop = (e) => {
         node.addPort({
           id: `${index}`,
           group: 'ellipse',
-          // attrs: { text: { text: index } },
         })
       })
     }

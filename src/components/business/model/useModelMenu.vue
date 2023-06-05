@@ -1,7 +1,13 @@
 <script setup>
 import ModelMenu from './modelMenu.vue'
-import markPoint from '../../common/mark/markPoiner.vue';
+import markPoint from '../../common/mark/markPoiner.vue'
+
 const instance = getCurrentInstance()
+instance.proxy.$bus.on('*',(name,val)=>{
+  if (name === 'contraction') {
+    isOut.value = val
+  }
+})
 
 const moduleTree = ref([
   {
@@ -84,6 +90,7 @@ const moduleTree = ref([
             hide: false,
             active: false,
             fill: '#3eede7',
+            shape: 'custom-rect',
             children: [],
           },
           {
@@ -92,6 +99,7 @@ const moduleTree = ref([
             hide: false,
             active: false,
             fill: '#ffa400',
+            shape: 'custom-circle',
             children: [],
           },
           {
@@ -100,6 +108,7 @@ const moduleTree = ref([
             hide: false,
             active: false,
             fill: '#725e82',
+            shape: 'custom-ellipse',
             children: [],
           },
           {
@@ -107,6 +116,7 @@ const moduleTree = ref([
             label: "≥ 大于等于",
             hide: false,
             active: false,
+            shape: 'custom-polygon-rhombus',
             children: [],
           },
           {
@@ -114,6 +124,7 @@ const moduleTree = ref([
             label: "≠ 不等于",
             hide: false,
             active: false,
+            shape: 'custom-polygon-quad',
             children: [],
           },
           {
@@ -187,7 +198,6 @@ const moduleTree = ref([
             label: "初始化",
             hide: false,
             active: false,
-            shape: "circle-node",
             fill: '#1bd1a5',
             children: [],
           },
@@ -196,7 +206,6 @@ const moduleTree = ref([
             label: "当...时",
             hide: false,
             active: false,
-            shape: "ellipse-node",
             children: [],
           },
           {
@@ -204,7 +213,6 @@ const moduleTree = ref([
             label: "被...跟随",
             hide: false,
             active: false,
-            shape: "diamond-node",
             fill: '#549688',
             children: [],
           },
@@ -213,7 +221,6 @@ const moduleTree = ref([
             label: "定时",
             hide: false,
             active: false,
-            shape: "triangle-node",
             children: [],
           },
         ],
@@ -515,24 +522,6 @@ const moduleTree = ref([
   },
 ])
 const isOut = ref(false)
-
-onMounted(() => {
-  const nodes = [...document.getElementById('menu').querySelectorAll(".menu-icon")]
-  nodes.forEach((node) => {
-    node.addEventListener("dragstart", (event) => {
-      const label = node.getAttribute("data-label")
-      const id = node.getAttribute("data-id")
-      const img = node.getAttribute("data-img")
-      const shape = node.getAttribute("data-shape")
-      const fill = node.getAttribute('data-fill')
-      event.dataTransfer.setData("dragComponent", JSON.stringify({ label, id, img, shape, fill }))
-    })
-  })
-  // 阻止默认行为
-  document.addEventListener("drop", (e) => {
-    e.preventDefault()
-  }, false)
-})
 
 const hideMenu = (val)=>{
   isOut.value = val

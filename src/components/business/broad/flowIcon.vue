@@ -899,7 +899,6 @@ const timer = ref(null)
 const isFlag = ref(true)
 const idx = ref(null)
 watch([() => props.list,() => props.serial], ([n,serial],[nOld,serialOld]) => {
-  console.log(serial,serialOld);
   if (JSON.stringify(n) == "{}") {
     lines.value = []
     infoList.value.postList.forEach((item) => {

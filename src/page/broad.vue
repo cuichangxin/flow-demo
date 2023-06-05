@@ -29,22 +29,28 @@ const list = ref({})
 const serial = ref(1)
 const timer = ref(null)
 const flag = ref(true)
-const specArr = [7,9,10,14,15,17,18,19,20,21,22,23]
+const specArr = [7, 9, 10, 14, 15, 17, 18, 19, 20, 21, 22, 23]
 
 onMounted(() => {
+  timerTask()
+})
+
+function timerTask() {
   timer.value = setInterval(() => {
     boardShow()
   }, 3000)
-})
-
+}
 const boardShow = () => {
   proxy.$axios.boardShow({ file: serial.value }).then((res) => {
+    console.log(specArr.indexOf(res.data),'[7, 9, 10, 14, 15, 17, 18, 19, 20, 21, 22, 23] --- 有没有')
     if (specArr.indexOf(res.data) !== -1) {
       serial.value = res.data
-      setTimeout(()=>{
+      clearInterval(timer.value)
+      setTimeout(() => {
         getJson(res.data)
-      },5000)
-    }else {
+        timerTask()
+      }, 5000)
+    } else {
       serial.value = res.data
       getJson(res.data)
     }

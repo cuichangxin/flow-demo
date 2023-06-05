@@ -1,5 +1,5 @@
 <template>
-  <div class="model_table" :class="{'fade':isOut}">
+  <div class="model_table" :class="{ 'fade': isOut }">
     <div class="button_box">
       <el-radio-group v-model="tabPosition">
         <el-radio-button label="1">属性</el-radio-button>
@@ -61,16 +61,14 @@
         <el-table :data="trackList" border style="width: 100%">
           <el-table-column prop="id" label="需求ID"></el-table-column>
           <el-table-column prop="label" label="需求名称"></el-table-column>
-          <el-table-column label="操作" width="200">
-            <template slot-scope="scope">
-              <div class="butn">
-                <el-button link @click="remove(scope.row)">
-                  <i class="iconfont icon">&#xe68e;</i>
-                </el-button>
-              </div>
+          <el-table-column label="操作" width="100">
+            <template #default>
+              <el-button link @click="remove(scope.row)">
+                <el-icon size="20" color="red">
+                  <Delete />
+                </el-icon>
+              </el-button>
             </template>
-          </el-table-column>
-          <el-table-column>
           </el-table-column>
         </el-table>
       </div>
@@ -96,19 +94,25 @@
 </template>
 <script setup>
 import _ from "lodash";
-import { ElMessage } from "element-plus";
 import markPoint from "../../common/mark/markPoiner.vue";
+import { Delete } from '@element-plus/icons-vue'
 
 const instance = getCurrentInstance()
 
-instance.proxy.$bus.on('tableConfig', (val) => {
-  // 属性表格 需求追踪配置项
-  config.value = val
-  config.value.oldLabel = val.label
-  if (val?.trackList) {
-    trackList.value = val.trackList
-  } else {
-    trackList.value = []
+instance.proxy.$bus.on('*', (name,val) => {
+  if (name === 'tableConfig') {
+    // 属性表格 需求追踪配置项
+    config.value = val
+    config.value.label = val.attrs.text.text
+    config.value.oldLabel = val.attrs.text.text
+    if (val?.trackList) {
+      trackList.value = val.trackList
+    } else {
+      trackList.value = []
+    }
+  }
+  if (name === 'contraction') {
+    isOut.value = val
   }
 })
 
@@ -161,7 +165,7 @@ const blur = () => {
 const format = () => {
   if (config.value.label == '') {
     isNext.value = false
-    ElMessage({ message: "请输入内容", type: "warning" })
+    instance.proxy.modal.msgWarning('请输入名称')
   } else {
     trackList.value = _.cloneDeep(config.value.trackList)
     instance.proxy.$bus.emit('updateNode', config.value) // 更新节点信息并且保存数据到左侧树中
@@ -209,9 +213,9 @@ const remove = (row) => {
   config.value.trackList = trackList.value
   instance.proxy.$bus.emit('updateNode', config.value)
 }
-const hideMenu = (val)=>{
+const hideMenu = (val) => {
   isOut.value = val
-  instance.proxy.$bus.emit('resize',isOut.value)
+  instance.proxy.$bus.emit('resize', isOut.value)
 }
 </script>
 <style lang="scss" scoped>
@@ -299,17 +303,19 @@ const hideMenu = (val)=>{
       }
     }
   }
-  &.fade{
+
+  &.fade {
     height: 0;
     margin-bottom: -10px;
   }
-  &:hover{
-    .click{
+
+  &:hover {
+    .click {
       opacity: 1;
     }
   }
 }
-.mark{
+
+.mark {
   bottom: 88% !important;
-}
-</style>
+}</style>

@@ -13,9 +13,14 @@ let props = defineProps({
     default: "icon-custom-other",
   },
 })
+const instance = getCurrentInstance()
 
 const checkType = (menus) => {
   return Array.isArray(menus)
+}
+
+const dragstart = (e, v) => {
+  instance.proxy.$bus.emit('dragStart',v)
 }
 </script>
 
@@ -31,7 +36,7 @@ const checkType = (menus) => {
         <modelMenu :menus="item.children" :drag="drag" :icon="icon"></modelMenu>
       </el-sub-menu>
       <el-menu-item v-else :index="item.id" :draggable="drag" :class="{ 'menu-icon': drag }" :data-label="item.label"
-        :data-id="item.id" :data-img="item.img" :data-shape="item.shape" :data-fill="item.fill">
+        :data-id="item.id" :data-img="item.img" :data-shape="item.shape" :data-fill="item.fill" @dragstart="(e) => dragstart(e, item)">
         <template #title>
           <img class="model_img" src="../../../assets/image/model.png" />
           <span>{{ item.label }}</span>

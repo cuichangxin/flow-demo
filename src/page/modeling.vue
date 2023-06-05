@@ -5,10 +5,18 @@ import ModelTable from '../components/business/model/modelTable.vue';
 import UseModelMenu from '../components/business/model/useModelMenu.vue'
 import shapeHeader from '../components/common/shapeHeader.vue'
 
+const { proxy } = getCurrentInstance()
+
+proxy.$bus.on('*',(name,val)=>{
+  if (name === 'undoAndRedo') {
+    canUndo.value = val.canUndo
+    canRedo.value = val.canRedo
+  }
+})
+
 const mainH = ref('')
 const canUndo = ref(false) // 是否能撤销
 const canRedo = ref(false) // 是否能重做
-
 onMounted(() => {
   mainH.value = window.innerHeight - 151
   window.addEventListener('resize', () => {
@@ -19,8 +27,25 @@ onUnmounted(() => {
   window.removeEventListener('resize', () => { })
 })
 
-const handleMenu = ()=>{
-
+const contractionFlag = ref(false)
+const handleMenu = (val)=>{
+  console.log(val);
+  if (val === '保存') {
+    proxy.$bus.emit('saveFile')
+  }
+  if (val === '撤销') {
+    proxy.$bus.emit('undo')
+  }
+  if (val === '重做') {
+    proxy.$bus.emit('redo')
+  }
+  if (val === '格式') {
+    contractionFlag.value = !contractionFlag.value
+    proxy.$bus.emit('contraction',contractionFlag.value)
+  }
+  if (val === '缩略图') {
+    proxy.$bus.emit('minimap')
+  }
 }
 </script>
 <template>
