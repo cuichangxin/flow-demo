@@ -1,12 +1,31 @@
 <template>
   <!-- 画布区域 -->
-  <div class="canvas_box" :class="{ 'out_height': isOut }" ref="targetContent">
+  <div class="canvas_box" :class="{ out_height: isOut }" ref="targetContent">
     <template v-if="dragList.length">
-      <vue-drag-resize v-for="(item, index) in dragList" :key="'i' + item.id" :w="item.w" :h="item.h" :minw="10"
-        :minh="40" :x="item.left" :y="item.top" :z="item.z" :parentLimitation="true" :snapToGrid="true" :gridX="1"
-        :gridY="1" :parentW="parent.parentW" :parentH="parent.parentH" :style="{ background: item.bgColor }" ref="taskRef"
-        class="item" :class="[`task_${item.id}`]" @clicked="(e) => onActivated(e, item, index)"
-        @dragstop="(e) => dragstop(e, item)" @resizestop="(e) => resizestop(e, item)">
+      <vue-drag-resize
+        v-for="(item, index) in dragList"
+        :key="'i' + item.id"
+        :w="item.w"
+        :h="item.h"
+        :minw="10"
+        :minh="40"
+        :x="item.left"
+        :y="item.top"
+        :z="item.z"
+        :parentLimitation="true"
+        :snapToGrid="true"
+        :gridX="1"
+        :gridY="1"
+        :parentW="parent.parentW"
+        :parentH="parent.parentH"
+        :style="{ background: item.bgColor }"
+        ref="taskRef"
+        class="item"
+        :class="[`task_${item.id}`]"
+        @clicked="(e) => onActivated(e, item, index)"
+        @dragstop="(e) => dragstop(e, item)"
+        @resizestop="(e) => resizestop(e, item)"
+      >
         {{ item.label }}
 
         <!-- 虚线 -->
@@ -20,31 +39,57 @@
     </template>
 
     <!-- 刻度线 -->
-    <div ref="line" class="line_info" :style="{
-      width: (scaleList.length + 1) * 100 + 'px',
-      visibility: showScale ? 'visible' : 'hidden',
-    }">
-      <div class="scale" v-for="(item, index) in scaleList" :key="item.id"
-        :style="{ left: parseFloat(index + 1 + '00') + 'px' }">
-        <p>{{ index == 0 ? index : index + "00" }}</p>
+    <div
+      ref="line"
+      class="line_info"
+      :style="{
+        width: (scaleList.length + 1) * 100 + 'px',
+        visibility: showScale ? 'visible' : 'hidden',
+      }"
+    >
+      <div
+        class="scale"
+        v-for="(item, index) in scaleList"
+        :key="item.id"
+        :style="{ left: parseFloat(index + 1 + '00') + 'px' }"
+      >
+        <p>{{ index == 0 ? index : index + '00' }}</p>
       </div>
       <em>t/s</em>
     </div>
 
     <!-- 飞行段 -->
     <template v-if="flyList.length">
-      <vue-drag-resize v-for="(item, index) in flyList" :key="item.title" :w="item.w" :h="40" :minw="10" :minh="40"
-        :x="item.left" :y="item.top" :z="20" :parentLimitation="true" :snapToGrid="true" :gridX="1" :gridY="1"
-        :parentW="parent.parentW" :parentH="parent.parentH" class="fly"
-        :style="{ background: `linear-gradient(135deg, transparent 18px, ${randomRbg(index)} 0)`, }"
-        @dragstop="(e) => flyDragStop(e, item)" @resizestop="(e) => flyResizeStop(e, item)"
-        @clicked="(e) => flyClicked(e, item, index)">
+      <vue-drag-resize
+        v-for="(item, index) in flyList"
+        :key="item.title"
+        :w="item.w"
+        :h="40"
+        :minw="10"
+        :minh="40"
+        :x="item.left"
+        :y="item.top"
+        :z="20"
+        :parentLimitation="true"
+        :snapToGrid="true"
+        :gridX="1"
+        :gridY="1"
+        :parentW="parent.parentW"
+        :parentH="parent.parentH"
+        class="fly"
+        :style="{
+          background: `linear-gradient(135deg, transparent 18px, ${randomRbg(index)} 0)`,
+        }"
+        @dragstop="(e) => flyDragStop(e, item)"
+        @resizestop="(e) => flyResizeStop(e, item)"
+        @clicked="(e) => flyClicked(e, item, index)"
+      >
         {{ item.title }}
       </vue-drag-resize>
     </template>
   </div>
 
-  <el-aside class="el-aside-menu" :class="{ 'fade': slideFade, 'out_height': isOut }">
+  <el-aside class="el-aside-menu" :class="{ fade: slideFade, out_height: isOut }">
     <h4 v-if="!slideFade">
       <i class="iconfont icon">&#xe622;</i>
       应用任务模型
@@ -54,17 +99,18 @@
         <modelMenu :moduleTree="moduleTree"></modelMenu>
       </el-menu>
     </el-scrollbar>
-    <div class="handle" @click="fade"></div>
+    <markPoint :isOut="slideFade" :direction="'left'" :color="'#fff'" @hideMenu="hideMenu"></markPoint>
   </el-aside>
 </template>
 <script setup>
 import vueDragResize from 'vue-drag-resize/src'
 import modelMenu from './modelMenu.vue'
-import { randomRbg } from "@/utils/utils";
-import _ from "lodash";
+import { randomRbg } from '@/utils/utils'
+import _ from 'lodash'
 import { workStore } from '@/store/index'
-import { storeToRefs } from 'pinia';
+import { storeToRefs } from 'pinia'
 import Cookies from 'js-cookie'
+import markPoint from '../../common/mark/markPoiner.vue'
 
 const instance = getCurrentInstance()
 instance.proxy.$bus.on('*', (name, val) => {
@@ -89,7 +135,7 @@ instance.proxy.$bus.on('*', (name, val) => {
             vals.sTime = copy.form.sTime
             vals.eTime = copy.form.eTime
             vals.title = copy.form.title
-            vals.top = (lineEl.offsetTop - 80)
+            vals.top = lineEl.offsetTop - 80
             vals.oldTitle = copy.form.oldTitle
           }
         })
@@ -113,64 +159,64 @@ const work = workStore()
 const { taskPropertyData, dragEv } = storeToRefs(work)
 const moduleTree = ref([
   {
-    id: "1",
-    label: "业务模型库",
+    id: '1',
+    label: '业务模型库',
     isDrag: false,
     hide: false,
     children: [
       {
-        id: "1-1",
-        label: "综合控制任务",
+        id: '1-1',
+        label: '综合控制任务',
         isDrag: true,
-        bgColor: "#f8ebdc",
+        bgColor: '#f8ebdc',
         control: false,
       },
       {
-        id: "1-2",
-        label: "遥测任务",
+        id: '1-2',
+        label: '遥测任务',
         isDrag: true,
-        bgColor: "#e8f6dc",
+        bgColor: '#e8f6dc',
         control: false,
       },
       {
-        id: "1-3",
-        label: "遥控任务",
+        id: '1-3',
+        label: '遥控任务',
         isDrag: true,
-        bgColor: "#e0f4f5",
+        bgColor: '#e0f4f5',
         control: false,
       },
       {
-        id: "1-4",
-        label: "数据采集任务",
+        id: '1-4',
+        label: '数据采集任务',
         isDrag: true,
-        bgColor: "#fff",
+        bgColor: '#fff',
         control: false,
       },
       {
-        id: "1-5",
-        label: "姿控任务",
+        id: '1-5',
+        label: '姿控任务',
         isDrag: true,
-        bgColor: "#f5deec",
+        bgColor: '#f5deec',
         control: false,
       },
       {
-        id: "1-6",
-        label: "制导任务",
+        id: '1-6',
+        label: '制导任务',
         isDrag: true,
-        bgColor: "#e8ebed",
+        bgColor: '#e8ebed',
         control: false,
       },
     ],
   },
   {
-    id: "2",
-    label: "基础模型库",
+    id: '2',
+    label: '基础模型库',
     isDrag: false,
     hide: false,
     children: [
       {
-        id: "2-1",
-        label: "通用任务",
+        id: '2-1',
+        label: '通用任务',
         isDrag: true,
       },
     ],
@@ -191,7 +237,7 @@ const slideFade = ref(false)
 const isOut = ref(false)
 const parent = reactive({
   parentW: 0,
-  parentH: 0
+  parentH: 0,
 })
 
 watchEffect(() => {
@@ -204,86 +250,90 @@ watchEffect(() => {
         const dottedEl = document.getElementsByClassName(`task_${item.id}`)[0]
         const h = line.value.offsetTop - dottedEl.offsetTop
         item.dottedH = h
-        item.endTime = item.w + (item.left - lineOffsetLeft.value - 100) + "s"
+        item.endTime = item.w + (item.left - lineOffsetLeft.value - 100) + 's'
       })
       banResize.value = false
       save()
     })
   }
 })
-watch([taskPropertyData, dragEv], ([t, drag], [ot]) => {
-  if (drag !== null) {
-    dragstart(drag)
-  }
-  if (JSON.stringify(t) !== JSON.stringify(ot)) {
-    banResize.value = true
-    dragList.value.forEach((item) => {
-      if (item.label == t.label) {
-        nextTick(() => {
-          item.left = t.left
+watch(
+  [taskPropertyData, dragEv],
+  ([t, drag], [ot]) => {
+    if (drag !== null) {
+      dragstart(drag)
+    }
+    if (JSON.stringify(t) !== JSON.stringify(ot)) {
+      banResize.value = true
+      dragList.value.forEach((item) => {
+        if (item.label == t.label) {
           nextTick(() => {
-            item.w = t.w
+            item.left = t.left
+            nextTick(() => {
+              item.w = t.w
+            })
           })
-        })
-        item.desc = t.desc
-        item.endTime = t.endTime
-        item.langTime = t.langTime
-        item.prec = t.prec
-        item.startTime = t.startTime
-        item.needList = t.needList
-      }
-    })
-    console.log(dragList.value);
+          item.desc = t.desc
+          item.endTime = t.endTime
+          item.langTime = t.langTime
+          item.prec = t.prec
+          item.startTime = t.startTime
+          item.needList = t.needList
+        }
+      })
+      console.log(dragList.value)
+      setTimeout(() => {
+        save()
+      }, 100)
+    }
     setTimeout(() => {
-      save()
-    }, 100)
-  }
-  setTimeout(() => {
-    banResize.value = false
-  }, 2000)
-}, { deep: true })
+      banResize.value = false
+    }, 2000)
+  },
+  { deep: true }
+)
 // 拖拽元素开始
 const dragstart = (item) => {
-  dragItem.value = item;
+  dragItem.value = item
   // 元素行为 移动
-  targetContent.value.addEventListener("dragenter", dragenter);
+  targetContent.value.addEventListener('dragenter', dragenter)
   // 目标元素经过 禁止默认事件
-  targetContent.value.addEventListener("dragover", dragover);
+  targetContent.value.addEventListener('dragover', dragover)
   // 离开目标元素设置元素的放置行为  不能拖放
-  targetContent.value.addEventListener("dragleave", dragleave);
+  targetContent.value.addEventListener('dragleave', dragleave)
   // 拖动元素在目标元素松手时添加元素到画布
-  targetContent.value.addEventListener("drop", drop);
+  targetContent.value.addEventListener('drop', drop)
 }
 const dragenter = (e) => {
-  e.dataTransfer.dropEffect = "move"
+  e.dataTransfer.dropEffect = 'move'
 }
 const dragover = (e) => {
   e.preventDefault()
 }
 const dragleave = (e) => {
-  e.dataTransfer.dropEffect = "none"
+  e.dataTransfer.dropEffect = 'none'
 }
 const drop = (e) => {
   if (idList.value.indexOf(dragItem.value.id) !== -1) {
-    dragItem.value = null;
-    return;
+    dragItem.value = null
+    return
   }
-  dragItem.value.top = e.layerY;
-  dragItem.value.left = e.layerX;
-  dragItem.value.w = 100; // 初始宽
-  dragItem.value.h = 40; // 初始高
+  dragItem.value.top = e.layerY
+  dragItem.value.left = e.layerX
+  dragItem.value.w = 100 // 初始宽
+  dragItem.value.h = 40 // 初始高
   dragItem.value.z = 'auto'
-  idList.value.push(dragItem.value.id);
-  dragList.value.push(dragItem.value);
-  dragItem.value = null;
-  targetContent.value.removeEventListener("dragenter", dragenter);
-  targetContent.value.removeEventListener("dragover", dragover);
-  targetContent.value.removeEventListener("dragleave", dragleave);
-  targetContent.value.removeEventListener("drop", drop);
+  idList.value.push(dragItem.value.id)
+  dragList.value.push(dragItem.value)
+  dragItem.value = null
+  targetContent.value.removeEventListener('dragenter', dragenter)
+  targetContent.value.removeEventListener('dragover', dragover)
+  targetContent.value.removeEventListener('dragleave', dragleave)
+  targetContent.value.removeEventListener('drop', drop)
   save()
 }
 const onActivated = (e, item, index) => {
-  dragList.value.forEach(drag => {
+  dragList.value.forEach((drag) => {
     if (item.id === drag.id) {
       drag.z = 2001
     } else {
@@ -300,22 +350,22 @@ const onActivated = (e, item, index) => {
         if (d == item.id) {
           idList.value.splice(i, 1)
         }
-      });
+      })
       // 属性表格置空
       work.setShowTable({ status: true, label: item.label, data: {} })
     }
-  };
+  }
   document.onkeyup = () => {
-    document.onkeydown = null;
-    document.onkeyup = null;
-  };
+    document.onkeydown = null
+    document.onkeyup = null
+  }
 }
 const dragstop = (e, item) => {
-  updateSize(e, item);
+  updateSize(e, item)
 }
 // 画布内元素尺寸发生变化
 const resizestop = (e, item) => {
-  updateSize(e, item);
+  updateSize(e, item)
   // const lineEl = line.value,
   //   lineElw = lineEl.style.width.split("px")[0],
   //   parentEl = targetContent.value;
@@ -338,7 +388,7 @@ const updateSize = (e, item) => {
   if (banResize.value) {
     return
   }
-  console.log("模型组件更新触发", e);
+  console.log('模型组件更新触发', e)
   // 获取虚线元素
   const dottedEl = document.getElementById(`dotted${item.id}`)
   // 虚线父级元素
@@ -347,22 +397,22 @@ const updateSize = (e, item) => {
   const scaleLineEl = line.value
   const dottedTop = dottedEl.offsetTop + par.offsetTop,
     scaleTop = scaleLineEl.offsetTop,
-    h = scaleTop - dottedTop;
+    h = scaleTop - dottedTop
   dragList.value.forEach((v) => {
     if (v.id == item.id) {
       v.left = e.left
       v.top = e.top
       v.dottedH = h
       v.w = e.width
-      v.endTime = e.width + (item.left - scaleLineEl.offsetLeft - 100) + "s"
-      v.startTime = item.left - scaleLineEl.offsetLeft - 100 + "s"
+      v.endTime = e.width + (item.left - scaleLineEl.offsetLeft - 100) + 's'
+      v.startTime = item.left - scaleLineEl.offsetLeft - 100 + 's'
       // v.langTime = ""
       // v.desc = ""
       // v.prec = ""
       v.lineOffsetLeft = scaleLineEl.offsetLeft
       lineOffsetLeft.value = scaleLineEl.offsetLeft
     }
-  });
+  })
   work.setShowTable({
     status: true,
     label: item.label,
@@ -374,28 +424,28 @@ const updateSize = (e, item) => {
   save()
 }
 const flyDragStop = (e, item) => {
-  flyUpdate(e, item, "drag");
+  flyUpdate(e, item, 'drag')
 }
 const flyResizeStop = (e, item) => {
-  flyUpdate(e, item, "resize");
+  flyUpdate(e, item, 'resize')
 }
 const flyUpdate = (e, item, type) => {
   if (banResize.value) return
   const lineElLeft = line.value.offsetLeft
   flyList.value.forEach((d) => {
     if (d.title == item.title) {
-      if (type == "drag") {
-        d.sTime = e.left - lineElLeft - 100 + "s";
-        d.eTime = e.width + parseFloat(item.sTime) + "s";
+      if (type == 'drag') {
+        d.sTime = e.left - lineElLeft - 100 + 's'
+        d.eTime = e.width + parseFloat(item.sTime) + 's'
       }
-      if (type == "resize") {
+      if (type == 'resize') {
         // 如果元素left变动需要重新计算
         if (e.left !== item.left) {
-          d.sTime = e.left - lineElLeft - 100 + "s";
-          d.eTime = e.width + (e.left - lineElLeft - 100) + "s";
+          d.sTime = e.left - lineElLeft - 100 + 's'
+          d.eTime = e.width + (e.left - lineElLeft - 100) + 's'
         } else {
           // 如果元素left未变动只需要计算元素右边
-          d.eTime = e.width + (item.left - lineElLeft - 100) + "s";
+          d.eTime = e.width + (item.left - lineElLeft - 100) + 's'
         }
       }
       d.w = e.width
@@ -411,10 +461,10 @@ const flyClicked = (e, item, index) => {
   document.onkeydown = (e) => {
     // 删除元素
     if (e.keyCode === 8) {
-      flyList.value.splice(index, 1);
+      flyList.value.splice(index, 1)
       save()
     }
-  };
+  }
   document.onkeyup = () => {
     document.onkeydown = null
     document.onkeyup = null
@@ -422,14 +472,17 @@ const flyClicked = (e, item, index) => {
 }
 // 保存数据到本地
 const save = () => {
-  localStorage.setItem('workData', JSON.stringify({
-    dragData: dragList.value,
-    flyData: flyList.value
-  }))
+  localStorage.setItem(
+    'workData',
+    JSON.stringify({
+      dragData: dragList.value,
+      flyData: flyList.value,
+    })
+  )
   instance.proxy.$bus.emit('sendMessage', dragList.value)
 }
-const fade = () => {
-  slideFade.value = !slideFade.value
+const hideMenu = (val) => {
+  slideFade.value = val
   parentSize()
 }
 // 获取任务详情
@@ -454,13 +507,13 @@ onMounted(() => {
   let count = 0
   for (var i = 0; i < length - 2; i++) {
     scaleList.value.push({
-      num: count += 100
+      num: (count += 100),
     })
   }
   let workData = localStorage.getItem('workData')
   if (workData) {
     dragList.value = JSON.parse(workData).dragData
-    dragList.value.forEach(drag => {
+    dragList.value.forEach((drag) => {
       idList.value.push(drag.id)
     })
     flyList.value = JSON.parse(workData).flyData
@@ -476,13 +529,14 @@ onMounted(() => {
   border-radius: 10px;
   margin-right: 20px;
   position: relative;
-  background-image: linear-gradient(90deg, rgba(60, 10, 30, 0.07) 3%, transparent 0), linear-gradient(1turn, rgba(60, 10, 30, 0.07) 3%, transparent 0);
+  background-image: linear-gradient(90deg, rgba(60, 10, 30, 0.07) 3%, transparent 0),
+    linear-gradient(1turn, rgba(60, 10, 30, 0.07) 3%, transparent 0);
   background-size: 20px 20px;
   background-position: 50%;
   background-repeat: repeat;
-  box-shadow: 0px 0px 12px rgba(0, 0, 0, .12);
+  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.12);
   overflow: hidden;
-  transition: height .2s ease-in-out;
+  transition: height 0.2s ease-in-out;
 
   &.out_height {
     height: 100%;
@@ -511,7 +565,7 @@ onMounted(() => {
     margin: 0 auto;
 
     &::before {
-      content: "";
+      content: '';
       display: block;
       position: absolute;
       top: 50%;
@@ -590,10 +644,10 @@ onMounted(() => {
   padding: 0;
   background: #fff;
   border-radius: 10px;
-  box-shadow: 0px 0px 12px rgba(0, 0, 0, .12);
+  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.12);
   position: relative;
   overflow: visible;
-  transition: width .3s ease-in-out, height .2s ease-in-out;
+  transition: width 0.3s ease-in-out, height 0.2s ease-in-out;
 
   h4 {
     padding-bottom: 20px;
@@ -617,28 +671,17 @@ onMounted(() => {
     height: calc(100% - 60px);
   }
 
-  .handle {
-    width: 12px;
-    height: 20px;
-    background-color: #8e9eab;
-    border-radius: 10px 0 0 10px;
-    position: absolute;
-    top: 50%;
-    left: -12px;
-    transition: all .2s linear;
-    cursor: pointer;
-
-    &:hover {
-      background-color: #146ec2;
-    }
-  }
-
   &.fade {
     width: 0;
   }
-
   &.out_height {
     height: 100%;
+  }
+
+  &:hover {
+    .click {
+      opacity: 1;
+    }
   }
 }
 

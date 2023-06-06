@@ -1,6 +1,6 @@
 <template>
-  <div class="table_control" :class="{ 'out': isOut }">
-    <div class="button_box" :class="{ 'op': isOut }">
+  <div class="table_control" :class="{ out: isOut }">
+    <div class="button_box" :class="{ op: isOut }">
       <el-radio-group v-model="tabPosition">
         <el-radio-button label="1">属性</el-radio-button>
         <el-radio-button label="2">需求追踪</el-radio-button>
@@ -21,15 +21,31 @@
             <th class="label">最长执行时间</th>
             <th @click="edit(0)">
               <span v-show="hideInput != 0">{{ tableData.langTime }}</span>
-              <el-input v-show="hideInput == 0" size="small" placeholder="请输入内容" v-model="tableData.langTime" clearable
-                @keyup.enter.native="(e) => enter(0, 'langTime')" @blur="(e) => blur(0, 'langTime', e)" :ref="inputRef">
+              <el-input
+                v-show="hideInput == 0"
+                size="small"
+                placeholder="请输入内容"
+                v-model="tableData.langTime"
+                clearable
+                @keyup.enter.native="(e) => enter(0, 'langTime')"
+                @blur="(e) => blur(0, 'langTime', e)"
+                :ref="inputRef"
+              >
               </el-input>
             </th>
             <th class="label">描述</th>
             <th @click="edit(3)">
               <span v-show="hideInput != 3">{{ tableData.desc }}</span>
-              <el-input v-show="hideInput == 3" size="small" placeholder="请输入内容" v-model="tableData.desc" clearable
-                @keyup.enter.native="(e) => enter(3, 'desc')" @blur="(e) => blur(3, 'desc', e)" :ref="inputRef">
+              <el-input
+                v-show="hideInput == 3"
+                size="small"
+                placeholder="请输入内容"
+                v-model="tableData.desc"
+                clearable
+                @keyup.enter.native="(e) => enter(3, 'desc')"
+                @blur="(e) => blur(3, 'desc', e)"
+                :ref="inputRef"
+              >
               </el-input>
             </th>
           </tr>
@@ -37,15 +53,31 @@
             <th class="label">开始时间</th>
             <th @click="edit(1)">
               <span v-show="hideInput != 1">{{ tableData.startTime }}</span>
-              <el-input v-show="hideInput == 1" size="small" placeholder="请输入内容" v-model="tableData.startTime" clearable
-                @keyup.enter.native="(e) => enter(1, 'startTime')" @blur="(e) => blur(1, 'startTime', e)" :ref="inputRef">
+              <el-input
+                v-show="hideInput == 1"
+                size="small"
+                placeholder="请输入内容"
+                v-model="tableData.startTime"
+                clearable
+                @keyup.enter.native="(e) => enter(1, 'startTime')"
+                @blur="(e) => blur(1, 'startTime', e)"
+                :ref="inputRef"
+              >
               </el-input>
             </th>
             <th class="label">优先级</th>
             <th @click="edit(4)">
               <span v-show="hideInput != 4">{{ tableData.prec }}</span>
-              <el-input v-show="hideInput == 4" size="small" placeholder="请输入内容" v-model="tableData.prec" clearable
-                @keyup.enter.native="(e) => enter(4, 'prec')" @blur="(e) => blur(4, 'prec', e)" :ref="inputRef">
+              <el-input
+                v-show="hideInput == 4"
+                size="small"
+                placeholder="请输入内容"
+                v-model="tableData.prec"
+                clearable
+                @keyup.enter.native="(e) => enter(4, 'prec')"
+                @blur="(e) => blur(4, 'prec', e)"
+                :ref="inputRef"
+              >
               </el-input>
             </th>
           </tr>
@@ -53,8 +85,16 @@
             <th class="label">结束时间</th>
             <th @click="edit(2)">
               <span v-show="hideInput != 2">{{ tableData.endTime }}</span>
-              <el-input v-show="hideInput == 2" size="small" placeholder="请输入内容" v-model="tableData.endTime" clearable
-                @keyup.enter.native="(e) => enter(2, 'endTime')" @blur="(e) => blur(2, 'endTime', e)" :ref="inputRef">
+              <el-input
+                v-show="hideInput == 2"
+                size="small"
+                placeholder="请输入内容"
+                v-model="tableData.endTime"
+                clearable
+                @keyup.enter.native="(e) => enter(2, 'endTime')"
+                @blur="(e) => blur(2, 'endTime', e)"
+                :ref="inputRef"
+              >
               </el-input>
             </th>
             <th></th>
@@ -70,7 +110,13 @@
         <div class="top_add">
           <i class="iconfont icon" @click="dialogVisible = true">&#xe683;</i>
         </div>
-        <el-table :data="needList" height="180" border :cell-style="tableCellStyle" :header-cell-style="tableHeaderCellStyle">
+        <el-table
+          :data="needList"
+          height="180"
+          border
+          :cell-style="tableCellStyle"
+          :header-cell-style="tableHeaderCellStyle"
+        >
           <el-table-column prop="id" label="需求ID"> </el-table-column>
           <el-table-column prop="label" label="需求名称"> </el-table-column>
           <el-table-column label="操作">
@@ -92,8 +138,13 @@
         <div class="top_add">
           <i class="iconfont icon" @click="addFly">&#xe683;</i>
         </div>
-        <el-table :data="flyList" height="180" border :cell-style="tableCellStyle"
-          :header-cell-style="tableHeaderCellStyle">
+        <el-table
+          :data="flyList"
+          height="180"
+          border
+          :cell-style="tableCellStyle"
+          :header-cell-style="tableHeaderCellStyle"
+        >
           <el-table-column prop="title" label="飞行段名称" />
           <el-table-column prop="sTime" label="开始时间" />
           <el-table-column prop="eTime" label="结束时间" />
@@ -112,14 +163,18 @@
         </el-table>
       </div>
     </div>
-    <div class="close_btn" :class="{ 'top': isOut }" @click="out"></div>
+    <markPoint :isOut="isOut" :direction="'top'" :color="'#fff'" @hideMenu="hideMenu"></markPoint>
   </div>
 
   <!-- 弹窗 -->
   <el-dialog title="需求追踪" v-model="dialogVisible">
-    <el-table :data="dialogNeedList" border @selection-change="handleSelectionChange" :ref="el => tableRef = el">
-      <el-table-column type="selection" width="55" :selectable="checkSelectable">
-      </el-table-column>
+    <el-table
+      :data="dialogNeedList"
+      border
+      @selection-change="handleSelectionChange"
+      :ref="(el) => (tableRef = el)"
+    >
+      <el-table-column type="selection" width="55" :selectable="checkSelectable"> </el-table-column>
       <el-table-column prop="id" label="需求ID"> </el-table-column>
       <el-table-column prop="label" label="需求名称" width="400"> </el-table-column>
     </el-table>
@@ -134,8 +189,14 @@
   <!-- 表单 -->
   <el-drawer title="飞行段定义" v-model="drawer">
     <div class="form_box">
-      <el-form :ref="el => formRef = el" :rules="flyRules" :hide-required-asterisk="true" :model="form"
-        label-position="right" label-width="100px">
+      <el-form
+        :ref="(el) => (formRef = el)"
+        :rules="flyRules"
+        :hide-required-asterisk="true"
+        :model="form"
+        label-position="right"
+        label-width="100px"
+      >
         <el-form-item label="飞行段名称" prop="title">
           <el-input v-model="form.title"></el-input>
         </el-form-item>
@@ -154,15 +215,16 @@
   </el-drawer>
 </template>
 <script setup>
-import { containsNumber } from "@/utils/utils";
-import { ElMessage } from "element-plus";
+import { containsNumber } from '@/utils/utils'
+import { ElMessage } from 'element-plus'
 import { workStore } from '@/store/index'
-import _ from "lodash";
-import { storeToRefs } from "pinia";
+import _ from 'lodash'
+import { storeToRefs } from 'pinia'
+import markPoint from '../../common/mark/markPoiner.vue'
 
 const instance = getCurrentInstance()
 
-const timeReg = /^[0-9]{1,}s|ms|S/;
+const timeReg = /^[0-9]{1,}s|ms|S/
 const work = workStore()
 const { isTableShow, scaleLineData, tableFlyData } = storeToRefs(work)
 var checkSTime = (rule, value, callback) => {
@@ -184,7 +246,7 @@ var checkETime = (rule, value, callback) => {
   }
 }
 
-const inputRef = el => {
+const inputRef = (el) => {
   if (el) {
     el.focus()
     el.select()
@@ -194,13 +256,13 @@ const inputRef = el => {
 const formRef = ref(null)
 const tableRef = ref(null)
 const tableData = ref({
-  langTime: "", // 最长执行时间
-  startTime: "", // 开始时间
-  endTime: "", // 结束时间
-  desc: "", // 描述
-  prec: "", // 优先级
-  w: "", // 宽度
-  left: "", // 左边距离
+  langTime: '', // 最长执行时间
+  startTime: '', // 开始时间
+  endTime: '', // 结束时间
+  desc: '', // 描述
+  prec: '', // 优先级
+  w: '', // 宽度
+  left: '', // 左边距离
 })
 const show = ref(false)
 const hideInput = ref(null)
@@ -212,18 +274,18 @@ const needList = ref([])
 const dialogNeedList = ref([
   {
     serial: 1,
-    id: "RQ_CXJJS",
-    label: "程序角计算",
+    id: 'RQ_CXJJS',
+    label: '程序角计算',
   },
   {
     serial: 2,
-    id: "RQ_ZYJS",
-    label: "姿态增益计算",
+    id: 'RQ_ZYJS',
+    label: '姿态增益计算',
   },
   {
     serial: 3,
-    id: "RQ_WLJS",
-    label: "姿态网络计算",
+    id: 'RQ_WLJS',
+    label: '姿态网络计算',
   },
 ])
 const dialogVisible = ref(false)
@@ -231,47 +293,44 @@ const selectNeedList = ref([]) // 选中的需求
 const flyList = ref([])
 const drawer = ref(false)
 const form = ref({
-  title: "",
-  sTime: "",
-  eTime: "",
-  oldTitle: "",
+  title: '',
+  sTime: '',
+  eTime: '',
+  oldTitle: '',
 })
 const typeStatus = ref('')
 const cloneData = ref({})
 const lineCode = ref('')
 const flyRules = ref({
-  title: [
-    { required: true, message: '请输入飞行段名称', trigger: 'blur' }
-  ],
-  sTime: [
-    { validator: checkSTime, trigger: 'blur' }
-  ],
-  eTime: [
-    { validator: checkETime, trigger: 'blur' }
-  ]
+  title: [{ required: true, message: '请输入飞行段名称', trigger: 'blur' }],
+  sTime: [{ validator: checkSTime, trigger: 'blur' }],
+  eTime: [{ validator: checkETime, trigger: 'blur' }],
 })
 const isflag = ref(true)
 const isOut = ref(false)
 
-
-watch([isTableShow, scaleLineData, tableFlyData], ([its, sld, tfd], [oits, osld, otfd]) => {
-  if (JSON.stringify(its) !== '{}') {
-    show.value = its.status
-    taskLabel.value = its.label
-    tableData.value = _.cloneDeep(its.data)
-    if (Object.prototype.hasOwnProperty.call(its.data, "needList")) {
-      needList.value = its.data.needList
-    } else {
-      needList.value = [];
+watch(
+  [isTableShow, scaleLineData, tableFlyData],
+  ([its, sld, tfd], [oits, osld, otfd]) => {
+    if (JSON.stringify(its) !== '{}') {
+      show.value = its.status
+      taskLabel.value = its.label
+      tableData.value = _.cloneDeep(its.data)
+      if (Object.prototype.hasOwnProperty.call(its.data, 'needList')) {
+        needList.value = its.data.needList
+      } else {
+        needList.value = []
+      }
     }
-  }
-  if (sld) {
-    lineCode.value = sld.offsetLeft
-  }
-  if (JSON.stringify(tfd) !== '{}') {
-    flyList.value = _.cloneDeep(tfd)
-  }
-}, { deep: true })
+    if (sld) {
+      lineCode.value = sld.offsetLeft
+    }
+    if (JSON.stringify(tfd) !== '{}') {
+      flyList.value = _.cloneDeep(tfd)
+    }
+  },
+  { deep: true }
+)
 const edit = (value) => {
   if (isflag.value) {
     document.onkeydown = null
@@ -281,19 +340,23 @@ const edit = (value) => {
 const formatData = (val) => {
   if (val == 1) {
     // val == 1 应该调整元素的left以及width
-    let newLeft = parseFloat(tableData.value.startTime) + 100 + lineCode.value;
+    let newLeft = parseFloat(tableData.value.startTime) + 100 + lineCode.value
     if (newLeft > tableData.value.left) {
-
       tableData.value.w = tableData.value.w - (newLeft - tableData.value.left)
       tableData.value.left = containsNumber(tableData.value.startTime) ? newLeft : ''
-
     } else if (newLeft < tableData.value.left) {
-      tableData.value.w = tableData.value.w + Math.abs(newLeft - tableData.value.left);
-      tableData.value.left = containsNumber(tableData.value.startTime) ? parseFloat(tableData.value.startTime) + lineCode.value + 100 : "";
+      tableData.value.w = tableData.value.w + Math.abs(newLeft - tableData.value.left)
+      tableData.value.left = containsNumber(tableData.value.startTime)
+        ? parseFloat(tableData.value.startTime) + lineCode.value + 100
+        : ''
     }
   } else {
-    tableData.value.left = containsNumber(tableData.value.startTime) ? parseFloat(tableData.value.startTime) + lineCode.value + 100 : "";
-    tableData.value.w = containsNumber(tableData.value.endTime) ? parseFloat(tableData.value.endTime) - parseFloat(tableData.value.startTime) : "";
+    tableData.value.left = containsNumber(tableData.value.startTime)
+      ? parseFloat(tableData.value.startTime) + lineCode.value + 100
+      : ''
+    tableData.value.w = containsNumber(tableData.value.endTime)
+      ? parseFloat(tableData.value.endTime) - parseFloat(tableData.value.startTime)
+      : ''
   }
   tableData.value.label = taskLabel.value
   work.setTaskProperty(tableData.value)
@@ -308,32 +371,41 @@ const changeData = (val, code) => {
   isflag.value = false
   if (val == 0) {
     if (!timeReg.test(tableData.value.langTime)) {
-      ElMessage({ message: tableData.value.langTime !== '' ? "时间格式错误" : '请输入内容', type: "warning" })
+      ElMessage({
+        message: tableData.value.langTime !== '' ? '时间格式错误' : '请输入内容',
+        type: 'warning',
+      })
       return
     }
   } else if (val == 1) {
     if (!timeReg.test(tableData.value.startTime)) {
-      ElMessage({ message: tableData.value.startTime ? "时间格式错误" : '请输入内容', type: "warning" })
+      ElMessage({
+        message: tableData.value.startTime ? '时间格式错误' : '请输入内容',
+        type: 'warning',
+      })
       return
     }
   } else if (val == 2) {
     if (!timeReg.test(tableData.value.endTime)) {
-      ElMessage({ message: tableData.value.endTime ? "时间格式错误" : '请输入内容', type: "warning" })
+      ElMessage({
+        message: tableData.value.endTime ? '时间格式错误' : '请输入内容',
+        type: 'warning',
+      })
       return
     }
   }
   isflag.value = true
-  formatData(val, code);
-  hideInput.value = null;
+  formatData(val, code)
+  hideInput.value = null
 }
 const tableCellStyle = () => {
   return {
-    "border-color": "#ececec"
+    'border-color': '#ececec',
   }
 }
 const tableHeaderCellStyle = () => {
   return {
-    "border-color": "#ececec"
+    'border-color': '#ececec',
   }
 }
 const addFly = () => {
@@ -343,9 +415,9 @@ const addFly = () => {
 const remove = (row) => {
   needList.value.forEach((item, index) => {
     if (item.id == row.id) {
-      needList.value.splice(index, 1);
+      needList.value.splice(index, 1)
     }
-  });
+  })
   tableData.value.needList = needList.value
   formatData()
 }
@@ -356,7 +428,7 @@ const checkSelectable = (row) => {
   const allowedIds = needList.value.map((e) => {
     return e.id
   })
-  return !allowedIds.includes(row.id);
+  return !allowedIds.includes(row.id)
 }
 // 添加需求追踪
 const needEn = () => {
@@ -366,11 +438,11 @@ const needEn = () => {
     })
     selectNeedList.value.forEach((d) => {
       if (!needAllow.includes(d.id)) {
-        needList.value.push(d);
+        needList.value.push(d)
       }
-    });
+    })
   } else {
-    needList.value = _.cloneDeep(selectNeedList.value);
+    needList.value = _.cloneDeep(selectNeedList.value)
   }
   tableData.value.needList = needList.value
   tableRef.value.clearSelection()
@@ -378,56 +450,67 @@ const needEn = () => {
   dialogVisible.value = false
 }
 const callOff = () => {
-  tableRef.value.clearSelection();
+  tableRef.value.clearSelection()
   dialogVisible.value = false
 }
 const onSubmit = () => {
   formRef.value.validate((val) => {
     if (val) {
-      let changLeft = containsNumber(form.value.sTime) ? parseFloat(form.value.sTime) + lineCode.value + 100 : ""
-      if (typeStatus.value == "update") {
-        if (cloneData.value.sTime !== form.value.sTime && cloneData.value.eTime !== form.value.eTime) {
-          form.value.w = containsNumber(form.value.eTime) ? parseFloat(form.value.eTime) - parseFloat(form.value.sTime) : ""
+      let changLeft = containsNumber(form.value.sTime)
+        ? parseFloat(form.value.sTime) + lineCode.value + 100
+        : ''
+      if (typeStatus.value == 'update') {
+        if (
+          cloneData.value.sTime !== form.value.sTime &&
+          cloneData.value.eTime !== form.value.eTime
+        ) {
+          form.value.w = containsNumber(form.value.eTime)
+            ? parseFloat(form.value.eTime) - parseFloat(form.value.sTime)
+            : ''
           form.value.left = changLeft
         } else if (cloneData.value.sTime !== form.value.sTime) {
           if (changLeft > cloneData.value.left) {
-            form.value.w = cloneData.value.w - (changLeft - cloneData.value.left);
-            form.value.left = changLeft;
+            form.value.w = cloneData.value.w - (changLeft - cloneData.value.left)
+            form.value.left = changLeft
           } else if (changLeft < cloneData.value.left) {
-            form.value.w = cloneData.value.w + Math.abs(changLeft - form.value.left);
-            form.value.left = changLeft;
+            form.value.w = cloneData.value.w + Math.abs(changLeft - form.value.left)
+            form.value.left = changLeft
           }
         } else {
-          form.value.w = containsNumber(form.value.eTime) ? parseFloat(form.value.eTime) - parseFloat(form.value.sTime) : ""
+          form.value.w = containsNumber(form.value.eTime)
+            ? parseFloat(form.value.eTime) - parseFloat(form.value.sTime)
+            : ''
           form.value.left = changLeft
         }
-        form.value.oldTitle = form.value.title;
+        form.value.oldTitle = form.value.title
         if (flyList.value.length) {
           flyList.value.forEach((item) => {
             if (item.title == form.value.oldTitle) {
-              item.title = form.value.title;
-              item.sTime = form.value.sTime;
-              item.eTime = form.value.eTime;
-              item.w = form.value.w;
-              item.left = form.value.left;
-              item.oldTitle = form.value.title;
+              item.title = form.value.title
+              item.sTime = form.value.sTime
+              item.eTime = form.value.eTime
+              item.w = form.value.w
+              item.left = form.value.left
+              item.oldTitle = form.value.title
             }
-          });
+          })
         }
         // typeStatus.value = ''
       } else {
-        form.value.w = containsNumber(form.value.eTime) ? parseFloat(form.value.eTime) - parseFloat(form.value.sTime) : ""
+        form.value.w = containsNumber(form.value.eTime)
+          ? parseFloat(form.value.eTime) - parseFloat(form.value.sTime)
+          : ''
         form.value.left = changLeft
-        form.value.oldTitle = form.value.title; // 保存名称记录标识
-        flyList.value.push(form.value);
+        form.value.oldTitle = form.value.title // 保存名称记录标识
+        flyList.value.push(form.value)
       }
       instance.proxy.$bus.emit('setFlyData', { action: typeStatus.value, form: form.value })
       form.value = {
-        title: "",
-        sTime: "",
-        eTime: "",
-        oldTitle: "",
-      };
+        title: '',
+        sTime: '',
+        eTime: '',
+        oldTitle: '',
+      }
       drawer.value = false
     } else {
       return false
@@ -436,19 +519,19 @@ const onSubmit = () => {
 }
 const drawerOff = () => {
   form.value = {
-    title: "",
-    sTime: "",
-    eTime: "",
-    oldTitle: "",
+    title: '',
+    sTime: '',
+    eTime: '',
+    oldTitle: '',
   }
   drawer.value = false
 }
 const handleEdit = (row, type) => {
   document.onkeydown = null
-  typeStatus.value = type;
-  cloneData.value = _.cloneDeep(row);
-  drawer.value = true;
-  form.value = { ...row };
+  typeStatus.value = type
+  cloneData.value = _.cloneDeep(row)
+  drawer.value = true
+  form.value = { ...row }
 }
 const flyRemove = (row) => {
   let forms = { ...row }
@@ -458,10 +541,10 @@ const flyRemove = (row) => {
       flyList.value.splice(index, 1)
     }
   })
-  instance.proxy.$bus.emit('setFlyData', { action: "remove", form: forms })
+  instance.proxy.$bus.emit('setFlyData', { action: 'remove', form: forms })
 }
-const out = () => {
-  isOut.value = !isOut.value
+const hideMenu = (val) => {
+  isOut.value = val
   instance.proxy.$bus.emit('sendOut', isOut.value)
 }
 
@@ -480,8 +563,13 @@ watchEffect(() => {
   width: 100%;
   height: 237px;
   position: relative;
-  transition: height .2s linear;
+  transition: height 0.2s linear;
 
+  &:hover {
+    .click {
+      opacity: 1;
+    }
+  }
   &.out {
     height: 0;
   }
@@ -493,7 +581,7 @@ watchEffect(() => {
     border-radius: 10px;
     display: flex;
     padding: 10px 5px;
-    box-shadow: 0px 0px 12px rgba(0, 0, 0, .12);
+    box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.12);
 
     .table {
       width: 100%;
@@ -537,7 +625,7 @@ watchEffect(() => {
     background: #fff;
     border-radius: 10px;
     padding: 0 5px;
-    box-shadow: 0px 0px 12px rgba(0, 0, 0, .12);
+    box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.12);
 
     .top_add {
       float: right;
@@ -584,7 +672,7 @@ watchEffect(() => {
     width: 100%;
     /* height: calc(100% - 96px); */
     min-height: 204px;
-    box-shadow: 0px 0px 12px rgba(0, 0, 0, .12);
+    box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.12);
     background: #fff;
     border-radius: 10px;
     padding: 0 5px;
@@ -635,27 +723,6 @@ watchEffect(() => {
     &.op {
       display: none;
     }
-  }
-}
-
-.close_btn {
-  width: 20px;
-  height: 10px;
-  background-color: #8e9eab;
-  border-radius: 10px 10px 0 0;
-  position: absolute;
-  top: 22px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 9;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #146ec2;
-  }
-
-  &.top {
-    top: 0;
   }
 }
 </style>

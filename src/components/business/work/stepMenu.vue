@@ -9,10 +9,12 @@
         {{ item.label }}
       </li>
     </ul>
-    <div class="click" @click="out"></div>
+    <markPoint :isOut="isOut" :direction="'right'" :color="'#fff'" @hideMenu="hideMenu"></markPoint>
   </el-aside>
 </template>
 <script setup>
+import markPoint from '../../common/mark/markPoiner.vue'
+
 const emit = defineEmits(['checkTab'])
 const instance = getCurrentInstance()
 instance.proxy.$bus.on('sendMessage', (val) => {
@@ -49,8 +51,9 @@ const stepHandler = (item, index, event) => {
   activeIdx.value = index
   emit('checkTab', index)
 }
-const out = ()=>{
-  isOut.value = !isOut.value
+const hideMenu = (val)=>{
+  isOut.value = val
+  instance.proxy.$bus.emit('sendOut',val)
 }
 </script>
 <style lang="scss" scoped>
@@ -64,25 +67,13 @@ const out = ()=>{
   position: relative;
   overflow: visible;
   transition: width .2s linear;
-
-  .click {
-    width: 10px;
-    height: 20px;
-    background-color: #8e9eab;
-    border-radius: 0 10px 10px 0;
-    position: absolute;
-    right: -10px;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 10;
-    cursor: pointer;
-
-    &:hover {
-      background-color: #146ec2;
-    }
-  }
   &.fade{
     width: 0;
+  }
+  &:hover {
+    .click {
+      opacity: 1;
+    }
   }
 }
 

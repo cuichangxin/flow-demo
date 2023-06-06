@@ -1,11 +1,19 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import Cookies from 'js-cookie'
 
 
 const constantRoutes = [
   {
     path: '/',
     name: 'index',
-    redirect: '/myTask',
+    // redirect: '/myTask',
+    redirect: to=>{
+      if (Cookies.get('userId') === '7') {
+        return {path:'/testManager/testRecord'}
+      }else {
+        return {path:'/myTask'}
+      }
+    },
     component: () => import('@/page/index.vue'),
     children: [
       {
@@ -158,9 +166,19 @@ const constantRoutes = [
     component: () => import('@/page/copy.vue')
   },
   {
-    path:'/stepGo',
-    name:'stepGo',
-    component: ()=>import('@/page/stepGo.vue')
+    path: '/stepGo',
+    name: 'stepGo',
+    component: () => import('@/page/stepGo.vue')
+  },
+  {
+    path: '/404',
+    name: '404',
+    component: () => import('@/page/404.vue')
+  },
+  {
+    path: "/:pathMatch(.*)*",
+    redirect: '/404',
+    hidden: true
   }
 ]
 const router = createRouter({

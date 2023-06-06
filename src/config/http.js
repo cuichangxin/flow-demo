@@ -2,6 +2,8 @@ import Axios from "axios";
 import { ElNotification, ElMessageBox, ElMessage, ElLoading } from 'element-plus'
 import { getToken } from "@/utils/auth";
 import errorCode from "@/utils/errCode";
+import router from '../router/index'
+
 
 // 请求记录栈
 const requestStack = []
@@ -47,9 +49,8 @@ Axios.interceptors.request.use(
   config => {
     // pushTarget()
     // 是否需要设置token
-    const isToken = (config.headers || {}).isToken === false
-
-    if (getToken() && !isToken) {
+    // const isToken = (config.headers || {}).isToken === false
+    if (getToken()) {
       config.headers['Authorization'] = getToken()
     }
     return config
@@ -67,7 +68,9 @@ Axios.interceptors.response.use(
     // 获取错误信息
     const msg = errorCode[code] || response.data.msg || errorCode['default']
     if (code === 401) {
-      return Promise.reject('无效的会话，或者会话已过期，请重新登录。')
+      ElMessageBox.confirm('登录状态已过期，您可以继续留在该页面，或者重新登录', '系统提示', { confirmButtonText: '重新登录', cancelButtonText: '取消', type: 'warning' }).then(() => {
+        router.replace({path:'/login'})
+      }).catch(() => {})
     } else if (code === 500) {
       ElMessage({ message: msg, type: 'error' })
       return Promise.reject(new Error(msg))
@@ -81,14 +84,23 @@ Axios.interceptors.response.use(
       return Promise.resolve(response.data)
     }
   },
-  err => {
+  error => {
     // popTarget()
-    return Promise.reject(err)
+    console.log('err' + error)
+    let { message } = error;
+    if (message == "Network Error") {
+      message = "后端接口连接异常";
+    } else if (message.includes("timeout")) {
+      message = "系统接口请求超时";
+    } else if (message.includes("Request failed with status code")) {
+      message = "系统接口" + message.substr(message.length - 3) + "异常";
+    }
+    ElMessage({ message: message, type: 'error', duration: 5 * 1000 })
+    return Promise.reject(error)
   }
 )
 
-function api(url, method = 'post', isToken) {
-  Axios.defaults.headers.isToken = isToken
+function api(url, method = 'post') {
   return function (params) {
     try {
       switch (method) {

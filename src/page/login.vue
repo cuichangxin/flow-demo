@@ -18,7 +18,9 @@
         </el-input>
         <el-button class="button" type="primary" @click="login">登 录</el-button>
         <div class="other">
-
+          <el-checkbox v-model="rememberMe" style="margin:0px 0px 25px 0px;">记住密码</el-checkbox>
+          <div class="register">立即注册</div>
+          <div class="forget">忘记密码？</div>
         </div>
       </section>
     </div>
@@ -26,11 +28,15 @@
 </template>
 <script setup>
 import Cookies from 'js-cookie'
+import { encrypt, decrypt } from "@/utils/jsencrypt";
+
+const router = useRouter()
 
 const { proxy } = getCurrentInstance()
 const idNumber = ref('')
 const password = ref('')
-const router = useRouter()
+const rememberMe = ref('')
+
 
 const login = () => {
   proxy.$axios.userLogin({
@@ -39,7 +45,7 @@ const login = () => {
   }).then((res) => {
     Cookies.set('roleId', res.data.roleId,{ expires: 30 })
     Cookies.set('userName', res.data.userName,{ expires: 30 })
-    Cookies.set('password', password.value,{ expires: 30 })
+    Cookies.set('password', encrypt(password.value),{ expires: 30 })
     Cookies.set('userId', res.data.roleDes.id,{ expires: 30 })
     if (res.data.roleId === '7') {
       router.push({name: 'testRecord'})
@@ -117,5 +123,21 @@ const login = () => {
 .icon {
   font-size: 18px;
   color: #67686a;
+}
+.other{
+  width: 100%;
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-around;
+  .register,.forget{
+    font-size: 14px;
+    color: #606266;
+    font-weight: 500;
+    height: 32px;
+    margin: 0 0 25px;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+  }
 }
 </style>
