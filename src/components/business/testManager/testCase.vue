@@ -242,9 +242,33 @@ const handleTree = (node) => {
   if (node.params && node.params.confirm) {
     useCase.value = node
     caseGo.value = false
-    tableData.value = node.useCase
+    tableData.value = node.useCase === undefined ? [] : node.useCase
   }
 }
+
+/**
+ * @param data 要查找的数据
+ * @param target 查找的目标
+ * @param res 查找结果容器
+*/
+function findParent(data,target,res = []){
+  for(let i in data){
+    let item = data[i]
+    if (item.label === target.label) {
+      res.unshift(item.label)
+      return true
+    }
+    if (item.children && item.children.length) {
+      const ok = findParent(item.children, target, res)
+      if (ok) {
+        res.unshift(item.label)
+        return true
+      }
+    }
+  }
+  return false
+}
+
 const addCase = () => {
   drawer.value = true
 }
@@ -278,15 +302,22 @@ const remove = (row) => {
   tableData.value.splice(index, 1)
 }
 const confirmCase = () => {
+  const res = []
+  findParent(treeData.list, useCase.value, res)
+  const tree = treeData.list.map(val=>{
+    if (val.label === res[0]) {
+      return val.children
+    }
+  })
+  console.log(...tree);
   proxy.$axios
     .saveTaskDetail({
       taskId: '1', // 特殊处理 测试用例定死1
-      daTree: JSON.stringify(treeData.list),
+      daTree: JSON.stringify(...tree),
     })
     .then((res) => {
       console.log(res)
     })
-  console.log(treeData.list);
 }
 const selectHandle = (e) => {
   tableData.value.forEach((item, index) => {

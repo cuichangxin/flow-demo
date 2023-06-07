@@ -18,7 +18,7 @@
         </el-input>
         <el-button class="button" type="primary" @click="login">登 录</el-button>
         <div class="other">
-          <el-checkbox v-model="rememberMe" style="margin:0px 0px 25px 0px;">记住密码</el-checkbox>
+          <el-checkbox v-model="rememberMe" style="margin: 0px 0px 25px 0px">记住密码</el-checkbox>
           <div class="register">立即注册</div>
           <div class="forget">忘记密码？</div>
         </div>
@@ -35,7 +35,7 @@ const router = useRouter()
 const { proxy } = getCurrentInstance()
 const idNumber = ref('')
 const password = ref('')
-const rememberMe = ref('')
+const rememberMe = ref(false)
 
 
 const login = () => {
@@ -43,9 +43,18 @@ const login = () => {
     userName: idNumber.value,
     userPwd: password.value
   }).then((res) => {
+    // 记住密码
+    if (rememberMe.value) {
+      Cookies.set('idNumber',idNumber.value,{expires:30})
+      Cookies.set('password', encrypt(password.value),{ expires: 30 })
+      Cookies.set('rememberMe',rememberMe.value,{expires:30})
+    }else {
+      Cookies.remove('idNumber')
+      Cookies.remove('password')
+      Cookies.remove('rememberMe')
+    }
     Cookies.set('roleId', res.data.roleId,{ expires: 30 })
     Cookies.set('userName', res.data.userName,{ expires: 30 })
-    Cookies.set('password', encrypt(password.value),{ expires: 30 })
     Cookies.set('userId', res.data.roleDes.id,{ expires: 30 })
     if (res.data.roleId === '7') {
       router.push({name: 'testRecord'})
@@ -54,6 +63,15 @@ const login = () => {
     }
   })
 }
+function getCookie() {
+  const username = Cookies.get("idNumber");
+  const passwords = Cookies.get("password");
+  const rememberMes = Cookies.get("rememberMe");
+  idNumber.value = username === undefined ? idNumber.value : username
+  password.value = passwords === undefined ? password.value : decrypt(passwords)
+  rememberMe.value = rememberMes === undefined ? rememberMe.value : Boolean(rememberMes)
+}
+getCookie()
 </script>
 <style lang="scss" scoped>
 .login-info {
@@ -69,7 +87,7 @@ const login = () => {
   height: 440px;
   background-color: #f2f5fc;
   border-radius: 10px;
-  box-shadow: 0px 0px 22px rgba(0, 0, 0, .6);
+  box-shadow: 0px 0px 22px rgba(0, 0, 0, 0.6);
   position: absolute;
   right: 100px;
   bottom: 50%;
@@ -124,12 +142,13 @@ const login = () => {
   font-size: 18px;
   color: #67686a;
 }
-.other{
+.other {
   width: 100%;
   margin-top: 20px;
   display: flex;
   justify-content: space-around;
-  .register,.forget{
+  .register,
+  .forget {
     font-size: 14px;
     color: #606266;
     font-weight: 500;

@@ -1,5 +1,5 @@
 <template>
-  <el-header class="header" :class="{ 'fade': isOut }">
+  <el-header class="header" :class="{ fade: isOut }">
     <div v-if="!isOut" class="title_box">
       <img class="logo" src="../../assets/image/login-logo.png" />
       <h2>航天软件智能生产线</h2>
@@ -37,16 +37,19 @@ const route = useRoute()
 const router = useRouter()
 
 const userInfo = ref({
-  userName: Cookies.get('userName')
+  userName: Cookies.get('userName'),
 })
 
-watch(() => route.path, (n) => {
-  if (n == '/broad') {
-    isOut.value = true
-  } else {
-    isOut.value = false
+watch(
+  () => route.path,
+  (n) => {
+    if (n == '/broad') {
+      isOut.value = true
+    } else {
+      isOut.value = false
+    }
   }
-})
+)
 
 const hideMenu = (val) => {
   isOut.value = val
@@ -56,17 +59,25 @@ const isOut = ref(false)
 
 const handleDrop = (command) => {
   if (command === '1') {
-    Cookies.remove('userId')
-    Cookies.remove('password')
-    Cookies.remove('userName')
-    Cookies.remove('roleId')
-    Cookies.remove('taskId')
+    const rememberMe = Cookies.get('rememberMe')
+    if (Boolean(rememberMe)) {
+      Cookies.remove('userId')
+      Cookies.remove('userName')
+      Cookies.remove('roleId')
+      Cookies.remove('taskId')
+    } else {
+      Cookies.remove('userId')
+      Cookies.remove('password')
+      Cookies.remove('userName')
+      Cookies.remove('roleId')
+      Cookies.remove('taskId')
+    }
     router.push({
-      path:'/login'
+      path: '/login',
     })
   }
   if (command === '2') {
-    console.log('set');
+    console.log('set')
   }
 }
 </script>
@@ -78,7 +89,7 @@ const handleDrop = (command) => {
   background: #545c64;
   position: relative;
   z-index: 11;
-  transition: height .2s linear;
+  transition: height 0.2s linear;
 
   .logo {
     width: 40px;
@@ -104,9 +115,9 @@ const handleDrop = (command) => {
     color: #fff;
     font-family: SourceHanSansSC-regular;
     margin-left: 8px;
-    background-image:-webkit-linear-gradient(bottom,rgb(240, 237, 237),#d3d2cf); 
-    -webkit-background-clip:text; 
-    -webkit-text-fill-color:transparent;
+    background-image: -webkit-linear-gradient(bottom, rgb(240, 237, 237), #d3d2cf);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 }
 
