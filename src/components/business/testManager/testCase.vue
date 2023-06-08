@@ -239,7 +239,8 @@ const addFrom = () => {
   })
 }
 const handleTree = (node) => {
-  if (node.params && node.params.confirm) {
+  // if (node.params && node.params.confirm) {
+  if (node.params) {
     useCase.value = node
     caseGo.value = false
     tableData.value = node.useCase === undefined ? [] : node.useCase

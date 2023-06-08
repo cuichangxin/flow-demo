@@ -429,7 +429,7 @@ const drop = (e) => {
             fill: '#333',
           },
         },
-        ports: { ...ports },
+        ports: { ...absolutePorts },
         desc: '',
         input: '',
         output: '',
@@ -563,7 +563,7 @@ const createGraphic = () => {
           fill: '#262626',
         },
       },
-      ports: { ...ports },
+      ports: { ...absolutePorts },
     },
     true,
   )
@@ -807,25 +807,30 @@ const createGraphic = () => {
     .x6-widget-transform {
       margin: -1px 0 0 -1px;
       padding: 0px;
-      border: 1px solid #239edd;
+      border:2px solid #3572f9;
+      box-shadow:0 4px 4px 0 #dbe6ff;
     }
     .x6-widget-transform > div {
-      border: 1px solid #239edd;
+      border: 1px solid #3572f9;
     }
     .x6-widget-transform > div:hover {
-      background-color: #3dafe4;
+      background-color: #3572f9;
     }
     .x6-widget-transform-active-handle {
-      background-color: #3dafe4;
+      background-color: #3572f9;
     }
     .x6-widget-transform-resize {
       border-radius: 0;
     }
     .x6-widget-selection-inner {
-      border: 1px solid #239edd;
+      border: 1px solid #3572f9;
     }
     .x6-widget-selection-box {
       opacity: 0;
+    }
+    .x6-port>circle{
+      stroke:#69c0ff;
+      stroke-width:2;
     }
   `)
 

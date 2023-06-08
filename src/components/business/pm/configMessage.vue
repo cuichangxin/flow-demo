@@ -65,32 +65,32 @@ const codeLangList = reactive([
     label: 'C语言',
     value: 1
   },
-  // {
-  //   label: 'FPGA',
-  //   value: 'FPGA'
-  // },
-  // {
-  //   label: 'C++',
-  //   value: 'C++'
-  // },
+  {
+    label: 'FPGA',
+    value: 2
+  },
+  {
+    label: 'C++',
+    value: 3
+  },
 ])
 // 处理器下拉菜单
 const processorList = reactive([
   {
     label: 'BM3803',
-    value: 'BM3803'
+    value: 1
   },
   {
     label: 'BM3105',
-    value: 'BM3105'
+    value: 2
   },
   {
     label: 'VC33',
-    value: 'VC33'
+    value: 3
   },
   {
     label: 'DSP6713',
-    value: 'DSP6713'
+    value: 4
   },
 ])
 // 软件类型下拉菜单
@@ -103,18 +103,18 @@ const typeList = reactive([
     label: '综控器监控软件',
     value: 2
   },
-  // {
-  //   label: 'GNCC软件',
-  //   value: 'GNCC软件'
-  // },
-  // {
-  //   label: '卫星星务',
-  //   value: '卫星星务'
-  // },
-  // {
-  //   label: '应用软件',
-  //   value: '应用软件'
-  // },
+  {
+    label: 'GNCC软件',
+    value: 3
+  },
+  {
+    label: '卫星星务',
+    value: 4
+  },
+  {
+    label: '应用软件',
+    value: 5
+  },
 ])
 // 安全关键等级下拉菜单
 const levelList = reactive([
@@ -130,10 +130,10 @@ const levelList = reactive([
     label: 'C级',
     value: 3
   },
-  // {
-  //   label: 'D级',
-  //   value: 'D级'
-  // },
+  {
+    label: 'D级',
+    value: 4
+  },
 ])
 
 const stepNext = () => {

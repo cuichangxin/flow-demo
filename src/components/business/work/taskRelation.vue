@@ -4,8 +4,12 @@
       <div class="top_title">任务名称</div>
       <div class="task_wrapper">
         <ul>
-          <li v-for="(item, index) in taskList" :key="index" :style="{ background: tabIndex == index ? '#daedff' : '' }"
-            @click="checkTask(index)">
+          <li
+            v-for="(item, index) in taskList"
+            :key="index"
+            :style="{ background: tabIndex == index ? '#daedff' : '' }"
+            @click="checkTask(index)"
+          >
             <i class="iconfont icon">&#xec35;</i>
             <span>{{ item.label }}</span>
           </li>
@@ -24,20 +28,20 @@
           </div>
         </div>
         <div class="table_wrapper">
-          <el-table :data="issueTableData.slice((currentPage - 1) * pagesize, currentPage * pagesize)" border
-            :header-cell-style="tableHeaderCellStyle">
-            <el-table-column align="center" label="序号" width="180">
+          <el-table
+            :data="issueTableData.slice((currentPage - 1) * pagesize, currentPage * pagesize)"
+            border
+            :header-cell-style="tableHeaderCellStyle"
+          >
+            <el-table-column align="center" label="序号" width="100">
               <template #default="scope">
                 {{ scope.$index + (currentPage - 1) * pagesize + 1 }}
               </template>
             </el-table-column>
-            <el-table-column align="center" prop="codeName" label="变量名称">
-            </el-table-column>
-            <el-table-column align="center" prop="type" label="数据类型">
-            </el-table-column>
-            <el-table-column align="center" prop="desc" label="描述">
-            </el-table-column>
-            <el-table-column align="center" label="操作" width="150">
+            <el-table-column align="center" prop="codeName" label="变量名称"> </el-table-column>
+            <el-table-column align="center" prop="type" label="数据类型"> </el-table-column>
+            <el-table-column align="center" prop="desc" label="描述"> </el-table-column>
+            <el-table-column align="center" label="操作" width="120">
               <template #default="scope">
                 <div class="butn">
                   <el-button link @click="remove(scope.row, 'issueTableData')">
@@ -48,8 +52,15 @@
             </el-table-column>
           </el-table>
           <div class="pagination">
-            <el-pagination background layout="prev, pager, next" :total="issueTableData.length" :page-size="pagesize"
-              :current-page="currentPage" @current-change="handlerCurrentChange" @size-change="handleSizeChange">
+            <el-pagination
+              background
+              layout="prev, pager, next"
+              :total="issueTableData.length"
+              :page-size="pagesize"
+              :current-page="currentPage"
+              @current-change="handlerCurrentChange"
+              @size-change="handleSizeChange"
+            >
             </el-pagination>
           </div>
         </div>
@@ -65,20 +76,20 @@
           </div>
         </div>
         <div class="table_wrapper">
-          <el-table :data="takeTableData.slice((takeCurrentPage - 1) * takePagesize, takeCurrentPage * takePagesize)"
-            border :header-cell-style="tableHeaderCellStyle">
-            <el-table-column align="center" label="序号" width="180">
+          <el-table
+            :data="takeTableData.slice((takeCurrentPage - 1) * takePagesize, takeCurrentPage * takePagesize)"
+            border
+            :header-cell-style="tableHeaderCellStyle"
+          >
+            <el-table-column align="center" label="序号" width="100">
               <template #default="scope">
                 {{ scope.$index + (takeCurrentPage - 1) * takePagesize + 1 }}
               </template>
             </el-table-column>
-            <el-table-column align="center" prop="codeName" label="变量名称">
-            </el-table-column>
-            <el-table-column align="center" prop="type" label="数据类型">
-            </el-table-column>
-            <el-table-column align="center" prop="desc" label="描述">
-            </el-table-column>
-            <el-table-column align="center" label="操作" width="150">
+            <el-table-column align="center" prop="codeName" label="变量名称"> </el-table-column>
+            <el-table-column align="center" prop="type" label="数据类型"> </el-table-column>
+            <el-table-column align="center" prop="desc" label="描述"> </el-table-column>
+            <el-table-column align="center" label="操作" width="120">
               <template #default="scope">
                 <div class="butn">
                   <el-button link @click="remove(scope.row, 'takeTableData')">
@@ -89,21 +100,32 @@
             </el-table-column>
           </el-table>
           <div class="pagination">
-            <el-pagination background layout="prev, pager, next" :total="takeTableData.length" :page-size="takePagesize"
-              :current-page="takeCurrentPage" @current-change="takeHandlerCurrentChange"
-              @size-change="takeHandleSizeChange">
+            <el-pagination
+              background
+              layout="prev, pager, next"
+              :total="takeTableData.length"
+              :page-size="takePagesize"
+              :current-page="takeCurrentPage"
+              @current-change="takeHandlerCurrentChange"
+              @size-change="takeHandleSizeChange"
+            >
             </el-pagination>
           </div>
         </div>
       </div>
     </div>
 
-
     <!-- 抽屉表单 -->
     <el-drawer :title="typeName == 'issueTableData' ? '新增发布数据' : '新增订阅数据'" v-model="drawer">
       <div class="form_box">
-        <el-form :ref="el => formRef = el" :model="form" :rules="rules" :hide-required-asterisk="true"
-          label-position="right" label-width="100px">
+        <el-form
+          :ref="(el) => (formRef = el)"
+          :model="form"
+          :rules="rules"
+          :hide-required-asterisk="true"
+          label-position="right"
+          label-width="100px"
+        >
           <el-form-item label="变量名称" prop="codeName">
             <el-input v-model="form.codeName"></el-input>
           </el-form-item>
@@ -124,7 +146,7 @@
 </template>
 <script setup>
 import { workStore } from '@/store/index'
-import { storeToRefs } from 'pinia';
+import { storeToRefs } from 'pinia'
 const work = workStore()
 const { taskAllList } = storeToRefs(work)
 let taskList = ref([])
@@ -138,29 +160,21 @@ const takePagesize = ref(6)
 const tabIndex = ref(0)
 const drawer = ref(false)
 const form = ref({
-  codeName: "",
-  type: "",
-  desc: "",
+  codeName: '',
+  type: '',
+  desc: '',
 })
 const typeName = ref('')
 const formRef = ref(null)
-const rules = reactive(
-  {
-    codeName: [
-      { required: true, message: '请输入变量名称', trigger: 'blur' }
-    ],
-    type: [
-      { required: true, message: '请输入数据类型', trigger: 'blur' }
-    ],
-    desc: [
-      { required: true, message: '请输入描述', trigger: 'blur' }
-    ]
-  }
-)
+const rules = reactive({
+  codeName: [{ required: true, message: '请输入变量名称', trigger: 'blur' }],
+  type: [{ required: true, message: '请输入数据类型', trigger: 'blur' }],
+  desc: [{ required: true, message: '请输入描述', trigger: 'blur' }],
+})
 watch(tabIndex, (n) => {
   if (Object.prototype.hasOwnProperty.call(taskAllList.value, n)) {
-    issueTableData.value = taskAllList.value[n].issueTableData;
-    takeTableData.value = taskAllList.value[n].takeTableData;
+    issueTableData.value = taskAllList.value[n].issueTableData
+    takeTableData.value = taskAllList.value[n].takeTableData
   } else {
     issueTableData.value = []
     takeTableData.value = []
@@ -168,7 +182,7 @@ watch(tabIndex, (n) => {
 })
 const tableHeaderCellStyle = () => {
   return {
-    "background": "#efefef"
+    background: '#efefef',
   }
 }
 const handlerCurrentChange = (val) => {
@@ -187,31 +201,42 @@ const checkTask = (index) => {
   tabIndex.value = index
 }
 const remove = (row, name) => {
-  issueTableData.value.forEach((item, index) => {
-    if (item.codeName == row.codeName) {
-      issueTableData.value.splice(index, 1);
-    }
-  })
+  let mixObj = {}
+  if (name === 'issueTableData') {
+    let index = issueTableData.value.indexOf(row)
+    issueTableData.value.splice(index, 1)
+  } else {
+    let index = takeTableData.value.indexOf(row)
+    takeTableData.value.splice(index, 1)
+  }
+  mixObj.issueTableData = issueTableData.value
+  mixObj.takeTableData = takeTableData.value
+  work.setTaskAllData([mixObj, tabIndex.value])
+  localStorage.setItem('relationData', JSON.stringify(taskAllList.value))
 }
 const addCode = (name) => {
-  typeName.value = name;
-  drawer.value = true;
+  typeName.value = name
+  drawer.value = true
 }
 const onSubmit = async () => {
-  await formRef.value.validate(val => {
+  await formRef.value.validate((val) => {
     if (val) {
-      let mixObj = {};
-      issueTableData.value.push(form.value);
+      let mixObj = {}
+      if (typeName.value === 'issueTableData') {
+        issueTableData.value.push(form.value)
+      } else {
+        takeTableData.value.push(form.value)
+      }
       form.value = {
-        codeName: "",
-        type: "",
-        desc: "",
-      };
+        codeName: '',
+        type: '',
+        desc: '',
+      }
       mixObj.issueTableData = issueTableData.value
       mixObj.takeTableData = takeTableData.value
       work.setTaskAllData([mixObj, tabIndex.value])
-      drawer.value = false;
-      localStorage.setItem('relationData',JSON.stringify(taskAllList.value))
+      drawer.value = false
+      localStorage.setItem('relationData', JSON.stringify(taskAllList.value))
     } else {
       return false
     }
@@ -219,13 +244,13 @@ const onSubmit = async () => {
 }
 const drawerOff = () => {
   form.value = {
-    codeName: "",
-    type: "",
-    desc: "",
-  };
-  drawer.value = false;
+    codeName: '',
+    type: '',
+    desc: '',
+  }
+  drawer.value = false
 }
-onMounted(()=>{
+onMounted(() => {
   let allWork = localStorage.getItem('workData')
   let relation = localStorage.getItem('relationData')
   if (allWork) {
@@ -247,7 +272,7 @@ onMounted(()=>{
   padding: 20px;
   display: flex;
   justify-content: space-between;
-  box-shadow: 0px 0px 12px rgba(0, 0, 0, .12);
+  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.12);
 
   .top_task {
     width: 300px;

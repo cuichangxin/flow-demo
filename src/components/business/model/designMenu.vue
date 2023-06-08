@@ -1,13 +1,25 @@
 <template>
-  <el-aside class="design_menu" :class="{ 'fade': isOut }">
+  <el-aside class="design_menu" :class="{ fade: isOut }">
     <h4 v-if="!isOut">领域算法设计工具</h4>
     <el-scrollbar class="menu_info">
-      <el-tree v-if="tag" :data="moduleTree" :expand-on-click-node="false" :indent="12" @node-click="handlerTree"
-        class="tree">
+      <el-tree
+        v-if="tag"
+        :data="moduleTree"
+        :highlight-current="true"
+        :expand-on-click-node="false"
+        :indent="12"
+        :default-expanded-keys="['1']"
+        @node-click="handlerTree"
+        node-key="id"
+        class="tree"
+      >
         <template #default="{ node, data }">
           <span class="custom-tree-node">
-            <img v-if="data.children && data.children.length" class="sub_img"
-              src="../../../assets/image/wenjianjia.png" />
+            <img
+              v-if="data.children && data.children.length"
+              class="sub_img"
+              src="../../../assets/image/wenjianjia.png"
+            />
             <img v-else class="item_img" src="../../../assets/image/wenjian.png" />
             <span class="node_label">{{ node.label }}</span>
           </span>
@@ -18,8 +30,8 @@
   </el-aside>
 </template>
 <script setup>
-import markPoint from "../../common/mark/markPoiner.vue";
-import _ from "lodash";
+import markPoint from '../../common/mark/markPoiner.vue'
+import _ from 'lodash'
 import Cookies from 'js-cookie'
 
 const instance = getCurrentInstance()
@@ -43,14 +55,14 @@ instance.proxy.$bus.on('*', (name, val) => {
     aloneNode.value = val
   }
   if (name === 'tabSourceChangeSvg') {
-    findNode(val,moduleTree.value)
+    findNode(val, moduleTree.value)
   }
   if (name === 'saveFile') {
     instance.proxy.$axios.saveTaskDetail({
-      taskId:Cookies.get('taskId'),
-      daTree:JSON.stringify(moduleTree.value)
+      taskId: Cookies.get('taskId'),
+      daTree: JSON.stringify(moduleTree.value),
     })
-    localStorage.setItem('modelFile',JSON.stringify(moduleTree.value))
+    localStorage.setItem('modelFile', JSON.stringify(moduleTree.value))
   }
   if (name === 'contraction') {
     isOut.value = val
@@ -58,50 +70,50 @@ instance.proxy.$bus.on('*', (name, val) => {
 })
 const moduleTree = ref([
   {
-    id: "1",
-    label: "任务名称",
+    id: '1',
+    label: '任务名称',
     hide: false,
     node: {},
     active: false,
     children: [
       {
-        id: "1-1",
-        label: "综合任务",
+        id: '1-1',
+        label: '综合任务',
         node: {},
         active: false,
         hide: false,
       },
       {
-        id: "1-2",
-        label: "姿控任务",
+        id: '1-2',
+        label: '姿控任务',
         node: {},
         hide: false,
         active: false,
       },
       {
-        id: "1-3",
-        label: "制导任务",
+        id: '1-3',
+        label: '制导任务',
         node: {},
         hide: false,
         active: false,
       },
       {
-        id: "1-4",
-        label: "数据采集任务",
+        id: '1-4',
+        label: '数据采集任务',
         node: {},
         hide: false,
         active: false,
       },
       {
-        id: "1-5",
-        label: "遥测任务",
+        id: '1-5',
+        label: '遥测任务',
         node: {},
         hide: false,
         active: false,
       },
       {
-        id: "1-6",
-        label: "遥控任务",
+        id: '1-6',
+        label: '遥控任务',
         node: {},
         hide: false,
         active: false,
@@ -109,56 +121,56 @@ const moduleTree = ref([
     ],
   },
   {
-    id: "2",
-    label: "全局变量",
+    id: '2',
+    label: '全局变量',
     hide: false,
     node: {},
     active: false,
     children: [
       {
-        id: "2-1",
-        label: "制导系统诸元参数表",
+        id: '2-1',
+        label: '制导系统诸元参数表',
         node: {},
         hide: false,
         active: false,
       },
       {
-        id: "2-2",
-        label: "姿控系统诸元参数表",
+        id: '2-2',
+        label: '姿控系统诸元参数表',
         node: {},
         hide: false,
         active: false,
       },
       {
-        id: "2-3",
-        label: "姿控系统遥测表",
+        id: '2-3',
+        label: '姿控系统遥测表',
         node: {},
         hide: false,
         active: false,
       },
       {
-        id: "2-4",
-        label: "综合飞行软件诸元参数表",
+        id: '2-4',
+        label: '综合飞行软件诸元参数表',
         node: {},
         hide: false,
         active: false,
       },
       {
-        id: "2-5",
-        label: "综合飞行软件计算机遥测参数表",
+        id: '2-5',
+        label: '综合飞行软件计算机遥测参数表',
         node: {},
         hide: false,
         active: false,
       },
       {
-        id: "2-6",
-        label: "速度数据",
+        id: '2-6',
+        label: '速度数据',
         node: {},
         hide: false,
         active: false,
       },
     ],
-  }
+  },
 ])
 const aloneNode = ref({})
 const isOut = ref(false)
@@ -171,16 +183,16 @@ const interNode = (val, tree) => {
       tag.value = false
       nextTick(() => {})
       const nodes = {
-        id:val.id,
-        children:[],
+        id: val.id,
+        children: [],
         label: val.store.data.attrs.text.text,
-        node:{}
+        node: {},
       }
       if (!node.children) node.children = []
       node.children.push(nodes)
       tag.value = true
     } else if (node?.children) {
-      interNode(val, node.children);
+      interNode(val, node.children)
     }
   })
 }
@@ -194,20 +206,23 @@ const interTreeNode = (val, tree) => {
   })
 }
 
-function findNode(val,tree){
-  tree.forEach(node=>{
+function findNode(val, tree) {
+  tree.forEach((node) => {
     if (node.id === val.id) {
       handlerTree(node)
-    }else if (node?.children) {
-      findNode(val,node.children)
+    } else if (node?.children) {
+      findNode(val, node.children)
     }
   })
 }
 
 const handlerTree = (data) => {
-  aloneNode.value = data
-  instance.proxy.$bus.emit('showCanvasData', toRaw(data))
-  instance.proxy.$bus.emit('addTab', toRaw(data))
+  console.log(data)
+  if (data.id.indexOf('-') !== -1) {
+    aloneNode.value = data
+    instance.proxy.$bus.emit('showCanvasData', toRaw(data))
+    instance.proxy.$bus.emit('addTab', toRaw(data))
+  }
 }
 const hideMenu = (val) => {
   isOut.value = val
@@ -215,6 +230,7 @@ const hideMenu = (val) => {
 }
 
 onMounted(() => {
+  // TODO: 任务名称树下的数据应该来自应用架构中的任务，当前为了方便演示暂时不做修改
   instance.proxy.$axios.getTaskDetail({ taskId: Cookies.get('taskId') }).then((res) => {
     if (res.data !== null) {
       moduleTree.value = JSON.parse(res.data.daTree)
@@ -234,11 +250,11 @@ onMounted(() => {
   background: #fff;
   border-radius: 3px;
   padding: 0;
-  box-shadow: 0px 0px 12px rgba(0, 0, 0, .12);
+  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.12);
   position: relative;
   z-index: 10;
   overflow: visible;
-  transition: width .2s linear;
+  transition: width 0.2s linear;
 
   h4 {
     padding: 15px 0;
@@ -289,22 +305,7 @@ onMounted(() => {
 
   .el-tree-node__expand-icon {
     font-size: 16px;
-    margin-right: 10px;
-  }
-
-  &:hover {
-    background-color: #ebf3fe;
+    margin-right: 6px;
   }
 }
-
-:deep(.el-tree-node__content) {
-  border-radius: 5px;
-
-  &:hover {
-    background: linear-gradient(to right, #a8cde8, #d7d2cc);
-  }
-}
-
-:deep(.el-tree-node.is-current > .el-tree-node__content) {
-  background: linear-gradient(to right, #a8cde8, #d7d2cc);
-}</style>
+</style>

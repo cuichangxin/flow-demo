@@ -921,7 +921,7 @@ watch([() => props.list,() => props.serial], ([n,serial],[nOld,serialOld]) => {
     infoList.value.postTwoList.forEach((item) => {
       foreach(n,item)
     })
-    if (n.postLineList.length && (serial !== serialOld)) {
+    if (n.postLineList.length) {
       setTimeout(() => {
         init()
       }, 500)

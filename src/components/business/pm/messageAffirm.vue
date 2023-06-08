@@ -13,13 +13,15 @@
           <div class="affirm_item">
             <span class="label">安全关键等级:</span>
             <div class="content">
-              <div class="name_item">{{ projectList.level === 1 ? 'A级' : '' }}</div>
+              <div class="name_item">{{ LEVELMAP[projectList.level]}}</div>
             </div>
           </div>
           <div class="affirm_item">
             <span class="label">进&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;度:</span>
-            <div class="content" style="width:99%">
-              <div class="name_item" style="width:99%">生产线预计在<em class="time">2023年06月30日</em>完成，比计划完成时间<em class="time">提前5</em>天</div>
+            <div class="content" style="width: 99%">
+              <div class="name_item" style="width: 99%">
+                生产线预计在<em class="time">2023年06月30日</em>完成，比计划完成时间<em class="time">提前5</em>天
+              </div>
             </div>
           </div>
         </div>
@@ -42,18 +44,15 @@
                   {{ scope.$index + 1 }}
                 </template>
               </el-table-column>
-              <el-table-column align="center" prop="name" label="活动名称">
-              </el-table-column>
-              <el-table-column align="center" prop="post" label="岗位">
-              </el-table-column>
-              <el-table-column align="center" prop="tool" label="工具">
-              </el-table-column>
+              <el-table-column align="center" prop="name" label="活动名称"> </el-table-column>
+              <el-table-column align="center" prop="post" label="岗位"> </el-table-column>
+              <el-table-column align="center" prop="tool" label="工具"> </el-table-column>
             </el-table>
           </div>
         </div>
         <div v-if="!fullFlag" class="affirm">
           <el-button class="button" type="info" @click="goBack">返回上一步</el-button>
-          <el-button class="button" type="primary" @click="enter">确认</el-button>
+          <el-button :disabled="createBtnFlag" class="button" type="primary" @click="enter">确认</el-button>
         </div>
       </div>
     </el-scrollbar>
@@ -61,12 +60,12 @@
 </template>
 <script setup>
 import steps from './common/steps.vue'
-import { allStore } from '../../../store';
+import { allStore } from '../../../store'
 import G6 from '@antv/g6'
 import { fittingString, formatTime } from '@/utils/utils'
 import Cookies from 'js-cookie'
-import { ElMessage } from 'element-plus'
 import NProgress from 'nprogress'
+import { LEVELMAP } from '@/utils/map'
 
 const { proxy } = getCurrentInstance()
 const store = allStore()
@@ -88,32 +87,32 @@ const flowList = ref({
     {
       id: '1',
       label: '开始',
-      title: '开始'
+      title: '开始',
     },
     {
       id: '2',
       label: '创建项目',
-      title: '创建项目'
+      title: '创建项目',
     },
     {
       id: '3',
       label: '运行环境分析',
-      title: '运行环境分析'
+      title: '运行环境分析',
     },
     {
       id: '4',
       label: '功能需求分析',
-      title: '功能需求分析'
+      title: '功能需求分析',
     },
     {
       id: '5',
       label: '性能需求分析',
-      title: '性能需求分析'
+      title: '性能需求分析',
     },
     {
       id: '6',
       label: '可靠性需求分析',
-      title: '可靠性需求分析'
+      title: '可靠性需求分析',
     },
     {
       id: '7',
@@ -142,12 +141,12 @@ const flowList = ref({
     {
       id: '11',
       label: '仿真测试环境搭建',
-      title: '仿真测试环境搭建'
+      title: '仿真测试环境搭建',
     },
     {
       id: '12',
       label: '应用架构设计',
-      title: '应用架构设计'
+      title: '应用架构设计',
     },
     {
       id: '13',
@@ -164,17 +163,17 @@ const flowList = ref({
     {
       id: '15',
       label: '功能测试用例',
-      title: '功能测试用例'
+      title: '功能测试用例',
     },
     {
       id: '16',
       label: '可靠性测试用例设计',
-      title: '可靠性测试用例设计'
+      title: '可靠性测试用例设计',
     },
     {
       id: '17',
       label: '详细设计',
-      title: '详细设计'
+      title: '详细设计',
     },
 
     {
@@ -198,12 +197,12 @@ const flowList = ref({
     {
       id: '21',
       label: '性能测试用例设计',
-      title: '性能测试用例设计'
+      title: '性能测试用例设计',
     },
     {
       id: '22',
       label: '编码调试',
-      title: '编码调试'
+      title: '编码调试',
     },
     {
       id: '23',
@@ -220,12 +219,12 @@ const flowList = ref({
     {
       id: '25',
       label: '问题类型',
-      title: '问题类型'
+      title: '问题类型',
     },
     {
       id: '26',
       label: '编译链接',
-      title: '编译链接'
+      title: '编译链接',
     },
     {
       id: '27',
@@ -236,17 +235,17 @@ const flowList = ref({
     {
       id: '28',
       label: '功能测试',
-      title: '功能测试'
+      title: '功能测试',
     },
     {
       id: '29',
       label: '性能测试',
-      title: '性能测试'
+      title: '性能测试',
     },
     {
       id: '30',
       label: '可靠性测试',
-      title: '可靠性测试'
+      title: '可靠性测试',
     },
     {
       id: '31',
@@ -269,12 +268,12 @@ const flowList = ref({
     {
       id: '34',
       label: '分析问题',
-      title: '分析问题'
+      title: '分析问题',
     },
     {
       id: '35',
       label: '结束',
-      title: '结束'
+      title: '结束',
     },
   ],
   edges: [
@@ -504,15 +503,14 @@ const flowList = ref({
       source: '34',
       target: '35',
     },
-
-
   ],
 })
 let graph = null
+const createBtnFlag = ref(false)
 
 function tableHeaderCellStyle() {
   return {
-    "background": "#efefef"
+    background: '#efefef',
   }
 }
 
@@ -527,23 +525,29 @@ const goBack = () => {
   router.go(-1)
 }
 const enter = () => {
-  proxy.$axios.createProject({
-    optionName: projectList.value.name,
-    type: projectList.value.type,
-    level: projectList.value.level,
-    deLanguage: projectList.value.codeLang,
-    finishTime: formatTime(projectList.value.eTime),
-    createTime: formatTime(),
-    userId: Cookies.get('userId')
-  }).then((res) => {
-    ElMessage({ type: 'success', message: '创建成功，稍后返回列表页' })
-    NProgress.start()
-    setTimeout(() => {
-      router.push({
-        name: 'pmList'
-      })
-    }, 2000)
-  })
+  proxy.$axios
+    .createProject({
+      optionName: projectList.value.name,
+      type: projectList.value.type,
+      level: projectList.value.level,
+      deLanguage: projectList.value.codeLang,
+      finishTime: formatTime(projectList.value.eTime),
+      createTime: formatTime(),
+      userId: Cookies.get('userId'),
+    })
+    .then((res) => {
+      if (res.success) {
+        proxy.$modal.msgSuccess('创建成功，稍后返回列表页')
+        NProgress.start()
+        setTimeout(() => {
+          router.push({
+            name: 'pmList',
+          })
+        }, 2000)
+      }else {
+        proxy.$modal.msgError('创建失败，请稍后再试')
+      }
+    })
 }
 const initG6 = () => {
   const container = document.getElementById('graph')
@@ -572,55 +576,62 @@ const initG6 = () => {
       },
       labelCfg: {
         style: {
-          fontSize: 8
-        }
-      }
+          fontSize: 8,
+        },
+      },
     },
     defaultEdge: {
       type: 'polyline',
       color: '#e2e2e2',
       style: {
         endArrow: true,
-        radius: 15,
-        offset: 45,
-        lineWidth: 2,
-        stroke: '#73879a'
+        radius: 2,
+        lineWidth: 1,
+        stroke: '#73879a',
       },
     },
   })
   if (Object.keys(flowList.value).length) {
-    flowList.value.nodes.forEach(item => {
+    flowList.value.nodes.forEach((item) => {
       item.label = fittingString(item.title, 60, 15)
     })
   }
   graph.data(flowList.value)
-  graph.render();
+  graph.render()
 }
 onMounted(() => {
   configHeight.value = window.innerHeight - 235
   window.addEventListener('resize', () => {
     configHeight.value = window.innerHeight - 235
   })
-  proxy.$axios.projectSubTool({
-    type: store.projectInfo.type,
-    level: store.projectInfo.level,
-    deLanguage: store.projectInfo.codeLang
-  }).then((res) => {
-    console.log(res);
-    flowList.value.nodes = res.data.nodes
-    flowList.value.edges = res.data.edges
-    tableList.value = res.data.attr
-    projectList.value = store.projectInfo
-    initG6()
-  })
+  proxy.$axios
+    .projectSubTool({
+      type: store.projectInfo.type,
+      level: store.projectInfo.level,
+      deLanguage: store.projectInfo.codeLang,
+    })
+    .then((res) => {
+      if (res.success && res.data !== null) {
+        flowList.value.nodes = res.data.nodes
+        flowList.value.edges = res.data.edges
+        tableList.value = res.data.attr
+        initG6()
+      }else {
+        proxy.$modal.msgWarning('当前项目暂无活动流程数据')
+        createBtnFlag.value = true
+      }
+      projectList.value = store.projectInfo
+      if (!Object.keys(projectList.value).length) {
+        createBtnFlag.value = true
+      }
+    })
 })
 onUnmounted(() => {
-  window.removeEventListener('resize', () => { })
+  window.removeEventListener('resize', () => {})
 })
-
 </script>
 <style lang="scss" scoped>
-.affirm_info{
+.affirm_info {
   width: 100%;
   height: 100%;
 }
@@ -629,7 +640,7 @@ onUnmounted(() => {
   background-color: #fff;
   margin: 20px 20px 0;
   border-radius: 8px;
-  box-shadow: 0px 0px 12px rgba(0, 0, 0, .12);
+  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.12);
 }
 
 .wrapper {

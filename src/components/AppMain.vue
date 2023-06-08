@@ -3,7 +3,7 @@
     <router-view v-slot="{ Component, route }">
       <breadCrumbs></breadCrumbs>
       <transition name="fade-transform" mode="out-in">
-        <keep-alive>
+        <keep-alive :include="keepAliveList">
           <component :is="Component" :key="route.path" />
         </keep-alive>
       </transition>
@@ -14,6 +14,7 @@
 <script setup>
 import breadCrumbs from './common/breadCrumbs.vue'
 
+const keepAliveList = ['configMessage']
 </script>
 
 <style lang="scss" scoped>

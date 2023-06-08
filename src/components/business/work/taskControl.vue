@@ -119,11 +119,11 @@
         >
           <el-table-column prop="id" label="需求ID"> </el-table-column>
           <el-table-column prop="label" label="需求名称"> </el-table-column>
-          <el-table-column label="操作">
-            <template slot-scope="scope">
+          <el-table-column label="操作" width="100" align="center">
+            <template #default>
               <div class="butn">
                 <el-button link @click="remove(scope.row)">
-                  <i class="iconfont icon">&#xe68e;</i>
+                  <el-icon size="20" color="red"><Delete /></el-icon>
                 </el-button>
               </div>
             </template>
@@ -221,6 +221,7 @@ import { workStore } from '@/store/index'
 import _ from 'lodash'
 import { storeToRefs } from 'pinia'
 import markPoint from '../../common/mark/markPoiner.vue'
+import { Delete } from '@element-plus/icons-vue'
 
 const instance = getCurrentInstance()
 

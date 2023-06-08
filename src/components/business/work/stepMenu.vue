@@ -53,7 +53,7 @@ const stepHandler = (item, index, event) => {
 }
 const hideMenu = (val)=>{
   isOut.value = val
-  instance.proxy.$bus.emit('sendOut',val)
+  instance.proxy.$bus.emit('hideMenu',val)
 }
 </script>
 <style lang="scss" scoped>

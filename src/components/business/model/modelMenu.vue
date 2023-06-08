@@ -74,11 +74,4 @@ const dragstart = (e, v) => {
   height: 20px;
   margin-right: 5px;
 }
-
-:deep(.el-sub-menu__title),:deep(.el-menu-item) {
-  border-radius: 4px;
-  &:hover {
-    background: linear-gradient(to right, #a8cde8,#d7d2cc) !important;
-  }
-}
 </style>

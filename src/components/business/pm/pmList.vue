@@ -1,15 +1,15 @@
 <template>
   <section class="list-info">
     <header class="header">
-      <el-dropdown @command="handleCommand" class="button">
-        <el-button link style="margin-top: 2px;">
-          <el-icon size="22" color="#0095d9">
-            <SwitchFilled />
-          </el-icon>
+      <el-dropdown v-if="tableList.length" @command="handleCommand" class="button">
+        <el-button :disabled="!tableList.length" type="primary">
+          切换项目<el-icon><arrow-down /></el-icon>
         </el-button>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item v-for="item in tableList" :key="item.optionName" :command="item.id">{{ item.optionName }}</el-dropdown-item>
+            <el-dropdown-item v-for="item in tableList" :key="item.optionName" :command="item.id">{{
+              item.optionName
+            }}</el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
@@ -20,12 +20,21 @@
         </el-icon>
         新建项目
       </el-button>
-      <el-input class="input" v-model="keyword" placeholder="请输入你需要搜索的项目名称" :suffix-icon="Search"
-        @input="search"></el-input>
+      <el-input
+        class="input"
+        v-model="keyword"
+        placeholder="请输入你需要搜索的项目名称"
+        :suffix-icon="Search"
+        @input="search"
+      ></el-input>
     </header>
     <div class="wrapper">
-      <el-table :data="tableList.slice((currentPage - 1) * pagesize, currentPage * pagesize)" border
-        :header-cell-style="tableHeaderCellStyle" :max-height="tableHeight">
+      <el-table
+        :data="tableList.slice((currentPage - 1) * pagesize, currentPage * pagesize)"
+        border
+        :header-cell-style="tableHeaderCellStyle"
+        :max-height="tableHeight"
+      >
         <el-table-column align="center" label="序号" width="80">
           <template #default="scope">
             {{ scope.$index + (currentPage - 1) * pagesize + 1 }}
@@ -56,15 +65,22 @@
         </el-table-column>
       </el-table>
       <div class="pagination">
-        <el-pagination background layout="prev, pager, next" :total="tableList.length" :page-size="pagesize"
-          :current-page="currentPage" @current-change="handlerCurrentChange" @size-change="handleSizeChange">
+        <el-pagination
+          background
+          layout="prev, pager, next"
+          :total="tableList.length"
+          :page-size="pagesize"
+          :current-page="currentPage"
+          @current-change="handlerCurrentChange"
+          @size-change="handleSizeChange"
+        >
         </el-pagination>
       </div>
     </div>
   </section>
 </template>
 <script setup>
-import { Search, Plus, Delete, SwitchFilled } from '@element-plus/icons-vue'
+import { Search, Plus, Delete, ArrowDown } from '@element-plus/icons-vue'
 import _ from 'lodash'
 import Cookies from 'js-cookie'
 import { formatTime } from '@/utils/utils'
@@ -89,13 +105,13 @@ const handleSizeChange = () => {
 // 新建项目
 const addProject = () => {
   router.push({
-    path: '/pm/taskNeed'
+    path: '/pm/taskNeed',
   })
 }
 
 function tableHeaderCellStyle() {
   return {
-    "background": "#efefef"
+    background: '#efefef',
   }
 }
 const search = (e) => {
@@ -107,40 +123,42 @@ const search = (e) => {
     cloneSearchData.value = _.cloneDeep(tableList.value)
     searchId.value = 0
   }
-  let codeArr = ["optionName", "subType", "subLevel", 'codeLang']
+  let codeArr = ['optionName', 'subType', 'subLevel', 'codeLang']
   let searchReg = new RegExp(e)
   let filterArr = cloneSearchData.value.filter((data) => {
-    return Object.values(
-      Object.fromEntries(
-        Object.entries(data).filter((keys) => codeArr.includes(keys[0]))
-      )
-    ).some((v) => searchReg.test(v))
+    return Object.values(Object.fromEntries(Object.entries(data).filter((keys) => codeArr.includes(keys[0])))).some(
+      (v) => searchReg.test(v)
+    )
   })
   tableList.value = filterArr
 }
 const removeItem = (row) => {
-  proxy.$axios.removeProject({
-    id: row.id
-  }).then(res => {
-    proxy.$modal.msgSuccess('删除成功')
-    getProject()
-  })
+  proxy.$axios
+    .removeProject({
+      id: row.id,
+    })
+    .then((res) => {
+      proxy.$modal.msgSuccess('删除成功')
+      getProject()
+    })
 }
 
 function getProject() {
-  proxy.$axios.getProjectList({
-    userId: Cookies.get('userId')
-  }).then((res) => {
-    res.data.forEach(item => {
-      item.subType = PROJECTMAP[item.type]
-      item.subLevel = LEVELMAP[item.level]
-      item.codeLang = CODELANG[item.deLanguage]
+  proxy.$axios
+    .getProjectList({
+      userId: Cookies.get('userId'),
     })
-    tableList.value = res.data
-  })
+    .then((res) => {
+      res.data.forEach((item) => {
+        item.subType = PROJECTMAP[item.type]
+        item.subLevel = LEVELMAP[item.level]
+        item.codeLang = CODELANG[item.deLanguage]
+      })
+      tableList.value = res.data
+    })
 }
 const handleCommand = (command) => {
-  proxy.$axios.projectChange({id:command}).then((res) => {
+  proxy.$axios.projectChange({ id: command }).then((res) => {
     console.log('success')
   })
 }
@@ -149,14 +167,14 @@ onMounted(() => {
   window.addEventListener('resize', () => {
     tableHeight.value = window.innerHeight - 300
   })
-  // getProject()
-})
-onUnmounted(() => {
-  window.removeEventListener('resize', () => { })
-})
-onActivated(() => {
   getProject()
 })
+onUnmounted(() => {
+  window.removeEventListener('resize', () => {})
+})
+// onActivated(() => {
+//   getProject()
+// })
 </script>
 <style lang="scss" scoped>
 .list-info {
@@ -165,7 +183,7 @@ onActivated(() => {
   border-radius: 7px;
   padding: 15px;
   margin: 0 20px;
-  box-shadow: 0px 0px 22px rgba(0, 0, 0, .1);
+  box-shadow: 0px 0px 22px rgba(0, 0, 0, 0.1);
 }
 
 .header {

@@ -29,10 +29,7 @@
   </el-menu-item>
 </template>
 <script setup>
-import { allStore } from '../../store';
-
 const instance = getCurrentInstance()
-const store = allStore()
 const props = defineProps({
   menus: {
     type: Array,

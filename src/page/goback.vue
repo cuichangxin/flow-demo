@@ -22,7 +22,6 @@
         <div class="table_wrapper">
           <div class="table_info">
             <div class="content">
-
               <div class="w">
                 <!-- 左侧顶部盒子 -->
                 <div class="top-left-box" :style="{ height: leftBlankH + 1 + 'px' }">
@@ -32,58 +31,91 @@
                 </div>
                 <!-- 左侧行 -->
                 <div class="tree_box_info">
-                  <!-- <el-tree v-if="isShow" :data="rowTree" node-key="key" :indent="treeProps.indent" default-expand-all
-                    :expand-on-click-node="false" :render-content="renderContentRow"> -->
-                  <el-tree v-if="isShow" :data="rowTree" node-key="key" :indent="treeProps.indent" default-expand-all
-                    :expand-on-click-node="false">
-                    <template v-slot:default="{ node }">
-                      <element-tree-line :node="node" :showLabelLine="true">
+                  <el-tree
+                    v-if="isShow"
+                    :data="rowTree"
+                    node-key="key"
+                    :indent="treeProps.indent"
+                    default-expand-all
+                    :expand-on-click-node="false"
+                  >
+                    <template v-slot:default="{ node, data }">
+                      <element-tree-line
+                        :node="node"
+                        :showLabelLine="true"
+                        :style="{ background: data.linkNum === 0 && data.key.indexOf('-') !== -1 ? '#e46a64' : '' }"
+                      >
                         <template v-slot:node-label>
-                          <span>{{ node.label.split('-')[0] }}</span>
+                          <img v-if="data.children" class="back-pic" src="../assets/image/back-wenjianjia.png" />
+                          <img v-else class="back-pic" src="../assets/image/back-wenjian.png" />
+                          <span>{{ node.label }}</span>
                         </template>
                         <template v-slot:after-node-label>
                           <div class="num_box">
-                            <div class="cell-item">{{ node.label.split('-')[1] }}</div>
+                            <div class="cell-item">{{ data.linkNum === 0 ? '' : data.linkNum }}</div>
                           </div>
                         </template>
                       </element-tree-line>
                     </template>
                   </el-tree>
-
-                  <!-- <div class="num_box">
-                    <div v-for="(item, index) in cellNumList" :key="index"
-                      :style="{ background: item === 0 ? '#e46a64' : '' }" class="cell-item">{{ item == 0 ? '' : item }}
-                    </div>
-                  </div> -->
                 </div>
               </div>
 
               <el-scrollbar class="flex">
                 <!-- 顶部列 -->
                 <div class="top-column" ref="topColumn">
-                  <el-tree v-if="isShow" :data="columnTree" node-key="key" :indent="0" default-expand-all
-                    :expand-on-click-node="false" ref="elTreeTop" :render-content="renderContent">
+                  <el-tree
+                    v-if="isShow"
+                    :data="columnTree"
+                    node-key="key"
+                    :indent="0"
+                    default-expand-all
+                    :expand-on-click-node="false"
+                    ref="elTreeTop"
+                    :render-content="renderContent"
+                  >
+                    <template #default="{ node, data }">
+                      <span>
+                        <img v-if="data.children" class="back-pic" src="../assets/image/back-wenjianjia.png" />
+                        <img v-else class="back-pic" src="../assets/image/back-wenjian.png" />
+                        <span>{{ node.label }}</span>
+                      </span>
+                    </template>
                   </el-tree>
                 </div>
                 <!-- 中间交集格子 -->
                 <div class="mid_cell" :style="{ width: midWidth + 'px' }" v-for="(node, idx) in rowTree" :key="idx">
                   <div class="cell-info">
-                    <div v-for="(d, i) in node.parentList" :key="i" class="cell-item" :style="{
-                      borderRight: i === node.parentList.length - 1 ? 'none' : '',
-                      background: d.value == '' ? '#e46a64' : '',
-                      borderLeftColor: i == 0 ? 'transparent' : ''
-                    }">{{ d.value }}</div>
+                    <div
+                      v-for="(d, i) in node.parentList"
+                      :key="i"
+                      class="cell-item"
+                      :style="{
+                        borderRight: i === node.parentList.length - 1 ? 'none' : '',
+                        background: d.value == '' ? '#e46a64' : '',
+                        borderLeftColor: i == 0 ? 'transparent' : '',
+                      }"
+                    >
+                      {{ d.value }}
+                    </div>
                   </div>
-                  <div v-for="item in node.cellList" :key="item.id" class="cell" :style="{
-                    borderBottom: item.isBorder ? '' : 'none',
-                    background: item.bgTarget ? '#e46a64' : '',
-                  }">
-                    <img v-if="item.isArrows" class="img_jiantou" src="../assets/image/jiantou.png"
-                      :style="{ transform: rowValue == 'software' && columnValue == 'need' ? 'rotate(225deg)' : '' }" />
+                  <div
+                    v-for="item in node.cellList"
+                    :key="item.id"
+                    class="cell"
+                    :style="{
+                      background: item.bgTarget ? '#e46a64' : '',
+                    }"
+                  >
+                    <img
+                      v-if="item.isArrows"
+                      class="img_jiantou"
+                      src="../assets/image/jiantou.png"
+                      :style="{ transform: rowValue == 'software' && columnValue == 'need' ? 'rotate(225deg)' : '' }"
+                    />
                   </div>
                 </div>
               </el-scrollbar>
-
             </div>
           </div>
         </div>
@@ -92,7 +124,7 @@
   </el-container>
 </template>
 <script setup>
-import _ from "lodash";
+import _ from 'lodash'
 import Axios from 'axios'
 
 const treeProps = {
@@ -107,116 +139,59 @@ const leftBlankH = ref('')
 const cellNumList = ref([])
 const rowSelectList = reactive([
   {
-    value: "software",
-    label: "软件架构",
+    value: 'software',
+    label: '软件架构',
   },
   {
-    value: "testCase",
-    label: "测试用例",
+    value: 'testCase',
+    label: '测试用例',
   },
 ])
 const columnSelectList = reactive([
   {
-    value: "need",
-    label: "软件需求",
+    value: 'need',
+    label: '软件需求',
   },
   {
-    value: "testCase",
-    label: "测试用例",
+    value: 'testCase',
+    label: '测试用例',
   },
 ])
-const rowTree = ref([])
-const columnTree = ref([])
+const rowTree = ref([]) // 左侧行数据
+const columnTree = ref([]) // 顶部列数据
 const columns = ref(0)
-const midWidth = ref('')
-const rowcolumns = ref({})
+const midWidth = ref('') // 中间格子集合宽度
+const rowColumns = ref({})
 const nameInfo = ref([])
 const cellRelation = ref({}) // 中间格子交集数据
 const isShow = ref(false)
 const topColumn = ref(null)
+const rowQuantity = ref(0) // 左侧行总条数
 
+// 左侧行数据切换
 const row = (val) => {
   postAll()
   isShow.value = false
-  rowcolumns.value = {}
+  rowColumns.value = {}
   cellNumList.value = []
   nameInfo.value = []
 }
+// 顶部列数据切换
 const column = (val) => {
   postAll()
   isShow.value = false
-  rowcolumns.value = {}
+  rowColumns.value = {}
   cellNumList.value = []
   nameInfo.value = []
 }
-const cellNum = (val, key) => {
-  let columnNum = 0
-  let add
-  let res = [];
-  let parentRes = []
-  let childArr = []
-  let num = 0
-  columnTree.value.forEach((column) => {
-    if (column?.children) {
-      columnNum += column.children.length
-      column.children.forEach((child) => {
-        if (!childArr.includes(child.key)) {
-          childArr.push(child.key)
-        }
-      })
-    }
-  });
-  add = _.add(val) * columnNum
-  for (let i = 0; i < add; i++) {
-    res.push({
-      id: i,
-      isArrows: false,
-      isBorder: true,
-    });
-  }
-  let rev = res.reverse()
-  rev.forEach((v, i) => {
-    if (i < columns.value) {
-      v.isBorder = false
-    }
-  })
 
-  for (let i = 0; i < columnNum; i++) {
-    parentRes.push({
-      id: i,
-      value: ''
-    });
-  }
-
-  parentRes.forEach((item, index) => {
-    item.key = childArr[index]
-  })
-
-  // 计算列每条数据出现的次数
-  rowTree.value.forEach((item) => {
-    if (item.key === key) {
-      item.cellList = rev.reverse()
-      item.parentList = parentRes
-      item.cellList.forEach(cell => {
-        childArr.forEach((value, index, array) => {
-          cell.key = array[num]
-        })
-        if (num === childArr.length - 1) {
-          num = 0
-        } else {
-          num++
-        }
-      })
-    }
-  })
-}
 /**
  * @description 按照长度分割数组
- * @param {arr} 要切割的数组
- * @param {len} 要切割的数组长度
- * @param {key} 标识
-*/
-const subGroup = (arr, len, key) => {
+ * @param arr 要切割的数组
+ * @param len 要切割的数组长度
+ * @param key 标识
+ */
+function subGroup(arr, len, key) {
   var newArr = {}
   var keys = parseInt(key.split('-')[key.split('-').length - 1])
   newArr[key] = new Array(1)
@@ -224,10 +199,10 @@ const subGroup = (arr, len, key) => {
     newArr[key].push(arr.slice(i, i + len))
   }
   newArr[key].forEach(() => {
-    rowcolumns.value[key] = newArr[key][keys]
+    rowColumns.value[key] = newArr[key][keys]
   })
 }
-const keysSize = (arr) => {
+function keysSize(arr) {
   return arr.reduce((obj, key) => {
     if (key in obj) {
       obj[key]++
@@ -237,6 +212,137 @@ const keysSize = (arr) => {
     return obj
   }, {})
 }
+function renderContentMidden() {
+  // 顶部列个数
+  let columnNum = 0
+  // 全部的格子数量
+  let totalCell = 0,
+    // 全部格子数组集合
+    totalCellArr = [],
+    // 顶部竖向展示的条数的key集合
+    keysArr = [],
+    // key索引
+    keysNum = 0,
+    // 左侧行最外层格子
+    parentArr = []
+
+  columnTree.value.forEach((column) => {
+    if (column?.children) {
+      columnNum += column.children.length
+      // TODO: 目前先计算一层，后面需要根据树折叠展开动态计算
+      column.children.forEach((child) => {
+        if (!keysArr.includes(child.key)) {
+          keysArr.push(child.key)
+        }
+      })
+    }
+  })
+  columns.value = columnNum
+  // 动态计算中间格子集合的宽度， 单个格子宽度40
+  midWidth.value = columnNum * 40
+
+  totalCell = rowQuantity.value * columnNum
+
+  for (var index = 0; index < totalCell; index++) {
+    totalCellArr.push({
+      id: index,
+      isArrows: false,
+      isBorder: true,
+    })
+  }
+
+  totalCellArr.map((cell) => {
+    keysArr.forEach((item, index, array) => {
+      // 把顶部垂直展示的条目的key顺序写入
+      cell.key = array[keysNum]
+    })
+    if (keysNum === keysArr.length - 1) {
+      keysNum = 0
+    } else {
+      keysNum++
+    }
+  })
+
+  for (let i = 0; i < columnNum; i++) {
+    parentArr.push({
+      id: i,
+      value: '',
+      key: keysArr[i],
+    })
+  }
+  console.log(totalCellArr)
+  rowTree.value[0].cellList = totalCellArr
+  rowTree.value[0].parentList = parentArr
+}
+
+const renderContent = (h, { node, data }) => {
+  return h(
+    'span',
+    {
+      class: data.bgTarget && node.childNodes.length <= 0 ? 'custom-tree-node no_bg' : 'custom-tree-node',
+    },
+    h('i', { class: node.childNodes.length ? 'iconfont icon-wenjianjia1' : 'iconfont icon-wenjian' }),
+    h('span', { class: 'tree-label' }, node.label),
+    node.label ? h('span', { class: 'element-land-line' }) : '',
+    h('span', { class: 'element-after-line' })
+  )
+}
+const renderContentRow = (h, { node, data }) => {
+  return h(
+    'span',
+    {
+      class: data.cellNum <= 0 && node.childNodes.length <= 0 ? 'custom-tree-node no_bg' : 'custom-tree-node',
+    },
+    h('i', { class: node.childNodes.length ? 'iconfont icon-wenjianjia1' : 'iconfont icon-wenjian' }),
+    h('span', { class: 'tree-label' }, node.label),
+    h('span', { class: 'element-title-line' }),
+    h('span', { class: 'element-land-line' }),
+    h('span', { class: 'element-after-line' })
+  )
+}
+const getRowInfo = () => {
+  return new Promise((resolve, reject) => {
+    Axios.get(`http://172.20.10.10:8080/mock/goBackData/rowel/${rowValue.value}.json`).then((res) => {
+      rowTree.value = res.rowTree
+      // rowQuantity.value = res.rowTree.length
+      function treeLength(tree) {
+        tree.forEach((item) => {
+          if (item.children && item.children.length) {
+            rowQuantity.value += item.children.length
+            treeLength(item.children)
+          }
+        })
+      }
+      treeLength(rowTree.value)
+      resolve('row')
+    })
+  })
+}
+function getColumnInfo() {
+  return new Promise((resolve, reject) => {
+    Axios.get(`http://172.20.10.10:8080/mock/goBackData/columnel/${columnValue.value}.json`).then((res) => {
+      columnTree.value = res.columnTree
+      resolve('column')
+    })
+  })
+}
+function getUnite() {
+  return new Promise((resolve, reject) => {
+    Axios.get(`http://172.20.10.10:8080/mock/goBackData/unite/${rowValue.value + columnValue.value}.json`).then(
+      (res) => {
+        cellRelation.value = res.cellRelation
+        resolve('unite')
+      }
+    )
+  })
+}
+function postAll() {
+  Promise.all([getRowInfo(), getColumnInfo(), getUnite()]).then((res) => {
+    renderContentMidden()
+    initMatrix()
+  })
+}
+// 初始化
 const initMatrix = () => {
   let columnObj = {} // 记录竖向交集
   let relationGroup = {} // 处理交集数据
@@ -244,14 +350,13 @@ const initMatrix = () => {
   let sizeBox = {} // 列灰色格子交集数量
   let allUnite = [] // 所有交集数据
   nextTick(() => {
-    console.log(cellRelation.value);
     rowTree.value.forEach((item, index) => {
       idx = index
       relationGroup[item.name] = []
       nameInfo.value.push(item.name)
-      item.cellNum = ''
+      // item.cellNum = ''
 
-      Object.keys(cellRelation.value[item.name]).forEach(re => {
+      Object.keys(cellRelation.value[item.name]).forEach((re) => {
         if (idx <= index) {
           relationGroup[item.name].push(cellRelation.value[item.name][re])
           relationGroup[item.name] = relationGroup[item.name].flat(Infinity)
@@ -262,12 +367,12 @@ const initMatrix = () => {
       cellNumList.value.push(item.cellNum)
       if (item?.children) {
         item.children.forEach((child, idx) => {
-          Object.keys(cellRelation.value[item.name]).forEach(re => {
-            if (child.key == re) {
-              child.cellNum = cellRelation.value[item.name][child.key].length // 左侧竖向灰色格子显示数字
-              cellNumList.value.push(child.cellNum)
-            }
-          })
+          // Object.keys(cellRelation.value[item.name]).forEach((re) => {
+          //   if (child.key == re) {
+          //     child.cellNum = cellRelation.value[item.name][child.key].length // 左侧竖向灰色格子显示数字
+          //     cellNumList.value.push(child.cellNum)
+          //   }
+          // })
           // 行没有交集时背景色显示红色
           if (child.cellNum == 0) {
             let size = idx + 1,
@@ -284,12 +389,14 @@ const initMatrix = () => {
           subGroup(item.cellList, columns.value, child.key)
 
           // 中间格子箭头标记
-          rowcolumns.value[child.key].map(rc => {
-            cellRelation.value[item.name][child.key].forEach(cc => {
-              if (rc.key == cc) { rc.isArrows = true }
+          rowColumns.value[child.key].map((rc) => {
+            cellRelation.value[item.name][child.key].forEach((cc) => {
+              if (rc.key == cc) {
+                rc.isArrows = true
+              }
             })
           })
-          if (index == (rowTree.value.length - 1) && idx == (item.children.length - 1)) {
+          if (index == rowTree.value.length - 1 && idx == item.children.length - 1) {
             lastChild.value = child.key
           }
         })
@@ -297,7 +404,7 @@ const initMatrix = () => {
 
       item.cellList.forEach((cell, cellIndex) => {
         item.parentList.forEach((par, parIndex) => {
-          Object.keys(sizeBox[item.name]).forEach(k => {
+          Object.keys(sizeBox[item.name]).forEach((k) => {
             if (par.key == k) {
               par.value = sizeBox[item.name][k]
             }
@@ -324,7 +431,7 @@ const initMatrix = () => {
     allUnite = allUnite.flat(Infinity)
     columnTree.value.forEach((item, index) => {
       if (item?.children) {
-        item.children.forEach(child => {
+        item.children.forEach((child) => {
           if (!allUnite.includes(child.key)) {
             child.bgTarget = true
           }
@@ -344,85 +451,7 @@ const initMatrix = () => {
       }, 100)
     }
   })
-  console.log(rowTree.value);
-}
-const midW = () => {
-  let columnNum = 0
-  columnTree.value.forEach((column) => {
-    if (column?.children) { columnNum += column.children.length }
-  });
-  columns.value = columnNum
-  midWidth.value = columnNum * 40
-  rowTree.value.forEach(item => {
-    if (item?.children) {
-      cellNum(item.children.length, item.key)
-    }
-  })
-}
-const renderContent = (h, { node, data }) => {
-  return h(
-    'span',
-    {
-      class: data.bgTarget && node.childNodes.length <= 0 ? 'custom-tree-node no_bg' : 'custom-tree-node'
-    },
-    h('i', { class: node.childNodes.length ? 'iconfont icon-wenjianjia1' : 'iconfont icon-wenjian' }),
-    h('span', { class: 'tree-label' }, node.label),
-    node.label ? h('span', { class: 'element-land-line' }) : '',
-    h('span', { class: 'element-after-line' }),
-  )
-}
-const renderContentRow = (h, { node, data }) => {
-  return h(
-    'span',
-    {
-      class: data.cellNum <= 0 && node.childNodes.length <= 0 ? 'custom-tree-node no_bg' : 'custom-tree-node'
-    },
-    h('i', { class: node.childNodes.length ? 'iconfont icon-wenjianjia1' : 'iconfont icon-wenjian' }),
-    h('span', { class: 'tree-label' }, node.label),
-    h('span', { class: 'element-title-line' }),
-    h('span', { class: 'element-land-line' }),
-    h('span', { class: 'element-after-line' }),
-  )
-}
-const getRowInfo = () => {
-  return new Promise((resolve, reject) => {
-    Axios.get(`http://172.20.10.10:8080/mock/goBackData/rowel/${rowValue.value}.json`).then((res) => {
-      console.log(res);
-      rowTree.value = res.rowTree
-      function treeLabel(tree){
-        tree.forEach(item=>{
-          item.label = item.label + '-' + item.linkNum
-          if (item.children && item.children.length) {
-            treeLabel(item.children)
-          }
-        })
-      }
-      treeLabel(rowTree.value)
-      resolve('row')
-    })
-  })
-}
-const getColumnInfo = () => {
-  return new Promise((resolve, reject) => {
-    Axios.get(`http://172.20.10.10:8080/mock/goBackData/columnel/${columnValue.value}.json`).then((res) => {
-      columnTree.value = res.columnTree
-      resolve('column')
-    })
-  })
-}
-const getUnite = () => {
-  return new Promise((resolve, reject) => {
-    Axios.get(`http://172.20.10.10:8080/mock/goBackData/unite/${rowValue.value + columnValue.value}.json`).then((res) => {
-      cellRelation.value = res.cellRelation
-      resolve('unite')
-    })
-  })
-}
-const postAll = () => {
-  Promise.all([getRowInfo(), getColumnInfo(), getUnite()]).then((res) => {
-    midW()
-    initMatrix()
-  })
+  console.log(rowTree.value)
 }
 
 onMounted(() => {
@@ -433,7 +462,7 @@ onMounted(() => {
   })
 })
 onUnmounted(() => {
-  window.removeEventListener('resize', () => { })
+  window.removeEventListener('resize', () => {})
 })
 </script>
 <style lang="scss" scoped>
@@ -536,7 +565,8 @@ onUnmounted(() => {
 
             .el-tree-node__children {
               display: flex;
-              height: calc(100% - 40px);
+              /* height: calc(100% - 40px); */
+              height: auto;
               overflow: visible;
 
               .el-tree-node {
@@ -671,6 +701,8 @@ onUnmounted(() => {
         height: 40px;
         border: 1px solid #333;
         background: rgb(213, 213, 213);
+        color: #000;
+        font-size: 15px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -686,5 +718,10 @@ onUnmounted(() => {
   :deep(.el-tree-node__content) {
     height: 40px;
   }
+}
+.back-pic {
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
 }
 </style>

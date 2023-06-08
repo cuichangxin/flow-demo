@@ -2,7 +2,7 @@
   <div class="test-info" :style="{ height: `${mainH}px` }">
     <shapeHeader @handleMenu="handleMenu" :canRedo="canRedo" :canUndo="canUndo"></shapeHeader>
     <el-container class="el-container-layout">
-      <el-aside class="el-aside el-aside-left" :class="{ 'fade': isOut }">
+      <el-aside class="el-aside el-aside-left" :class="{ fade: isOut }">
         <h4 v-if="!isOut" class="title">仿真组件库</h4>
         <el-scrollbar class="el-scrollbar-info" :style="{ padding: isOut ? 0 : '0 10px' }">
           <el-menu @open="open" @close="close" id="elMenu" :collapse="isOut">
@@ -13,21 +13,21 @@
       </el-aside>
       <el-container class="layout-wrapper">
         <div class="canvas-wrapper" :style="{ paddingBottom: isOutB ? '0' : '' }">
-          <div style="width:100%; min-width: 0;">
+          <div style="width: 100%; min-width: 0">
             <h4 class="title">仿真测试环境</h4>
             <!-- canvas容器 -->
             <div id="graph" class="container" ref="graphRef">
               <div id="graph-container" class="graph-container"></div>
             </div>
           </div>
-          <div class="el-aside-right" :class="{ 'fade_r': isOutR }">
+          <div class="el-aside-right" :class="{ fade_r: isOutR }">
             <h4 v-if="!isOutR" class="aside-title">属性栏</h4>
             <tableBar :tableList="tableList" :domH="domH" @saveTable="saveTable"></tableBar>
             <markPoiner :isOut="isOutR" :direction="'left'" :color="'#fff'" @hideMenu="outRHideMenu"></markPoiner>
           </div>
         </div>
-        <el-footer class="el-footer" :class="{ 'fade': isOutB }">
-          <el-space :size="20" class="icon-info" :class="{ 'op': isOutB }">
+        <el-footer class="el-footer" :class="{ fade: isOutB }">
+          <el-space :size="20" class="icon-info" :class="{ op: isOutB }">
             <i class="iconfont icon icon-fangdajing"></i>
             <i class="iconfont icon icon-shezhi"></i>
             <i class="iconfont icon icon-shuaxin"></i>
@@ -40,14 +40,21 @@
             </el-radio-group>
             <div class="terminal-item"></div>
           </div>
-          <markPoiner :class="{ 'top_mark': isOutB }" :isOut="isOutB" :direction="'top'" :color="'#fff'"
-            @hideMenu="outBHideMenu"></markPoiner>
+          <markPoiner
+            :class="{ top_mark: isOutB }"
+            :isOut="isOutB"
+            :direction="'top'"
+            :color="'#fff'"
+            @hideMenu="outBHideMenu"
+          ></markPoiner>
         </el-footer>
       </el-container>
     </el-container>
     <!-- 小地图 -->
-    <div class="minimap_dialog"
-      :style="{ left: `${minimapPoint.x}px`, top: `${minimapPoint.y}px`, visibility: minimapMark ? '' : 'hidden' }">
+    <div
+      class="minimap_dialog"
+      :style="{ left: `${minimapPoint.x}px`, top: `${minimapPoint.y}px`, visibility: minimapMark ? '' : 'hidden' }"
+    >
       <header class="mxWindowTitle" @mousedown="minimapDrop">
         <span>缩略图</span>
         <el-button link @click="closeMap">
@@ -61,10 +68,10 @@
   </div>
 </template>
 <script setup>
-import tableBar from '@/components/business/tableBar.vue';
-import testElMenu from '@/components/business/testElMenu.vue';
+import tableBar from '@/components/business/tableBar.vue'
+import testElMenu from '@/components/business/testElMenu.vue'
 import shapeHeader from '@/components/common/shapeHeader.vue'
-import markPoiner from '../components/common/mark/markPoiner.vue';
+import markPoiner from '../components/common/mark/markPoiner.vue'
 
 import { getImgSize } from '../utils/utils'
 import _ from 'lodash'
@@ -116,48 +123,48 @@ let menuList = reactive([
           tableData: [
             {
               key: '处理器',
-              value: 'BM3803'
+              value: 'BM3803',
             },
             {
               key: '频率',
-              value: '50MHZ'
+              value: '50MHZ',
             },
             {
               key: '内存',
-              value: '2M'
-            }
-          ]
-        }
+              value: '2M',
+            },
+          ],
+        },
       },
       {
         id: '1-2',
         label: '环境扰动力/力矩模型',
         drag: true,
         shape: 'custom-rect',
-        fill: '#61c0bf'
+        fill: '#61c0bf',
       },
       {
         id: '1-3',
         label: '数值积分轨道动力学',
         drag: true,
         shape: 'custom-circle',
-        fill: '#00adb5'
+        fill: '#00adb5',
       },
       {
         id: '1-4',
         label: '空间环境磁场',
         drag: true,
         shape: 'custom-ellipse',
-        fill: '#ea5455'
+        fill: '#ea5455',
       },
       {
         id: '1-5',
         label: '19根数外推轨道动力学',
         drag: true,
         shape: 'custom-polygon-rhombus',
-        fill: '#07689f'
+        fill: '#07689f',
       },
-    ]
+    ],
   },
   {
     id: '2',
@@ -168,7 +175,7 @@ let menuList = reactive([
         id: '2-1',
         label: '单轴模拟太阳敏感器组',
         drag: true,
-        shape: 'custom-polygon-quad'
+        shape: 'custom-polygon-quad',
       },
       {
         id: '2-2',
@@ -180,7 +187,7 @@ let menuList = reactive([
         label: '捷联惯组模型',
         drag: true,
         shape: 'image',
-        img: new URL('../assets/image/jielian.png', import.meta.url).href
+        img: new URL('../assets/image/jielian.png', import.meta.url).href,
       },
       {
         id: '2-4',
@@ -202,21 +209,21 @@ let menuList = reactive([
         label: '激光陀螺模型',
         drag: true,
         shape: 'image',
-        img: new URL('../assets/image/tuoluo.jpg', import.meta.url).href
+        img: new URL('../assets/image/tuoluo.jpg', import.meta.url).href,
       },
       {
         id: '2-8',
         label: 'gps模型',
         drag: true,
         shape: 'image',
-        img: new URL('../assets/image/gps.png', import.meta.url).href
+        img: new URL('../assets/image/gps.png', import.meta.url).href,
       },
       {
         id: '2-9',
         label: '摆动式红外组',
         drag: true,
         shape: 'image',
-        img: new URL('../assets/image/jisuanji.png', import.meta.url).href
+        img: new URL('../assets/image/jisuanji.png', import.meta.url).href,
       },
       {
         id: '2-10',
@@ -228,7 +235,7 @@ let menuList = reactive([
         label: '光学相机模型V1.0',
         drag: true,
       },
-    ]
+    ],
   },
   {
     id: '3',
@@ -240,9 +247,55 @@ let menuList = reactive([
         label: '时序模型',
         drag: true,
         shape: 'image',
-        img: new URL('../assets/image/shixu.png', import.meta.url).href
+        img: new URL('../assets/image/shixu.png', import.meta.url).href,
+        list: {
+          name: '时序',
+          code: '事件',
+          tableData: [
+            {
+              key: '-40.0',
+              value: '摆杆牵动',
+            },
+            {
+              key: '-30.0',
+              value: '摆杆摆开到位',
+            },
+            {
+              key: '-3.0',
+              value: '点火',
+            },
+            {
+              key: '+0.0',
+              value: '起飞',
+            },
+            {
+              key: '+12.0',
+              value: '程序转弯',
+            },
+            {
+              key: '+120.0',
+              value: '逃逸塔分离',
+            },
+            {
+              key: '+154.80',
+              value: '助推器分离',
+            },
+            {
+              key: '',
+              value: '芯一级预令关机',
+            },
+            {
+              key: '+159.0',
+              value: '芯一级主令关机',
+            },
+            {
+              key: '+159.50',
+              value: '一二级分离',
+            },
+          ],
+        },
       },
-    ]
+    ],
   },
   {
     id: '4',
@@ -254,30 +307,79 @@ let menuList = reactive([
         label: 'UART',
         drag: true,
         shape: 'image',
-        img: new URL('../assets/image/UART.png', import.meta.url).href
+        img: new URL('../assets/image/UART.png', import.meta.url).href,
       },
       {
         id: '4-2',
         label: '遥测仿真监控',
         shape: 'image',
         drag: true,
-        img: new URL('../assets/image/yaoce.png', import.meta.url).href
+        img: new URL('../assets/image/yaoce.png', import.meta.url).href,
       },
       {
         id: '4-3',
         label: '伺服机构模型',
         drag: true,
         shape: 'image',
-        img: new URL('../assets/image/cifu.png', import.meta.url).href
+        img: new URL('../assets/image/cifu.png', import.meta.url).href,
       },
       {
         id: '4-4',
         label: '动力学模型',
         drag: true,
         shape: 'image',
-        img: new URL('../assets/image/donglixue.png', import.meta.url).href
+        img: new URL('../assets/image/donglixue.png', import.meta.url).href,
       },
-    ]
+      {
+        id: '4-5',
+        label: '箭载计算机',
+        drag: true,
+        shape: 'image',
+        img: new URL('../assets/image/jisuanji.png', import.meta.url).href,
+        list: {
+          name: '属性',
+          code: '属性值',
+          tableData: [
+            {
+              key: '处理器',
+              value: 'BM3803',
+            },
+            {
+              key: '频率',
+              value: '50MHZ',
+            },
+            {
+              key: '内存',
+              value: '2M',
+            },
+            {
+              key: '15538_1',
+              value: '10',
+            },
+            {
+              key: 'UART_1',
+              value: '2',
+            },
+            {
+              key: 'UART_2',
+              value: '3',
+            },
+            {
+              key: '15538_2',
+              value: '15',
+            },
+            {
+              key: '15538_3',
+              value: '12',
+            },
+            {
+              key: '15538_4',
+              value: '18',
+            },
+          ],
+        },
+      },
+    ],
   },
   {
     id: '5',
@@ -294,7 +396,7 @@ let menuList = reactive([
         label: 'C8伺服模型',
         drag: true,
       },
-    ]
+    ],
   },
   {
     id: '6',
@@ -306,7 +408,7 @@ let menuList = reactive([
         label: '重力模型',
         drag: true,
       },
-    ]
+    ],
   },
   {
     id: '7',
@@ -323,7 +425,7 @@ let menuList = reactive([
         label: 'C8发动机模型',
         drag: true,
       },
-    ]
+    ],
   },
   {
     id: '8',
@@ -360,109 +462,7 @@ let menuList = reactive([
         label: '光纤接口',
         drag: true,
       },
-    ]
-  },
-  {
-    id: '9',
-    label: '箭载计算机',
-    drag: true,
-    shape: 'image',
-    img: new URL('../assets/image/jisuanji.png', import.meta.url).href,
-    list: {
-      name: '属性',
-      code: '属性值',
-      tableData: [
-        {
-          key: '处理器',
-          value: 'BM3803'
-        },
-        {
-          key: '频率',
-          value: '50MHZ'
-        },
-        {
-          key: '内存',
-          value: '2M'
-        },
-        {
-          key: '15538_1',
-          value: '10'
-        },
-        {
-          key: 'UART_1',
-          value: '2'
-        },
-        {
-          key: 'UART_2',
-          value: '3'
-        },
-        {
-          key: '15538_2',
-          value: '15'
-        },
-        {
-          key: '15538_3',
-          value: '12'
-        },
-        {
-          key: '15538_4',
-          value: '18'
-        },
-      ]
-    }
-  },
-  {
-    id: '10',
-    label: '时序模型',
-    drag: true,
-    shape: 'image',
-    img: new URL('../assets/image/shixu.png', import.meta.url).href,
-    list: {
-      name: '时序',
-      code: '事件',
-      tableData: [
-        {
-          key: '-40.0',
-          value: '摆杆牵动'
-        },
-        {
-          key: '-30.0',
-          value: '摆杆摆开到位'
-        },
-        {
-          key: '-3.0',
-          value: '点火'
-        },
-        {
-          key: '+0.0',
-          value: '起飞'
-        },
-        {
-          key: '+12.0',
-          value: '程序转弯'
-        },
-        {
-          key: '+120.0',
-          value: '逃逸塔分离'
-        },
-        {
-          key: '+154.80',
-          value: '助推器分离'
-        },
-        {
-          key: '',
-          value: '芯一级预令关机'
-        },
-        {
-          key: '+159.0',
-          value: '芯一级主令关机'
-        },
-        {
-          key: '+159.50',
-          value: '一二级分离'
-        },
-      ]
-    }
+    ],
   },
 ])
 const openFlag = ref({})
@@ -477,7 +477,7 @@ const canUndo = ref(false) // 是否能撤销
 const canRedo = ref(false) // 是否能重做
 const minimapPoint = reactive({
   x: '',
-  y: ''
+  y: '',
 })
 // 小地图开关
 const minimapMark = ref(false)
@@ -645,51 +645,51 @@ const ports = {
     },
     {
       id: 'prot5',
-      group: 'left'
+      group: 'left',
     },
     {
       id: 'prot6',
-      group: 'left'
+      group: 'left',
     },
     {
       id: 'prot7',
-      group: 'left'
+      group: 'left',
     },
     {
       id: 'prot8',
-      group: 'left'
+      group: 'left',
     },
     {
       id: 'prot9',
-      group: 'right'
+      group: 'right',
     },
     {
       id: 'prot10',
-      group: 'right'
+      group: 'right',
     },
     {
       id: 'prot11',
-      group: 'right'
+      group: 'right',
     },
     {
       id: 'prot12',
-      group: 'right'
+      group: 'right',
     },
     {
       id: 'prot13',
-      group: 'bottom'
+      group: 'bottom',
     },
     {
       id: 'prot14',
-      group: 'bottom'
+      group: 'bottom',
     },
     {
       id: 'prot15',
-      group: 'bottom'
+      group: 'bottom',
     },
     {
       id: 'prot16',
-      group: 'bottom'
+      group: 'bottom',
     },
   ],
 }
@@ -701,7 +701,7 @@ const ellipsePorts = {
         name: 'ellipseSpread',
         args: {
           start: 45,
-        }
+        },
       },
       attrs: {
         circle: {
@@ -717,42 +717,42 @@ const ellipsePorts = {
           },
         },
       },
-    }
-  }
+    },
+  },
 }
 
 const open = (index) => {
   openFlag.value = {
     index,
-    flag: true
+    flag: true,
   }
 }
 const close = (index) => {
   openFlag.value = {
     index,
-    flag: false
+    flag: false,
   }
 }
 // 开始拖动
 const dragStart = (item) => {
   dragItem.value = item
   // 元素行为 移动
-  graphRef.value.addEventListener("dragenter", dragenter);
+  graphRef.value.addEventListener('dragenter', dragenter)
   // 目标元素经过 禁止默认事件
-  graphRef.value.addEventListener("dragover", dragover);
+  graphRef.value.addEventListener('dragover', dragover)
   // 离开目标元素设置元素的放置行为  不能拖放
-  graphRef.value.addEventListener("dragleave", dragleave);
+  graphRef.value.addEventListener('dragleave', dragleave)
   // 拖动元素在目标元素松手时添加元素到画布
-  graphRef.value.addEventListener("drop", drop);
+  graphRef.value.addEventListener('drop', drop)
 }
 const dragenter = (e) => {
-  e.dataTransfer.dropEffect = "move"
+  e.dataTransfer.dropEffect = 'move'
 }
 const dragover = (e) => {
   e.preventDefault()
 }
 const dragleave = (e) => {
-  e.dataTransfer.dropEffect = "none"
+  e.dataTransfer.dropEffect = 'none'
 }
 // 拖动松开添加节点
 const drop = (e) => {
@@ -767,11 +767,11 @@ const drop = (e) => {
         label: dragItem.value.label,
         attrs: {
           image: {
-            'xlink:href': dragItem.value.img
+            'xlink:href': dragItem.value.img,
           },
           label: {
             refX: 0.5, // 标题水平位置
-            refY: '100%',// 标题垂直位置
+            refY: '100%', // 标题垂直位置
             refY2: 6, // 标题和节点之间的距离
             textAnchor: 'middle',
             textVerticalAnchor: 'top',
@@ -780,7 +780,7 @@ const drop = (e) => {
           },
         },
         ports: { ...ports },
-        list: dragItem.value.list
+        list: dragItem.value.list,
       })
     })
   } else {
@@ -801,7 +801,7 @@ const drop = (e) => {
           // ry: 10,
         },
       },
-      list: dragItem.value.list
+      list: dragItem.value.list,
     })
     if (dragItem.value.shape === 'custom-ellipse') {
       Array.from({ length: 10 }).forEach((_, index) => {
@@ -813,10 +813,10 @@ const drop = (e) => {
     }
   }
 
-  graphRef.value.removeEventListener("dragenter", dragenter);
-  graphRef.value.removeEventListener("dragover", dragover);
-  graphRef.value.removeEventListener("dragleave", dragleave);
-  graphRef.value.removeEventListener("drop", drop);
+  graphRef.value.removeEventListener('dragenter', dragenter)
+  graphRef.value.removeEventListener('dragover', dragover)
+  graphRef.value.removeEventListener('dragleave', dragleave)
+  graphRef.value.removeEventListener('drop', drop)
   setTimeout(() => {
     dragItem.value = null
   }, 400)
@@ -860,7 +860,7 @@ const createGraphic = () => {
             group: 'bottom',
           },
         ],
-      }
+      },
     },
     true
   )
@@ -883,7 +883,7 @@ const createGraphic = () => {
           fill: '#262626',
         },
       },
-      ports: { ...absolutePorts }
+      ports: { ...absolutePorts },
     },
     true
   )
@@ -907,7 +907,7 @@ const createGraphic = () => {
       },
       ports: { ...ports },
     },
-    true,
+    true
   )
   // 圆形
   Graph.registerNode(
@@ -929,7 +929,7 @@ const createGraphic = () => {
       },
       ports: { ...absolutePorts },
     },
-    true,
+    true
   )
   // 椭圆
   Graph.registerNode(
@@ -951,7 +951,7 @@ const createGraphic = () => {
       },
       ports: { ...ellipsePorts },
     },
-    true,
+    true
   )
   // #endregion
   const parentDom = document.getElementById('graph')
@@ -976,7 +976,7 @@ const createGraphic = () => {
       ],
     },
     panning: {
-      enabled: true // 开启拖拽平移
+      enabled: true, // 开启拖拽平移
     },
     mousewheel: {
       enabled: true,
@@ -987,7 +987,7 @@ const createGraphic = () => {
       connector: {
         name: 'rounded',
         args: {
-          radius: 8,
+          radius: 4,
         },
       },
       anchor: 'center',
@@ -1004,7 +1004,7 @@ const createGraphic = () => {
               strokeWidth: 2,
               targetMarker: {
                 name: 'block',
-                width: 12,
+                width: 10,
                 height: 8,
               },
             },
@@ -1034,26 +1034,30 @@ const createGraphic = () => {
       new Transform({
         resizing: true,
         rotating: true,
-      }),
+      })
     )
     .use(
       new Selection({
         rubberband: true,
         showNodeSelectionBox: true,
-        modifiers: ['ctrl', 'meta'] // 防止拖拽平移冲突，配合快键键框选
-      }),
+        modifiers: ['ctrl', 'meta'], // 防止拖拽平移冲突，配合快键键框选
+      })
     )
     .use(new Snapline())
     .use(new Keyboard())
     .use(new Clipboard())
-    .use(new History({
-      enabled: true,
-    }))
-    .use(new MiniMap({
-      container: document.getElementById('minimap'),
-      width: document.getElementById('minimap').clientWidth,
-      height: document.getElementById('minimap').clientHeight
-    }))
+    .use(
+      new History({
+        enabled: true,
+      })
+    )
+    .use(
+      new MiniMap({
+        container: document.getElementById('minimap'),
+        width: document.getElementById('minimap').clientWidth,
+        height: document.getElementById('minimap').clientHeight,
+      })
+    )
 
   // 快捷键事件
   graph.bindKey(['meta+c', 'ctrl+c'], () => {
@@ -1149,25 +1153,30 @@ const createGraphic = () => {
     .x6-widget-transform {
       margin: -1px 0 0 -1px;
       padding: 0px;
-      border: 1px solid #239edd;
+      border:2px solid #3572f9;
+      box-shadow:0 4px 4px 0 #dbe6ff;
     }
     .x6-widget-transform > div {
-      border: 1px solid #239edd;
+      border: 1px solid #3572f9;
     }
     .x6-widget-transform > div:hover {
-      background-color: #3dafe4;
+      background-color: #3572f9;
     }
     .x6-widget-transform-active-handle {
-      background-color: #3dafe4;
+      background-color: #3572f9;
     }
     .x6-widget-transform-resize {
       border-radius: 0;
     }
     .x6-widget-selection-inner {
-      border: 1px solid #239edd;
+      border: 1px solid #3572f9;
     }
     .x6-widget-selection-box {
       opacity: 0;
+    }
+    .x6-port>circle{
+      stroke:#69c0ff;
+      stroke-width:2;
     }
   `)
 
@@ -1178,12 +1187,12 @@ const createGraphic = () => {
 }
 // 初始化图事件
 const initGraphEvent = () => {
-  graph.on("node:mouseenter", (e) => {
+  graph.on('node:mouseenter', (e) => {
     const container = document.getElementById('graph-container')
     const ports = container.querySelectorAll('.x6-port-body')
     showPorts(ports, true)
   })
-  graph.on("node:mouseleave", (e) => {
+  graph.on('node:mouseleave', (e) => {
     const container = document.getElementById('graph-container')
     const ports = container.querySelectorAll('.x6-port-body')
     showPorts(ports, false)
@@ -1191,10 +1200,13 @@ const initGraphEvent = () => {
   graph.on('node:click', (e) => {
     // 右侧表格数据
     tableList.value = e.node.store.data.list
+    const container = document.getElementById('graph-container')
+    const ports = container.querySelectorAll('.x6-port-body')
+    showPorts(ports, false)
   })
   graph.on('edge:click', (e) => {
-    console.log(e);
-    console.log(graph.toJSON());
+    console.log(e)
+    console.log(graph.toJSON())
     tableList.value = []
   })
   graph.on('history:change', ({ cmds, options }) => {
@@ -1234,10 +1246,10 @@ const handleMenu = (val) => {
   }
   if (val === '格式') {
     let booleanArr = [isOut.value, isOutR.value, isOutB.value]
-    let falseFlag = booleanArr.filter(item => {
+    let falseFlag = booleanArr.filter((item) => {
       return item === false
     })
-    let trueFlag = booleanArr.filter(item => {
+    let trueFlag = booleanArr.filter((item) => {
       return item === true
     })
     if (falseFlag.length > trueFlag.length) {
@@ -1253,12 +1265,14 @@ const handleMenu = (val) => {
   }
   if (val === '保存') {
     saveToJson()
-    instance.proxy.$axios.saveTaskDetail({
-      taskId: Cookies.get('taskId'),
-      daTree: JSON.stringify(graph.toJSON())
-    }).then((res) => {
-      console.log(res);
-    })
+    instance.proxy.$axios
+      .saveTaskDetail({
+        taskId: Cookies.get('taskId'),
+        daTree: JSON.stringify(graph.toJSON()),
+      })
+      .then((res) => {
+        console.log(res)
+      })
   }
   if (val === '缩略图') {
     minimapMark.value = !minimapMark.value
@@ -1323,7 +1337,6 @@ function tableSize() {
 
 onUnmounted(() => {
   window.onresize = null
-  window.removeEventListener('resize', () => { })
 })
 </script>
 
@@ -1333,7 +1346,7 @@ onUnmounted(() => {
   margin: 0 20px;
   background-color: #f4f4f4;
   border-radius: 3px;
-  transition: height .2s linear;
+  transition: height 0.2s linear;
   box-shadow: 0px 0px 22px rgba(0, 0, 0, 0.2);
   position: relative;
 }
@@ -1357,7 +1370,7 @@ onUnmounted(() => {
   position: relative;
   z-index: 10;
   width: 260px;
-  transition: width .2s linear;
+  transition: width 0.2s linear;
 
   .aside-title {
     /* border-radius: 3px 3px 0 0; */
@@ -1378,7 +1391,7 @@ onUnmounted(() => {
   margin-left: 10px;
   overflow: visible;
   position: relative;
-  transition: width .2s linear;
+  transition: width 0.2s linear;
 
   .title {
     font-size: 15px;
@@ -1474,11 +1487,11 @@ onUnmounted(() => {
   height: 227px;
   position: relative;
   z-index: 10;
-  transition: height .2s linear;
+  transition: height 0.2s linear;
 
   .icon-info {
     margin-left: 20px;
-    transition: opacity .2s linear;
+    transition: opacity 0.2s linear;
 
     i {
       display: inline-block;
@@ -1488,7 +1501,7 @@ onUnmounted(() => {
       font-size: 18px;
       cursor: pointer;
       border-radius: 2px;
-      transition: ease-in-out .1s;
+      transition: ease-in-out 0.1s;
 
       &:hover {
         color: #fff;
@@ -1552,7 +1565,7 @@ onUnmounted(() => {
   width: 180px;
   height: 180px;
   border-radius: 5px;
-  box-shadow: 0px 0px 2px #C0C0C0;
+  box-shadow: 0px 0px 2px #c0c0c0;
 
   .mxWindowTitle {
     color: rgb(112, 112, 112);

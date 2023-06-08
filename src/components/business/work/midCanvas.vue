@@ -95,7 +95,7 @@
       应用任务模型
     </h4>
     <el-scrollbar class="scrollbar">
-      <el-menu class="menu-info">
+      <el-menu :default-openeds="['1']" class="menu-info">
         <modelMenu :moduleTree="moduleTree"></modelMenu>
       </el-menu>
     </el-scrollbar>
@@ -151,6 +151,9 @@ instance.proxy.$bus.on('*', (name, val) => {
   }
   if (name == 'sendOut') {
     isOut.value = val
+    parentSize()
+  }
+  if (name == 'hideMenu') {
     parentSize()
   }
 })
@@ -314,16 +317,17 @@ const dragleave = (e) => {
   e.dataTransfer.dropEffect = 'none'
 }
 const drop = (e) => {
-  if (idList.value.indexOf(dragItem.value.id) !== -1) {
-    dragItem.value = null
-    return
-  }
+  // if (idList.value.indexOf(dragItem.value.id) !== -1) {
+  //   dragItem.value = null
+  //   return
+  // }
   dragItem.value.top = e.layerY
   dragItem.value.left = e.layerX
   dragItem.value.w = 100 // 初始宽
   dragItem.value.h = 40 // 初始高
   dragItem.value.z = 'auto'
-  idList.value.push(dragItem.value.id)
+  dragItem.value.id = Date.now() + '' + Math.ceil(Math.random()*1000)
+  // idList.value.push(dragItem.value.id)
   dragList.value.push(dragItem.value)
   dragItem.value = null
   targetContent.value.removeEventListener('dragenter', dragenter)
@@ -346,11 +350,11 @@ const onActivated = (e, item, index) => {
       dragList.value.splice(index, 1)
       save()
       // 删除id，以便下次继续拖进
-      idList.value.map((d, i) => {
-        if (d == item.id) {
-          idList.value.splice(i, 1)
-        }
-      })
+      // idList.value.map((d, i) => {
+      //   if (d == item.id) {
+      //     idList.value.splice(i, 1)
+      //   }
+      // })
       // 属性表格置空
       work.setShowTable({ status: true, label: item.label, data: {} })
     }
@@ -513,9 +517,9 @@ onMounted(() => {
   let workData = localStorage.getItem('workData')
   if (workData) {
     dragList.value = JSON.parse(workData).dragData
-    dragList.value.forEach((drag) => {
-      idList.value.push(drag.id)
-    })
+    // dragList.value.forEach((drag) => {
+    //   idList.value.push(drag.id)
+    // })
     flyList.value = JSON.parse(workData).flyData
   }
   instance.proxy.$bus.emit('sendMessage', dragList.value)

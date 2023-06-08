@@ -4,7 +4,6 @@
   </el-menu>
 </template>
 <script setup>
-import { watch } from 'vue';
 import shapeElMenu from './shape/shapeElMenu.vue';
 
 const props = defineProps({
