@@ -5,14 +5,14 @@
         <div class="select_wrapper">
           <div class="element">
             <label>行元素类型：</label>
-            <el-select v-model="rowValue" placeholder="请选择" @change="row">
+            <el-select v-model="rowValue" placeholder="请选择" @change="changeRow">
               <el-option v-for="item in rowSelectList" :key="item.label" :value="item.value" :label="item.label">
               </el-option>
             </el-select>
           </div>
           <div class="element">
             <label>列元素类型：</label>
-            <el-select v-model="columnValue" placeholder="请选择" @change="column">
+            <el-select v-model="columnValue" placeholder="请选择" @change="changeColumn">
               <el-option v-for="item in columnSelectList" :key="item.label" :value="item.value" :label="item.label">
               </el-option>
             </el-select>
@@ -92,7 +92,7 @@
                       class="cell-item"
                       :style="{
                         borderRight: i === node.parentList.length - 1 ? 'none' : '',
-                        background: d.value == '' ? '#e46a64' : '',
+                        background: d.value == '' && d.key.indexOf('-') === -1 ? '#e46a64' : '',
                         borderLeftColor: i == 0 ? 'transparent' : '',
                       }"
                     >
@@ -166,18 +166,15 @@ const nameInfo = ref([])
 const cellRelation = ref({}) // 中间格子交集数据
 const isShow = ref(false)
 const topColumn = ref(null)
-const rowQuantity = ref(0) // 左侧行总条数
 
-// 左侧行数据切换
-const row = (val) => {
+const changeRow = (val) => {
   postAll()
   isShow.value = false
   rowColumns.value = {}
   cellNumList.value = []
   nameInfo.value = []
 }
-// 顶部列数据切换
-const column = (val) => {
+const changeColumn = (val) => {
   postAll()
   isShow.value = false
   rowColumns.value = {}
@@ -212,7 +209,8 @@ function keysSize(arr) {
     return obj
   }, {})
 }
-function renderContentMidden() {
+// 计算左行的顶级父元素下的所有子级个数，并且写入到row树中
+function computeCell(num, key) {
   // 顶部列个数
   let columnNum = 0
   // 全部的格子数量
@@ -241,7 +239,7 @@ function renderContentMidden() {
   // 动态计算中间格子集合的宽度， 单个格子宽度40
   midWidth.value = columnNum * 40
 
-  totalCell = rowQuantity.value * columnNum
+  totalCell = num * columnNum
 
   for (var index = 0; index < totalCell; index++) {
     totalCellArr.push({
@@ -270,9 +268,17 @@ function renderContentMidden() {
       key: keysArr[i],
     })
   }
-  console.log(totalCellArr)
-  rowTree.value[0].cellList = totalCellArr
-  rowTree.value[0].parentList = parentArr
+  rowTree.value.forEach((item) => {
+    if (item.key === key) {
+      item.cellList = totalCellArr
+      item.parentList = parentArr
+    }
+  })
+}
+function renderContentMidden() {
+  rowTree.value.forEach((item) => {
+    computeCell(item.cellTotal, item.key)
+  })
 }
 
 const renderContent = (h, { node, data }) => {
@@ -287,33 +293,25 @@ const renderContent = (h, { node, data }) => {
     h('span', { class: 'element-after-line' })
   )
 }
-const renderContentRow = (h, { node, data }) => {
-  return h(
-    'span',
-    {
-      class: data.cellNum <= 0 && node.childNodes.length <= 0 ? 'custom-tree-node no_bg' : 'custom-tree-node',
-    },
-    h('i', { class: node.childNodes.length ? 'iconfont icon-wenjianjia1' : 'iconfont icon-wenjian' }),
-    h('span', { class: 'tree-label' }, node.label),
-    h('span', { class: 'element-title-line' }),
-    h('span', { class: 'element-land-line' }),
-    h('span', { class: 'element-after-line' })
-  )
-}
 const getRowInfo = () => {
   return new Promise((resolve, reject) => {
     Axios.get(`http://172.20.10.10:8080/mock/goBackData/rowel/${rowValue.value}.json`).then((res) => {
       rowTree.value = res.rowTree
-      // rowQuantity.value = res.rowTree.length
-      function treeLength(tree) {
-        tree.forEach((item) => {
-          if (item.children && item.children.length) {
-            rowQuantity.value += item.children.length
-            treeLength(item.children)
+      rowTree.value.map((item, index) => {
+        item.cellTotal = 0
+        treeLength(rowTree.value, index)
+      })
+      function treeLength(tree, index) {
+        tree.forEach((item, idx) => {
+          if (idx === index) {
+            if (item.children && item.children.length) {
+              rowTree.value[index].cellTotal += item.children.length
+              console.log(item.children.length, rowTree.value[index].cellTotal)
+              treeLength(item.children, index)
+            }
           }
         })
       }
-      treeLength(rowTree.value)
       resolve('row')
     })
   })
@@ -565,9 +563,7 @@ onUnmounted(() => {
 
             .el-tree-node__children {
               display: flex;
-              /* height: calc(100% - 40px); */
-              height: auto;
-              overflow: visible;
+              height: calc(100% - 40px);
 
               .el-tree-node {
                 width: 40px;

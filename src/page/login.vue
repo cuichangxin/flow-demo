@@ -56,6 +56,7 @@ const login = () => {
     Cookies.set('roleId', res.data.roleId,{ expires: 30 })
     Cookies.set('userName', res.data.userName,{ expires: 30 })
     Cookies.set('userId', res.data.roleDes.id,{ expires: 30 })
+    Cookies.set('typeId', res.data.typeId,{ expires: 30 })
     if (res.data.roleId === '7') {
       router.push({name: 'testRecord'})
     }else {

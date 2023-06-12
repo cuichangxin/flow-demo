@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@antv/g6": "^4.8.9",
+    "@antv/s2": "^1.47.1",
     "@antv/x6": "^2.10.1",
     "@antv/x6-plugin-clipboard": "^2.1.6",
     "@antv/x6-plugin-dnd": "^2.0.5",

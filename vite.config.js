@@ -41,7 +41,7 @@ export default defineConfig(({ mode, command }) => {
     server: {
       port: 8080,
       host: true,
-      open: true,
+      // open: true,
       proxy: {
         '/api': {
           target: VITE_APP_BASE_URL,

@@ -11,7 +11,7 @@
     </div>
     <!-- 小地图 -->
     <div class="minimap_dialog"
-      :style="{ left: `${minimapPoint.x}px`, top: `${minimapPoint.y}px`, visibility: minimapMark ? '' : 'hidden' }">
+      :style="{ left: `${minimapPoint.x}%`, top: `${minimapPoint.y}px`, visibility: minimapMark ? '' : 'hidden' }">
       <header class="mxWindowTitle" @mousedown="minimapDrop">
         <span>缩略图</span>
         <el-button link @click="closeMap">
@@ -116,7 +116,7 @@ instance.proxy.$bus.on('*', (name, val) => {
   if (name === 'minimap') {
     minimapMark.value = !minimapMark.value
     if (minimapMark.value === false) {
-      minimapPoint.x = 1017
+      minimapPoint.x = 87
       minimapPoint.y = 50
     }
   }
@@ -1008,7 +1008,7 @@ onMounted(() => {
 }
 .minimap_dialog {
   position: absolute;
-  left: 1017px;
+  left: 87%;
   top: 50px;
   z-index: 99;
   width: 180px;

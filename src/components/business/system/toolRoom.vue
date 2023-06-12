@@ -1,13 +1,16 @@
 <template>
   <div class="tool_room" :style="{ height: `${toolH}px` }">
     <el-scrollbar class="tree_box">
-      <el-tree :data="treeData.list"></el-tree>
+      <el-tree :data="treeData.list" :highlight-current="true" node-key="name" @node-click="HandleTree"></el-tree>
     </el-scrollbar>
 
     <el-scrollbar class="tool_room_wrapper">
-      <h1>{{ addToolFlag ? '集成工具' : '平台类工具' }}</h1>
-      <div v-if="!addToolFlag" class="tool_room_content">
-        <div class="tool_room_content_item" v-for="(item, index) in toolList" :key="index">
+      <header>
+        <h1>{{ addToolFlag ? '集成工具' : toolDetailTarget ? toolDetailInfo.name : '平台类工具' }}</h1>
+        <img class="fh" src="../../../assets/image/fh.png" @click="back" />
+      </header>
+      <div v-if="!addToolFlag && !toolDetailTarget" class="tool_room_content">
+        <div class="tool_room_content_item" v-for="(item, index) in toolList" :key="index" @click="toolDetail(item)">
           <img class="tool_room_content_item_img" :src="item.imgUrl" />
           <div class="tool_room_content_item_desc">
             <div class="flex">
@@ -31,7 +34,7 @@
           <span>工具扩展</span>
         </div>
       </div>
-      <div v-else class="add_tool">
+      <div v-if="addToolFlag" class="add_tool">
         <el-form :model="toolForm" label-position="right" label-width="100px" ref="formRef" class="form_box">
           <el-form-item label="工具名称" prop="toolName">
             <el-input v-model="toolForm.toolName"></el-input>
@@ -44,8 +47,12 @@
           </el-form-item>
           <el-form-item label="工具类型" prop="toolType">
             <el-select v-model="toolForm.toolType">
-              <el-option v-for="item in toolTypeList" :key="item.label" :label="item.label"
-                :value="item.value"></el-option>
+              <el-option
+                v-for="item in toolTypeList"
+                :key="item.label"
+                :label="item.label"
+                :value="item.value"
+              ></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="接口定义" prop="port">
@@ -66,6 +73,28 @@
             <el-button type="primary" @click="toolEnter('formRef')">确定</el-button>
           </el-form-item>
         </el-form>
+      </div>
+      <div v-if="toolDetailTarget" class="tool-detail">
+        <div class="tool-detail_item">
+          <p>工具名称</p>
+          <span class="content">{{ toolDetailInfo.name }}</span>
+        </div>
+        <div class="tool-detail_item half" style="margin-right: 30px">
+          <p>工具版本</p>
+          <span class="content">{{ toolDetailInfo.version }}</span>
+        </div>
+        <div class="tool-detail_item half">
+          <p>工具类型</p>
+          <span class="content">{{ toolDetailInfo.type }}</span>
+        </div>
+        <div class="tool-detail_item half">
+          <p>工具厂商</p>
+          <span class="content">{{ toolDetailInfo.manufacturer }}</span>
+        </div>
+        <div class="tool-detail_item" style="height: auto">
+          <p>功能简介</p>
+          <span class="content introduce">{{ toolDetailInfo.desc }}</span>
+        </div>
       </div>
     </el-scrollbar>
     <el-drawer title="接口定义" v-model="drawer">
@@ -102,19 +131,19 @@ const treeData = reactive({
         {
           label: '测试管理工具',
           id: '1-1',
-          children: []
+          children: [],
         },
         {
           label: '问题管理工具',
           id: '1-2',
-          children: []
+          children: [],
         },
         {
           label: '配置管理库',
           id: '1-3',
-          children: []
+          children: [],
         },
-      ]
+      ],
     },
     {
       label: 'Sparc C语言工具链',
@@ -123,39 +152,39 @@ const treeData = reactive({
         {
           label: '需求分析工具',
           id: '2-1',
-          children: []
+          children: [],
         },
         {
           label: '安全性需求分析工具',
           id: '2-2',
-          children: []
+          children: [],
         },
         {
           label: '架构设计工具',
           id: '2-3',
-          children: []
+          children: [],
         },
         {
           label: '安全设计工具',
           id: '2-4',
-          children: []
+          children: [],
         },
         {
           label: '详细设计工具',
           id: '2-5',
-          children: []
+          children: [],
         },
         {
           label: '编码调试工具',
           id: '2-6',
-          children: []
+          children: [],
         },
         {
           label: '编译工具',
           id: '2-7',
-          children: []
+          children: [],
         },
-      ]
+      ],
     },
     {
       label: 'FPGA工具链',
@@ -164,24 +193,24 @@ const treeData = reactive({
         {
           label: '集成开发工具',
           id: '3-1',
-          children: []
+          children: [],
         },
         {
           label: '仿真工具',
           id: '3-2',
-          children: []
+          children: [],
         },
         {
           label: '编码规则检查工具',
           id: '3-3',
-          children: []
+          children: [],
         },
         {
           label: '软件综合布线工具',
           id: '3-4',
-          children: []
+          children: [],
         },
-      ]
+      ],
     },
     {
       label: '模型驱动工具链（C语言）',
@@ -190,29 +219,29 @@ const treeData = reactive({
         {
           label: '需求建模工具',
           id: '4-1',
-          children: []
+          children: [],
         },
         {
           label: '架构建模工具',
           id: '4-2',
-          children: []
+          children: [],
         },
         {
           label: '算法建模工具',
           id: '4-3',
-          children: []
+          children: [],
         },
         {
           label: '代码生成工具',
           id: '4-4',
-          children: []
+          children: [],
         },
         {
           label: '需求分析检查工具',
           id: '4-5',
-          children: []
+          children: [],
         },
-      ]
+      ],
     },
     {
       label: 'c++工具链',
@@ -221,43 +250,45 @@ const treeData = reactive({
         {
           label: 'VScode',
           id: '5-1',
-          children: []
+          children: [],
         },
         {
           label: 'CMake',
           id: '5-2',
-          children: []
+          children: [],
         },
         {
           label: 'Cmake Tools',
           id: '5-3',
-          children: []
+          children: [],
         },
         {
           label: 'Clangd',
           id: '5-4',
-          children: []
+          children: [],
         },
         {
           label: 'clang-tidy',
           id: '5-5',
-          children: []
+          children: [],
         },
         {
           label: 'CodeLLDB',
           id: '5-6',
-          children: []
+          children: [],
         },
-      ]
+      ],
     },
-  ]
+  ],
 })
 const toolList = ref([
   {
     name: '问题管理Mantis',
     version: '2021',
     manufacturer: '美国',
+    type:'问题管理类工具',
     imgUrl: new URL('../../../assets/image/item.png', import.meta.url).href,
+    desc:'Mantis主要用于缺陷跟踪，其具有多种特征，包括：易于安装，易于操作，基于Web，支持任何可运行php的平台(Windows,Linux,Mac,Solaris,AS400/i5等)'
   },
   {
     name: '测试管理ZenTao',
@@ -291,7 +322,7 @@ const toolForm = reactive({
   toolVersion: '',
   make: '',
   toolType: '',
-  port: []
+  port: [],
 })
 const drawer = ref(false)
 const formRef = ref(null)
@@ -299,19 +330,21 @@ const portForm = ref({
   feature: '',
   portName: '',
   input: '',
-  output: ''
+  output: '',
 })
 const portRef = ref(null)
 const toolTypeList = ref([
   {
     label: '自动化执行工具',
-    value: '自动化执行工具'
+    value: '自动化执行工具',
   },
   {
     label: '人工交互工具',
-    value: '人工交互工具'
+    value: '人工交互工具',
   },
 ])
+const toolDetailTarget = ref(false)
+const toolDetailInfo = ref({})
 
 const addTool = () => {
   addToolFlag.value = true
@@ -324,7 +357,7 @@ const toolEnter = (val) => {
         drawer.value = false
         portRef.value.resetFields()
       } else {
-        console.log('submit 失败');
+        console.log('submit 失败')
       }
     })
   }
@@ -336,11 +369,11 @@ const toolEnter = (val) => {
           version: toolForm.toolVersion,
           manufacturer: toolForm.make,
           imgUrl: new URL('../../../assets/image/item.png', import.meta.url).href,
-        },)
+        })
         addToolFlag.value = false
         formRef.value.resetFields()
       } else {
-        console.log('submit 失败');
+        console.log('submit 失败')
       }
     })
   }
@@ -359,6 +392,17 @@ const addPort = () => {
   drawer.value = true
 }
 
+const toolDetail = (item) => {
+  toolDetailTarget.value = true
+  toolDetailInfo.value = item
+}
+const back = () => {
+  toolDetailTarget.value = false
+}
+const HandleTree = (node)=>{
+  console.log(node);
+}
+
 onMounted(() => {
   toolH.value = window.innerHeight - 136
   window.addEventListener('resize', () => {
@@ -366,7 +410,7 @@ onMounted(() => {
   })
 })
 onUnmounted(() => {
-  window.removeEventListener('resize', () => { })
+  window.removeEventListener('resize', () => {})
 })
 </script>
 <style lang="scss" scoped>
@@ -399,11 +443,24 @@ onUnmounted(() => {
   overflow: hidden;
   background-color: #fff;
 
-  h1 {
-    font-size: 27px;
-    color: #4487f9;
-    text-align: center;
-    margin-top: 10px;
+  header {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    h1 {
+      font-size: 27px;
+      color: #4487f9;
+      text-align: center;
+      margin-top: 10px;
+    }
+    .fh{
+      width: 25px;
+      height: 25px;
+      cursor: pointer;
+      position: absolute;
+      right: 20px;
+      top: 10%;
+    }
   }
 }
 
@@ -416,13 +473,19 @@ onUnmounted(() => {
 
 .tool_room_content_item {
   width: 350px;
-  border: 1px solid #d3d1d1;
+  border: 1px solid #ebebeb;
   padding: 20px 10px;
   font-size: 14px;
   display: flex;
   align-items: center;
   margin: 20px 0;
-
+  border-radius: 3px;
+  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform .3s ease-in-out;
+  &:hover{
+    transform: translateY(-8px);
+  }
 }
 
 .tool_room_content_item_img {
@@ -500,5 +563,41 @@ onUnmounted(() => {
   margin-left: auto;
   margin-bottom: 5px;
   margin-top: 5px;
+}
+.tool-detail {
+  width: 100%;
+  height: calc(100% - 10px);
+  border: 1px solid #ededed;
+  padding: 6px 30px;
+  display: flex;
+  flex-wrap: wrap;
+  .tool-detail_item {
+    display: flex;
+    width: 100%;
+    height: 35px;
+    margin: 20px 0;
+    p {
+      width: 90px;
+      font-weight: normal;
+      font-size: 15px;
+      margin: 0;
+      line-height: 35px;
+    }
+    .content {
+      flex: 1;
+      height: 100%;
+      background-color: #ededed;
+      border: 1px solid #d2d1d2;
+      font-size: 15px;
+      padding: 8px 5px;
+      border-radius: 3px;
+    }
+    .introduce {
+      height: auto;
+    }
+  }
+  .half {
+    width: 48%;
+  }
 }
 </style>

@@ -7,7 +7,7 @@
         </el-button>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item v-for="item in tableList" :key="item.optionName" :command="item.id">{{
+            <el-dropdown-item v-for="item in tableList" :key="item.optionName" :command="item.type">{{
               item.optionName
             }}</el-dropdown-item>
           </el-dropdown-menu>
@@ -158,8 +158,9 @@ function getProject() {
     })
 }
 const handleCommand = (command) => {
-  proxy.$axios.projectChange({ id: command }).then((res) => {
+  proxy.$axios.projectChange({ type: command }).then((res) => {
     console.log('success')
+    proxy.$modal.msgSuccess('切换成功')
   })
 }
 onMounted(() => {

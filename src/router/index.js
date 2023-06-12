@@ -165,11 +165,11 @@ const constantRoutes = [
     name: 'copy',
     component: () => import('@/page/copy.vue')
   },
-  {
-    path: '/stepGo',
-    name: 'stepGo',
-    component: () => import('@/page/stepGo.vue')
-  },
+  // {
+  //   path: '/stepGo',
+  //   name: 'stepGo',
+  //   component: () => import('@/page/stepGo.vue')
+  // },
   {
     path: '/404',
     name: '404',

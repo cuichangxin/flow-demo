@@ -143,7 +143,8 @@ const submit = (row) => {
 const getTask = () => {
   proxy.$axios
     .getUserTask({
-      userId: Cookies.get('userId'),
+      typeId:Cookies.get('typeId'),
+      roleId: Cookies.get('roleId'),
     })
     .then((res) => {
       res.data.forEach((item) => {

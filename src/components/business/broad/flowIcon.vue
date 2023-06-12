@@ -3,71 +3,98 @@
     <ul class="ul_common top_box">
       <div v-if="infoList.postList.slice(6, 10).length !== 0" class="bg_box">
         <span class="person_type">姿控工程师</span>
-        <li class="li" v-for="item in infoList.postList.slice(0, 3)" :key="item.serial"
-          @mouseenter="hovers(item.serial, 'postList')" @mouseleave="leaves(item.serial, 'postList')">
-          <img v-if="item.status === 1" :src="item.iconStatus === 0
-            ? getImgUrl('dark_sit.png')
-            : item.iconStatus === 1
-              ? getImgUrl('dark_robot.png')
-              : item.iconStatus === 2
+        <li
+          class="li"
+          v-for="item in infoList.postList.slice(0, 3)"
+          :key="item.serial"
+          @mouseenter="hovers(item.serial, 'postList')"
+          @mouseleave="leaves(item.serial, 'postList')"
+        >
+          <img
+            v-if="item.status === 1"
+            :src="
+              item.iconStatus === 0
+                ? getImgUrl('dark_sit.png')
+                : item.iconStatus === 1
+                ? getImgUrl('dark_robot.png')
+                : item.iconStatus === 2
                 ? getImgUrl('dark_stand.png')
                 : item.iconStatus === 3
-                  ? getImgUrl('dark_host.png')
-                  : ''
-            " />
-          <img v-if="item.status === 3" :src="item.iconStatus === 0
-            ? getImgUrl('bright_sit.png')
-            : item.iconStatus === 1
-              ? getImgUrl('bright_robot.png')
-              : item.iconStatus === 2
+                ? getImgUrl('dark_host.png')
+                : ''
+            "
+          />
+          <img
+            v-if="item.status === 3"
+            :src="
+              item.iconStatus === 0
+                ? getImgUrl('bright_sit.png')
+                : item.iconStatus === 1
+                ? getImgUrl('bright_robot.png')
+                : item.iconStatus === 2
                 ? getImgUrl('bright_stand.png')
                 : item.iconStatus === 3
-                  ? getImgUrl('bright_host.png')
-                  : ''
-            " />
-          <img v-if="item.status === 2" :src="item.iconStatus === 0
-            ? getImgUrl('loading_sit.png')
-            : item.iconStatus === 1
-              ? getImgUrl('loading_host.png')
-              : item.iconStatus === 2
+                ? getImgUrl('bright_host.png')
+                : ''
+            "
+          />
+          <img
+            v-if="item.status === 2"
+            :src="
+              item.iconStatus === 0
+                ? getImgUrl('loading_sit.png')
+                : item.iconStatus === 1
+                ? getImgUrl('loading_host.png')
+                : item.iconStatus === 2
                 ? getImgUrl('loading_stand.png')
                 : item.iconStatus === 3
-                  ? getImgUrl('loading_host.png')
-                  : ''
-            " />
-          <img v-if="item.status === 4" :src="item.iconStatus === 0
-            ? getImgUrl('error_sit.png')
-            : item.iconStatus === 1
-              ? getImgUrl('error_robot.png')
-              : item.iconStatus === 2
+                ? getImgUrl('loading_host.png')
+                : ''
+            "
+          />
+          <img
+            v-if="item.status === 4"
+            :src="
+              item.iconStatus === 0
+                ? getImgUrl('error_sit.png')
+                : item.iconStatus === 1
+                ? getImgUrl('error_robot.png')
+                : item.iconStatus === 2
                 ? getImgUrl('error_stand.png')
                 : item.iconStatus === 3
-                  ? getImgUrl('error_host.png')
-                  : ''
-            " />
+                ? getImgUrl('error_host.png')
+                : ''
+            "
+          />
           <div class="hover_info" v-show="item.serial == item.hoverIdx">
-            <img class="hover_img" :src="item.status == 1
-              ? getImgUrl('project_2.png')
-              : item.status == 2
-                ? getImgUrl('project_1.png')
-                : item.status == 3
+            <img
+              class="hover_img"
+              :src="
+                item.status == 1
+                  ? getImgUrl('project_2.png')
+                  : item.status == 2
+                  ? getImgUrl('project_1.png')
+                  : item.status == 3
                   ? getImgUrl('project_4.png')
                   : item.status == 4
-                    ? getImgUrl('project_3.png')
-                    : ''
-              " />
-            <p :style="{
-              color:
-                item.status == 1
-                  ? '#d0d0d0'
-                  : item.status == 2
+                  ? getImgUrl('project_3.png')
+                  : ''
+              "
+            />
+            <p
+              :style="{
+                color:
+                  item.status == 1
+                    ? '#d0d0d0'
+                    : item.status == 2
                     ? '#a3d4fb'
                     : item.status == 3
-                      ? '#f7f7f7'
-                      : item.status == 4
-                        ? '#f8d796'
-                        : '',
-            }">
+                    ? '#f7f7f7'
+                    : item.status == 4
+                    ? '#f8d796'
+                    : '',
+              }"
+            >
               姿控工程师
             </p>
           </div>
@@ -75,71 +102,98 @@
       </div>
       <div v-if="infoList.postList.slice(6, 10).length !== 0" class="bg_box">
         <span class="person_type">副总师</span>
-        <li class="li" v-for="item in infoList.postList.slice(3, 6)" :key="item.serial"
-          @mouseenter="hovers(item.serial, 'postList')" @mouseleave="leaves(item.serial, 'postList')">
-          <img v-if="item.status === 1" :src="item.iconStatus === 0
-            ? getImgUrl('dark_sit.png')
-            : item.iconStatus === 1
-              ? getImgUrl('dark_robot.png')
-              : item.iconStatus === 2
+        <li
+          class="li"
+          v-for="item in infoList.postList.slice(3, 6)"
+          :key="item.serial"
+          @mouseenter="hovers(item.serial, 'postList')"
+          @mouseleave="leaves(item.serial, 'postList')"
+        >
+          <img
+            v-if="item.status === 1"
+            :src="
+              item.iconStatus === 0
+                ? getImgUrl('dark_sit.png')
+                : item.iconStatus === 1
+                ? getImgUrl('dark_robot.png')
+                : item.iconStatus === 2
                 ? getImgUrl('dark_stand.png')
                 : item.iconStatus === 3
-                  ? getImgUrl('dark_host.png')
-                  : ''
-            " />
-          <img v-if="item.status === 3" :src="item.iconStatus === 0
-            ? getImgUrl('bright_sit.png')
-            : item.iconStatus === 1
-              ? getImgUrl('bright_robot.png')
-              : item.iconStatus === 2
+                ? getImgUrl('dark_host.png')
+                : ''
+            "
+          />
+          <img
+            v-if="item.status === 3"
+            :src="
+              item.iconStatus === 0
+                ? getImgUrl('bright_sit.png')
+                : item.iconStatus === 1
+                ? getImgUrl('bright_robot.png')
+                : item.iconStatus === 2
                 ? getImgUrl('bright_stand.png')
                 : item.iconStatus === 3
-                  ? getImgUrl('bright_host.png')
-                  : ''
-            " />
-          <img v-if="item.status === 2" :src="item.iconStatus === 0
-            ? getImgUrl('loading_sit.png')
-            : item.iconStatus === 1
-              ? getImgUrl('loading_host.png')
-              : item.iconStatus === 2
+                ? getImgUrl('bright_host.png')
+                : ''
+            "
+          />
+          <img
+            v-if="item.status === 2"
+            :src="
+              item.iconStatus === 0
+                ? getImgUrl('loading_sit.png')
+                : item.iconStatus === 1
+                ? getImgUrl('loading_host.png')
+                : item.iconStatus === 2
                 ? getImgUrl('loading_stand.png')
                 : item.iconStatus === 3
-                  ? getImgUrl('loading_host.png')
-                  : ''
-            " />
-          <img v-if="item.status === 4" :src="item.iconStatus === 0
-            ? getImgUrl('error_sit.png')
-            : item.iconStatus === 1
-              ? getImgUrl('error_robot.png')
-              : item.iconStatus === 2
+                ? getImgUrl('loading_host.png')
+                : ''
+            "
+          />
+          <img
+            v-if="item.status === 4"
+            :src="
+              item.iconStatus === 0
+                ? getImgUrl('error_sit.png')
+                : item.iconStatus === 1
+                ? getImgUrl('error_robot.png')
+                : item.iconStatus === 2
                 ? getImgUrl('error_stand.png')
                 : item.iconStatus === 3
-                  ? getImgUrl('error_host.png')
-                  : ''
-            " />
+                ? getImgUrl('error_host.png')
+                : ''
+            "
+          />
           <div class="hover_info" v-show="item.serial == item.hoverIdx">
-            <img class="hover_img" :src="item.status == 1
-              ? getImgUrl('project_2.png')
-              : item.status == 2
-                ? getImgUrl('project_1.png')
-                : item.status == 3
+            <img
+              class="hover_img"
+              :src="
+                item.status == 1
+                  ? getImgUrl('project_2.png')
+                  : item.status == 2
+                  ? getImgUrl('project_1.png')
+                  : item.status == 3
                   ? getImgUrl('project_4.png')
                   : item.status == 4
-                    ? getImgUrl('project_3.png')
-                    : ''
-              " />
-            <p :style="{
-              color:
-                item.status == 1
-                  ? '#d0d0d0'
-                  : item.status == 2
+                  ? getImgUrl('project_3.png')
+                  : ''
+              "
+            />
+            <p
+              :style="{
+                color:
+                  item.status == 1
+                    ? '#d0d0d0'
+                    : item.status == 2
                     ? '#a3d4fb'
                     : item.status == 3
-                      ? '#f7f7f7'
-                      : item.status == 4
-                        ? '#f8d796'
-                        : '',
-            }">
+                    ? '#f7f7f7'
+                    : item.status == 4
+                    ? '#f8d796'
+                    : '',
+              }"
+            >
               副总师
             </p>
           </div>
@@ -147,71 +201,98 @@
       </div>
       <div v-if="infoList.postList.slice(6, 10).length !== 0" class="bg_box">
         <span class="person_type">测试工程师</span>
-        <li class="li" v-for="item in infoList.postList.slice(6, 10)" :key="item.serial"
-          @mouseenter="hovers(item.serial, 'postList')" @mouseleave="leaves(item.serial, 'postList')">
-          <img v-if="item.status === 1" :src="item.iconStatus === 0
-            ? getImgUrl('dark_sit.png')
-            : item.iconStatus === 1
-              ? getImgUrl('dark_robot.png')
-              : item.iconStatus === 2
+        <li
+          class="li"
+          v-for="item in infoList.postList.slice(6, 10)"
+          :key="item.serial"
+          @mouseenter="hovers(item.serial, 'postList')"
+          @mouseleave="leaves(item.serial, 'postList')"
+        >
+          <img
+            v-if="item.status === 1"
+            :src="
+              item.iconStatus === 0
+                ? getImgUrl('dark_sit.png')
+                : item.iconStatus === 1
+                ? getImgUrl('dark_robot.png')
+                : item.iconStatus === 2
                 ? getImgUrl('dark_stand.png')
                 : item.iconStatus === 3
-                  ? getImgUrl('dark_host.png')
-                  : ''
-            " />
-          <img v-if="item.status === 3" :src="item.iconStatus === 0
-            ? getImgUrl('bright_sit.png')
-            : item.iconStatus === 1
-              ? getImgUrl('bright_robot.png')
-              : item.iconStatus === 2
+                ? getImgUrl('dark_host.png')
+                : ''
+            "
+          />
+          <img
+            v-if="item.status === 3"
+            :src="
+              item.iconStatus === 0
+                ? getImgUrl('bright_sit.png')
+                : item.iconStatus === 1
+                ? getImgUrl('bright_robot.png')
+                : item.iconStatus === 2
                 ? getImgUrl('bright_stand.png')
                 : item.iconStatus === 3
-                  ? getImgUrl('bright_host.png')
-                  : ''
-            " />
-          <img v-if="item.status === 2" :src="item.iconStatus === 0
-            ? getImgUrl('loading_sit.png')
-            : item.iconStatus === 1
-              ? getImgUrl('loading_host.png')
-              : item.iconStatus === 2
+                ? getImgUrl('bright_host.png')
+                : ''
+            "
+          />
+          <img
+            v-if="item.status === 2"
+            :src="
+              item.iconStatus === 0
+                ? getImgUrl('loading_sit.png')
+                : item.iconStatus === 1
+                ? getImgUrl('loading_host.png')
+                : item.iconStatus === 2
                 ? getImgUrl('loading_stand.png')
                 : item.iconStatus === 3
-                  ? getImgUrl('loading_host.png')
-                  : ''
-            " />
-          <img v-if="item.status === 4" :src="item.iconStatus === 0
-            ? getImgUrl('error_sit.png')
-            : item.iconStatus === 1
-              ? getImgUrl('error_robot.png')
-              : item.iconStatus === 2
+                ? getImgUrl('loading_host.png')
+                : ''
+            "
+          />
+          <img
+            v-if="item.status === 4"
+            :src="
+              item.iconStatus === 0
+                ? getImgUrl('error_sit.png')
+                : item.iconStatus === 1
+                ? getImgUrl('error_robot.png')
+                : item.iconStatus === 2
                 ? getImgUrl('error_stand.png')
                 : item.iconStatus === 3
-                  ? getImgUrl('error_host.png')
-                  : ''
-            " />
+                ? getImgUrl('error_host.png')
+                : ''
+            "
+          />
           <div class="hover_info" v-show="item.serial == item.hoverIdx">
-            <img class="hover_img" :src="item.status == 1
-              ? getImgUrl('project_2.png')
-              : item.status == 2
-                ? getImgUrl('project_1.png')
-                : item.status == 3
+            <img
+              class="hover_img"
+              :src="
+                item.status == 1
+                  ? getImgUrl('project_2.png')
+                  : item.status == 2
+                  ? getImgUrl('project_1.png')
+                  : item.status == 3
                   ? getImgUrl('project_4.png')
                   : item.status == 4
-                    ? getImgUrl('project_3.png')
-                    : ''
-              " />
-            <p :style="{
-              color:
-                item.status == 1
-                  ? '#d0d0d0'
-                  : item.status == 2
+                  ? getImgUrl('project_3.png')
+                  : ''
+              "
+            />
+            <p
+              :style="{
+                color:
+                  item.status == 1
+                    ? '#d0d0d0'
+                    : item.status == 2
                     ? '#a3d4fb'
                     : item.status == 3
-                      ? '#f7f7f7'
-                      : item.status == 4
-                        ? '#f8d796'
-                        : '',
-            }">
+                    ? '#f7f7f7'
+                    : item.status == 4
+                    ? '#f8d796'
+                    : '',
+              }"
+            >
               测试工程师
             </p>
           </div>
@@ -249,71 +330,98 @@
     <ul class="ul_common bottom_box">
       <div class="bg_box">
         <span class="person_type">制导工程师</span>
-        <li class="li" v-for="item in infoList.postTwoList.slice(0, 2)" :key="item.serial"
-          @mouseenter="hovers(item.serial, 'postTwoList')" @mouseleave="leaves(item.serial, 'postTwoList')">
-          <img v-if="item.status === 1" :src="item.iconStatus === 0
-            ? getImgUrl('dark_sit.png')
-            : item.iconStatus === 1
-              ? getImgUrl('dark_robot.png')
-              : item.iconStatus === 2
+        <li
+          class="li"
+          v-for="item in infoList.postTwoList.slice(0, 2)"
+          :key="item.serial"
+          @mouseenter="hovers(item.serial, 'postTwoList')"
+          @mouseleave="leaves(item.serial, 'postTwoList')"
+        >
+          <img
+            v-if="item.status === 1"
+            :src="
+              item.iconStatus === 0
+                ? getImgUrl('dark_sit.png')
+                : item.iconStatus === 1
+                ? getImgUrl('dark_robot.png')
+                : item.iconStatus === 2
                 ? getImgUrl('dark_stand.png')
                 : item.iconStatus === 3
-                  ? getImgUrl('dark_host.png')
-                  : ''
-            " />
-          <img v-if="item.status === 3" :src="item.iconStatus === 0
-            ? getImgUrl('bright_sit.png')
-            : item.iconStatus === 1
-              ? getImgUrl('bright_robot.png')
-              : item.iconStatus === 2
+                ? getImgUrl('dark_host.png')
+                : ''
+            "
+          />
+          <img
+            v-if="item.status === 3"
+            :src="
+              item.iconStatus === 0
+                ? getImgUrl('bright_sit.png')
+                : item.iconStatus === 1
+                ? getImgUrl('bright_robot.png')
+                : item.iconStatus === 2
                 ? getImgUrl('bright_stand.png')
                 : item.iconStatus === 3
-                  ? getImgUrl('bright_host.png')
-                  : ''
-            " />
-          <img v-if="item.status === 2" :src="item.iconStatus === 0
-            ? getImgUrl('loading_sit.png')
-            : item.iconStatus === 1
-              ? getImgUrl('loading_host.png')
-              : item.iconStatus === 2
+                ? getImgUrl('bright_host.png')
+                : ''
+            "
+          />
+          <img
+            v-if="item.status === 2"
+            :src="
+              item.iconStatus === 0
+                ? getImgUrl('loading_sit.png')
+                : item.iconStatus === 1
+                ? getImgUrl('loading_host.png')
+                : item.iconStatus === 2
                 ? getImgUrl('loading_stand.png')
                 : item.iconStatus === 3
-                  ? getImgUrl('loading_host.png')
-                  : ''
-            " />
-          <img v-if="item.status === 4" :src="item.iconStatus === 0
-            ? getImgUrl('error_sit.png')
-            : item.iconStatus === 1
-              ? getImgUrl('error_robot.png')
-              : item.iconStatus === 2
+                ? getImgUrl('loading_host.png')
+                : ''
+            "
+          />
+          <img
+            v-if="item.status === 4"
+            :src="
+              item.iconStatus === 0
+                ? getImgUrl('error_sit.png')
+                : item.iconStatus === 1
+                ? getImgUrl('error_robot.png')
+                : item.iconStatus === 2
                 ? getImgUrl('error_stand.png')
                 : item.iconStatus === 3
-                  ? getImgUrl('error_host.png')
-                  : ''
-            " />
+                ? getImgUrl('error_host.png')
+                : ''
+            "
+          />
           <div class="hover_info" v-show="item.serial == item.hoverIdx">
-            <img class="hover_img" :src="item.status == 1
-              ? getImgUrl('project_2.png')
-              : item.status == 2
-                ? getImgUrl('project_1.png')
-                : item.status == 3
+            <img
+              class="hover_img"
+              :src="
+                item.status == 1
+                  ? getImgUrl('project_2.png')
+                  : item.status == 2
+                  ? getImgUrl('project_1.png')
+                  : item.status == 3
                   ? getImgUrl('project_4.png')
                   : item.status == 4
-                    ? getImgUrl('project_3.png')
-                    : ''
-              " />
-            <p :style="{
-              color:
-                item.status == 1
-                  ? '#d0d0d0'
-                  : item.status == 2
+                  ? getImgUrl('project_3.png')
+                  : ''
+              "
+            />
+            <p
+              :style="{
+                color:
+                  item.status == 1
+                    ? '#d0d0d0'
+                    : item.status == 2
                     ? '#a3d4fb'
                     : item.status == 3
-                      ? '#f7f7f7'
-                      : item.status == 4
-                        ? '#f8d796'
-                        : '',
-            }">
+                    ? '#f7f7f7'
+                    : item.status == 4
+                    ? '#f8d796'
+                    : '',
+              }"
+            >
               制导工程师
             </p>
           </div>
@@ -321,71 +429,98 @@
       </div>
       <div class="bg_box">
         <span class="person_type">综合工程师</span>
-        <li class="li" v-for="item in infoList.postTwoList.slice(2, 4)" :key="item.serial"
-          @mouseenter="hovers(item.serial, 'postTwoList')" @mouseleave="leaves(item.serial, 'postTwoList')">
-          <img v-if="item.status === 1" :src="item.iconStatus === 0
-            ? getImgUrl('dark_sit.png')
-            : item.iconStatus === 1
-              ? getImgUrl('dark_robot.png')
-              : item.iconStatus === 2
+        <li
+          class="li"
+          v-for="item in infoList.postTwoList.slice(2, 4)"
+          :key="item.serial"
+          @mouseenter="hovers(item.serial, 'postTwoList')"
+          @mouseleave="leaves(item.serial, 'postTwoList')"
+        >
+          <img
+            v-if="item.status === 1"
+            :src="
+              item.iconStatus === 0
+                ? getImgUrl('dark_sit.png')
+                : item.iconStatus === 1
+                ? getImgUrl('dark_robot.png')
+                : item.iconStatus === 2
                 ? getImgUrl('dark_stand.png')
                 : item.iconStatus === 3
-                  ? getImgUrl('dark_host.png')
-                  : ''
-            " />
-          <img v-if="item.status === 3" :src="item.iconStatus === 0
-            ? getImgUrl('bright_sit.png')
-            : item.iconStatus === 1
-              ? getImgUrl('bright_robot.png')
-              : item.iconStatus === 2
+                ? getImgUrl('dark_host.png')
+                : ''
+            "
+          />
+          <img
+            v-if="item.status === 3"
+            :src="
+              item.iconStatus === 0
+                ? getImgUrl('bright_sit.png')
+                : item.iconStatus === 1
+                ? getImgUrl('bright_robot.png')
+                : item.iconStatus === 2
                 ? getImgUrl('bright_stand.png')
                 : item.iconStatus === 3
-                  ? getImgUrl('bright_host.png')
-                  : ''
-            " />
-          <img v-if="item.status === 2" :src="item.iconStatus === 0
-            ? getImgUrl('loading_sit.png')
-            : item.iconStatus === 1
-              ? getImgUrl('loading_host.png')
-              : item.iconStatus === 2
+                ? getImgUrl('bright_host.png')
+                : ''
+            "
+          />
+          <img
+            v-if="item.status === 2"
+            :src="
+              item.iconStatus === 0
+                ? getImgUrl('loading_sit.png')
+                : item.iconStatus === 1
+                ? getImgUrl('loading_host.png')
+                : item.iconStatus === 2
                 ? getImgUrl('loading_stand.png')
                 : item.iconStatus === 3
-                  ? getImgUrl('loading_host.png')
-                  : ''
-            " />
-          <img v-if="item.status === 4" :src="item.iconStatus === 0
-            ? getImgUrl('error_sit.png')
-            : item.iconStatus === 1
-              ? getImgUrl('error_robot.png')
-              : item.iconStatus === 2
+                ? getImgUrl('loading_host.png')
+                : ''
+            "
+          />
+          <img
+            v-if="item.status === 4"
+            :src="
+              item.iconStatus === 0
+                ? getImgUrl('error_sit.png')
+                : item.iconStatus === 1
+                ? getImgUrl('error_robot.png')
+                : item.iconStatus === 2
                 ? getImgUrl('error_stand.png')
                 : item.iconStatus === 3
-                  ? getImgUrl('error_host.png')
-                  : ''
-            " />
+                ? getImgUrl('error_host.png')
+                : ''
+            "
+          />
           <div class="hover_info" v-show="item.serial == item.hoverIdx">
-            <img class="hover_img" :src="item.status == 1
-              ? getImgUrl('project_2.png')
-              : item.status == 2
-                ? getImgUrl('project_1.png')
-                : item.status == 3
+            <img
+              class="hover_img"
+              :src="
+                item.status == 1
+                  ? getImgUrl('project_2.png')
+                  : item.status == 2
+                  ? getImgUrl('project_1.png')
+                  : item.status == 3
                   ? getImgUrl('project_4.png')
                   : item.status == 4
-                    ? getImgUrl('project_3.png')
-                    : ''
-              " />
-            <p :style="{
-              color:
-                item.status == 1
-                  ? '#d0d0d0'
-                  : item.status == 2
+                  ? getImgUrl('project_3.png')
+                  : ''
+              "
+            />
+            <p
+              :style="{
+                color:
+                  item.status == 1
+                    ? '#d0d0d0'
+                    : item.status == 2
                     ? '#a3d4fb'
                     : item.status == 3
-                      ? '#f7f7f7'
-                      : item.status == 4
-                        ? '#f8d796'
-                        : '',
-            }">
+                    ? '#f7f7f7'
+                    : item.status == 4
+                    ? '#f8d796'
+                    : '',
+              }"
+            >
               综合工程师
             </p>
           </div>
@@ -393,71 +528,98 @@
       </div>
       <div class="bg_box">
         <span class="person_type">技术专家</span>
-        <li class="li" v-for="item in infoList.postTwoList.slice(4, 7)" :key="item.serial"
-          @mouseenter="hovers(item.serial, 'postTwoList')" @mouseleave="leaves(item.serial, 'postTwoList')">
-          <img v-if="item.status === 1" :src="item.iconStatus === 0
-            ? getImgUrl('dark_sit.png')
-            : item.iconStatus === 1
-              ? getImgUrl('dark_robot.png')
-              : item.iconStatus === 2
+        <li
+          class="li"
+          v-for="item in infoList.postTwoList.slice(4, 7)"
+          :key="item.serial"
+          @mouseenter="hovers(item.serial, 'postTwoList')"
+          @mouseleave="leaves(item.serial, 'postTwoList')"
+        >
+          <img
+            v-if="item.status === 1"
+            :src="
+              item.iconStatus === 0
+                ? getImgUrl('dark_sit.png')
+                : item.iconStatus === 1
+                ? getImgUrl('dark_robot.png')
+                : item.iconStatus === 2
                 ? getImgUrl('dark_stand.png')
                 : item.iconStatus === 3
-                  ? getImgUrl('dark_host.png')
-                  : ''
-            " />
-          <img v-if="item.status === 3" :src="item.iconStatus === 0
-            ? getImgUrl('bright_sit.png')
-            : item.iconStatus === 1
-              ? getImgUrl('bright_robot.png')
-              : item.iconStatus === 2
+                ? getImgUrl('dark_host.png')
+                : ''
+            "
+          />
+          <img
+            v-if="item.status === 3"
+            :src="
+              item.iconStatus === 0
+                ? getImgUrl('bright_sit.png')
+                : item.iconStatus === 1
+                ? getImgUrl('bright_robot.png')
+                : item.iconStatus === 2
                 ? getImgUrl('bright_stand.png')
                 : item.iconStatus === 3
-                  ? getImgUrl('bright_host.png')
-                  : ''
-            " />
-          <img v-if="item.status === 2" :src="item.iconStatus === 0
-            ? getImgUrl('loading_sit.png')
-            : item.iconStatus === 1
-              ? getImgUrl('loading_host.png')
-              : item.iconStatus === 2
+                ? getImgUrl('bright_host.png')
+                : ''
+            "
+          />
+          <img
+            v-if="item.status === 2"
+            :src="
+              item.iconStatus === 0
+                ? getImgUrl('loading_sit.png')
+                : item.iconStatus === 1
+                ? getImgUrl('loading_host.png')
+                : item.iconStatus === 2
                 ? getImgUrl('loading_stand.png')
                 : item.iconStatus === 3
-                  ? getImgUrl('loading_host.png')
-                  : ''
-            " />
-          <img v-if="item.status === 4" :src="item.iconStatus === 0
-            ? getImgUrl('error_sit.png')
-            : item.iconStatus === 1
-              ? getImgUrl('error_robot.png')
-              : item.iconStatus === 2
+                ? getImgUrl('loading_host.png')
+                : ''
+            "
+          />
+          <img
+            v-if="item.status === 4"
+            :src="
+              item.iconStatus === 0
+                ? getImgUrl('error_sit.png')
+                : item.iconStatus === 1
+                ? getImgUrl('error_robot.png')
+                : item.iconStatus === 2
                 ? getImgUrl('error_stand.png')
                 : item.iconStatus === 3
-                  ? getImgUrl('error_host.png')
-                  : ''
-            " />
+                ? getImgUrl('error_host.png')
+                : ''
+            "
+          />
           <div class="hover_info" v-show="item.serial == item.hoverIdx">
-            <img class="hover_img" :src="item.status == 1
-              ? getImgUrl('project_2.png')
-              : item.status == 2
-                ? getImgUrl('project_1.png')
-                : item.status == 3
+            <img
+              class="hover_img"
+              :src="
+                item.status == 1
+                  ? getImgUrl('project_2.png')
+                  : item.status == 2
+                  ? getImgUrl('project_1.png')
+                  : item.status == 3
                   ? getImgUrl('project_4.png')
                   : item.status == 4
-                    ? getImgUrl('project_3.png')
-                    : ''
-              " />
-            <p :style="{
-              color:
-                item.status == 1
-                  ? '#d0d0d0'
-                  : item.status == 2
+                  ? getImgUrl('project_3.png')
+                  : ''
+              "
+            />
+            <p
+              :style="{
+                color:
+                  item.status == 1
+                    ? '#d0d0d0'
+                    : item.status == 2
                     ? '#a3d4fb'
                     : item.status == 3
-                      ? '#f7f7f7'
-                      : item.status == 4
-                        ? '#f8d796'
-                        : '',
-            }">
+                    ? '#f7f7f7'
+                    : item.status == 4
+                    ? '#f8d796'
+                    : '',
+              }"
+            >
               技术专家
             </p>
           </div>
@@ -465,71 +627,98 @@
       </div>
       <div class="bg_box">
         <span class="person_type">安全工程师</span>
-        <li class="li" v-for="item in infoList.postTwoList.slice(7, 10)" :key="item.serial"
-          @mouseenter="hovers(item.serial, 'postTwoList')" @mouseleave="leaves(item.serial, 'postTwoList')">
-          <img v-if="item.status === 1" :src="item.iconStatus === 0
-            ? getImgUrl('dark_sit.png')
-            : item.iconStatus === 1
-              ? getImgUrl('dark_robot.png')
-              : item.iconStatus === 2
+        <li
+          class="li"
+          v-for="item in infoList.postTwoList.slice(7, 10)"
+          :key="item.serial"
+          @mouseenter="hovers(item.serial, 'postTwoList')"
+          @mouseleave="leaves(item.serial, 'postTwoList')"
+        >
+          <img
+            v-if="item.status === 1"
+            :src="
+              item.iconStatus === 0
+                ? getImgUrl('dark_sit.png')
+                : item.iconStatus === 1
+                ? getImgUrl('dark_robot.png')
+                : item.iconStatus === 2
                 ? getImgUrl('dark_stand.png')
                 : item.iconStatus === 3
-                  ? getImgUrl('dark_host.png')
-                  : ''
-            " />
-          <img v-if="item.status === 3" :src="item.iconStatus === 0
-            ? getImgUrl('bright_sit.png')
-            : item.iconStatus === 1
-              ? getImgUrl('bright_robot.png')
-              : item.iconStatus === 2
+                ? getImgUrl('dark_host.png')
+                : ''
+            "
+          />
+          <img
+            v-if="item.status === 3"
+            :src="
+              item.iconStatus === 0
+                ? getImgUrl('bright_sit.png')
+                : item.iconStatus === 1
+                ? getImgUrl('bright_robot.png')
+                : item.iconStatus === 2
                 ? getImgUrl('bright_stand.png')
                 : item.iconStatus === 3
-                  ? getImgUrl('bright_host.png')
-                  : ''
-            " />
-          <img v-if="item.status === 2" :src="item.iconStatus === 0
-            ? getImgUrl('loading_sit.png')
-            : item.iconStatus === 1
-              ? getImgUrl('loading_host.png')
-              : item.iconStatus === 2
+                ? getImgUrl('bright_host.png')
+                : ''
+            "
+          />
+          <img
+            v-if="item.status === 2"
+            :src="
+              item.iconStatus === 0
+                ? getImgUrl('loading_sit.png')
+                : item.iconStatus === 1
+                ? getImgUrl('loading_host.png')
+                : item.iconStatus === 2
                 ? getImgUrl('loading_stand.png')
                 : item.iconStatus === 3
-                  ? getImgUrl('loading_host.png')
-                  : ''
-            " />
-          <img v-if="item.status === 4" :src="item.iconStatus === 0
-            ? getImgUrl('error_sit.png')
-            : item.iconStatus === 1
-              ? getImgUrl('error_robot.png')
-              : item.iconStatus === 2
+                ? getImgUrl('loading_host.png')
+                : ''
+            "
+          />
+          <img
+            v-if="item.status === 4"
+            :src="
+              item.iconStatus === 0
+                ? getImgUrl('error_sit.png')
+                : item.iconStatus === 1
+                ? getImgUrl('error_robot.png')
+                : item.iconStatus === 2
                 ? getImgUrl('error_stand.png')
                 : item.iconStatus === 3
-                  ? getImgUrl('error_host.png')
-                  : ''
-            " />
+                ? getImgUrl('error_host.png')
+                : ''
+            "
+          />
           <div class="hover_info" v-show="item.serial == item.hoverIdx">
-            <img class="hover_img" :src="item.status == 1
-              ? getImgUrl('project_2.png')
-              : item.status == 2
-                ? getImgUrl('project_1.png')
-                : item.status == 3
+            <img
+              class="hover_img"
+              :src="
+                item.status == 1
+                  ? getImgUrl('project_2.png')
+                  : item.status == 2
+                  ? getImgUrl('project_1.png')
+                  : item.status == 3
                   ? getImgUrl('project_4.png')
                   : item.status == 4
-                    ? getImgUrl('project_3.png')
-                    : ''
-              " />
-            <p :style="{
-              color:
-                item.status == 1
-                  ? '#d0d0d0'
-                  : item.status == 2
+                  ? getImgUrl('project_3.png')
+                  : ''
+              "
+            />
+            <p
+              :style="{
+                color:
+                  item.status == 1
+                    ? '#d0d0d0'
+                    : item.status == 2
                     ? '#a3d4fb'
                     : item.status == 3
-                      ? '#f7f7f7'
-                      : item.status == 4
-                        ? '#f8d796'
-                        : '',
-            }">
+                    ? '#f7f7f7'
+                    : item.status == 4
+                    ? '#f8d796'
+                    : '',
+              }"
+            >
               安全工程师
             </p>
           </div>
@@ -561,16 +750,16 @@
   </div>
 </template>
 <script setup>
-import LeaderLine from '@/utils/leader-line.min.js';
-import { watch } from 'vue';
+import LeaderLine from '@/utils/leader-line.min.js'
+import { watch } from 'vue'
 let props = defineProps({
   list: {
     type: Object,
-    default: () => []
+    default: () => [],
   },
-  serial:{
-    type:[Number,String]
-  }
+  serial: {
+    type: [Number, String],
+  },
 })
 
 function getImgUrl(img) {
@@ -898,42 +1087,59 @@ const itemList = ref([])
 const timer = ref(null)
 const isFlag = ref(true)
 const idx = ref(null)
-watch([() => props.list,() => props.serial], ([n,serial],[nOld,serialOld]) => {
-  if (JSON.stringify(n) == "{}") {
-    lines.value = []
-    infoList.value.postList.forEach((item) => {
-      item.status = 1
-    })
-    itemList.value.forEach((item) => {
-      item.remove()
-    })
-  } else {
-    lines.value = n.postLineList
-    infoList.value.postList.forEach((item) => {
-      foreach(n,item)
-    })
-    infoList.value.autoList.forEach((item) => {
-      foreach(n,item)
-    })
-    infoList.value.autoHostList.forEach((item) => {
-      foreach(n,item)
-    })
-    infoList.value.postTwoList.forEach((item) => {
-      foreach(n,item)
-    })
-    if (n.postLineList.length) {
-      setTimeout(() => {
-        init()
-      }, 500)
+const isPostLine = ref(true)
+
+watch(
+  () => props.list,
+  (n) => {
+    if (JSON.stringify(n) == '{}') {
+      lines.value = []
+      infoList.value.postList.forEach((item) => {
+        item.status = 1
+      })
+      itemList.value.forEach((item) => {
+        item.remove()
+      })
+    } else {
+      lines.value = n.postLineList
+      infoList.value.postList.forEach((item) => {
+        foreach(n, item)
+      })
+      infoList.value.autoList.forEach((item) => {
+        foreach(n, item)
+      })
+      infoList.value.autoHostList.forEach((item) => {
+        foreach(n, item)
+      })
+      infoList.value.postTwoList.forEach((item) => {
+        foreach(n, item)
+      })
+      isPostLine.value = n.postLineList.length ? true : false
+      if (n.postLineList.length) {
+        setTimeout(() => {
+          init()
+        }, 500)
+      }
     }
   }
-})
+)
 
-function foreach(val,item) {
+// watch(
+//   () => props.serial,
+//   (n, o) => {
+//     if (n !== o && isPostLine.value) {
+//       setTimeout(() => {
+//         init()
+//       }, 500)
+//     }
+//   },
+//   { immediate: true }
+// )
+function foreach(val, item) {
   if (val.postList !== undefined) {
     val.postList.forEach((v) => {
       if (item.serial === v.serial) {
-        item.status = v.status;
+        item.status = v.status
       }
     })
   }
@@ -942,25 +1148,25 @@ function foreach(val,item) {
 const init = () => {
   const styleOption = {
     // 连线颜色 coral （默认） , 取值参考颜色值
-    color: "#ffb800",
+    color: '#ffb800',
     // 连线尺寸 4（默认）
     size: 3,
     // 连线类型 straight 直线 , arc 曲线 , fluid 流体线（默认） , magnet 磁铁线 , grid 折线
-    path: "grid",
+    path: 'grid',
     // 连线边框显示 false （默认）
     outline: false,
     // 连线边框颜色 indianred （默认） , 取值参考颜色值
-    outlineColor: "rgba(0,255,255,0)",
+    outlineColor: 'rgba(0,255,255,0)',
     // 连线使用虚线 true 开启 ， false 不开启（默认）
     dash: {
       // 绘制线的长度 'auto'=size*2
-      len: "auto",
+      len: 'auto',
       // 绘制线之间的间隙 'auto'=size
       gap: 7,
       // 线条滚动 true 是({duration: 1000, timing: 'linear'}，详见动画选项)， false 否（默认）
       animation: {
         duration: 1000,
-        timing: "linear",
+        timing: 'linear',
       },
     },
     hide: true,
@@ -972,35 +1178,35 @@ const init = () => {
     // // 连线结束元素
     // end: "",
     // 连线从元素某侧开始 top 上 , right 右 , bottom 下 , left 左 , auto 自适应（默认）
-    startSocket: "",
+    startSocket: '',
     // 连线从元素某侧结束
-    endSocket: "",
+    endSocket: '',
     // 连线开始点样式
     // disc 圆形 , square 方形 , arrow1 箭头1 , arrow2 箭头2 , arrow3 箭头3 ,
     // hand 手指 , crosshair 十字准线 , behind 无（默认）
-    startPlug: "behind",
+    startPlug: 'behind',
     // 连线结束点样式 arrow1 箭头1（默认）
-    endPlug: "arrow3",
+    endPlug: 'arrow3',
     // 连线开始点颜色 auto 自适应（默认） , 取值参考颜色值
-    startPlugColor: "#ff3792",
+    startPlugColor: '#ff3792',
     // 连线结束点颜色
-    endPlugColor: "",
+    endPlugColor: '',
     // 连线开始点尺寸 1 （默认）
     startPlugSize: 1,
     // 连线结束点尺寸 1 （默认）
     endPlugSize: 1.2,
     // 连线开始文字 默认为空
-    startLabel: "",
+    startLabel: '',
     // 连线中间文字 默认为空
-    middleLabel: "",
+    middleLabel: '',
     // 连线结束文字 默认为空
-    endLabel: "",
+    endLabel: '',
   }
-  const itemEl = document.getElementsByClassName("li");
+  const itemEl = document.getElementsByClassName('li')
   if (!isFlag.value) {
     if (itemList.value.length) {
       itemList.value.forEach((item, index) => {
-        item.remove();
+        item.remove()
         if (index === itemList.value.length - 1) {
           isFlag.value = true
           init()
@@ -1015,23 +1221,23 @@ const init = () => {
       return new LeaderLine({
         ...styleOption,
         start: itemEl[item.start - 1],
-        end: itemEl[item.end - 1]
+        end: itemEl[item.end - 1],
       })
     })
     if (idx.value == lines.value.length - 1) {
       let animationOptions = {
         duration: 1000,
-        timing: "ease-in",
+        timing: 'ease-in',
       }
       itemList.value.forEach((item) => {
-        item.show("draw", animationOptions)
+        item.show('draw', animationOptions)
       })
     }
   }
 }
 const changPosition = () => {
   if (timer.value) {
-    clearTimeout(timer.value);
+    clearTimeout(timer.value)
     timer.value = null
   }
   timer.value = setTimeout(() => {
@@ -1056,13 +1262,13 @@ const leaves = (num, code) => {
 }
 
 onMounted(() => {
-  window.addEventListener("resize", changPosition)
+  window.addEventListener('resize', changPosition)
 })
 onUnmounted(() => {
   itemList.value.forEach((item) => {
     item.remove()
   })
-  window.removeEventListener("resize", changPosition);
+  window.removeEventListener('resize', changPosition)
 })
 </script>
 <style lang="scss" scoped>
@@ -1135,9 +1341,9 @@ onUnmounted(() => {
 
     #alone_bg {
       width: 65px;
-      background: url("../../../assets/image/cloud_2.png") no-repeat;
+      background: url('../../../assets/image/cloud_2.png') no-repeat;
       background-size: 100% 100%;
-      img{
+      img {
         width: 60px;
         height: 60px;
       }
@@ -1146,7 +1352,7 @@ onUnmounted(() => {
     .item_box_bg {
       width: 55px;
       height: 50px;
-      background: url("../../../assets/image/cloud_1.png") no-repeat;
+      background: url('../../../assets/image/cloud_1.png') no-repeat;
       background-size: 100% 60%;
       background-position: bottom;
 
@@ -1168,7 +1374,7 @@ onUnmounted(() => {
   .top_box {
     height: 100px;
     padding: 8px 0;
-    background: url("../../../assets/image/j2_1.png") no-repeat;
+    background: url('../../../assets/image/j2_1.png') no-repeat;
     background-size: 100% 100%;
     padding-right: 20px;
   }
@@ -1176,10 +1382,10 @@ onUnmounted(() => {
   .center_box {
     height: 220px;
     padding: 10px 0;
-    background: url("../../../assets/image/j1.png") no-repeat;
+    background: url('../../../assets/image/j1.png') no-repeat;
     background-size: 100% 100%;
     margin: 6px 0;
-    li{
+    li {
       padding: 0;
     }
   }
@@ -1187,7 +1393,7 @@ onUnmounted(() => {
   .bottom_box {
     height: 100px;
     padding: 8px 0;
-    background: url("../../../assets/image/j2_1.png") no-repeat;
+    background: url('../../../assets/image/j2_1.png') no-repeat;
     background-size: 100% 100%;
     padding-right: 30px;
   }
