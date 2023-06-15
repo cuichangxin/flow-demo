@@ -147,8 +147,9 @@
 <script setup>
 import { workStore } from '@/store/index'
 import { storeToRefs } from 'pinia'
+
 const work = workStore()
-const { taskAllList } = storeToRefs(work)
+const { taskAllList,taskListStore } = storeToRefs(work)
 let taskList = ref([])
 
 const issueTableData = ref([])
@@ -179,6 +180,9 @@ watch(tabIndex, (n) => {
     issueTableData.value = []
     takeTableData.value = []
   }
+})
+watch(taskListStore,(n,o)=>{
+  taskList.value = n
 })
 const tableHeaderCellStyle = () => {
   return {
@@ -251,11 +255,11 @@ const drawerOff = () => {
   drawer.value = false
 }
 onMounted(() => {
-  let allWork = localStorage.getItem('workData')
+  // let allWork = localStorage.getItem('workData')
   let relation = localStorage.getItem('relationData')
-  if (allWork) {
-    taskList.value = JSON.parse(allWork).dragData
-  }
+  // if (allWork) {
+  //   taskList.value = JSON.parse(allWork).dragData
+  // }
   if (relation) {
     issueTableData.value = JSON.parse(relation)[tabIndex.value].issueTableData
     takeTableData.value = JSON.parse(relation)[tabIndex.value].takeTableData

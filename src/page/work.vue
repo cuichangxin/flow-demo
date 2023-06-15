@@ -1,12 +1,12 @@
 <template>
   <div class="work">
-    <shapeHeader class="shape_header"></shapeHeader>
+    <shapeHeader class="shape_header" @handleMenu="handleMenu"></shapeHeader>
     <div class="wrapper">
       <StepMenu @checkTab="checkTab"></StepMenu>
       <el-container>
         <el-main class="el-main-info">
           <div class="wrapper" v-show="tabIdx == 0">
-            <Canvas></Canvas>
+            <Canvas ref="childRef"></Canvas>
             <TableControl></TableControl>
           </div>
           <div class="over" v-show="tabIdx == 1">
@@ -28,22 +28,16 @@ import OverAll from '../components/business/work/overAll.vue'
 import TaskRelation from '../components/business/work/taskRelation.vue'
 import shapeHeader from '../components/common/shapeHeader.vue'
 
-import Cookies from 'js-cookie'
-
-const { proxy } = getCurrentInstance()
 const tabIdx = ref(0)
+const childRef = ref(null)
+
 const checkTab = (index) => {
   tabIdx.value = index
 }
-function saveHandle(val) {
-  proxy.$axios
-    .saveTaskDetail({
-      taskId: Cookies.get('taskId'),
-      daTree: val,
-    })
-    .then(() => {
-      console.log('保存 ---- success')
-    })
+const handleMenu = (val) => {
+  if (val === '保存') {
+    childRef.value.saveTaskDetail()
+  }
 }
 </script>
 <style lang="scss" scoped>

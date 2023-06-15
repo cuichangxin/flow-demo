@@ -539,6 +539,12 @@ const enter = () => {
       if (res.success) {
         proxy.$modal.msgSuccess('创建成功，稍后返回列表页')
         NProgress.start()
+        
+        // 创建成功后看板展示切换到当前项目
+        proxy.$axios.projectChange({type:projectList.value.type}).then((res) => {
+          console.log('切换项目成功')
+        })
+
         setTimeout(() => {
           router.push({
             name: 'pmList',
@@ -611,7 +617,7 @@ onMounted(() => {
       deLanguage: store.projectInfo.codeLang,
     })
     .then((res) => {
-      if (res.success && res.data !== null) {
+      if (res.data !== null) {
         flowList.value.nodes = res.data.nodes
         flowList.value.edges = res.data.edges
         tableList.value = res.data.attr

@@ -5,7 +5,7 @@
         <el-tree :data="treeData.list" @node-click="handleTree">
           <template #default="{ node, data }">
             <span class="custom-tree-node">
-              <span v-if="data.params && data.params.confirm" class="affirm">待确认</span>
+              <span v-if="data.params && data.params.confirm2" class="affirm">待确认</span>
               <span>{{ node.label }}</span>
             </span>
           </template>
@@ -239,7 +239,7 @@ const addFrom = () => {
   })
 }
 const handleTree = (node) => {
-  // if (node.params && node.params.confirm) {
+  console.log(node);
   if (node.params) {
     useCase.value = node
     caseGo.value = false

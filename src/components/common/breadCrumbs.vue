@@ -37,11 +37,14 @@ getBreadCrumb()
   height: 40px;
   background-color: #fff;
   border-radius: 7px;
-  box-shadow: 0px 0px 22px rgba(0, 0, 0, .1);
-  margin: 18px;
+  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.07);
+  margin: 8px;
   font-size: 16px;
   display: flex;
   align-items: center;
   padding-left: 10px;
+}
+:deep(.el-breadcrumb__inner){
+  color: #666666 !important;
 }
 </style>

@@ -6,8 +6,6 @@
 @import './btn.scss';
 @import './ruoyi.scss';
 @import '../iconfont/iconfont.css';
-
-$--element-tree-line-color: #9a9a9d;
 @import 'element-tree-line/dist/style.scss';
 
 body {
@@ -16,7 +14,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
+  font-family: PingFangSC-Medium;
 }
 
 label {

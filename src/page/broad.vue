@@ -3,7 +3,7 @@
   <vScaleScreen>
     <el-container class="broad_info">
       <el-main>
-        <div v-if="flag" class="flex">
+        <div class="flex">
           <div class="broad_left">
             <!--顶部占位 -->
             <div class="top_div"></div>
@@ -26,20 +26,15 @@ import vScaleScreen from 'v-scale-screen'
 
 const { proxy } = getCurrentInstance()
 const list = ref({})
-const serial = ref(5)
+const serial = ref(1)
 const timer = ref(null)
-const flag = ref(true)
 const specArr = [7, 9, 10, 14, 15, 17, 18, 19, 20, 21, 22, 23]
 
 onMounted(() => {
-  // let num = localStorage.getItem('stepStatus')
-  // if (num) {
-  //   serial.value = num
-  // }
-  // timerTask()
-  setTimeout(()=>{
-    getJson(serial.value)
-  },1000)
+  setTimeout(() => {
+    timerTask()
+  }, 2000)
+  // getJson(serial.value)
 })
 
 function timerTask() {
@@ -49,24 +44,25 @@ function timerTask() {
 }
 const boardShow = () => {
   proxy.$axios.boardShow({ file: serial.value }).then((res) => {
-    console.log(specArr.indexOf(res.data),'[7, 9, 10, 14, 15, 17, 18, 19, 20, 21, 22, 23] --- 有没有')
-    localStorage.setItem('stepStatus',res.data)
-    if (specArr.indexOf(res.data) !== -1) {
-      serial.value = res.data
-      clearInterval(timer.value)
-      setTimeout(() => {
+    if (res.data !== null) {
+      if (!res.data.flags) {
+        serial.value = res.data
+      }
+      if (specArr.indexOf(res.data) !== -1) {
+        clearInterval(timer.value)
+        setTimeout(() => {
+          getJson(res.data)
+          timerTask()
+        }, 5000)
+      } else {
         getJson(res.data)
-        timerTask()
-      }, 5000)
-    } else {
-      serial.value = res.data
-      getJson(res.data)
+      }
     }
   })
 }
 
 const getJson = (num) => {
-  Axios.get(`http://172.20.10.10:8080/mock/flow/${num}.json`).then((res) => {
+  Axios.get(`http://192.168.30.124:8080/mock/flow/${num}.json`).then((res) => {
     list.value = res
   })
 }

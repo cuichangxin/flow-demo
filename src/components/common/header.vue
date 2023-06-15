@@ -5,10 +5,9 @@
       <h2>航天软件智能生产线</h2>
     </div>
     <p v-if="!isOut" class="user_info">
-      <span>欢迎您！</span>
       <el-dropdown trigger="click" @command="handleDrop">
         <span class="user">
-          <img class="user_img" src="../../assets/image/renyuan.png" />
+          <el-avatar class="avatar" :size="32"  />
           {{ userInfo.userName }}
         </span>
         <template #dropdown>
@@ -25,7 +24,7 @@
         </template>
       </el-dropdown>
     </p>
-    <mark-poiner :isOut="isOut" :direction="'bottom'" @hideMenu="hideMenu"></mark-poiner>
+    <mark-poiner :isOut="isOut" :direction="'bottom'" @hideMenu="hideMenu" color="#fff"></mark-poiner>
   </el-header>
 </template>
 <script setup>
@@ -86,9 +85,10 @@ const handleDrop = (command) => {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #545c64;
+  background: #ffffff;
   position: relative;
   z-index: 11;
+  border-bottom: 1px solid #eaeaea;
   transition: height 0.2s linear;
 
   .logo {
@@ -112,12 +112,9 @@ const handleDrop = (command) => {
   align-items: center;
 
   h2 {
-    color: #fff;
-    font-family: SourceHanSansSC-regular;
-    margin-left: 8px;
-    background-image: -webkit-linear-gradient(bottom, rgb(240, 237, 237), #d3d2cf);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: #000000;
+    margin-left: 16px;
+    font-family: PingFangSC-Bold;
   }
 }
 
@@ -125,7 +122,7 @@ const handleDrop = (command) => {
   display: flex;
 
   span {
-    color: #fff;
+    color: #000;
     font-size: 15px;
     font-weight: 500;
   }
@@ -137,9 +134,7 @@ const handleDrop = (command) => {
   cursor: pointer;
 }
 
-.user_img {
-  width: 20px;
-  height: 20px;
-  margin-right: 5px;
+.avatar {
+  margin-right: 8px;
 }
 </style>

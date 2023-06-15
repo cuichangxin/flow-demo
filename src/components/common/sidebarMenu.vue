@@ -44,7 +44,7 @@ const checkType = computed(() => {
 </script>
 <style lang="scss" scoped>
 .icon {
-  margin-right: 6px;
-  font-size: 14px;
+  margin-right: 9px;
+  font-size: 16px;
 }
 </style>

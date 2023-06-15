@@ -7,7 +7,7 @@
     <el-scrollbar class="tool_room_wrapper">
       <header>
         <h1>{{ addToolFlag ? '集成工具' : toolDetailTarget ? toolDetailInfo.name : '平台类工具' }}</h1>
-        <img class="fh" src="../../../assets/image/fh.png" @click="back" />
+        <img v-if="toolDetailTarget" class="fh" src="../../../assets/image/fh.png" @click="back" />
       </header>
       <div v-if="!addToolFlag && !toolDetailTarget" class="tool_room_content">
         <div class="tool_room_content_item" v-for="(item, index) in toolList" :key="index" @click="toolDetail(item)">

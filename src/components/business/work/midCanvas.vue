@@ -121,6 +121,7 @@ instance.proxy.$bus.on('*', (name, val) => {
     const lineEl = line.value
     nextTick(() => {
       if (copy.action == 'add') {
+        console.log(lineEl)
         copy.form.top = lineEl.offsetTop - 80
         flyList.value.push(copy.form)
       } else if (copy.action == 'update') {
@@ -146,7 +147,7 @@ instance.proxy.$bus.on('*', (name, val) => {
           }
         })
       }
-      save()
+      // save()
     })
   }
   if (name == 'sendOut') {
@@ -228,7 +229,7 @@ const moduleTree = ref([
 const dragItem = ref(null) // 当前拖动元素信息
 const dragList = ref([]) // 拖动元素列表
 const scaleList = ref([])
-const idList = ref([])
+// const idList = ref([])
 const showScale = ref(false)
 const lineOffsetLeft = ref(null)
 const banResize = ref(false)
@@ -256,9 +257,10 @@ watchEffect(() => {
         item.endTime = item.w + (item.left - lineOffsetLeft.value - 100) + 's'
       })
       banResize.value = false
-      save()
+      // save()
     })
   }
+  instance.proxy.$bus.emit('sendMessage', dragList.value)
 })
 watch(
   [taskPropertyData, dragEv],
@@ -284,10 +286,9 @@ watch(
           item.needList = t.needList
         }
       })
-      console.log(dragList.value)
-      setTimeout(() => {
-        save()
-      }, 100)
+      // setTimeout(() => {
+      //   save()
+      // }, 100)
     }
     setTimeout(() => {
       banResize.value = false
@@ -326,7 +327,7 @@ const drop = (e) => {
   dragItem.value.w = 100 // 初始宽
   dragItem.value.h = 40 // 初始高
   dragItem.value.z = 'auto'
-  dragItem.value.id = Date.now() + '' + Math.ceil(Math.random()*1000)
+  dragItem.value.id = Date.now() + '' + Math.ceil(Math.random() * 1000)
   // idList.value.push(dragItem.value.id)
   dragList.value.push(dragItem.value)
   dragItem.value = null
@@ -334,7 +335,7 @@ const drop = (e) => {
   targetContent.value.removeEventListener('dragover', dragover)
   targetContent.value.removeEventListener('dragleave', dragleave)
   targetContent.value.removeEventListener('drop', drop)
-  save()
+  // save()
 }
 const onActivated = (e, item, index) => {
   dragList.value.forEach((drag) => {
@@ -348,7 +349,7 @@ const onActivated = (e, item, index) => {
     if (e.keyCode === 8) {
       // 删除自身
       dragList.value.splice(index, 1)
-      save()
+      // save()
       // 删除id，以便下次继续拖进
       // idList.value.map((d, i) => {
       //   if (d == item.id) {
@@ -425,7 +426,7 @@ const updateSize = (e, item) => {
     },
   })
   work.setScaleLineData(line.value)
-  save()
+  // save()
 }
 const flyDragStop = (e, item) => {
   flyUpdate(e, item, 'drag')
@@ -458,7 +459,7 @@ const flyUpdate = (e, item, type) => {
     }
   })
   work.setTableFlyData(flyList.value)
-  save()
+  // save()
 }
 // 飞行段节点点击
 const flyClicked = (e, item, index) => {
@@ -466,7 +467,7 @@ const flyClicked = (e, item, index) => {
     // 删除元素
     if (e.keyCode === 8) {
       flyList.value.splice(index, 1)
-      save()
+      // save()
     }
   }
   document.onkeyup = () => {
@@ -490,11 +491,24 @@ const hideMenu = (val) => {
   parentSize()
 }
 // 获取任务详情
-// const getDetail = ()=>{
-//   instance.proxy.$axios.getTaskDetail({taskId:Cookies.get('taskId')}).then((res) => {
-//     console.log(res);
-//   })
-// }
+const getDetail = () => {
+  instance.proxy.$axios.getTaskDetail({ taskId: 2001 }).then((res) => {
+    console.log(res)
+    if (res.success && res.data !== null) {
+      const data = JSON.parse(res.data.daTree)
+      dragList.value = data.dragData
+      flyList.value = data.flyData
+      work.taskListStore = data.dragData
+    } else {
+      let workData = localStorage.getItem('workData')
+      if (workData) {
+        dragList.value = JSON.parse(workData).dragData
+        flyList.value = JSON.parse(workData).flyData
+        work.taskListStore = JSON.parse(workData).dragData
+      }
+    }
+  })
+}
 
 // 重新计算画布宽高，限制元素边界
 function parentSize() {
@@ -504,9 +518,29 @@ function parentSize() {
   }, 300)
 }
 
+const saveTaskDetail = () => {
+  // 单独保存画布数据
+  instance.proxy.$axios
+    .saveTaskDetail({
+      taskId: 2001,
+      daTree: JSON.stringify({
+        dragData: dragList.value,
+        flyData: flyList.value,
+      }),
+    })
+    .then((res) => {
+      console.log(res, '应用架构任务')
+    })
+  // TODO: 保存全部的数据 暂时搁置
+}
+
+defineExpose({ saveTaskDetail })
+
 onMounted(() => {
-  // getDetail()
+  getDetail()
+
   work.setScaleLineData(line.value)
+
   const length = Math.floor(targetContent.value.offsetWidth / 100)
   let count = 0
   for (var i = 0; i < length - 2; i++) {
@@ -514,14 +548,7 @@ onMounted(() => {
       num: (count += 100),
     })
   }
-  let workData = localStorage.getItem('workData')
-  if (workData) {
-    dragList.value = JSON.parse(workData).dragData
-    // dragList.value.forEach((drag) => {
-    //   idList.value.push(drag.id)
-    // })
-    flyList.value = JSON.parse(workData).flyData
-  }
+
   instance.proxy.$bus.emit('sendMessage', dragList.value)
 })
 </script>

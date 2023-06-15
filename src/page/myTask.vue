@@ -159,9 +159,9 @@ const getTask = () => {
   background-color: #fff;
   padding: 10px;
   border-radius: 8px;
-  margin: 20px 20px 0;
-  height: calc(96% - 60px);
-  box-shadow: 0px 0px 22px rgba(0, 0, 0, 0.1);
+  margin: 8px 8px 0;
+  height: calc(100% - 65px);
+  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.07);
 }
 
 .pagination {

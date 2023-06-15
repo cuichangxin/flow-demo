@@ -68,8 +68,8 @@
   </div>
 </template>
 <script setup>
-import tableBar from '@/components/business/tableBar.vue'
-import testElMenu from '@/components/business/testElMenu.vue'
+import tableBar from '@/components/business/emulation/tableBar.vue'
+import testElMenu from '@/components/business/emulation/testElMenu.vue'
 import shapeHeader from '@/components/common/shapeHeader.vue'
 import markPoiner from '../components/common/mark/markPoiner.vue'
 
@@ -1182,8 +1182,8 @@ const createGraphic = () => {
 
   if (Object.keys(graphData.value).length) {
     graph.fromJSON(graphData.value.cells)
+    graph.centerContent()
   }
-  graph.centerContent()
 }
 // 初始化图事件
 const initGraphEvent = () => {
@@ -1308,7 +1308,10 @@ onMounted(() => {
     if (res.data !== null) {
       graphData.value = JSON.parse(res.data.daTree)
     } else {
-      graphData.value = JSON.parse(localStorage.getItem('emulationData'))
+      let storage = localStorage.getItem('emulationData')
+      if (storage) {
+        graphData.value = JSON.parse(localStorage.getItem('emulationData'))
+      }
     }
     createGraphic()
     initGraphEvent()

@@ -35,12 +35,6 @@ const constantRoutes = [
         meta: { title: '需求追踪' }
       },
       {
-        path: '/stepgo',
-        name: 'stepgo',
-        component: () => import('@/page/stepGo.vue'),
-        meta: { title: '' }
-      },
-      {
         path: '/emulation',
         name: 'emulation',
         component: () => import('@/page/emulation.vue'),
@@ -161,15 +155,10 @@ const constantRoutes = [
     component: () => import('@/page/login.vue')
   },
   {
-    path: '/copy',
-    name: 'copy',
-    component: () => import('@/page/copy.vue')
+    path: '/test',
+    name: 'test',
+    component: () => import('@/page/test.vue')
   },
-  // {
-  //   path: '/stepGo',
-  //   name: 'stepGo',
-  //   component: () => import('@/page/stepGo.vue')
-  // },
   {
     path: '/404',
     name: '404',

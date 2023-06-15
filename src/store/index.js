@@ -10,6 +10,7 @@ export const workStore = defineStore('work', {
       tableFlyData: [], // 飞行段表格数据
       taskAllList: {}, // 任务关系全部数据
       dragEv: null,
+      taskListStore:[]
     }
   },
   actions: {

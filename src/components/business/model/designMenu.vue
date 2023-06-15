@@ -69,57 +69,57 @@ instance.proxy.$bus.on('*', (name, val) => {
   }
 })
 const moduleTree = ref([
-  {
-    id: '1',
-    label: '任务名称',
-    hide: false,
-    node: {},
-    active: false,
-    children: [
-      {
-        id: '1-1',
-        label: '综合任务',
-        node: {},
-        active: false,
-        hide: false,
-      },
-      {
-        id: '1-2',
-        label: '姿控任务',
-        node: {},
-        hide: false,
-        active: false,
-      },
-      {
-        id: '1-3',
-        label: '制导任务',
-        node: {},
-        hide: false,
-        active: false,
-      },
-      {
-        id: '1-4',
-        label: '数据采集任务',
-        node: {},
-        hide: false,
-        active: false,
-      },
-      {
-        id: '1-5',
-        label: '遥测任务',
-        node: {},
-        hide: false,
-        active: false,
-      },
-      {
-        id: '1-6',
-        label: '遥控任务',
-        node: {},
-        hide: false,
-        active: false,
-      },
-    ],
-  },
+  // {
+  //   id: '1',
+  //   label: '任务名称',
+  //   hide: false,
+  //   node: {},
+  //   active: false,
+  //   children: [
+  //     {
+  //       id: '1-1',
+  //       label: '综合任务',
+  //       node: {},
+  //       active: false,
+  //       hide: false,
+  //     },
+  //     {
+  //       id: '1-2',
+  //       label: '姿控任务',
+  //       node: {},
+  //       hide: false,
+  //       active: false,
+  //     },
+  //     {
+  //       id: '1-3',
+  //       label: '制导任务',
+  //       node: {},
+  //       hide: false,
+  //       active: false,
+  //     },
+  //     {
+  //       id: '1-4',
+  //       label: '数据采集任务',
+  //       node: {},
+  //       hide: false,
+  //       active: false,
+  //     },
+  //     {
+  //       id: '1-5',
+  //       label: '遥测任务',
+  //       node: {},
+  //       hide: false,
+  //       active: false,
+  //     },
+  //     {
+  //       id: '1-6',
+  //       label: '遥控任务',
+  //       node: {},
+  //       hide: false,
+  //       active: false,
+  //     },
+  //   ],
+  // },
   {
     id: '2',
     label: '全局变量',
@@ -218,7 +218,7 @@ function findNode(val, tree) {
 
 const handlerTree = (data) => {
   console.log(data)
-  if (data.id.indexOf('-') !== -1) {
+  if (data.id.length > 1) {
     aloneNode.value = data
     instance.proxy.$bus.emit('showCanvasData', toRaw(data))
     instance.proxy.$bus.emit('addTab', toRaw(data))
@@ -230,16 +230,24 @@ const hideMenu = (val) => {
 }
 
 onMounted(() => {
-  // TODO: 任务名称树下的数据应该来自应用架构中的任务，当前为了方便演示暂时不做修改
   instance.proxy.$axios.getTaskDetail({ taskId: Cookies.get('taskId') }).then((res) => {
     if (res.data !== null) {
       moduleTree.value = JSON.parse(res.data.daTree)
-    } else {
-      let file = localStorage.getItem('modelFile')
-      if (file) {
-        moduleTree.value = JSON.parse(file)
-      }
     }
+    // 单独获取任务
+    instance.proxy.$axios.getTaskDetail({ taskId: 2001 }).then((result) => {
+      if (moduleTree.value[0].id === '1') {
+        moduleTree.value.splice(0,1)
+      }
+      moduleTree.value.unshift({
+        id:'1',
+        label:'任务名称',
+        hide:false,
+        node:{},
+        active:false,
+        children:JSON.parse(result.data.daTree).dragData
+      })
+    })
   })
 })
 </script>

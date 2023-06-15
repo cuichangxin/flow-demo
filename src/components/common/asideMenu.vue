@@ -2,16 +2,15 @@
   <div class="container-wrap" :class="{ transform: isOut }">
     <el-aside class="aside" :class="{ transform: isOut }">
       <el-menu
-        background-color="#545c64"
+        background-color="#fff"
         :collapse="isOut"
-        active-text-color="#ffd04b"
-        text-color="#fff"
+        active-text-color="#0069F3"
+        text-color="#3F4956"
         :default-active="activeMenu"
-        :unique-opened="true"
       >
         <sidebar-menu :menus="useList"></sidebar-menu>
       </el-menu>
-      <mark-poiner :is-out="isOut" @hideMenu="hideMenu"></mark-poiner>
+      <mark-poiner :is-out="isOut" @hideMenu="hideMenu" color="#fff"></mark-poiner>
     </el-aside>
   </div>
 </template>
@@ -34,7 +33,7 @@ const useList = reactive([
     id: '2',
     name: '项目管理',
     link: '/pm/pmList',
-    icon: 'icon-project_management',
+    icon: 'icon-gongchengguanli',
     hide: Cookies.get('roleId') == '7' ? true : false,
     children: [
       // {
@@ -57,21 +56,21 @@ const useList = reactive([
     id: '3',
     name: '测试管理',
     link: '/testManager',
-    icon: 'icon-ceshi',
+    icon: 'icon-cangkuguanli',
     hide: Cookies.get('roleId') == '7' ? true : false,
     children: [
       {
         id: '3-1',
         name: '测试用例',
         link: '/testManager/testCase',
-        icon: 'icon-test-case-group',
+        icon: 'icon-nengyuanguanli',
         hide: Cookies.get('roleId') == '7' ? true : false,
       },
       {
         id: '3-2',
         name: '测试记录',
         link: '/testManager/testRecord',
-        icon: 'icon-ceshijilu',
+        icon: 'icon-zonghebaobiao',
         hide: Cookies.get('roleId') == '7' ? true : false,
       },
     ],
@@ -80,35 +79,35 @@ const useList = reactive([
     id: '4',
     name: '需求追踪',
     link: '/goback',
-    icon: 'icon-zhuizongqibeifen',
+    icon: 'icon-shujuzhongxin',
     hide: Cookies.get('roleId') == '7' ? true : false,
   },
   {
     id: '5',
     name: '我的任务',
-    link: '/myTask',
-    icon: 'icon-zhuizongqibeifen',
+    link: '/myTask/list',
+    icon: 'icon-renwuguanli',
     hide: Cookies.get('roleId') !== '7' ? true : false,
   },
   {
     id: '6',
     name: '系统管理',
     link: '/system',
-    icon: 'icon-xitong',
+    icon: 'icon-xitongguanli',
     hide: true,
     children: [
       {
         id: '6-1',
         name: '活动库管理',
         link: '/system/eventRoom',
-        icon: 'icon-huodong',
+        icon: 'icon-wuzishenling',
         hide: true,
       },
       {
         id: '6-2',
         name: '工具库管理',
         link: '/system/toolRoom',
-        icon: 'icon-gongju1',
+        icon: 'icon-xitongshezhi',
         hide: true,
       },
     ],
@@ -126,7 +125,7 @@ const activeMenu = computed(() => {
 </script>
 <style lang="scss" scoped>
 .aside {
-  width: 180px;
+  width: 200px;
   height: 100%;
   padding: 0;
   transition: width 0.2s linear;
@@ -143,12 +142,13 @@ const activeMenu = computed(() => {
 
 :deep(.el-sub-menu__title) {
   &:hover {
-    background-color: #3d4349 !important;
+    background-color: #0069F3 !important;
+    color: #fff !important;
   }
 }
 
 .container-wrap {
-  width: 180px;
+  width: 200px;
   height: 100%;
   position: relative;
   transition: width 0.2s linear;
@@ -163,8 +163,30 @@ const activeMenu = computed(() => {
     }
   }
 
-  :deep(.el-menu-item:hover) {
-    background-color: #3d4349 !important;
+  :deep(.el-menu-item) {
+    border-radius: 4px;
+    height: 45px;
+    font-weight: 500;
+    margin: 2px 0;
+    &:hover{
+      background-color: #0069F3 !important;
+      color: #fff !important;
+    }
   }
+  :deep(.el-sub-menu .el-menu-item){
+    height: 40px;
+  }
+  :deep(.el-sub-menu__title){
+    height: 45px;
+    border-radius: 4px;
+    font-weight: 500;
+  }
+  :deep(.el-menu-item.is-active){
+    background-color: #0069F3 !important;
+    color: #fff;
+  }
+}
+.el-menu{
+  padding: 5px;
 }
 </style>

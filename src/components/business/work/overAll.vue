@@ -115,7 +115,7 @@ const tableData = ref(
 const currentPage = ref(1)
 const pagesize = ref(15)
 const drawer = ref(false)
-let forms = reactive({
+let forms = ref({
   name: "",
   code: "",
   type: "",
@@ -151,7 +151,7 @@ const update = (row, type) => {
   drawer.value = true
   actionType.value = type
   cloneData.value = row
-  forms = reactive({ ...row })
+  forms.value = { ...row }
 }
 const remove = (row) => {
   tableData.value.map((item, index) => {
@@ -163,11 +163,11 @@ const remove = (row) => {
 }
 const drawerOff = () => {
   drawer.value = false;
-  forms = reactive({
+  forms.value = {
     name: "",
     code: "",
     type: "",
-  })
+  }
 }
 const addCode = (type) => {
   drawer.value = true;
@@ -177,22 +177,22 @@ const onSubmit = async () => {
   await formRef.value.validate(val => {
     if (val) {
       if (actionType.value == "add") {
-        tableData.value.push(forms)
+        tableData.value.push(forms.value)
       } else if (actionType.value == "update") {
         tableData.value.forEach((item) => {
           if (item.name == cloneData.value.name) {
-            item.name = forms.name
-            item.code = forms.code
-            item.type = forms.type
+            item.name = forms.value.name
+            item.code = forms.value.code
+            item.type = forms.value.type
           }
         })
       }
       drawer.value = false
-      forms = reactive({
+      forms.value = {
         name: "",
         code: "",
         type: "",
-      })
+      }
       localStorage.setItem('overAllData',JSON.stringify(tableData.value))
     } else {
       return false

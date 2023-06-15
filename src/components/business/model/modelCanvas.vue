@@ -54,7 +54,7 @@ instance.proxy.$bus.on('*', (name, val) => {
     })
   }
   if (name == 'showCanvasData') {
-    if (JSON.stringify(val.node) !== "{}") {
+    if (val.node && JSON.stringify(val.node) !== "{}") {
       graphData.value = val.node
     } else {
       graphData.value = {}

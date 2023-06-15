@@ -1,5 +1,5 @@
 {
-  "name": "demo-g",
+  "name": "flow-demo",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -26,10 +26,10 @@
     "axios": "^1.4.0",
     "element-plus": "^2.3.3",
     "element-tree-line": "^0.2.1",
-    "element-ui": "^2.15.13",
     "js-cookie": "^3.0.5",
     "jsencrypt": "^3.3.2",
     "leader-line": "^1.0.7",
+    "light-ruler": "^1.0.3",
     "lodash": "^4.17.21",
     "mitt": "^3.0.0",
     "nprogress": "^0.2.0",

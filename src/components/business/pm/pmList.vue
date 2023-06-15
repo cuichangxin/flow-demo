@@ -184,7 +184,7 @@ onUnmounted(() => {
   border-radius: 7px;
   padding: 15px;
   margin: 0 20px;
-  box-shadow: 0px 0px 22px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.07);
 }
 
 .header {
