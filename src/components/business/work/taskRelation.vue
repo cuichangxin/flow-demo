@@ -272,7 +272,7 @@ onMounted(() => {
   width: 100%;
   height: 100%;
   background: #fff;
-  border-radius: 10px;
+  border-radius: 3px;
   padding: 20px;
   display: flex;
   justify-content: space-between;
@@ -287,7 +287,7 @@ onMounted(() => {
       height: 40px;
       background: #ededed;
       border: 1px solid #adabab;
-      border-radius: 10px;
+      border-radius: 3px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -332,7 +332,7 @@ onMounted(() => {
     width: calc(100% - 330px);
     border: 2px solid #ededed;
     height: 100%;
-    border-radius: 10px;
+    border-radius: 3px;
 
     .issue,
     .take {

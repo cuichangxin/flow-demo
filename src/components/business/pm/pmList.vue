@@ -149,6 +149,7 @@ function getProject() {
       userId: Cookies.get('userId'),
     })
     .then((res) => {
+      console.log(res.data);
       res.data.forEach((item) => {
         item.subType = PROJECTMAP[item.type]
         item.subLevel = LEVELMAP[item.level]
@@ -173,17 +174,14 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener('resize', () => {})
 })
-// onActivated(() => {
-//   getProject()
-// })
 </script>
 <style lang="scss" scoped>
 .list-info {
-  height: calc(96% - 60px);
+  height: calc(100% - 65px);
   background-color: #fff;
   border-radius: 7px;
   padding: 15px;
-  margin: 0 20px;
+  margin: 0 8px;
   box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.07);
 }
 

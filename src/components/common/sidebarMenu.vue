@@ -12,8 +12,8 @@
 
         <app-link v-else :to="item.link">
           <el-menu-item :index="item.link">
+            <i class="iconfont icon" :class="[item.icon]"></i>
             <template #title>
-              <i class="iconfont icon" :class="[item.icon]"></i>
               <span>{{ item.name }}</span>
             </template>
           </el-menu-item>
@@ -23,8 +23,8 @@
   </template>
 
   <el-menu-item v-else :index="menus.link">
+    <i class="iconfont icon" :class="[item.icon]"></i>
     <template #title>
-      <i class="iconfont icon" :class="[item.icon]"></i>
       <span>{{ menus.name }}</span>
     </template>
   </el-menu-item>

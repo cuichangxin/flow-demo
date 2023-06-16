@@ -11,43 +11,10 @@
   "showStatus": 1,
   "content": "自动化活动情况：\n总计执行30个，总耗时3.2小时。\n\n人工活动情况：\n总计执行28个，总耗时678小时。\n\n自动化率：51.72%",
   "activityInfoList": [],
-  "postList": [
-    {
-      "serial": 26,
-      "status": 3
-    },
-    {
-      "serial": 27,
-      "status": 3
-    },
-    {
-      "serial": 28,
-      "status": 3
-    },
-    {
-      "serial": 29,
-      "status": 3
-    }
-  ],
+  "postList": [],
   "postLineList": [],
   "isShowFlow": true,
   "flowList": [
-    {
-      "serial": 36,
-      "status": 3
-    },
-    {
-      "serial": 37,
-      "status": 3
-    },
-    {
-      "serial": 38,
-      "status": 3
-    },
-    {
-      "serial": 39,
-      "status": 3
-    },
     {
       "serial": 40,
       "status": 3

@@ -16,7 +16,7 @@
           <div style="width: 100%; min-width: 0">
             <h4 class="title">仿真测试环境</h4>
             <!-- canvas容器 -->
-            <div id="graph" class="container" ref="graphRef">
+            <div id="graph" class="container" ref="graphRefEm">
               <div id="graph-container" class="graph-container"></div>
             </div>
           </div>
@@ -103,7 +103,7 @@ instance.proxy.$bus.on('*', (name, val) => {
 })
 const radio = ref('控制台')
 let graph = null
-const graphRef = ref(null)
+const graphRefEm = ref(null)
 const graphData = ref({})
 let menuList = reactive([
   {
@@ -736,14 +736,15 @@ const close = (index) => {
 // 开始拖动
 const dragStart = (item) => {
   dragItem.value = item
+  console.log(graphRefEm.value);
   // 元素行为 移动
-  graphRef.value.addEventListener('dragenter', dragenter)
+  graphRefEm.value.addEventListener('dragenter', dragenter)
   // 目标元素经过 禁止默认事件
-  graphRef.value.addEventListener('dragover', dragover)
+  graphRefEm.value.addEventListener('dragover', dragover)
   // 离开目标元素设置元素的放置行为  不能拖放
-  graphRef.value.addEventListener('dragleave', dragleave)
+  graphRefEm.value.addEventListener('dragleave', dragleave)
   // 拖动元素在目标元素松手时添加元素到画布
-  graphRef.value.addEventListener('drop', drop)
+  graphRefEm.value.addEventListener('drop', drop)
 }
 const dragenter = (e) => {
   e.dataTransfer.dropEffect = 'move'
@@ -813,10 +814,10 @@ const drop = (e) => {
     }
   }
 
-  graphRef.value.removeEventListener('dragenter', dragenter)
-  graphRef.value.removeEventListener('dragover', dragover)
-  graphRef.value.removeEventListener('dragleave', dragleave)
-  graphRef.value.removeEventListener('drop', drop)
+  graphRefEm.value.removeEventListener('dragenter', dragenter)
+  graphRefEm.value.removeEventListener('dragover', dragover)
+  graphRefEm.value.removeEventListener('dragleave', dragleave)
+  graphRefEm.value.removeEventListener('drop', drop)
   setTimeout(() => {
     dragItem.value = null
   }, 400)
@@ -1325,7 +1326,7 @@ function tableSize() {
     } else {
       domH.value = window.innerHeight - 476
     }
-    mainH.value = window.innerHeight - 158
+    mainH.value = window.innerHeight - 126
   })
   window.onresize = () => {
     if (isOutB.value) {
@@ -1334,23 +1335,24 @@ function tableSize() {
       domH.value = window.innerHeight - 476
     }
 
-    mainH.value = window.innerHeight - 158
+    mainH.value = window.innerHeight - 126
   }
 }
 
 onUnmounted(() => {
   window.onresize = null
+  instance.proxy.$bus.all.clear()
 })
 </script>
 
 <style lang="scss" scoped>
 .test-info {
   height: 100%;
-  margin: 0 20px;
+  margin: 0 8px;
   background-color: #f4f4f4;
   border-radius: 3px;
   transition: height 0.2s linear;
-  box-shadow: 0px 0px 22px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.1);
   position: relative;
 }
 

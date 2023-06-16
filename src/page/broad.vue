@@ -46,16 +46,16 @@ const boardShow = () => {
   proxy.$axios.boardShow({ file: serial.value }).then((res) => {
     if (res.data !== null) {
       if (!res.data.flags) {
-        serial.value = res.data
+        serial.value = res.data.file
       }
       if (specArr.indexOf(res.data) !== -1) {
         clearInterval(timer.value)
         setTimeout(() => {
-          getJson(res.data)
+          getJson(res.data.file)
           timerTask()
         }, 5000)
       } else {
-        getJson(res.data)
+        getJson(res.data.file)
       }
     }
   })

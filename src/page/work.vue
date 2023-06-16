@@ -42,17 +42,17 @@ const handleMenu = (val) => {
 </script>
 <style lang="scss" scoped>
 .work {
-  height: calc(100% - 96px);
-  margin: 0 20px;
+  height: calc(100% - 66px);
+  margin: 0 8px;
   overflow: hidden;
   flex-wrap: wrap;
   align-content: flex-start;
   background-color: #f4f4f4;
-  box-shadow: 0px 0px 22px rgba(0, 0, 0, 0.2);
-  border-radius: 8px;
+  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
 }
 .shape_header{
-  border-radius: 8px;
+  border-radius: 3px;
 }
 .wrapper{
   width: 100%;

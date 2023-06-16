@@ -232,7 +232,7 @@ onMounted(()=>{
   width: 100%;
   height: 100%;
   background: #fff;
-  border-radius: 10px;
+  border-radius: 3px;
   padding: 20px;
 
   .top_search {

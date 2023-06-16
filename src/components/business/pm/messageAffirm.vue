@@ -52,7 +52,10 @@
         </div>
         <div v-if="!fullFlag" class="affirm">
           <el-button class="button" type="info" @click="goBack">返回上一步</el-button>
-          <el-button :disabled="createBtnFlag" class="button" type="primary" @click="enter">确认</el-button>
+          <el-button :disabled="createBtnFlag" :loading="loading" class="button" type="primary" @click="enter">
+            <span v-if="!loading">确认</span>
+            <span v-else>创建中</span>
+          </el-button>
         </div>
       </div>
     </el-scrollbar>
@@ -72,441 +75,18 @@ const store = allStore()
 const router = useRouter()
 const configHeight = ref(0)
 // 工具情况
-const tableList = ref([
-  // {
-  //   name: '',
-  //   post: '',
-  //   tool: ''
-  // }
-])
+const tableList = ref([])
 const projectList = ref({})
 const fullFlag = ref(false)
 
 const flowList = ref({
-  nodes: [
-    {
-      id: '1',
-      label: '开始',
-      title: '开始',
-    },
-    {
-      id: '2',
-      label: '创建项目',
-      title: '创建项目',
-    },
-    {
-      id: '3',
-      label: '运行环境分析',
-      title: '运行环境分析',
-    },
-    {
-      id: '4',
-      label: '功能需求分析',
-      title: '功能需求分析',
-    },
-    {
-      id: '5',
-      label: '性能需求分析',
-      title: '性能需求分析',
-    },
-    {
-      id: '6',
-      label: '可靠性需求分析',
-      title: '可靠性需求分析',
-    },
-    {
-      id: '7',
-      label: '质量门',
-      title: '质量门',
-      type: 'diamond',
-    },
-    {
-      id: '8',
-      label: '质量门',
-      title: '质量门',
-      type: 'diamond',
-    },
-    {
-      id: '9',
-      label: '质量门',
-      title: '质量门',
-      type: 'diamond',
-    },
-    {
-      id: '10',
-      label: '质量门',
-      title: '质量门',
-      type: 'diamond',
-    },
-    {
-      id: '11',
-      label: '仿真测试环境搭建',
-      title: '仿真测试环境搭建',
-    },
-    {
-      id: '12',
-      label: '应用架构设计',
-      title: '应用架构设计',
-    },
-    {
-      id: '13',
-      label: '质量门',
-      title: '质量门',
-      type: 'diamond',
-    },
-    {
-      id: '14',
-      label: '质量门',
-      title: '质量门',
-      type: 'diamond',
-    },
-    {
-      id: '15',
-      label: '功能测试用例',
-      title: '功能测试用例',
-    },
-    {
-      id: '16',
-      label: '可靠性测试用例设计',
-      title: '可靠性测试用例设计',
-    },
-    {
-      id: '17',
-      label: '详细设计',
-      title: '详细设计',
-    },
-
-    {
-      id: '18',
-      label: '质量门',
-      title: '质量门',
-      type: 'diamond',
-    },
-    {
-      id: '19',
-      label: '质量门',
-      title: '质量门',
-      type: 'diamond',
-    },
-    {
-      id: '20',
-      label: '质量门',
-      title: '质量门',
-      type: 'diamond',
-    },
-    {
-      id: '21',
-      label: '性能测试用例设计',
-      title: '性能测试用例设计',
-    },
-    {
-      id: '22',
-      label: '编码调试',
-      title: '编码调试',
-    },
-    {
-      id: '23',
-      label: '质量门',
-      title: '质量门',
-      type: 'diamond',
-    },
-    {
-      id: '24',
-      label: '质量门',
-      title: '质量门',
-      type: 'diamond',
-    },
-    {
-      id: '25',
-      label: '问题类型',
-      title: '问题类型',
-    },
-    {
-      id: '26',
-      label: '编译链接',
-      title: '编译链接',
-    },
-    {
-      id: '27',
-      label: '质量门',
-      title: '质量门',
-      type: 'diamond',
-    },
-    {
-      id: '28',
-      label: '功能测试',
-      title: '功能测试',
-    },
-    {
-      id: '29',
-      label: '性能测试',
-      title: '性能测试',
-    },
-    {
-      id: '30',
-      label: '可靠性测试',
-      title: '可靠性测试',
-    },
-    {
-      id: '31',
-      label: '质量门',
-      title: '质量门',
-      type: 'diamond',
-    },
-    {
-      id: '32',
-      label: '质量门',
-      title: '质量门',
-      type: 'diamond',
-    },
-    {
-      id: '33',
-      label: '质量门',
-      title: '质量门',
-      type: 'diamond',
-    },
-    {
-      id: '34',
-      label: '分析问题',
-      title: '分析问题',
-    },
-    {
-      id: '35',
-      label: '结束',
-      title: '结束',
-    },
-  ],
-  edges: [
-    {
-      source: '1',
-      target: '2',
-    },
-    {
-      source: '2',
-      target: '3',
-    },
-    {
-      source: '2',
-      target: '4',
-    },
-    {
-      source: '2',
-      target: '5',
-    },
-    {
-      source: '2',
-      target: '6',
-    },
-    {
-      source: '3',
-      target: '7',
-    },
-    {
-      source: '4',
-      target: '8',
-    },
-    {
-      source: '5',
-      target: '9',
-    },
-    {
-      source: '6',
-      target: '10',
-    },
-    {
-      source: '7',
-      target: '11',
-    },
-    {
-      source: '8',
-      target: '11',
-    },
-    {
-      source: '9',
-      target: '11',
-    },
-    {
-      source: '10',
-      target: '11',
-    },
-    {
-      source: '7',
-      target: '12',
-    },
-    {
-      source: '8',
-      target: '12',
-    },
-    {
-      source: '9',
-      target: '12',
-    },
-
-    {
-      source: '10',
-      target: '12',
-    },
-    {
-      source: '11',
-      target: '13',
-    },
-    {
-      source: '12',
-      target: '14',
-    },
-    {
-      source: '13',
-      target: '11',
-    },
-    {
-      source: '14',
-      target: '12',
-    },
-    {
-      source: '13',
-      target: '15',
-    },
-
-    {
-      source: '13',
-      target: '16',
-    },
-    {
-      source: '13',
-      target: '21',
-    },
-    {
-      source: '14',
-      target: '17',
-    },
-    {
-      source: '15',
-      target: '18',
-    },
-    {
-      source: '16',
-      target: '19',
-    },
-    {
-      source: '17',
-      target: '20',
-    },
-    {
-      source: '18',
-      target: '15',
-    },
-    {
-      source: '18',
-      target: '28',
-    },
-    {
-      source: '19',
-      target: '16',
-    },
-    {
-      source: '19',
-      target: '30',
-    },
-    {
-      source: '20',
-      target: '22',
-    },
-    {
-      source: '21',
-      target: '23',
-    },
-    {
-      source: '22',
-      target: '24',
-    },
-    {
-      source: '23',
-      target: '21',
-    },
-    {
-      source: '23',
-      target: '29',
-    },
-    {
-      source: '24',
-      target: '26',
-    },
-    {
-      source: '25',
-      target: '2',
-    },
-    {
-      source: '25',
-      target: '12',
-    },
-    {
-      source: '25',
-      target: '17',
-    },
-    {
-      source: '26',
-      target: '27',
-    },
-    {
-      source: '27',
-      target: '28',
-    },
-    {
-      source: '27',
-      target: '29',
-    },
-    {
-      source: '27',
-      target: '30',
-    },
-    {
-      source: '27',
-      target: '17',
-    },
-    {
-      source: '28',
-      target: '31',
-    },
-    {
-      source: '29',
-      target: '32',
-    },
-    {
-      source: '30',
-      target: '33',
-    },
-    {
-      source: '31',
-      target: '34',
-    },
-    {
-      source: '32',
-      target: '34',
-    },
-    {
-      source: '33',
-      target: '34',
-    },
-    {
-      source: '31',
-      target: '35',
-    },
-    {
-      source: '32',
-      target: '35',
-    },
-    {
-      source: '33',
-      target: '35',
-    },
-    {
-      source: '34',
-      target: '35',
-    },
-  ],
+  nodes: [],
+  edges: [],
 })
 let graph = null
 const createBtnFlag = ref(false)
+
+const loading = ref(false)
 
 function tableHeaderCellStyle() {
   return {
@@ -525,6 +105,7 @@ const goBack = () => {
   router.go(-1)
 }
 const enter = () => {
+  loading.value = true
   proxy.$axios
     .createProject({
       optionName: projectList.value.name,
@@ -551,6 +132,7 @@ const enter = () => {
           })
         }, 2000)
       }else {
+        loading.value = false
         proxy.$modal.msgError('创建失败，请稍后再试')
       }
     })
@@ -606,9 +188,9 @@ const initG6 = () => {
   graph.render()
 }
 onMounted(() => {
-  configHeight.value = window.innerHeight - 235
+  configHeight.value = window.innerHeight - 195
   window.addEventListener('resize', () => {
-    configHeight.value = window.innerHeight - 235
+    configHeight.value = window.innerHeight - 195
   })
   proxy.$axios
     .projectSubTool({
@@ -644,7 +226,7 @@ onUnmounted(() => {
 .scrollbar {
   height: 680px;
   background-color: #fff;
-  margin: 20px 20px 0;
+  margin: 10px 8px 0;
   border-radius: 8px;
   box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.12);
 }

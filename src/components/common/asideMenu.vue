@@ -131,7 +131,7 @@ const activeMenu = computed(() => {
   transition: width 0.2s linear;
 
   &.transform {
-    width: 0;
+    width: 61px;
   }
 
   :deep(.el-menu) {
@@ -154,7 +154,7 @@ const activeMenu = computed(() => {
   transition: width 0.2s linear;
 
   &.transform {
-    width: 0;
+    width: 61px;
   }
 
   &:hover {
@@ -180,11 +180,15 @@ const activeMenu = computed(() => {
     height: 45px;
     border-radius: 4px;
     font-weight: 500;
+    padding: 0 17px;
   }
   :deep(.el-menu-item.is-active){
     background-color: #0069F3 !important;
     color: #fff;
   }
+}
+:deep(.el-menu-item .el-menu-tooltip__trigger){
+  padding: 0 17px;
 }
 .el-menu{
   padding: 5px;

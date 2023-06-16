@@ -61,7 +61,7 @@ const hideMenu = (val)=>{
   width: 240px;
   height: 100%;
   background: #fff;
-  border-radius: 10px;
+  border-radius: 3px;
   box-shadow: 0px 0px 12px rgba(0, 0, 0, .12);
   padding: 0;
   position: relative;
@@ -94,7 +94,7 @@ ul {
     display: flex;
     align-items: center;
     padding-left: 20px;
-    border-radius: 10px;
+    border-radius: 3px;
     font-weight: 500;
     margin: 4px 0;
     cursor: pointer;

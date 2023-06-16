@@ -38,6 +38,7 @@ import { History } from '@antv/x6-plugin-history'
 import { MiniMap } from '@antv/x6-plugin-minimap'
 import insertCss from 'insert-css'
 import { CloseBold } from '@element-plus/icons-vue'
+import { onUnmounted } from "vue";
 
 const instance = getCurrentInstance()
 instance.proxy.$bus.on('*', (name, val) => {
@@ -379,6 +380,7 @@ const minimapMark = ref(false)
 // 开始拖动
 const dragStart = (item) => {
   dragItem.value = item
+  console.log(graphRef.value);
   // 元素行为 移动
   graphRef.value.addEventListener("dragenter", dragenter);
   // 目标元素经过 禁止默认事件
@@ -853,6 +855,9 @@ const initGraphEvent = () => {
   })
   graph.on('node:click', (e) => {
     nodeItem.value = e.node
+    const container = document.getElementById('graph-container')
+    const ports = container.querySelectorAll('.x6-port-body')
+    showPorts(ports, false)
     instance.proxy.$bus.emit('tableConfig', e.node.store.data)
   })
   graph.on('history:change', ({ cmds, options }) => {
@@ -962,6 +967,9 @@ onMounted(() => {
     createGraphic()
     initGraphEvent()
   })
+})
+onUnmounted(()=>{
+  instance.proxy.$bus.all.clear()
 })
 </script>
 <style lang="scss" scoped>

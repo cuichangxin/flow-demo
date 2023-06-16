@@ -557,7 +557,7 @@ onMounted(() => {
   flex: 1;
   height: calc(100% - 236px);
   background: #fff;
-  border-radius: 3px;
+  border-radius: 10px;
   margin-right: 20px;
   position: relative;
   background-image: linear-gradient(90deg, rgba(60, 10, 30, 0.07) 3%, transparent 0),
@@ -674,7 +674,7 @@ onMounted(() => {
   margin-bottom: 0;
   padding: 0;
   background: #fff;
-  border-radius: 3px;
+  border-radius: 10px;
   box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.12);
   position: relative;
   overflow: visible;

@@ -579,7 +579,7 @@ watchEffect(() => {
     width: 100%;
     min-height: 204px;
     background: #fff;
-    border-radius: 10px;
+    border-radius: 3px;
     display: flex;
     padding: 10px 5px;
     box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.12);
@@ -624,7 +624,7 @@ watchEffect(() => {
     /* height: calc(100% - 96px); */
     min-height: 204px;
     background: #fff;
-    border-radius: 10px;
+    border-radius: 3px;
     padding: 0 5px;
     box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.12);
 
@@ -675,7 +675,7 @@ watchEffect(() => {
     min-height: 204px;
     box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.12);
     background: #fff;
-    border-radius: 10px;
+    border-radius: 3px;
     padding: 0 5px;
 
     .top_add {

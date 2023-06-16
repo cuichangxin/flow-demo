@@ -18,9 +18,9 @@ const mainH = ref('')
 const canUndo = ref(false) // 是否能撤销
 const canRedo = ref(false) // 是否能重做
 onMounted(() => {
-  mainH.value = window.innerHeight - 151
+  mainH.value = window.innerHeight - 124
   window.addEventListener('resize', () => {
-    mainH.value = window.innerHeight - 151
+    mainH.value = window.innerHeight - 124
   })
 })
 onUnmounted(() => {
@@ -68,9 +68,9 @@ const handleMenu = (val)=>{
 <style lang="scss" scoped>
 .modeling {
   height: calc(100% - 147px);
-  margin: 0 20px;
+  margin: 0 8px;
   background: #f4f4f4;
-  box-shadow: 0px 0px 22px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.1);
   position: relative;
 }
 .container{
