@@ -295,7 +295,7 @@ const renderContent = (h, { node, data }) => {
 }
 const getRowInfo = () => {
   return new Promise((resolve, reject) => {
-    Axios.get(`http://172.20.10.10:8080/mock/goBackData/rowel/${rowValue.value}.json`).then((res) => {
+    Axios.get(`http://localhost:8080/mock/goBackData/rowel/${rowValue.value}.json`).then((res) => {
       rowTree.value = res.rowTree
       rowTree.value.map((item, index) => {
         item.cellTotal = 0
@@ -318,7 +318,7 @@ const getRowInfo = () => {
 }
 function getColumnInfo() {
   return new Promise((resolve, reject) => {
-    Axios.get(`http://172.20.10.10:8080/mock/goBackData/columnel/${columnValue.value}.json`).then((res) => {
+    Axios.get(`http://localhost:8080/mock/goBackData/columnel/${columnValue.value}.json`).then((res) => {
       columnTree.value = res.columnTree
       resolve('column')
     })
@@ -326,7 +326,7 @@ function getColumnInfo() {
 }
 function getUnite() {
   return new Promise((resolve, reject) => {
-    Axios.get(`http://172.20.10.10:8080/mock/goBackData/unite/${rowValue.value + columnValue.value}.json`).then(
+    Axios.get(`http://localhost:8080/mock/goBackData/unite/${rowValue.value + columnValue.value}.json`).then(
       (res) => {
         cellRelation.value = res.cellRelation
         resolve('unite')

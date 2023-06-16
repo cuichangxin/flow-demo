@@ -3,12 +3,24 @@ import router from './router'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import { getToken } from './utils/auth';
+import { useKeepAliver } from './store/keepAlive';
+import { useCancelToken } from './store/cancelToken';
 
 NProgress.configure({ showSpinner: false });
 const whiteList = ['/login', '/broad'];
 
 router.beforeEach((to, from, next) => {
   NProgress.start()
+  
+  // 清除上个页面的请求
+  const { clearCancelToken } = useCancelToken()
+  clearCancelToken()
+
+  // 动态添加keepalive缓存
+  if (to.meta.keepAlive) {
+    const { addKeepAlive } = useKeepAliver()
+    addKeepAlive(to.name)
+  }
   // 有token
   if (getToken()) {
     if (to.path === '/login') {

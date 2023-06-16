@@ -3,6 +3,7 @@ import { ElNotification, ElMessageBox, ElMessage, ElLoading } from 'element-plus
 import { getToken } from "@/utils/auth";
 import errorCode from "@/utils/errCode";
 import router from '../router/index'
+import { useCancelToken } from "../store/cancelToken";
 
 
 // 请求记录栈
@@ -50,6 +51,12 @@ Axios.interceptors.request.use(
     // pushTarget()
     // 是否需要设置token
     // const isToken = (config.headers || {}).isToken === false
+
+    config.cancelToken = new Axios.CancelToken((cancel) => {
+      // 正在进行的请求记录
+      const { addCancelToken } = useCancelToken()
+      addCancelToken(cancel)
+    })
     if (getToken()) {
       config.headers['Authorization'] = getToken()
     }
@@ -69,8 +76,8 @@ Axios.interceptors.response.use(
     const msg = errorCode[code] || response.data.msg || errorCode['default']
     if (code === 401) {
       ElMessageBox.confirm('登录状态已过期，您可以继续留在该页面，或者重新登录', '系统提示', { confirmButtonText: '重新登录', cancelButtonText: '取消', type: 'warning' }).then(() => {
-        router.replace({path:'/login'})
-      }).catch(() => {})
+        router.replace({ path: '/login' })
+      }).catch(() => { })
     } else if (code === 500) {
       ElMessage({ message: msg, type: 'error' })
       return Promise.reject(new Error(msg))

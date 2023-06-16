@@ -3,7 +3,7 @@
     <router-view v-slot="{ Component, route }">
       <breadCrumbs></breadCrumbs>
       <transition name="fade-transform" mode="out-in">
-        <keep-alive :include="keepAliveList">
+        <keep-alive :include="caches">
           <component :is="Component" :key="route.path" />
         </keep-alive>
       </transition>
@@ -13,8 +13,9 @@
 
 <script setup>
 import breadCrumbs from './common/breadCrumbs.vue'
+import { useKeepAliver } from '../store/keepAlive';
 
-const keepAliveList = ['configMessage']
+const { caches } = storeToRefs(useKeepAliver())
 </script>
 
 <style lang="scss" scoped>

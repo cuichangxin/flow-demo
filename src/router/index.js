@@ -63,7 +63,7 @@ const constantRoutes = [
             path: '/pm/configMessage',
             name: 'configMessage',
             component: () => import('../components/business/pm/configMessage.vue'),
-            meta: { title: '配置信息' }
+            meta: { title: '配置信息',keepAlive:true }
           },
           {
             path: '/pm/messageAffirm',

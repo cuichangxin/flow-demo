@@ -63,12 +63,15 @@
 </template>
 <script setup>
 import steps from './common/steps.vue'
-import { allStore } from '../../../store'
+import { allStore } from '@/store'
 import G6 from '@antv/g6'
 import { fittingString, formatTime } from '@/utils/utils'
 import Cookies from 'js-cookie'
 import NProgress from 'nprogress'
 import { LEVELMAP } from '@/utils/map'
+import { useKeepAliver } from '@/store/keepAlive'
+
+const { removeKeepAlive } = useKeepAliver()
 
 const { proxy } = getCurrentInstance()
 const store = allStore()
@@ -125,7 +128,7 @@ const enter = () => {
         proxy.$axios.projectChange({type:projectList.value.type}).then((res) => {
           console.log('切换项目成功')
         })
-
+        removeKeepAlive('configMessage')
         setTimeout(() => {
           router.push({
             name: 'pmList',
