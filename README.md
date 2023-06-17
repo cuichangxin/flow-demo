@@ -1,7 +1,21 @@
-# Vue 3 + Vite
+# flow-demo
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+基于 vue3 + vite + elementui plus + sass
 
-## Recommended IDE Setup
+### 快速开始
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
+```bash
+# 克隆项目
+git clone https://github.com/cuichangxin/flow-demo.git
+
+# 进入项目目录
+cd flow-demo
+
+# 安装依赖(建议使用yarn：https://classic.yarnpkg.com/en/)
+yarn install 或者 npm i
+
+#启动
+npm run dev
+```
+
+[▲ 回顶部](#top)
