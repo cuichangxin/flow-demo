@@ -1,17 +1,9 @@
 <template>
   <!-- 画布区域 -->
   <div id="graph" class="canvas_box" :class="{ out_height: isOut }" ref="targetContent">
-    <SketchRule
-      :thick="state.thick"
-      :scale="state.scale"
-      :width="containerInfo.width"
-      :height="containerInfo.height"
-      :start-x="state.startX"
-      :start-y="state.startY"
-      :isShowReferLine="state.isShowReferLine"
-      :lines="state.lines"
-      :palette="state.palette"
-    >
+    <SketchRule :thick="state.thick" :scale="state.scale" :width="containerInfo.width" :height="containerInfo.height"
+      :start-x="state.startX" :start-y="state.startY" :isShowReferLine="state.isShowReferLine" :lines="state.lines"
+      :palette="state.palette">
     </SketchRule>
     <div id="screens" class="screens">
       <div class="screen-container">
@@ -208,8 +200,8 @@ const containerInfo = reactive({
   height: 0,
 })
 const pointCoordinate = reactive({
-  start:0,
-  end:0
+  start: 0,
+  end: 0
 })
 
 // watchEffect(() => {
@@ -291,23 +283,26 @@ const dragleave = (e) => {
   e.dataTransfer.dropEffect = 'none'
 }
 const drop = (e) => {
-  const node = graph.addNode({
+  graph.addNode({
     shape: 'custom-html',
     x: e.layerX,
     y: e.layerY,
     label: dragItem.value.label,
-    data:{
-      x:e.layerX,
-      y:e.layerY,
-      color:dragItem.value.bgColor
+    data: {
+      x: e.layerX,
+      y: e.layerY,
+      color: dragItem.value.bgColor,
+      langTime:'',
+      desc:'',
+      priority:'',
+      startTime:'',
+      endTime:''
     }
   })
-  console.log(node);
   targetContent.value.removeEventListener('dragenter', dragenter)
   targetContent.value.removeEventListener('dragover', dragover)
   targetContent.value.removeEventListener('dragleave', dragleave)
   targetContent.value.removeEventListener('drop', drop)
-  // save()
 }
 
 // 初始化创建画布
@@ -319,9 +314,7 @@ const createGraphic = () => {
     height: 40,
     effect: ['data'],
     html(cell) {
-      console.log(cell);
-      const { color,x,y } = cell.getData()
-      console.log(x,y);
+      const { color, x, y } = cell.getData()
       const div = document.createElement('div')
       div.className = 'custom-html'
       div.style.background = color
@@ -560,18 +553,26 @@ const initGraphEvent = () => {
     state.startX = startX
   })
   graph.on('node:mouseenter', (e) => {
-    
+
   })
   graph.on('node:mouseleave', (e) => {
-    
+
   })
   graph.on('node:click', (e) => {
     console.log(e);
+    const model = e.node.store.data
+    console.log(model);
+    model.data.startTime = model.data.x + 's'
+    model.data.endTime = (model.data.x + model.size.width) + 's'
+    work.setShowTable({
+      status: true,
+      data:model
+    })
   })
   graph.on('node:moving', (e) => {
     const dom = e.cell
     dom.updateData({
-      x:e.node.store.data.position.x
+      x: e.node.store.data.position.x
     })
   })
 }
@@ -658,20 +659,24 @@ onMounted(() => {
   box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.12);
   overflow: hidden;
   transition: height 0.2s ease-in-out;
+
   &.out_height {
     height: 100%;
   }
 }
+
 .graph-container {
   width: 100%;
   height: 100% !important;
   flex: 1 1;
 }
+
 .screens {
   position: absolute;
   width: 100%;
   height: 100%;
 }
+
 .screen-container {
   position: absolute;
   width: 100%;
@@ -716,6 +721,7 @@ onMounted(() => {
   &.fade {
     width: 0;
   }
+
   &.out_height {
     height: 100%;
   }
@@ -732,13 +738,16 @@ onMounted(() => {
   display: inline-block;
   border-right: none;
 }
+
 /* rules style */
 :deep(.v-container) {
   display: none;
 }
+
 :deep(.corner) {
   display: none;
 }
+
 :deep(.h-container) {
   left: 0 !important;
   bottom: 0;

@@ -312,11 +312,11 @@ const isOut = ref(false)
 
 watch(
   [isTableShow, scaleLineData, tableFlyData],
-  ([its, sld, tfd], [oits, osld, otfd]) => {
+  ([its, sld, tfd]) => {
     if (JSON.stringify(its) !== '{}') {
+      console.log(its);
       show.value = its.status
-      taskLabel.value = its.label
-      tableData.value = _.cloneDeep(its.data)
+      tableData.value = _.cloneDeep(its.data.data)
       if (Object.prototype.hasOwnProperty.call(its.data, 'needList')) {
         needList.value = its.data.needList
       } else {
