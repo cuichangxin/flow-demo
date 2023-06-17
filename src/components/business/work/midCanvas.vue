@@ -291,17 +291,18 @@ const dragleave = (e) => {
   e.dataTransfer.dropEffect = 'none'
 }
 const drop = (e) => {
-  graph.addNode({
+  const node = graph.addNode({
     shape: 'custom-html',
     x: e.layerX,
     y: e.layerY,
     label: dragItem.value.label,
-    attrs: {
-      body: {
-        fill: dragItem.value.bgColor,
-      },
-    },
+    data:{
+      x:e.layerX,
+      y:e.layerY,
+      color:dragItem.value.bgColor
+    }
   })
+  console.log(node);
   targetContent.value.removeEventListener('dragenter', dragenter)
   targetContent.value.removeEventListener('dragover', dragover)
   targetContent.value.removeEventListener('dragleave', dragleave)
@@ -319,16 +320,16 @@ const createGraphic = () => {
     effect: ['data'],
     html(cell) {
       console.log(cell);
-      pointCoordinate.start = cell.store.data.position.x
-      pointCoordinate.end = cell.store.data.position.x + cell.store.data.size.width
+      const { color,x,y } = cell.getData()
+      console.log(x,y);
       const div = document.createElement('div')
       div.className = 'custom-html'
-      div.innerText = cell.store.data.label
+      div.style.background = color
       div.innerHTML = `
         <span>${cell.store.data.label}</span>
         <div class='tool-tip'>
-          ${pointCoordinate.start},
-          ${pointCoordinate.end}
+          ${cell.store.data.position.x},
+          ${cell.store.data.position.x + cell.store.data.size.width}
         </div>`
       return div
     },
@@ -568,9 +569,10 @@ const initGraphEvent = () => {
     console.log(e);
   })
   graph.on('node:moving', (e) => {
-    console.log(e);
-    pointCoordinate.start = e.node.store.data.position.x
-    pointCoordinate.end = e.node.store.data.position.x + e.node.store.data.size.width
+    const dom = e.cell
+    dom.updateData({
+      x:e.node.store.data.position.x
+    })
   })
 }
 
