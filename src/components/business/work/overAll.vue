@@ -25,10 +25,10 @@
           <template #default="scope">
             <div class="butn">
               <el-button link @click="update(scope.row, 'update')">
-                <i class="iconfont icon">&#xe649;</i>
+                <el-icon size="20" color="#0069f3"><Edit /></el-icon>
               </el-button>
               <el-button link @click="remove(scope.row)">
-                <i class="iconfont icon">&#xe68e;</i>
+                <el-icon size="20" color="red"><Delete /></el-icon>
               </el-button>
             </div>
           </template>
@@ -64,6 +64,7 @@
   </div>
 </template>
 <script setup>
+import { Delete,Edit } from '@element-plus/icons-vue'
 import _ from "lodash";
 const input = ref('')
 const tableData = ref(

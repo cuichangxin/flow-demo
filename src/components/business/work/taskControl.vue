@@ -10,7 +10,7 @@
     <!-- 属性 -->
     <div v-if="!isOut">
       <div v-show="tabPosition == 1" class="table_box">
-        <table v-if="show" class="table">
+        <table class="table">
           <tr>
             <th class="th" width="20%">属性</th>
             <th class="th" width="25%">值</th>
@@ -28,7 +28,6 @@
                 v-model="tableData.langTime"
                 clearable
                 @keyup.enter.native="(e) => enter(0, 'langTime')"
-                @blur="(e) => blur(0, 'langTime', e)"
                 :ref="inputRef"
               >
               </el-input>
@@ -43,7 +42,6 @@
                 v-model="tableData.desc"
                 clearable
                 @keyup.enter.native="(e) => enter(3, 'desc')"
-                @blur="(e) => blur(3, 'desc', e)"
                 :ref="inputRef"
               >
               </el-input>
@@ -60,7 +58,6 @@
                 v-model="tableData.startTime"
                 clearable
                 @keyup.enter.native="(e) => enter(1, 'startTime')"
-                @blur="(e) => blur(1, 'startTime', e)"
                 :ref="inputRef"
               >
               </el-input>
@@ -75,7 +72,6 @@
                 v-model="tableData.prec"
                 clearable
                 @keyup.enter.native="(e) => enter(4, 'prec')"
-                @blur="(e) => blur(4, 'prec', e)"
                 :ref="inputRef"
               >
               </el-input>
@@ -92,7 +88,6 @@
                 v-model="tableData.endTime"
                 clearable
                 @keyup.enter.native="(e) => enter(2, 'endTime')"
-                @blur="(e) => blur(2, 'endTime', e)"
                 :ref="inputRef"
               >
               </el-input>
@@ -148,14 +143,14 @@
           <el-table-column prop="title" label="飞行段名称" />
           <el-table-column prop="sTime" label="开始时间" />
           <el-table-column prop="eTime" label="结束时间" />
-          <el-table-column label="操作">
+          <el-table-column label="操作" width="130">
             <template #default="scope">
               <div class="butn">
                 <el-button link @click="handleEdit(scope.row, 'update')">
-                  <i class="iconfont icon">&#xe649;</i>
+                  <el-icon color="#0069f3" size="20"><Edit /></el-icon>
                 </el-button>
                 <el-button link @click="flyRemove(scope.row)">
-                  <i class="iconfont icon">&#xe68e;</i>
+                  <el-icon color="red" size="20"><Delete /></el-icon>
                 </el-button>
               </div>
             </template>
@@ -168,12 +163,7 @@
 
   <!-- 弹窗 -->
   <el-dialog title="需求追踪" v-model="dialogVisible">
-    <el-table
-      :data="dialogNeedList"
-      border
-      @selection-change="handleSelectionChange"
-      :ref="(el) => (tableRef = el)"
-    >
+    <el-table :data="dialogNeedList" border @selection-change="handleSelectionChange" :ref="(el) => (tableRef = el)">
       <el-table-column type="selection" width="55" :selectable="checkSelectable"> </el-table-column>
       <el-table-column prop="id" label="需求ID"> </el-table-column>
       <el-table-column prop="label" label="需求名称" width="400"> </el-table-column>
@@ -215,19 +205,14 @@
   </el-drawer>
 </template>
 <script setup>
-import { containsNumber } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
-import { workStore } from '@/store/index'
 import _ from 'lodash'
-import { storeToRefs } from 'pinia'
 import markPoint from '../../common/mark/markPoiner.vue'
-import { Delete } from '@element-plus/icons-vue'
+import { Delete, Edit } from '@element-plus/icons-vue'
 
 const instance = getCurrentInstance()
 
 const timeReg = /^[0-9]{1,}s|ms|S/
-const work = workStore()
-const { isTableShow, scaleLineData, tableFlyData } = storeToRefs(work)
 var checkSTime = (rule, value, callback) => {
   if (!value) {
     return callback(new Error('请输入开始时间'))
@@ -265,9 +250,7 @@ const tableData = ref({
   w: '', // 宽度
   left: '', // 左边距离
 })
-const show = ref(false)
 const hideInput = ref(null)
-const taskLabel = ref('')
 const tabPosition = ref(1)
 // 需求追踪列表
 const needList = ref([])
@@ -297,11 +280,8 @@ const form = ref({
   title: '',
   sTime: '',
   eTime: '',
-  oldTitle: '',
 })
 const typeStatus = ref('')
-const cloneData = ref({})
-const lineCode = ref('')
 const flyRules = ref({
   title: [{ required: true, message: '请输入飞行段名称', trigger: 'blur' }],
   sTime: [{ validator: checkSTime, trigger: 'blur' }],
@@ -309,89 +289,69 @@ const flyRules = ref({
 })
 const isflag = ref(true)
 const isOut = ref(false)
+const elInformation = ref({})
 
-watch(
-  [isTableShow, scaleLineData, tableFlyData],
-  ([its, sld, tfd]) => {
-    if (JSON.stringify(its) !== '{}') {
-      console.log(its);
-      show.value = its.status
-      tableData.value = _.cloneDeep(its.data.data)
-      if (Object.prototype.hasOwnProperty.call(its.data, 'needList')) {
-        needList.value = its.data.needList
-      } else {
-        needList.value = []
-      }
+instance.proxy.$bus.on('*', (name, val) => {
+  if (name === 'showCellData') {
+    tableData.value = val.store.data.data
+    tableData.value.oldEndTime = tableData.value.endTime
+    elInformation.value = val
+    if (Object.prototype.hasOwnProperty.call(val.data, 'needList')) {
+      needList.value = val.data.needList
+    } else {
+      needList.value = []
     }
-    if (sld) {
-      lineCode.value = sld.offsetLeft
-    }
-    if (JSON.stringify(tfd) !== '{}') {
-      flyList.value = _.cloneDeep(tfd)
-    }
-  },
-  { deep: true }
-)
+  }
+})
+
 const edit = (value) => {
   if (isflag.value) {
     document.onkeydown = null
     hideInput.value = value
   }
 }
+// 节点更新修改数据
 const formatData = (val) => {
   if (val == 1) {
-    // val == 1 应该调整元素的left以及width
-    let newLeft = parseFloat(tableData.value.startTime) + 100 + lineCode.value
-    if (newLeft > tableData.value.left) {
-      tableData.value.w = tableData.value.w - (newLeft - tableData.value.left)
-      tableData.value.left = containsNumber(tableData.value.startTime) ? newLeft : ''
-    } else if (newLeft < tableData.value.left) {
-      tableData.value.w = tableData.value.w + Math.abs(newLeft - tableData.value.left)
-      tableData.value.left = containsNumber(tableData.value.startTime)
-        ? parseFloat(tableData.value.startTime) + lineCode.value + 100
-        : ''
+    // val为1调整节点x和width
+    const changeX = parseFloat(tableData.value.startTime)
+    if (tableData.value.x > changeX) {
+      tableData.value.width = Math.abs(changeX - tableData.value.x) + tableData.value.width
+    } else {
+      tableData.value.width = tableData.value.width - (changeX - tableData.value.x)
     }
+    tableData.value.x = parseFloat(tableData.value.startTime)
   } else {
-    tableData.value.left = containsNumber(tableData.value.startTime)
-      ? parseFloat(tableData.value.startTime) + lineCode.value + 100
-      : ''
-    tableData.value.w = containsNumber(tableData.value.endTime)
-      ? parseFloat(tableData.value.endTime) - parseFloat(tableData.value.startTime)
-      : ''
+    // 否则修改width
+    const changeW = parseFloat(tableData.value.endTime)
+    if (changeW > tableData.value.width) {
+      tableData.value.width = tableData.value.width + (changeW - tableData.value.x - tableData.value.width)
+    } else {
+      tableData.value.width = tableData.value.width - (tableData.value.width - (changeW - tableData.value.x))
+    }
   }
-  tableData.value.label = taskLabel.value
-  work.setTaskProperty(tableData.value)
+  elInformation.value.store.data.data = tableData.value
+  // work.setTaskProperty(elInformation.value)
+  instance.proxy.$bus.emit('changeCell',elInformation.value)
 }
 const enter = (val, code) => {
-  changeData(val, code)
-}
-const blur = (val, code, e) => {
   changeData(val, code)
 }
 const changeData = (val, code) => {
   isflag.value = false
   if (val == 0) {
-    if (!timeReg.test(tableData.value.langTime)) {
-      ElMessage({
-        message: tableData.value.langTime !== '' ? '时间格式错误' : '请输入内容',
-        type: 'warning',
-      })
+    if (tableData.value.langTime !== '' && !timeReg.test(tableData.value.langTime)) {
+      instance.proxy.$modal.msgWarning('时间格式错误')
       return
     }
   } else if (val == 1) {
     if (!timeReg.test(tableData.value.startTime)) {
-      ElMessage({
-        message: tableData.value.startTime ? '时间格式错误' : '请输入内容',
-        type: 'warning',
-      })
+      instance.proxy.$modal.msgWarning(tableData.value.startTime ? '时间格式错误' : '请输入内容')
       return
     }
   } else if (val == 2) {
     if (!timeReg.test(tableData.value.endTime)) {
-      ElMessage({
-        message: tableData.value.endTime ? '时间格式错误' : '请输入内容',
-        type: 'warning',
-      })
+      instance.proxy.$modal.msgWarning(tableData.value.startTime ? '时间格式错误' : '请输入内容')
       return
     }
   }
@@ -457,52 +417,24 @@ const callOff = () => {
 const onSubmit = () => {
   formRef.value.validate((val) => {
     if (val) {
-      let changLeft = containsNumber(form.value.sTime)
-        ? parseFloat(form.value.sTime) + lineCode.value + 100
-        : ''
+      const x = parseFloat(form.value.sTime)
+      const endTime = parseFloat(form.value.eTime)
       if (typeStatus.value == 'update') {
-        if (
-          cloneData.value.sTime !== form.value.sTime &&
-          cloneData.value.eTime !== form.value.eTime
-        ) {
-          form.value.w = containsNumber(form.value.eTime)
-            ? parseFloat(form.value.eTime) - parseFloat(form.value.sTime)
-            : ''
-          form.value.left = changLeft
-        } else if (cloneData.value.sTime !== form.value.sTime) {
-          if (changLeft > cloneData.value.left) {
-            form.value.w = cloneData.value.w - (changLeft - cloneData.value.left)
-            form.value.left = changLeft
-          } else if (changLeft < cloneData.value.left) {
-            form.value.w = cloneData.value.w + Math.abs(changLeft - form.value.left)
-            form.value.left = changLeft
+        form.value.x = x
+        form.value.width = endTime - x
+        flyList.value.forEach((item) => {
+          if (item.id == form.value.id) {
+            item.title = form.value.title
+            item.sTime = form.value.sTime
+            item.eTime = form.value.eTime
+            item.width = form.value.width
           }
-        } else {
-          form.value.w = containsNumber(form.value.eTime)
-            ? parseFloat(form.value.eTime) - parseFloat(form.value.sTime)
-            : ''
-          form.value.left = changLeft
-        }
-        form.value.oldTitle = form.value.title
-        if (flyList.value.length) {
-          flyList.value.forEach((item) => {
-            if (item.title == form.value.oldTitle) {
-              item.title = form.value.title
-              item.sTime = form.value.sTime
-              item.eTime = form.value.eTime
-              item.w = form.value.w
-              item.left = form.value.left
-              item.oldTitle = form.value.title
-            }
-          })
-        }
-        // typeStatus.value = ''
+        })
       } else {
-        form.value.w = containsNumber(form.value.eTime)
-          ? parseFloat(form.value.eTime) - parseFloat(form.value.sTime)
-          : ''
-        form.value.left = changLeft
-        form.value.oldTitle = form.value.title // 保存名称记录标识
+        form.value.id = Date.now() + '' + Math.ceil(Math.random() * 1000)
+        form.value.x = x
+        form.value.y = 440
+        form.value.width = endTime - x
         flyList.value.push(form.value)
       }
       instance.proxy.$bus.emit('setFlyData', { action: typeStatus.value, form: form.value })
@@ -510,7 +442,6 @@ const onSubmit = () => {
         title: '',
         sTime: '',
         eTime: '',
-        oldTitle: '',
       }
       drawer.value = false
     } else {
@@ -523,20 +454,17 @@ const drawerOff = () => {
     title: '',
     sTime: '',
     eTime: '',
-    oldTitle: '',
   }
   drawer.value = false
 }
 const handleEdit = (row, type) => {
   document.onkeydown = null
   typeStatus.value = type
-  cloneData.value = _.cloneDeep(row)
   drawer.value = true
   form.value = { ...row }
 }
 const flyRemove = (row) => {
   let forms = { ...row }
-  forms.oldTitle = row.title
   flyList.value.forEach((item, index) => {
     if (item.title == row.title) {
       flyList.value.splice(index, 1)

@@ -363,7 +363,7 @@ onUnmounted(() => {
 </script>
 <style lang="scss" scoped>
 .test_case {
-  margin: 0 20px;
+  margin: 0 8px;
   border-radius: 8px;
   display: flex;
   height: 100%;
@@ -372,7 +372,10 @@ onUnmounted(() => {
 
 .tree-box {
   width: 200px;
-  height: calc(100% - 76px);
+  height: calc(100% - 50px);
+  .el-scrollbar{
+    border-radius: 8px;
+  }
 }
 
 .el-tree {
@@ -386,7 +389,6 @@ onUnmounted(() => {
 }
 
 .el-scrollbar {
-  border-radius: 8px;
   box-shadow: 0px 0px 22px rgba(0, 0, 0, 0.1);
   background-color: #fff;
 }
@@ -397,17 +399,17 @@ onUnmounted(() => {
 
 .test_case_wrapper {
   flex: 1;
-  margin-left: 20px;
+  margin-left: 8px;
   border-radius: 8px;
   overflow: hidden;
-  height: calc(100% - 76px);
+  height: calc(100% - 50px);
   box-shadow: 0px 0px 22px rgba(0, 0, 0, 0.1);
 }
 
 .header {
   height: 40px;
   width: 100%;
-  background-color: #3572e3;
+  background-color: #b9ccff;
   color: #fff;
   font-size: 15px;
   font-weight: 700;

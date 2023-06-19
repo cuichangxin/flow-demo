@@ -4,25 +4,13 @@ import api from '../api/api'
 export const workStore = defineStore('work', {
   state: () => {
     return {
-      isTableShow: {}, // 显示属性表格
-      taskPropertyData: {}, // 修改属性后的数据
-      scaleLineData: '', // 获取 刻度线的位置
       tableFlyData: [], // 飞行段表格数据
       taskAllList: {}, // 任务关系全部数据
       dragEv: null,
-      taskListStore:[]
+      TaskRelationship:[] // 任务关系定义任务列表
     }
   },
   actions: {
-    setShowTable(data) {
-      this.isTableShow = data
-    },
-    setTaskProperty(data) {
-      this.taskPropertyData = JSON.parse(JSON.stringify(data))
-    },
-    setScaleLineData(data) {
-      this.scaleLineData = data
-    },
     setTableFlyData(data) {
       this.tableFlyData = data
     },

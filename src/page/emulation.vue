@@ -1393,7 +1393,6 @@ onUnmounted(() => {
 }
 
 .el-aside-left {
-  margin-left: 10px;
   overflow: visible;
   position: relative;
   transition: width 0.2s linear;
@@ -1444,7 +1443,7 @@ onUnmounted(() => {
   display: flex;
   padding-right: 0;
   flex: 1;
-  padding: 0 10px 0 10px;
+  padding: 0 0 0 10px;
   overflow: hidden;
 
   .title {
@@ -1487,7 +1486,6 @@ onUnmounted(() => {
 
 .el-footer {
   margin-left: 10px;
-  margin-right: 10px;
   padding: 0;
   height: 227px;
   position: relative;

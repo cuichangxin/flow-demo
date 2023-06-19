@@ -4,8 +4,6 @@
     <ul :class="{'op':isOut}">
       <li v-for="(item, index) in stepList" :key="index" :class="{ 'disabled': item.disabled, 'hover': activeIdx == index }"
         @click="stepHandler(item, index, $event)">
-        <!-- <i class="iconfont icon">&#xe630;</i> -->
-        <img class="item_img" src="../../../assets/image/liebiao.png" />
         {{ item.label }}
       </li>
     </ul>

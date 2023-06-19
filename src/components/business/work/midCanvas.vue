@@ -1,9 +1,24 @@
 <template>
   <!-- 画布区域 -->
-  <div id="graph" class="canvas_box" :class="{ out_height: isOut }" ref="targetContent">
-    <SketchRule :thick="state.thick" :scale="state.scale" :width="containerInfo.width" :height="containerInfo.height"
-      :start-x="state.startX" :start-y="state.startY" :isShowReferLine="state.isShowReferLine" :lines="state.lines"
-      :palette="state.palette">
+  <div
+    id="graph"
+    class="canvas_box"
+    :class="{ out_height: isOut }"
+    ref="targetContent"
+    v-loading="loading"
+    element-loading-text="加载中..."
+  >
+    <SketchRule
+      :thick="state.thick"
+      :scale="state.scale"
+      :width="containerInfo.width"
+      :height="containerInfo.height"
+      :start-x="state.startX"
+      :start-y="state.startY"
+      :isShowReferLine="state.isShowReferLine"
+      :lines="state.lines"
+      :palette="state.palette"
+    >
     </SketchRule>
     <div id="screens" class="screens">
       <div class="screen-container">
@@ -33,7 +48,7 @@ import { storeToRefs } from 'pinia'
 import Cookies from 'js-cookie'
 import markPoint from '../../common/mark/markPoiner.vue'
 
-import { Graph, Shape } from '@antv/x6'
+import { Graph, Shape, Color } from '@antv/x6'
 import { Transform } from '@antv/x6-plugin-transform'
 import { Selection } from '@antv/x6-plugin-selection'
 import { Snapline } from '@antv/x6-plugin-snapline'
@@ -45,57 +60,80 @@ import insertCss from 'insert-css'
 
 import { SketchRule } from 'vue3-sketch-ruler'
 import 'vue3-sketch-ruler/lib/style.css'
-import { reactive, watch } from 'vue'
 
 const instance = getCurrentInstance()
-// instance.proxy.$bus.on('*', (name, val) => {
-//   if (name == 'setFlyData') {
-//     banResize.value = true
-//     showScale.value = true
-//     const copy = _.cloneDeep(val)
-//     const lineEl = line.value
-//     nextTick(() => {
-//       if (copy.action == 'add') {
-//         console.log(lineEl)
-//         copy.form.top = lineEl.offsetTop - 80
-//         flyList.value.push(copy.form)
-//       } else if (copy.action == 'update') {
-//         flyList.value.forEach((vals) => {
-//           if (vals.title == copy.form.oldTitle) {
-//             nextTick(() => {
-//               vals.left = copy.form.left
-//               nextTick(() => {
-//                 vals.w = copy.form.w
-//               })
-//             })
-//             vals.sTime = copy.form.sTime
-//             vals.eTime = copy.form.eTime
-//             vals.title = copy.form.title
-//             vals.top = lineEl.offsetTop - 80
-//             vals.oldTitle = copy.form.oldTitle
-//           }
-//         })
-//       } else if (copy.action == 'remove') {
-//         flyList.value.forEach((d, i) => {
-//           if (d.title == copy.form.oldTitle) {
-//             flyList.value.splice(i, 1)
-//           }
-//         })
-//       }
-//       // save()
-//     })
-//   }
-//   if (name == 'sendOut') {
-//     isOut.value = val
-//     parentSize()
-//   }
-//   if (name == 'hideMenu') {
-//     parentSize()
-//   }
-// })
+instance.proxy.$bus.on('*', (name, val) => {
+  if (name == 'setFlyData') {
+    const flight = val.form
+    const nodes = graph.getNodes()
+    if (val.action == 'add') {
+      const node = graph.addNode({
+        shape: 'custom-flight-html',
+        x: flight.x,
+        y: flight.y,
+        myTarget: 'flight',
+        data: {
+          id: flight.id,
+          label: flight.title,
+          x: flight.x,
+          y: flight.y,
+          width: flight.width,
+          sTime: flight.sTime,
+          eTime: flight.eTime,
+          color: Color.random().toHex(),
+        },
+      })
+      node.prop('size', { width: flight.width, height: node.store.data.size.height })
+    } else if (val.action == 'update') {
+      nodes.map((item) => {
+        if (item.store.data.data.id === flight.id) {
+          item.prop('position', { x: flight.x, y: item.store.data.position.y })
+          item.prop('size', { width: flight.width, height: item.store.data.size.height })
+          item.setData({
+            label: flight.title,
+            x: flight.x,
+            y: item.store.data.position.y,
+            width: flight.width,
+            height: item.store.data.size.height,
+            sTime: flight.sTime,
+            eTime: flight.eTime,
+          })
+        }
+      })
+    } else if (val.action == 'remove') {
+      const removeNode = nodes.filter((item) => {
+        return item.store.data.data.id === flight.id
+      })
+      graph.removeCells(removeNode)
+    }
+  }
+  if (name === 'changeCell') {
+    const store = val.store.data.data
+    val.prop('position', { x: store.x, y: store.y })
+    val.prop('size', { width: store.width, height: n.store.data.size.height })
+    val.setData({
+      x: store.x,
+      width: store.width,
+      height: val.store.data.size.height,
+      langTime: store.langTime,
+      desc: store.desc,
+      prec: store.prec,
+      startTime: store.startTime,
+      endTime: store.endTime,
+      needList: store.needList,
+    })
+  }
+  if (name == 'sendOut') {
+    isOut.value = val
+    parentSize()
+  }
+  if (name == 'resize' || name == 'hideMenu') {
+    parentSize()
+  }
+})
 
 const work = workStore()
-const { taskPropertyData, dragEv } = storeToRefs(work)
+const { dragEv } = storeToRefs(work)
 const moduleTree = ref([
   {
     id: '1',
@@ -195,67 +233,14 @@ const state = reactive({
     cornerActiveColor: '#fff',
   },
 })
+// 标尺长度宽度
 const containerInfo = reactive({
   width: 0,
   height: 0,
 })
-const pointCoordinate = reactive({
-  start: 0,
-  end: 0
-})
 
-// watchEffect(() => {
-//   if (dragList.value.length) {
-//     showScale.value = true
-//     banResize.value = true
-//     nextTick(() => {
-//       lineOffsetLeft.value = line.value.offsetLeft
-//       dragList.value.forEach((item) => {
-//         const dottedEl = document.getElementsByClassName(`task_${item.id}`)[0]
-//         const h = line.value.offsetTop - dottedEl.offsetTop
-//         item.dottedH = h
-//         item.endTime = item.w + (item.left - lineOffsetLeft.value - 100) + 's'
-//       })
-//       banResize.value = false
-//       // save()
-//     })
-//   }
-//   instance.proxy.$bus.emit('sendMessage', dragList.value)
-// })
-// watch(
-//   [taskPropertyData, dragEv],
-//   ([t, drag], [ot]) => {
-//     if (drag !== null) {
-//       dragstart(drag)
-//     }
-//     if (JSON.stringify(t) !== JSON.stringify(ot)) {
-//       banResize.value = true
-//       dragList.value.forEach((item) => {
-//         if (item.label == t.label) {
-//           nextTick(() => {
-//             item.left = t.left
-//             nextTick(() => {
-//               item.w = t.w
-//             })
-//           })
-//           item.desc = t.desc
-//           item.endTime = t.endTime
-//           item.langTime = t.langTime
-//           item.prec = t.prec
-//           item.startTime = t.startTime
-//           item.needList = t.needList
-//         }
-//       })
-//       // setTimeout(() => {
-//       //   save()
-//       // }, 100)
-//     }
-//     setTimeout(() => {
-//       banResize.value = false
-//     }, 2000)
-//   },
-//   { deep: true }
-// )
+const loading = ref(true)
+
 watch(dragEv, (n) => {
   if (n !== null) {
     dragstart(n)
@@ -283,22 +268,26 @@ const dragleave = (e) => {
   e.dataTransfer.dropEffect = 'none'
 }
 const drop = (e) => {
+  const point = graph.clientToLocal(e.clientX, e.clientY)
   graph.addNode({
     shape: 'custom-html',
-    x: e.layerX,
-    y: e.layerY,
+    x: point.x - 50,
+    y: point.y - 20,
     label: dragItem.value.label,
     data: {
-      x: e.layerX,
-      y: e.layerY,
+      x: point.x - 50,
+      y: point.y - 20,
       color: dragItem.value.bgColor,
-      langTime:'',
-      desc:'',
-      priority:'',
-      startTime:'',
-      endTime:''
-    }
+      width: 100,
+      langTime: '',
+      desc: '',
+      prec: '',
+      startTime: '',
+      endTime: '',
+      needList: [],
+    },
   })
+  instance.proxy.$bus.emit('taskRelationship', graph.getNodes())
   targetContent.value.removeEventListener('dragenter', dragenter)
   targetContent.value.removeEventListener('dragover', dragover)
   targetContent.value.removeEventListener('dragleave', dragleave)
@@ -314,15 +303,37 @@ const createGraphic = () => {
     height: 40,
     effect: ['data'],
     html(cell) {
-      const { color, x, y } = cell.getData()
+      const { color, width, x } = cell.getData()
       const div = document.createElement('div')
       div.className = 'custom-html'
       div.style.background = color
+      div.style.width = width + 'px'
       div.innerHTML = `
         <span>${cell.store.data.label}</span>
         <div class='tool-tip'>
-          ${cell.store.data.position.x},
-          ${cell.store.data.position.x + cell.store.data.size.width}
+          ${x},
+          ${x + width}
+        </div>`
+      return div
+    },
+  })
+  // 定义飞行段html节点
+  Shape.HTML.register({
+    shape: 'custom-flight-html',
+    width: 100,
+    height: 40,
+    effect: ['data'],
+    html(cell) {
+      const { color, width, x, label } = cell.getData()
+      const div = document.createElement('div')
+      div.className = 'custom-flight-html'
+      div.style.background = `linear-gradient(135deg, transparent 18px, ${color} 0)`
+      div.style.width = width + 'px'
+      div.innerHTML = `
+        <span>${label}</span>
+        <div class='tool-tip'>
+          ${x},
+          ${x + width}
         </div>`
       return div
     },
@@ -428,7 +439,7 @@ const createGraphic = () => {
     }
     return false
   })
-  graph.bindKey(['meta+shift+z', 'ctrl+shift+z'], () => {
+  graph.bindKey(['meta+shift+z', 'ctrl+y'], () => {
     if (graph.canRedo()) {
       graph.redo()
     }
@@ -518,7 +529,6 @@ const createGraphic = () => {
           visibility: visible;
         }
       }
-
     }
     .tool-tip{
       width: 70px;
@@ -533,6 +543,21 @@ const createGraphic = () => {
       font-size: 13px;
       align-items: center;
       visibility: hidden;
+    }
+    .custom-flight-html{
+      width: 100%;
+      height: 100%;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+      position: relative;
+      &:hover {
+        .tool-tip{
+          visibility: visible;
+        }
+      }
     }
   `)
 
@@ -552,27 +577,26 @@ const initGraphEvent = () => {
     const startX = -(tx / state.scale)
     state.startX = startX
   })
-  graph.on('node:mouseenter', (e) => {
-
-  })
-  graph.on('node:mouseleave', (e) => {
-
-  })
+  graph.on('node:mouseenter', (e) => {})
+  graph.on('node:mouseleave', (e) => {})
   graph.on('node:click', (e) => {
-    console.log(e);
-    const model = e.node.store.data
-    console.log(model);
-    model.data.startTime = model.data.x + 's'
-    model.data.endTime = (model.data.x + model.size.width) + 's'
-    work.setShowTable({
-      status: true,
-      data:model
-    })
+    if (!e.cell.store.data.myTarget) {
+      e.cell.store.data.data.startTime = e.cell.store.data.data.x + 's'
+      e.cell.store.data.data.endTime = e.cell.store.data.data.x + e.cell.store.data.size.width + 's'
+      // work.setShowTable(e.cell)
+      instance.proxy.$bus.emit('showCellData', e.cell)
+    }
   })
   graph.on('node:moving', (e) => {
     const dom = e.cell
     dom.updateData({
-      x: e.node.store.data.position.x
+      x: e.node.store.data.position.x,
+    })
+  })
+  graph.on('node:changed', (e) => {
+    const dom = e.cell
+    dom.updateData({
+      width: e.node.store.data.size.width,
     })
   })
 }
@@ -584,20 +608,16 @@ const hideMenu = (val) => {
 // 获取任务详情
 const getDetail = () => {
   instance.proxy.$axios.getTaskDetail({ taskId: 2001 }).then((res) => {
-    console.log(res)
     if (res.success && res.data !== null) {
       const data = JSON.parse(res.data.daTree)
-      dragList.value = data.dragData
-      flyList.value = data.flyData
-      work.taskListStore = data.dragData
-    } else {
-      let workData = localStorage.getItem('workData')
-      if (workData) {
-        dragList.value = JSON.parse(workData).dragData
-        flyList.value = JSON.parse(workData).flyData
-        work.taskListStore = JSON.parse(workData).dragData
-      }
-    }
+      graphData.value = data
+    } 
+    // else {
+    //   let workData = localStorage.getItem('workData')
+    //   if (workData) {
+    //     graphData.value = JSON.parse(workData)
+    //   }
+    // }
   })
 }
 
@@ -614,39 +634,33 @@ const saveTaskDetail = () => {
   instance.proxy.$axios
     .saveTaskDetail({
       taskId: 2001,
-      daTree: JSON.stringify({
-        dragData: dragList.value,
-        flyData: flyList.value,
-      }),
+      daTree: JSON.stringify(graph.toJSON()),
     })
     .then((res) => {
-      console.log(res, '应用架构任务')
+      console.log(res, 'save应用架构任务')
     })
-  // TODO: 保存全部的数据 暂时搁置
+  // TODO: 保存全部的数据 暂时搁置   通过storage
 }
 
 defineExpose({ saveTaskDetail })
 
 onMounted(() => {
-  // getDetail()
-
-  // work.setScaleLineData(line.value)
-
-  // const length = Math.floor(targetContent.value.offsetWidth / 100)
-  // let count = 0
-  // for (var i = 0; i < length - 2; i++) {
-  //   scaleList.value.push({
-  //     num: (count += 100),
-  //   })
-  // }
+  getDetail()
   const parentDom = document.getElementById('graph')
   containerInfo.width = parentDom.clientWidth
   containerInfo.height = parentDom.clientHeight
-  createGraphic()
-  initGraphEvent()
-  // instance.proxy.$bus.emit('sendMessage', dragList.value)
+  setTimeout(() => {
+    createGraphic()
+    initGraphEvent()
+    loading.value = false
+    // 给任务关系定义发送数据
+    instance.proxy.$bus.emit('taskRelationship', graph.getNodes())
+  }, 800)
+  window.addEventListener('resize', () => {
+    parentSize()
+  })
 })
-// TODO:  标尺 跟随 浏览器窗口大小以及菜单隐藏还未响应
+// TODO:  元素节点拖拽修改大小属性未改变，飞行段同上
 </script>
 <style lang="scss" scoped>
 .canvas_box {

@@ -148,9 +148,21 @@
 import { workStore } from '@/store/index'
 import { storeToRefs } from 'pinia'
 
+const { proxy } = getCurrentInstance()
+proxy.$bus.on('taskRelationship',(val)=>{
+  val.forEach(item=>{
+    if (!item.store.data.myTarget) {
+      if (!taskList.value.includes(item.store.data)) {
+        taskList.value.push(item.store.data)
+      }
+    }
+  })
+})
+
+
 const work = workStore()
-const { taskAllList,taskListStore } = storeToRefs(work)
-let taskList = ref([])
+const { taskAllList } = storeToRefs(work)
+const taskList = ref([])
 
 const issueTableData = ref([])
 const takeTableData = ref([])
@@ -181,9 +193,9 @@ watch(tabIndex, (n) => {
     takeTableData.value = []
   }
 })
-watch(taskListStore,(n,o)=>{
-  taskList.value = n
-})
+// watch(taskListStore,(n,o)=>{
+//   taskList.value = n
+// })
 const tableHeaderCellStyle = () => {
   return {
     background: '#efefef',

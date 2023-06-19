@@ -404,9 +404,9 @@ const HandleTree = (node)=>{
 }
 
 onMounted(() => {
-  toolH.value = window.innerHeight - 136
+  toolH.value = window.innerHeight - 106
   window.addEventListener('resize', () => {
-    toolH.value = window.innerHeight - 136
+    toolH.value = window.innerHeight - 106
   })
 })
 onUnmounted(() => {
@@ -415,7 +415,7 @@ onUnmounted(() => {
 </script>
 <style lang="scss" scoped>
 .tool_room {
-  margin: 0 20px;
+  margin: 0 8px;
   border-radius: 8px;
   display: flex;
   padding-bottom: 20px;
@@ -437,7 +437,7 @@ onUnmounted(() => {
 .tool_room_wrapper {
   height: 100%;
   flex: 1;
-  margin-left: 20px;
+  margin-left: 10px;
   border-radius: 8px;
   padding: 20px;
   overflow: hidden;
@@ -458,7 +458,7 @@ onUnmounted(() => {
       height: 25px;
       cursor: pointer;
       position: absolute;
-      right: 20px;
+      left: 20px;
       top: 10%;
     }
   }

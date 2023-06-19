@@ -78,7 +78,7 @@ watchEffect(()=>{
   width: 100%;
   border-radius: 2px;
   margin-bottom: 10px;
-  background-color: #e8ecef;
+  background-color: #fff;
 }
 
 .el-menu--horizontal {
