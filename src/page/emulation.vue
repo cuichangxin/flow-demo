@@ -16,7 +16,7 @@
           <div style="width: 100%; min-width: 0">
             <h4 class="title">仿真测试环境</h4>
             <!-- canvas容器 -->
-            <div id="graph" class="container" ref="graphRefEm">
+            <div id="graph" class="container" ref="graphRefEm" v-loading="loading" element-loading-text="加载中...">
               <div id="graph-container" class="graph-container"></div>
             </div>
           </div>
@@ -101,6 +101,7 @@ instance.proxy.$bus.on('*', (name, val) => {
     dragStart(val)
   }
 })
+const loading = ref(true)
 const radio = ref('控制台')
 let graph = null
 const graphRefEm = ref(null)
@@ -736,7 +737,7 @@ const close = (index) => {
 // 开始拖动
 const dragStart = (item) => {
   dragItem.value = item
-  console.log(graphRefEm.value);
+  console.log(graphRefEm.value)
   // 元素行为 移动
   graphRefEm.value.addEventListener('dragenter', dragenter)
   // 目标元素经过 禁止默认事件
@@ -1314,9 +1315,12 @@ onMounted(() => {
         graphData.value = JSON.parse(localStorage.getItem('emulationData'))
       }
     }
+  })
+  setTimeout(() => {
     createGraphic()
     initGraphEvent()
-  })
+    loading.value = false
+  }, 800)
 })
 
 function tableSize() {
@@ -1324,7 +1328,7 @@ function tableSize() {
     if (isOutB.value) {
       domH.value = window.innerHeight - 248
     } else {
-      domH.value = window.innerHeight - 476
+      domH.value = window.innerHeight - 442
     }
     mainH.value = window.innerHeight - 126
   })
@@ -1332,7 +1336,7 @@ function tableSize() {
     if (isOutB.value) {
       domH.value = window.innerHeight - 248
     } else {
-      domH.value = window.innerHeight - 476
+      domH.value = window.innerHeight - 442
     }
 
     mainH.value = window.innerHeight - 126

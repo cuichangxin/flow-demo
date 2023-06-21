@@ -53,6 +53,12 @@ const hideMenu = (val)=>{
   isOut.value = val
   instance.proxy.$bus.emit('hideMenu',val)
 }
+const handleToolMenu = (target,val)=>{
+  if (val === '格式') {
+    hideMenu(target)
+  }
+}
+defineExpose({handleToolMenu})
 </script>
 <style lang="scss" scoped>
 .aside {

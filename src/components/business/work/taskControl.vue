@@ -205,14 +205,13 @@
   </el-drawer>
 </template>
 <script setup>
-import { ElMessage } from 'element-plus'
 import _ from 'lodash'
 import markPoint from '../../common/mark/markPoiner.vue'
 import { Delete, Edit } from '@element-plus/icons-vue'
 
 const instance = getCurrentInstance()
 
-const timeReg = /^[0-9]{1,}s|ms|S/
+const timeReg = /^([-+])?\d+[0-9]{1,}s|ms|S/
 var checkSTime = (rule, value, callback) => {
   if (!value) {
     return callback(new Error('请输入开始时间'))
@@ -301,6 +300,14 @@ instance.proxy.$bus.on('*', (name, val) => {
     } else {
       needList.value = []
     }
+  }
+  if (name === 'flightChange') {
+    flyList.value.forEach(item=>{
+      if (val.store.data.data.id === item.id) {
+        item.sTime = val.store.data.position.x + 's'
+        item.eTime = (val.store.data.position.x + val.store.data.size.width) + 's'
+      }
+    })
   }
 })
 
@@ -477,6 +484,12 @@ const hideMenu = (val) => {
   instance.proxy.$bus.emit('sendOut', isOut.value)
 }
 
+const handleToolMenu = (target,val)=>{
+  if (val === '格式') {
+    hideMenu(target)
+  }
+}
+defineExpose({handleToolMenu})
 watchEffect(() => {
   if (tabPosition.value == 3) {
     let fly = localStorage.getItem('flyData')

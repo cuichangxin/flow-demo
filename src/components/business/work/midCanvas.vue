@@ -39,6 +39,20 @@
     </el-scrollbar>
     <markPoint :isOut="slideFade" :direction="'left'" :color="'#fff'" @hideMenu="hideMenu"></markPoint>
   </el-aside>
+  <div
+    class="minimap_dialog"
+    :style="{ left: `${minimapPoint.x}px`, top: `${minimapPoint.y}px`, visibility: minimapMark ? '' : 'hidden' }"
+  >
+    <header class="mxWindowTitle" @mousedown="minimapDrop">
+      <span>缩略图</span>
+      <el-button link @click="closeMap">
+        <el-icon class="close" size="15">
+          <CloseBold />
+        </el-icon>
+      </el-button>
+    </header>
+    <div class="minimap" id="minimap"></div>
+  </div>
 </template>
 <script setup>
 import modelMenu from './modelMenu.vue'
@@ -60,7 +74,9 @@ import insertCss from 'insert-css'
 
 import { SketchRule } from 'vue3-sketch-ruler'
 import 'vue3-sketch-ruler/lib/style.css'
+import { CloseBold } from '@element-plus/icons-vue'
 
+const emit = defineEmits(['handleHistory'])
 const instance = getCurrentInstance()
 instance.proxy.$bus.on('*', (name, val) => {
   if (name == 'setFlyData') {
@@ -240,6 +256,12 @@ const containerInfo = reactive({
 })
 
 const loading = ref(true)
+const minimapPoint = reactive({
+  x: '',
+  y: '',
+})
+// 小地图开关
+const minimapMark = ref(false)
 
 watch(dragEv, (n) => {
   if (n !== null) {
@@ -361,10 +383,10 @@ const createGraphic = () => {
     panning: {
       enabled: true, // 开启拖拽平移
     },
-    mousewheel: {
-      enabled: true,
-      modifiers: ['ctrl', 'meta'],
-    },
+    // mousewheel: {
+    //   enabled: true,
+    //   modifiers: ['ctrl', 'meta'],
+    // },
     highlighting: {
       magnetAdsorbed: {
         name: 'stroke',
@@ -400,13 +422,13 @@ const createGraphic = () => {
         enabled: true,
       })
     )
-  // .use(
-  //   new MiniMap({
-  //     container: document.getElementById('minimap'),
-  //     width: document.getElementById('minimap').clientWidth,
-  //     height: document.getElementById('minimap').clientHeight,
-  //   })
-  // )
+    .use(
+      new MiniMap({
+        container: document.getElementById('minimap'),
+        width: document.getElementById('minimap').clientWidth,
+        height: document.getElementById('minimap').clientHeight,
+      })
+    )
 
   // 快捷键事件
   graph.bindKey(['meta+c', 'ctrl+c'], () => {
@@ -537,6 +559,7 @@ const createGraphic = () => {
       border-radius: 7px;
       position: absolute;
       bottom: -33px;
+      z-index: 99;
       border: 1px solid #ccc;
       display: flex;
       justify-content: center;
@@ -569,41 +592,68 @@ const createGraphic = () => {
 // 初始化图事件
 const initGraphEvent = () => {
   graph.on('history:change', ({ cmds, options }) => {
-    // canUndo.value = graph.canUndo()
-    // canRedo.value = graph.canRedo()
+    emit('handleHistory',{
+      canUndo:graph.canUndo(),
+      canRedo:graph.canRedo()
+    })
   })
   graph.on('translate', ({ tx, ty }) => {
     // 标尺开始的刻度  这里的 ‘-’ 不加的话标尺会反方向滚动
     const startX = -(tx / state.scale)
     state.startX = startX
   })
-  graph.on('node:mouseenter', (e) => {})
-  graph.on('node:mouseleave', (e) => {})
   graph.on('node:click', (e) => {
     if (!e.cell.store.data.myTarget) {
-      e.cell.store.data.data.startTime = e.cell.store.data.data.x + 's'
-      e.cell.store.data.data.endTime = e.cell.store.data.data.x + e.cell.store.data.size.width + 's'
-      // work.setShowTable(e.cell)
-      instance.proxy.$bus.emit('showCellData', e.cell)
+      changeNodeData({}, e)
     }
   })
   graph.on('node:moving', (e) => {
     const dom = e.cell
-    dom.updateData({
-      x: e.node.store.data.position.x,
-    })
+    changeNodeData(dom, e)
   })
   graph.on('node:changed', (e) => {
     const dom = e.cell
-    dom.updateData({
-      width: e.node.store.data.size.width,
-    })
+    changeNodeData(dom, e)
   })
 }
-
+// 更新 属性
+function changeNodeData(dom, e) {
+  if (Object.keys(dom).length) {
+    dom.updateData({
+      x: e.node.store.data.position.x,
+      y: e.node.store.data.position.y,
+      width: e.node.store.data.size.width,
+    })
+  }
+  if (!e.cell.store.data.myTarget) {
+    e.cell.store.data.data.startTime = e.cell.store.data.data.x + 's'
+    e.cell.store.data.data.endTime = e.cell.store.data.data.x + e.cell.store.data.size.width + 's'
+    instance.proxy.$bus.emit('showCellData', e.cell)
+  } else {
+    instance.proxy.$bus.emit('flightChange', e.cell)
+  }
+}
 const hideMenu = (val) => {
   slideFade.value = val
   parentSize()
+}
+const minimapDrop = (e) => {
+  const dom = document.getElementsByClassName('minimap_dialog')[0]
+  let domX = e.clientX - dom.offsetLeft
+  let domY = e.clientY - dom.offsetTop
+  document.onmousemove = (ev) => {
+    minimapPoint.x = ev.clientX - domX
+    minimapPoint.y = ev.clientY - domY
+  }
+  document.onmouseup = () => {
+    document.onmousemove = null
+    document.onmouseup = null
+  }
+}
+const closeMap = () => {
+  minimapMark.value = false
+  minimapPoint.x = 1017
+  minimapPoint.y = 50
 }
 // 获取任务详情
 const getDetail = () => {
@@ -611,7 +661,7 @@ const getDetail = () => {
     if (res.success && res.data !== null) {
       const data = JSON.parse(res.data.daTree)
       graphData.value = data
-    } 
+    }
     // else {
     //   let workData = localStorage.getItem('workData')
     //   if (workData) {
@@ -642,7 +692,25 @@ const saveTaskDetail = () => {
   // TODO: 保存全部的数据 暂时搁置   通过storage
 }
 
-defineExpose({ saveTaskDetail })
+const handleToolMenu = (target,val) =>{
+  if (val === '缩略图') {
+    minimapMark.value = true
+  }
+  if (val === '格式') {
+    hideMenu(target)
+  }
+  if (val === '撤销') {
+    if (graph.canUndo()) {
+      graph.undo()
+    }
+  }
+  if (val === '重做') {
+    if (graph.canRedo()) {
+      graph.redo()
+    }
+  }
+}
+defineExpose({ saveTaskDetail,handleToolMenu })
 
 onMounted(() => {
   getDetail()
@@ -660,7 +728,6 @@ onMounted(() => {
     parentSize()
   })
 })
-// TODO:  元素节点拖拽修改大小属性未改变，飞行段同上
 </script>
 <style lang="scss" scoped>
 .canvas_box {
@@ -751,6 +818,41 @@ onMounted(() => {
   width: 100%;
   display: inline-block;
   border-right: none;
+}
+.minimap_dialog {
+  position: absolute;
+  left: 1017px;
+  top: 50px;
+  z-index: 99;
+  width: 180px;
+  height: 180px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 2px #c0c0c0;
+
+  .mxWindowTitle {
+    color: rgb(112, 112, 112);
+    background: #f1f3f4;
+    padding: 4px;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    font-size: 13px;
+    height: 22px;
+    line-height: 1;
+    border-radius: 5px 5px 0 0;
+    text-align: center;
+    position: relative;
+    cursor: move;
+
+    .close {
+      position: absolute;
+      right: 4px;
+      cursor: pointer;
+    }
+  }
+
+  .minimap {
+    height: 158px;
+  }
 }
 
 /* rules style */

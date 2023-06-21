@@ -1,13 +1,13 @@
 <template>
   <div class="work">
-    <shapeHeader class="shape_header" @handleMenu="handleMenu"></shapeHeader>
+    <shapeHeader class="shape_header" @handleMenu="handleMenu" :canRedo="history.canRedo" :canUndo="history.canUndo"></shapeHeader>
     <div class="wrapper">
-      <StepMenu @checkTab="checkTab"></StepMenu>
+      <StepMenu @checkTab="checkTab" ref="stepMenuRef"></StepMenu>
       <el-container>
         <el-main class="el-main-info">
           <div class="wrapper" v-show="tabIdx == 0">
-            <Canvas ref="childRef"></Canvas>
-            <TableControl></TableControl>
+            <Canvas ref="childRef" @handleHistory="handleHistory"></Canvas>
+            <TableControl ref="controlRef"></TableControl>
           </div>
           <div class="over" v-show="tabIdx == 1">
             <OverAll></OverAll>
@@ -30,6 +30,13 @@ import shapeHeader from '../components/common/shapeHeader.vue'
 
 const tabIdx = ref(0)
 const childRef = ref(null)
+const stepMenuRef = ref(null)
+const controlRef = ref(null)
+const hide = ref(false)
+const history = reactive({
+  canUndo:false,
+  canRedo:false
+})
 
 const checkTab = (index) => {
   tabIdx.value = index
@@ -37,7 +44,18 @@ const checkTab = (index) => {
 const handleMenu = (val) => {
   if (val === '保存') {
     childRef.value.saveTaskDetail()
+  }else if (val === '格式') {
+    hide.value = !hide.value
+    childRef.value.handleToolMenu(hide.value,val)
+    stepMenuRef.value.handleToolMenu(hide.value,val)
+    controlRef.value.handleToolMenu(hide.value,val)
+  }else {
+    childRef.value.handleToolMenu('none',val)
   }
+}
+const handleHistory = ({canUndo,canRedo}) => {
+  history.canUndo = canUndo
+  history.canRedo = canRedo
 }
 </script>
 <style lang="scss" scoped>
