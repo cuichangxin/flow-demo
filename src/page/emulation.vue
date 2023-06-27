@@ -11,7 +11,7 @@
         </el-scrollbar>
         <markPoiner :isOut="isOut" :color="'#fff'" @hideMenu="hideMenu"></markPoiner>
       </el-aside>
-      <el-container class="layout-wrapper">
+      <el-container>
         <div class="canvas-wrapper" :style="{ paddingBottom: isOutB ? '0' : '' }">
           <div style="width: 100%; min-width: 0">
             <h4 class="title">仿真测试环境</h4>
@@ -1207,8 +1207,6 @@ const initGraphEvent = () => {
     showPorts(ports, false)
   })
   graph.on('edge:click', (e) => {
-    console.log(e)
-    console.log(graph.toJSON())
     tableList.value = []
   })
   graph.on('history:change', ({ cmds, options }) => {
@@ -1218,7 +1216,14 @@ const initGraphEvent = () => {
 }
 // 保存数据
 const saveToJson = () => {
-  localStorage.setItem('emulationData', JSON.stringify(graph.toJSON()))
+  instance.proxy.$axios
+    .saveTaskDetail({
+      taskId: 2002,
+      daTree: JSON.stringify(graph.toJSON()),
+    })
+    .then((res) => {
+      console.log('单独保存画布数据  success')
+    })
 }
 const saveTable = (data) => {
   // saveToJson()
@@ -1305,17 +1310,17 @@ const closeMap = () => {
 
 onMounted(() => {
   tableSize()
-  instance.proxy.$axios.getTaskDetail({ taskId: Cookies.get('taskId') }).then((res) => {
-    // console.log(res);
+  instance.proxy.$axios.getTaskDetail({ taskId: 2002 }).then((res) => {
     if (res.data !== null) {
       graphData.value = JSON.parse(res.data.daTree)
-    } else {
-      let storage = localStorage.getItem('emulationData')
-      if (storage) {
-        graphData.value = JSON.parse(localStorage.getItem('emulationData'))
-      }
     }
   })
+  // instance.proxy.$axios.getTaskDetail({ taskId: Cookies.get('taskId') }).then((res) => {
+  //   // console.log(res);
+  //   if (res.data !== null) {
+  //     graphData.value = JSON.parse(res.data.daTree)
+  //   }
+  // })
   setTimeout(() => {
     createGraphic()
     initGraphEvent()
@@ -1380,10 +1385,6 @@ onUnmounted(() => {
   z-index: 10;
   width: 260px;
   transition: width 0.2s linear;
-
-  .aside-title {
-    /* border-radius: 3px 3px 0 0; */
-  }
 
   &:hover {
     .click {
@@ -1523,7 +1524,7 @@ onUnmounted(() => {
 
   .terminal {
     width: 100%;
-    height: 200px;
+    height: 197px;
     background-color: #fff;
     border-radius: 0 0 3px 3px;
     margin-top: 8px;

@@ -144,8 +144,8 @@ const constantRoutes = [
     ]
   },
   {
-    path: '/broad',
-    name: 'broad',
+    path: '/board',
+    name: 'board',
     component: () => import('@/page/broad.vue'),
     meta: { title: '软件生产看板' }
   },

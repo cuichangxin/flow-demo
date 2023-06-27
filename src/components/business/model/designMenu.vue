@@ -62,7 +62,6 @@ instance.proxy.$bus.on('*', (name, val) => {
       taskId: Cookies.get('taskId'),
       daTree: JSON.stringify(moduleTree.value),
     })
-    localStorage.setItem('modelFile', JSON.stringify(moduleTree.value))
   }
   if (name === 'contraction') {
     isOut.value = val
@@ -236,6 +235,7 @@ onMounted(() => {
     }
     // 单独获取任务
     instance.proxy.$axios.getTaskDetail({ taskId: 2001 }).then((result) => {
+      console.log(JSON.parse(result.data.daTree));
       if (moduleTree.value[0].id === '1') {
         moduleTree.value.splice(0,1)
       }
@@ -245,7 +245,9 @@ onMounted(() => {
         hide:false,
         node:{},
         active:false,
-        children:JSON.parse(result.data.daTree).dragData
+        children:JSON.parse(result.data.daTree).cells.filter(item=>{
+          return item.shape === 'custom-html'
+        })
       })
     })
   })

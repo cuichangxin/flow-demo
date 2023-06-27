@@ -1128,6 +1128,8 @@ const flowList = ref({
   edges: [],
 })
 let graph = null
+const showStatus = ref(0)
+
 watch(
   () => props.list,
   (n) => {
@@ -1146,6 +1148,7 @@ watch(
         graph.destroy()
       }
     } else {
+      showStatus.value = n.showStatus
       let select = props.list.rank == 'A' ? flowList_2.value : props.list.rank == 'C' ? flowList_1.value : ''
       if (select !== '') {
         select.nodes.forEach((item) => {
@@ -1209,41 +1212,44 @@ const initG6 = () => {
     },
   })
   graph.node((node) => {
-    // status 1暗 2蓝 3白 4红
-    if (node.status == 1) {
-      return {
-        style: {
-          fill: '#b5b5b5',
-          stroke: '#ea7171',
-        },
-      }
-    } else if (node.status == 2) {
-      return {
-        style: {
-          fill: '#91d9ff',
-          stroke: '#ea7171',
-        },
-      }
-    } else if (node.status == 3) {
+    if (showStatus.value === 1) {
       return {
         style: {
           fill: '#fff',
-          stroke: '#ea7171',
-        },
-      }
-    } else if (node.status == 4) {
-      return {
-        style: {
-          fill: '#ff3636',
-          stroke: '#ea7171',
         },
       }
     } else {
-      return {
-        style: {
-          fill: '#b5b5b5',
-          stroke: '#ea7171',
-        },
+      // status 1暗 2蓝 3白 4红
+      if (node.status == 1) {
+        return {
+          style: {
+            fill: '#b5b5b5',
+          },
+        }
+      } else if (node.status == 2) {
+        return {
+          style: {
+            fill: '#91d9ff',
+          },
+        }
+      } else if (node.status == 3) {
+        return {
+          style: {
+            fill: '#fff',
+          },
+        }
+      } else if (node.status == 4) {
+        return {
+          style: {
+            fill: '#ff3636',
+          },
+        }
+      } else {
+        return {
+          style: {
+            fill: '#b5b5b5',
+          },
+        }
       }
     }
   })

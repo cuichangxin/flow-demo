@@ -1,6 +1,6 @@
 <template>
   <!-- :fullScreen="true" -->
-  <vScaleScreen>
+  <vScaleScreen :fullScreen="true">
     <el-container class="broad_info">
       <el-main>
         <div class="flex">
@@ -28,9 +28,14 @@ const { proxy } = getCurrentInstance()
 const list = ref({})
 const serial = ref(1)
 const timer = ref(null)
-const specArr = [7, 9, 10, 14, 15, 17, 18, 19, 20, 21, 22, 23]
+const specArr = [9, 10, 14, 15, 17, 18, 19, 20, 21, 22, 23]
 
 onMounted(() => {
+  let serials = localStorage.getItem('serial')
+  if (serials) {
+    serial.value = serials
+  }
+
   setTimeout(() => {
     timerTask()
   }, 2000)
@@ -47,14 +52,21 @@ const boardShow = () => {
     if (res.data !== null) {
       if (!res.data.flags) {
         serial.value = res.data.file
+        localStorage.setItem('serial', res.data.file)
       }
-      if (specArr.indexOf(res.data) !== -1) {
+      if (res.data.file === 7) {
+        clearInterval(timer.value)
+        setTimeout(() => {
+          getJson(res.data.file)
+          timerTask()
+        }, 20000)
+      }else  if (specArr.indexOf(res.data.file) !== -1){
         clearInterval(timer.value)
         setTimeout(() => {
           getJson(res.data.file)
           timerTask()
         }, 5000)
-      } else {
+      }else {
         getJson(res.data.file)
       }
     }
@@ -92,8 +104,9 @@ onUnmounted(() => {
 }
 
 .flex {
-  height: 100%;
+  height: calc(100% - 5px);
   display: flex;
   justify-content: space-between;
+  margin-top: 5px;
 }
 </style>

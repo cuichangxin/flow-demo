@@ -3,9 +3,6 @@
     class="iframe_wrap"
     v-loading="loading"
     element-loading-text="加载中..."
-    :element-loading-spinner="svg"
-    element-loading-svg-view-box="-10, -10, 50, 50"
-    element-loading-background="rgba(122, 122, 122, 0.8)"
   >
     <iframe id="iframe" class="iframe" src="http://192.168.30.117:3000/#/duty" frameborder="0"></iframe>
   </div>
@@ -13,16 +10,6 @@
 <script setup>
 const router = useRouter()
 const loading = ref(true)
-const svg = `
-        <path class="path" d="
-          M 30 15
-          L 28 17
-          M 25.61 25.61
-          A 15 15, 0, 0, 1, 15 30
-          A 15 15, 0, 1, 1, 27.99 7.5
-          L 15 15
-        " style="stroke-width: 4px; fill: rgba(0, 0, 0, 0)"/>
-      `
 
 watch(
   () => router.currentRoute.value,
@@ -41,13 +28,15 @@ watch(
 </script>
 <style lang="scss" scoped>
 .iframe_wrap {
-  height: calc(100% - 95px);
-  margin: 20px;
+  height: calc(100% - 65px);
+  margin: 8px;
+  overflow: hidden;
 }
 .iframe {
   width: 100%;
   height: 100%;
   border: 1px solid #dadada;
   background-color: #fff;
+  border-radius: 8px;
 }
 </style>

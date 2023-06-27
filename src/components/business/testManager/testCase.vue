@@ -211,6 +211,7 @@ const operandList = ref([
 ])
 const caseGo = ref(true)
 const stepDisabled = ref(true) // 处理步骤禁用
+
 const disabledFlag = computed(()=>{
   if (userId !== '6') {
     return true
@@ -239,11 +240,11 @@ const addFrom = () => {
   })
 }
 const handleTree = (node) => {
-  console.log(node);
   if (node.params) {
     useCase.value = node
     caseGo.value = false
     tableData.value = node.useCase === undefined ? [] : node.useCase
+    console.log(node);
   }
 }
 
@@ -318,6 +319,7 @@ const confirmCase = () => {
     })
     .then((res) => {
       console.log(res)
+      proxy.$modal.msgSuccess('提交成功')
     })
 }
 const selectHandle = (e) => {
@@ -501,7 +503,6 @@ onUnmounted(() => {
     border-radius: 4px;
     font-size: 12px;
     color: #fff;
-    font-weight: bold;
     margin-right: 4px;
   }
 }

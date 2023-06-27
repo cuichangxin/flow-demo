@@ -10,92 +10,135 @@
     <!-- 属性 -->
     <div v-if="!isOut">
       <div v-show="tabPosition == 1" class="table_box">
-        <table class="table">
-          <tr>
-            <th class="th" width="20%">属性</th>
-            <th class="th" width="25%">值</th>
-            <th class="th" width="20%">属性</th>
-            <th class="th" width="25%">值</th>
-          </tr>
-          <tr>
-            <th class="label">最长执行时间</th>
-            <th @click="edit(0)">
-              <span v-show="hideInput != 0">{{ tableData.langTime }}</span>
-              <el-input
-                v-show="hideInput == 0"
-                size="small"
-                placeholder="请输入内容"
-                v-model="tableData.langTime"
-                clearable
-                @keyup.enter.native="(e) => enter(0, 'langTime')"
-                :ref="inputRef"
-              >
-              </el-input>
-            </th>
-            <th class="label">描述</th>
-            <th @click="edit(3)">
-              <span v-show="hideInput != 3">{{ tableData.desc }}</span>
-              <el-input
-                v-show="hideInput == 3"
-                size="small"
-                placeholder="请输入内容"
-                v-model="tableData.desc"
-                clearable
-                @keyup.enter.native="(e) => enter(3, 'desc')"
-                :ref="inputRef"
-              >
-              </el-input>
-            </th>
-          </tr>
-          <tr>
-            <th class="label">开始时间</th>
-            <th @click="edit(1)">
-              <span v-show="hideInput != 1">{{ tableData.startTime }}</span>
-              <el-input
-                v-show="hideInput == 1"
-                size="small"
-                placeholder="请输入内容"
-                v-model="tableData.startTime"
-                clearable
-                @keyup.enter.native="(e) => enter(1, 'startTime')"
-                :ref="inputRef"
-              >
-              </el-input>
-            </th>
-            <th class="label">优先级</th>
-            <th @click="edit(4)">
-              <span v-show="hideInput != 4">{{ tableData.prec }}</span>
-              <el-input
-                v-show="hideInput == 4"
-                size="small"
-                placeholder="请输入内容"
-                v-model="tableData.prec"
-                clearable
-                @keyup.enter.native="(e) => enter(4, 'prec')"
-                :ref="inputRef"
-              >
-              </el-input>
-            </th>
-          </tr>
-          <tr>
-            <th class="label">结束时间</th>
-            <th @click="edit(2)">
-              <span v-show="hideInput != 2">{{ tableData.endTime }}</span>
-              <el-input
-                v-show="hideInput == 2"
-                size="small"
-                placeholder="请输入内容"
-                v-model="tableData.endTime"
-                clearable
-                @keyup.enter.native="(e) => enter(2, 'endTime')"
-                :ref="inputRef"
-              >
-              </el-input>
-            </th>
-            <th></th>
-            <th></th>
-          </tr>
-        </table>
+        <el-scrollbar class="scroll">
+          <table class="table">
+            <thead>
+              <tr>
+                <th class="th" width="20%">属性</th>
+                <th class="th" width="25%">值</th>
+                <th class="th" width="20%">属性</th>
+                <th class="th" width="25%">值</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th class="label">任务名称</th>
+                <th @click="edit(5)">
+                  <span v-show="hideInput != 5">{{ tableData.taskName }}</span>
+                  <el-input
+                    v-show="hideInput == 5"
+                    size="small"
+                    placeholder="请输入内容"
+                    v-model="tableData.taskName"
+                    clearable
+                    @keyup.enter.native="(e) => enter(5, 'taskName')"
+                    @blur="blur"
+                    :ref="inputRef"
+                  >
+                  </el-input>
+                </th>
+                <th class="label">最长执行时间</th>
+                <th @click="edit(0)">
+                  <span v-show="hideInput != 0">{{ tableData.langTime }}</span>
+                  <el-input
+                    v-show="hideInput == 0"
+                    size="small"
+                    placeholder="请输入内容"
+                    v-model="tableData.langTime"
+                    clearable
+                    @keyup.enter.native="(e) => enter(0, 'langTime')"
+                    @blur="blur"
+                    :ref="inputRef"
+                  >
+                  </el-input>
+                </th>
+              </tr>
+              <tr>
+                <th class="label">描述</th>
+                <th @click="edit(3)">
+                  <span v-show="hideInput != 3">{{ tableData.desc }}</span>
+                  <el-input
+                    v-show="hideInput == 3"
+                    size="small"
+                    placeholder="请输入内容"
+                    v-model="tableData.desc"
+                    clearable
+                    @keyup.enter.native="(e) => enter(3, 'desc')"
+                    @blur="blur"
+                    :ref="inputRef"
+                  >
+                  </el-input>
+                </th>
+                <th class="label">开始时间</th>
+                <th @click="edit(1)">
+                  <span v-show="hideInput != 1">{{ tableData.startTime }}</span>
+                  <el-input
+                    v-show="hideInput == 1"
+                    size="small"
+                    placeholder="请输入内容"
+                    v-model="tableData.startTime"
+                    clearable
+                    @keyup.enter.native="(e) => enter(1, 'startTime')"
+                    @blur="blur"
+                    :ref="inputRef"
+                  >
+                  </el-input>
+                </th>
+              </tr>
+              <tr>
+                <th class="label">优先级</th>
+                <th @click="edit(4)">
+                  <span v-show="hideInput != 4">{{ tableData.prec }}</span>
+                  <el-input
+                    v-show="hideInput == 4"
+                    size="small"
+                    placeholder="请输入内容"
+                    v-model="tableData.prec"
+                    clearable
+                    @keyup.enter.native="(e) => enter(4, 'prec')"
+                    @blur="blur"
+                    :ref="inputRef"
+                  >
+                  </el-input>
+                </th>
+                <th class="label">结束时间</th>
+                <th @click="edit(2)">
+                  <span v-show="hideInput != 2">{{ tableData.endTime }}</span>
+                  <el-input
+                    v-show="hideInput == 2"
+                    size="small"
+                    placeholder="请输入内容"
+                    v-model="tableData.endTime"
+                    clearable
+                    @keyup.enter.native="(e) => enter(2, 'endTime')"
+                    @blur="blur"
+                    :ref="inputRef"
+                  >
+                  </el-input>
+                </th>
+              </tr>
+              <tr>
+                <th class="label">函数名称</th>
+                <th @click="edit(6)">
+                  <span v-show="hideInput != 6">{{ tableData.funName }}</span>
+                  <el-input
+                    v-show="hideInput == 6"
+                    size="small"
+                    placeholder="请输入内容"
+                    v-model="tableData.funName"
+                    clearable
+                    @keyup.enter.native="(e) => enter(6, 'funName')"
+                    @blur="blur"
+                    :ref="inputRef"
+                  >
+                  </el-input>
+                </th>
+                <th></th>
+                <th></th>
+              </tr>
+            </tbody>
+          </table>
+        </el-scrollbar>
       </div>
     </div>
 
@@ -211,7 +254,7 @@ import { Delete, Edit } from '@element-plus/icons-vue'
 
 const instance = getCurrentInstance()
 
-const timeReg = /^([-+])?\d+[0-9]{1,}s|ms|S/
+const timeReg = /^([-+])?\d{1,}s|ms|S/
 var checkSTime = (rule, value, callback) => {
   if (!value) {
     return callback(new Error('请输入开始时间'))
@@ -248,6 +291,8 @@ const tableData = ref({
   prec: '', // 优先级
   w: '', // 宽度
   left: '', // 左边距离
+  taskName:'',
+  funName:''
 })
 const hideInput = ref(null)
 const tabPosition = ref(1)
@@ -292,7 +337,9 @@ const elInformation = ref({})
 
 instance.proxy.$bus.on('*', (name, val) => {
   if (name === 'showCellData') {
-    tableData.value = val.store.data.data
+    const data = val
+    data.store.data.data.y = data.store.data.position.y
+    tableData.value = data.store.data.data
     tableData.value.oldEndTime = tableData.value.endTime
     elInformation.value = val
     if (Object.prototype.hasOwnProperty.call(val.data, 'needList')) {
@@ -302,10 +349,10 @@ instance.proxy.$bus.on('*', (name, val) => {
     }
   }
   if (name === 'flightChange') {
-    flyList.value.forEach(item=>{
+    flyList.value.forEach((item) => {
       if (val.store.data.data.id === item.id) {
         item.sTime = val.store.data.position.x + 's'
-        item.eTime = (val.store.data.position.x + val.store.data.size.width) + 's'
+        item.eTime = val.store.data.position.x + val.store.data.size.width + 's'
       }
     })
   }
@@ -338,11 +385,13 @@ const formatData = (val) => {
     }
   }
   elInformation.value.store.data.data = tableData.value
-  // work.setTaskProperty(elInformation.value)
-  instance.proxy.$bus.emit('changeCell',elInformation.value)
+  instance.proxy.$bus.emit('changeCell', elInformation.value)
 }
 const enter = (val, code) => {
   changeData(val, code)
+}
+const blur = () => {
+  hideInput.value = null
 }
 const changeData = (val, code) => {
   isflag.value = false
@@ -353,18 +402,18 @@ const changeData = (val, code) => {
     }
   } else if (val == 1) {
     if (!timeReg.test(tableData.value.startTime)) {
-      instance.proxy.$modal.msgWarning(tableData.value.startTime ? '时间格式错误' : '请输入内容')
+      instance.proxy.$modal.msgWarning(tableData.value.startTime !== '' ? '时间格式错误' : '请输入内容')
       return
     }
   } else if (val == 2) {
     if (!timeReg.test(tableData.value.endTime)) {
-      instance.proxy.$modal.msgWarning(tableData.value.startTime ? '时间格式错误' : '请输入内容')
+      instance.proxy.$modal.msgWarning(tableData.value.startTime !== '' ? '时间格式错误' : '请输入内容')
       return
     }
   }
   isflag.value = true
-  formatData(val, code)
   hideInput.value = null
+  formatData(val, code)
 }
 const tableCellStyle = () => {
   return {
@@ -484,12 +533,12 @@ const hideMenu = (val) => {
   instance.proxy.$bus.emit('sendOut', isOut.value)
 }
 
-const handleToolMenu = (target,val)=>{
+const handleToolMenu = (target, val) => {
   if (val === '格式') {
     hideMenu(target)
   }
 }
-defineExpose({handleToolMenu})
+defineExpose({ handleToolMenu })
 watchEffect(() => {
   if (tabPosition.value == 3) {
     let fly = localStorage.getItem('flyData')
@@ -503,7 +552,7 @@ watchEffect(() => {
 <style lang="scss" scoped>
 .table_control {
   width: 100%;
-  height: 237px;
+  height: 220px;
   position: relative;
   transition: height 0.2s linear;
 
@@ -518,11 +567,11 @@ watchEffect(() => {
 
   .table_box {
     width: 100%;
-    min-height: 204px;
+    height: 181px;
     background: #fff;
     border-radius: 3px;
     display: flex;
-    padding: 10px 5px;
+    padding: 10px;
     box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.12);
 
     .table {
@@ -542,10 +591,10 @@ watchEffect(() => {
       }
 
       .th {
-        font-weight: bold;
+        font-weight: 600;
         background-color: #f5f7fa;
         height: 40px;
-        font-size: 14px;
+        font-size: 13px;
       }
 
       table,
@@ -557,6 +606,9 @@ watchEffect(() => {
       .label {
         background-color: #ecedef;
       }
+    }
+    .scroll{
+      width: 100%;
     }
   }
 

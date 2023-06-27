@@ -1,11 +1,15 @@
 <template>
   <el-breadcrumb :separator-icon="ArrowRight">
-    <el-breadcrumb-item
-      v-for="(breads, index) in bread"
-      :key="index"
-      :class="{ 'font-bold': index === bread.length - 1 }"
-      >{{ breads.meta.title }}</el-breadcrumb-item
-    >
+    <transition-group name="breadcrumb">
+      <el-breadcrumb-item
+        v-for="(breads, index) in bread"
+        :key="breads.path"
+        :class="{ 'font-bold': index === bread.length - 1 }"
+        >
+        <span>{{ breads.meta.title }}</span>
+        </el-breadcrumb-item
+      >
+    </transition-group>
   </el-breadcrumb>
 </template>
 <script setup>

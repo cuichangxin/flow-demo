@@ -286,6 +286,7 @@ onMounted(() => {
   background: #fff;
   border-radius: 3px;
   padding: 20px;
+  margin-left: 8px;
   display: flex;
   justify-content: space-between;
   box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.12);

@@ -1091,57 +1091,57 @@ const isPostLine = ref(true)
 
 watch(
   () => props.list,
-  (n) => {
-    if (JSON.stringify(n) == '{}') {
-      lines.value = []
-      infoList.value.postList.forEach((item) => {
-        item.status = 1
-      })
-      itemList.value.forEach((item) => {
-        item.remove()
-      })
-    } else {
-      lines.value = n.postLineList
-      infoList.value.postList.forEach((item) => {
-        foreach(n, item)
-      })
-      infoList.value.autoList.forEach((item) => {
-        foreach(n, item)
-      })
-      infoList.value.autoHostList.forEach((item) => {
-        foreach(n, item)
-      })
-      infoList.value.postTwoList.forEach((item) => {
-        foreach(n, item)
-      })
-      isPostLine.value = n.postLineList.length ? true : false
-      if (n.postLineList.length) {
-        setTimeout(() => {
-          init()
-        }, 500)
+  (n, o) => {
+    console.log(JSON.stringify(n) !== JSON.stringify(o));
+    if (JSON.stringify(n) !== JSON.stringify(o)) {
+      if (JSON.stringify(n) == '{}' || n.postLineList.length === 0) {
+        lines.value = []
+        infoList.value.postList.forEach((item) => {
+          item.status = 1
+        })
+        itemList.value.forEach((item) => {
+          item.remove()
+        })
+        itemList.value = []
+      } else {
+        console.log('123');
+        lines.value = n.postLineList
+        infoList.value.postList.forEach((item) => {
+          foreach(n, item)
+        })
+        infoList.value.autoList.forEach((item) => {
+          foreach(n, item)
+        })
+        infoList.value.autoHostList.forEach((item) => {
+          foreach(n, item)
+        })
+        infoList.value.postTwoList.forEach((item) => {
+          foreach(n, item)
+        })
+        isPostLine.value = n.postLineList.length ? true : false
+        if (n.postLineList.length) {
+          setTimeout(() => {
+            init()
+          }, 500)
+        }
       }
     }
   }
 )
 
-// watch(
-//   () => props.serial,
-//   (n, o) => {
-//     if (n !== o && isPostLine.value) {
-//       setTimeout(() => {
-//         init()
-//       }, 500)
-//     }
-//   },
-//   { immediate: true }
-// )
 function foreach(val, item) {
   if (val.postList !== undefined) {
+    const arr = val.postList.map(item=>{
+      return item.serial
+    })
     val.postList.forEach((v) => {
       if (item.serial === v.serial) {
         item.status = v.status
       }
     })
+    // if (!arr.includes(item.serial)) {
+    //   item.status = 1
+    // }
   }
 }
 
@@ -1218,6 +1218,14 @@ const init = () => {
     isFlag.value = false
     itemList.value = lines.value.map((item, i) => {
       idx.value = i
+      console.log(item.start - 1, item.end - 1);
+      if (item.end - 1 <= 9) {
+        styleOption.startSocket = 'bottom'
+      } else if ((item.start - 1) > 38 && item.start - 1 <= 48) {
+        styleOption.startSocket = 'top'
+      }else {
+        styleOption.startSocket = ''
+      }
       return new LeaderLine({
         ...styleOption,
         start: itemEl[item.start - 1],

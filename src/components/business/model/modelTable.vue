@@ -1,5 +1,5 @@
 <template>
-  <div class="model_table" :class="{ 'fade': isOut }">
+  <div class="model_table" :class="{ fade: isOut }">
     <div class="button_box">
       <el-radio-group v-model="tabPosition">
         <el-radio-button label="1">属性</el-radio-button>
@@ -18,15 +18,31 @@
           <th class="label">算法名称</th>
           <th @click="edit(0)">
             <span v-show="hideInput != 0">{{ config.label }}</span>
-            <el-input v-show="hideInput == 0" :ref="inputRef" placeholder="请输入内容" v-model="config.label" clearable
-              @keyup.enter.native="(e) => enter(0, '')" @blur="(e) => blur(0, e)">
+            <el-input
+              v-show="hideInput == 0"
+              size="small"
+              :ref="inputRef"
+              placeholder="请输入内容"
+              v-model="config.label"
+              clearable
+              @keyup.enter.native="(e) => enter(0, '')"
+              @blur="(e) => blur(0, e)"
+            >
             </el-input>
           </th>
           <th class="label">描述</th>
           <th @click="edit(1)">
             <span v-show="hideInput != 1">{{ config.desc }}</span>
-            <el-input v-show="hideInput == 1" :ref="inputRef" placeholder="请输入内容" v-model="config.desc" clearable
-              @keyup.enter.native="(e) => enter(1, '')" @blur="(e) => blur(1, e)">
+            <el-input
+              v-show="hideInput == 1"
+              size="small"
+              :ref="inputRef"
+              placeholder="请输入内容"
+              v-model="config.desc"
+              clearable
+              @keyup.enter.native="(e) => enter(1, '')"
+              @blur="(e) => blur(1, e)"
+            >
             </el-input>
           </th>
         </tr>
@@ -34,8 +50,16 @@
           <th class="label">输入</th>
           <th @click="edit(2)">
             <span v-show="hideInput != 2">{{ config.input }}</span>
-            <el-input v-show="hideInput == 2" :ref="inputRef" placeholder="请输入内容" v-model="config.input" clearable
-              @keyup.enter.native="(e) => enter(2, '')" @blur="(e) => blur(2, e)">
+            <el-input
+              v-show="hideInput == 2"
+              size="small"
+              :ref="inputRef"
+              placeholder="请输入内容"
+              v-model="config.input"
+              clearable
+              @keyup.enter.native="(e) => enter(2, '')"
+              @blur="(e) => blur(2, e)"
+            >
             </el-input>
           </th>
           <th></th>
@@ -45,8 +69,16 @@
           <th class="label">输出</th>
           <th @click="edit(3)">
             <span v-show="hideInput != 3">{{ config.output }}</span>
-            <el-input v-show="hideInput == 3" :ref="inputRef" placeholder="请输入内容" v-model="config.output" clearable
-              @keyup.enter.native="(e) => enter(3, '')" @blur="(e) => blur(3, e)">
+            <el-input
+              v-show="hideInput == 3"
+              size="small"
+              :ref="inputRef"
+              placeholder="请输入内容"
+              v-model="config.output"
+              clearable
+              @keyup.enter.native="(e) => enter(3, '')"
+              @blur="(e) => blur(3, e)"
+            >
             </el-input>
           </th>
           <th></th>
@@ -77,9 +109,8 @@
 
     <!-- 需求追踪添加 -->
     <el-dialog title="需求追踪" v-model="dialogVisible">
-      <el-table :data="dialogNeedList" border @selection-change="handleSelectionChange" :ref="el => tableRef = el">
-        <el-table-column type="selection" width="55" :selectable="checkSelectable">
-        </el-table-column>
+      <el-table :data="dialogNeedList" border @selection-change="handleSelectionChange" :ref="(el) => (tableRef = el)">
+        <el-table-column type="selection" width="55" :selectable="checkSelectable"> </el-table-column>
         <el-table-column prop="id" label="需求ID"> </el-table-column>
         <el-table-column prop="label" label="需求名称" width="400"> </el-table-column>
       </el-table>
@@ -93,13 +124,13 @@
   </div>
 </template>
 <script setup>
-import _ from "lodash";
-import markPoint from "../../common/mark/markPoiner.vue";
+import _ from 'lodash'
+import markPoint from '../../common/mark/markPoiner.vue'
 import { Delete } from '@element-plus/icons-vue'
 
 const instance = getCurrentInstance()
 
-instance.proxy.$bus.on('*', (name,val) => {
+instance.proxy.$bus.on('*', (name, val) => {
   if (name === 'tableConfig') {
     // 属性表格 需求追踪配置项
     config.value = val
@@ -125,23 +156,23 @@ const selectList = ref([])
 const dialogNeedList = ref([
   {
     serial: 1,
-    id: "RQ_CXJJS",
-    label: "程序角计算",
+    id: 'RQ_CXJJS',
+    label: '程序角计算',
   },
   {
     serial: 2,
-    id: "RQ_ZYJS",
-    label: "姿态增益计算",
+    id: 'RQ_ZYJS',
+    label: '姿态增益计算',
   },
   {
     serial: 3,
-    id: "RQ_WLJS",
-    label: "姿态网络计算",
+    id: 'RQ_WLJS',
+    label: '姿态网络计算',
   },
 ])
 const isNext = ref(true)
 
-const inputRef = el => {
+const inputRef = (el) => {
   if (el) {
     el.focus()
     el.select()
@@ -184,7 +215,7 @@ const checkSelectable = (row) => {
 }
 const callOff = () => {
   tableRef.value.clearSelection()
-  dialogVisible.value = false;
+  dialogVisible.value = false
 }
 const needEn = () => {
   if (trackList.value.length) {
@@ -193,11 +224,11 @@ const needEn = () => {
     })
     selectList.value.forEach((d) => {
       if (!needAllow.includes(d.id)) {
-        trackList.value.push(d);
+        trackList.value.push(d)
       }
     })
   } else {
-    trackList.value = _.cloneDeep(selectList.value);
+    trackList.value = _.cloneDeep(selectList.value)
   }
   tableRef.value.clearSelection()
   config.value.trackList = trackList.value
@@ -221,19 +252,19 @@ const hideMenu = (val) => {
 <style lang="scss" scoped>
 .model_table {
   width: 100%;
-  height: 270px;
+  height: 220px;
   position: relative;
   z-index: 10;
-  transition: height .2s linear;
+  transition: height 0.2s linear;
 
   .table_box {
     width: 100%;
-    height: calc(260px - 20px);
+    height:200px;
     background: #fff;
     border-radius: 3px;
     display: flex;
     padding: 10px;
-    box-shadow: 0px 0px 12px rgba(0, 0, 0, .12);
+    box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.12);
 
     .table {
       width: 100%;
@@ -317,5 +348,6 @@ const hideMenu = (val) => {
 }
 
 .mark {
-  bottom: 88% !important;
-}</style>
+  bottom: 84.9% !important;
+}
+</style>

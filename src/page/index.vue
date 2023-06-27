@@ -18,4 +18,7 @@ import { AppMain } from '../components'
   height: 100%;
   flex-direction: column;
 }
+.app_container{
+  height: calc(100% - 60px);
+}
 </style>

@@ -61,6 +61,7 @@ import { workStore } from '@/store/index'
 import { storeToRefs } from 'pinia'
 import Cookies from 'js-cookie'
 import markPoint from '../../common/mark/markPoiner.vue'
+import { randomRbg } from '@/utils/utils'
 
 import { Graph, Shape, Color } from '@antv/x6'
 import { Transform } from '@antv/x6-plugin-transform'
@@ -96,10 +97,11 @@ instance.proxy.$bus.on('*', (name, val) => {
           width: flight.width,
           sTime: flight.sTime,
           eTime: flight.eTime,
-          color: Color.random().toHex(),
+          color: randomRbg(rbgIndex.value),
         },
       })
       node.prop('size', { width: flight.width, height: node.store.data.size.height })
+      rbgIndex.value++
     } else if (val.action == 'update') {
       nodes.map((item) => {
         if (item.store.data.data.id === flight.id) {
@@ -126,7 +128,7 @@ instance.proxy.$bus.on('*', (name, val) => {
   if (name === 'changeCell') {
     const store = val.store.data.data
     val.prop('position', { x: store.x, y: store.y })
-    val.prop('size', { width: store.width, height: n.store.data.size.height })
+    val.prop('size', { width: store.width, height: val.store.data.size.height })
     val.setData({
       x: store.x,
       width: store.width,
@@ -137,6 +139,8 @@ instance.proxy.$bus.on('*', (name, val) => {
       startTime: store.startTime,
       endTime: store.endTime,
       needList: store.needList,
+      taskName:store.taskName,
+      funName:store.funName
     })
   }
   if (name == 'sendOut') {
@@ -159,7 +163,7 @@ const moduleTree = ref([
     children: [
       {
         id: '1-1',
-        label: '综合控制任务',
+        label: '综合控制任务 integratedTasks',
         isDrag: true,
         bgColor: '#f8ebdc',
         control: false,
@@ -167,7 +171,7 @@ const moduleTree = ref([
       },
       {
         id: '1-2',
-        label: '遥测任务',
+        label: '遥测任务 telemetryTask',
         isDrag: true,
         bgColor: '#e8f6dc',
         control: false,
@@ -175,7 +179,7 @@ const moduleTree = ref([
       },
       {
         id: '1-3',
-        label: '遥控任务',
+        label: '遥控任务 remoteControlTask',
         isDrag: true,
         bgColor: '#e0f4f5',
         control: false,
@@ -183,7 +187,7 @@ const moduleTree = ref([
       },
       {
         id: '1-4',
-        label: '数据采集任务',
+        label: '数据采集任务 dataCollectionTasks',
         isDrag: true,
         bgColor: '#fff',
         control: false,
@@ -191,7 +195,7 @@ const moduleTree = ref([
       },
       {
         id: '1-5',
-        label: '姿控任务',
+        label: '姿控任务 attitudeControlTask',
         isDrag: true,
         bgColor: '#f5deec',
         control: false,
@@ -199,7 +203,7 @@ const moduleTree = ref([
       },
       {
         id: '1-6',
-        label: '制导任务',
+        label: '制导任务 quidanceTask',
         isDrag: true,
         bgColor: '#e8ebed',
         control: false,
@@ -215,7 +219,7 @@ const moduleTree = ref([
     children: [
       {
         id: '2-1',
-        label: '通用任务',
+        label: '通用任务 generalTask',
         isDrag: true,
         shape: 'custom-html',
       },
@@ -227,6 +231,7 @@ const targetContent = ref(null)
 
 const slideFade = ref(false)
 const isOut = ref(false)
+const rbgIndex = ref(0)
 
 let graph = null
 const graphData = ref({})
@@ -262,6 +267,7 @@ const minimapPoint = reactive({
 })
 // 小地图开关
 const minimapMark = ref(false)
+const elmZIndex = ref(0)
 
 watch(dragEv, (n) => {
   if (n !== null) {
@@ -307,6 +313,8 @@ const drop = (e) => {
       startTime: '',
       endTime: '',
       needList: [],
+      taskName:dragItem.value.label,
+      funName:''
     },
   })
   instance.proxy.$bus.emit('taskRelationship', graph.getNodes())
@@ -333,8 +341,8 @@ const createGraphic = () => {
       div.innerHTML = `
         <span>${cell.store.data.label}</span>
         <div class='tool-tip'>
-          ${x},
-          ${x + width}
+          ${x.toFixed(0)},
+          ${(x + width).toFixed(0)}
         </div>`
       return div
     },
@@ -354,8 +362,8 @@ const createGraphic = () => {
       div.innerHTML = `
         <span>${label}</span>
         <div class='tool-tip'>
-          ${x},
-          ${x + width}
+          ${x.toFixed(0)},
+          ${(x + width).toFixed(0)}
         </div>`
       return div
     },
@@ -587,14 +595,18 @@ const createGraphic = () => {
   if (Object.keys(graphData.value).length) {
     graph.fromJSON(graphData.value.cells)
     graph.centerContent()
+    // 画布移动到中心标尺跟随变动
+    const translate = graph.translate()
+    const startX = -(translate.tx / state.scale)
+    state.startX = startX
   }
 }
 // 初始化图事件
 const initGraphEvent = () => {
   graph.on('history:change', ({ cmds, options }) => {
-    emit('handleHistory',{
-      canUndo:graph.canUndo(),
-      canRedo:graph.canRedo()
+    emit('handleHistory', {
+      canUndo: graph.canUndo(),
+      canRedo: graph.canRedo(),
     })
   })
   graph.on('translate', ({ tx, ty }) => {
@@ -611,9 +623,12 @@ const initGraphEvent = () => {
     const dom = e.cell
     changeNodeData(dom, e)
   })
-  graph.on('node:changed', (e) => {
+  graph.on('node:change:size', (e) => {
     const dom = e.cell
     changeNodeData(dom, e)
+  })
+  graph.on('node:mouseenter', (e) => {
+    e.cell.toFront()
   })
 }
 // 更新 属性
@@ -626,8 +641,8 @@ function changeNodeData(dom, e) {
     })
   }
   if (!e.cell.store.data.myTarget) {
-    e.cell.store.data.data.startTime = e.cell.store.data.data.x + 's'
-    e.cell.store.data.data.endTime = e.cell.store.data.data.x + e.cell.store.data.size.width + 's'
+    e.cell.store.data.data.startTime = e.cell.store.data.data.x.toFixed(0) + 's'
+    e.cell.store.data.data.endTime = (e.cell.store.data.data.x + e.cell.store.data.size.width).toFixed(0) + 's'
     instance.proxy.$bus.emit('showCellData', e.cell)
   } else {
     instance.proxy.$bus.emit('flightChange', e.cell)
@@ -661,6 +676,7 @@ const getDetail = () => {
     if (res.success && res.data !== null) {
       const data = JSON.parse(res.data.daTree)
       graphData.value = data
+      console.log(data);
     }
     // else {
     //   let workData = localStorage.getItem('workData')
@@ -692,7 +708,7 @@ const saveTaskDetail = () => {
   // TODO: 保存全部的数据 暂时搁置   通过storage
 }
 
-const handleToolMenu = (target,val) =>{
+const handleToolMenu = (target, val) => {
   if (val === '缩略图') {
     minimapMark.value = true
   }
@@ -710,7 +726,7 @@ const handleToolMenu = (target,val) =>{
     }
   }
 }
-defineExpose({ saveTaskDetail,handleToolMenu })
+defineExpose({ saveTaskDetail, handleToolMenu })
 
 onMounted(() => {
   getDetail()
@@ -732,10 +748,10 @@ onMounted(() => {
 <style lang="scss" scoped>
 .canvas_box {
   flex: 1;
-  height: calc(100% - 236px);
+  height: 100%;
   width: calc(100% - 200px);
   background: #fff;
-  margin-right: 20px;
+  margin-right: 8px;
   position: relative;
   box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.12);
   overflow: hidden;
@@ -766,7 +782,7 @@ onMounted(() => {
 }
 
 .el-aside-menu {
-  height: calc(100% - 236px);
+  height: 100%;
   max-width: 200px;
   margin-bottom: 0;
   padding: 0;

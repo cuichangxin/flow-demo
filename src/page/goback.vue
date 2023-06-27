@@ -133,7 +133,7 @@ const treeProps = {
   showLabelLine: true,
 }
 const windowH = ref('')
-const rowValue = ref('testCase')
+const rowValue = ref('software')
 const columnValue = ref('need')
 const leftBlankH = ref('')
 const rowSelectList = reactive([
@@ -332,10 +332,6 @@ onUnmounted(() => {
             width: 100%;
             white-space: pre-line;
 
-            .el-tree-node__expand-icon {
-              display: none;
-            }
-
             .icon-wenjianjia1 {
               color: #f7c53c;
               padding-right: 3px;
@@ -371,7 +367,9 @@ onUnmounted(() => {
             .el-tree-node__children {
               display: flex;
               height: calc(100% - 40px);
-
+              .el-tree-node__expand-icon{
+                display: none;
+              }
               .el-tree-node {
                 width: 40px;
                 border-left: 1px solid transparent;

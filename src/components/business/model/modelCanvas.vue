@@ -1,17 +1,32 @@
 <template>
-  <div class="canvas_item" :class="{ 'out_height': isOut }">
-    <el-tabs v-if="tabList.length" v-model="TabsValue" type="card" :closable="true" @tab-click="handlerTabsClick"
-      @tab-remove="handlerTabsRemove">
-      <el-tab-pane :key="item.label" v-for="item in tabList" :label="item.label" :name="item.key">
-      </el-tab-pane>
+  <div class="canvas_item" :class="{ out_height: isOut }">
+    <el-tabs
+      v-if="tabList.length"
+      v-model="TabsValue"
+      type="card"
+      :closable="true"
+      @tab-click="handlerTabsClick"
+      @tab-remove="handlerTabsRemove"
+    >
+      <el-tab-pane :key="item.label" v-for="item in tabList" :label="item.label" :name="item.key"> </el-tab-pane>
     </el-tabs>
     <!-- 画布 -->
-    <div id="graph" class="canvas" ref="graphRef" :style="{ height: tabList.length ? 'calc(100% - 40px)' : '100%' }">
+    <div
+      v-loading="loading"
+      element-loading-text="加载中..."
+      id="graph"
+      class="canvas"
+      ref="graphRef"
+      :style="{ height: tabList.length ? 'calc(100% - 40px)' : '100%' }"
+    >
+      <!-- <flowEditor></flowEditor> -->
       <div id="graph-container" class="graph-container"></div>
     </div>
     <!-- 小地图 -->
-    <div class="minimap_dialog"
-      :style="{ left: `${minimapPoint.x}%`, top: `${minimapPoint.y}px`, visibility: minimapMark ? '' : 'hidden' }">
+    <div
+      class="minimap_dialog"
+      :style="{ left: `${minimapPoint.x}%`, top: `${minimapPoint.y}px`, visibility: minimapMark ? '' : 'hidden' }"
+    >
       <header class="mxWindowTitle" @mousedown="minimapDrop">
         <span>缩略图</span>
         <el-button link @click="closeMap">
@@ -25,8 +40,8 @@
   </div>
 </template>
 <script setup>
-import _ from "lodash";
-import { getImgSize, fittingString } from '@/utils/utils'
+import _ from 'lodash'
+import { getImgSize } from '@/utils/utils'
 
 import { Graph, Shape } from '@antv/x6'
 import { Transform } from '@antv/x6-plugin-transform'
@@ -38,24 +53,29 @@ import { History } from '@antv/x6-plugin-history'
 import { MiniMap } from '@antv/x6-plugin-minimap'
 import insertCss from 'insert-css'
 import { CloseBold } from '@element-plus/icons-vue'
-import { onUnmounted } from "vue";
+
+import flowEditor from '@/components/common/flowEditor/index.vue'
 
 const instance = getCurrentInstance()
 instance.proxy.$bus.on('*', (name, val) => {
   if (name == 'updateNode') {
-    nodeItem.value.attr({
-      text: {
-        text: val.label
-      },
-      desc: val.desc,
-      input: val.input,
-      node: val.node,
-      output: val.output,
-      trackList: val.trackList
-    })
+    if (JSON.stringify(val) !== '{}') {
+      nodeItem.value.attr({
+        text: {
+          text: val.label,
+        },
+        desc: val.desc,
+        input: val.input,
+        node: val.node,
+        output: val.output,
+        trackList: val.trackList,
+      })
+    }
   }
   if (name == 'showCanvasData') {
-    if (val.node && JSON.stringify(val.node) !== "{}") {
+    if (val.label.indexOf('姿控任务') !== -1) {
+      graphData.value = subGraph.value
+    }else if (val.node && JSON.stringify(val.node) !== '{}') {
       graphData.value = val.node
     } else {
       graphData.value = {}
@@ -86,14 +106,14 @@ instance.proxy.$bus.on('*', (name, val) => {
       } else {
         tabList.value.push({
           key: (tabList.value.length + 1).toString(),
-          ...val
+          ...val,
         })
         TabsValue.value = tabList.value.length.toString()
       }
     } else {
       tabList.value.push({
-        key: "1",
-        ...val
+        key: '1',
+        ...val,
       })
       TabsValue.value = tabList.value.length.toString()
     }
@@ -120,6 +140,16 @@ instance.proxy.$bus.on('*', (name, val) => {
       minimapPoint.x = 87
       minimapPoint.y = 50
     }
+  }
+  if (name === 'saveFile') {
+    instance.proxy.$axios
+      .saveTaskDetail({
+        taskId: 2003,
+        daTree: JSON.stringify(graph.toJSON()),
+      })
+      .then((res) => {
+        console.log(res)
+      })
   }
 })
 const isOut = ref(false)
@@ -286,51 +316,51 @@ const ports = {
     },
     {
       id: 'prot5',
-      group: 'left'
+      group: 'left',
     },
     {
       id: 'prot6',
-      group: 'left'
+      group: 'left',
     },
     {
       id: 'prot7',
-      group: 'left'
+      group: 'left',
     },
     {
       id: 'prot8',
-      group: 'left'
+      group: 'left',
     },
     {
       id: 'prot9',
-      group: 'right'
+      group: 'right',
     },
     {
       id: 'prot10',
-      group: 'right'
+      group: 'right',
     },
     {
       id: 'prot11',
-      group: 'right'
+      group: 'right',
     },
     {
       id: 'prot12',
-      group: 'right'
+      group: 'right',
     },
     {
       id: 'prot13',
-      group: 'bottom'
+      group: 'bottom',
     },
     {
       id: 'prot14',
-      group: 'bottom'
+      group: 'bottom',
     },
     {
       id: 'prot15',
-      group: 'bottom'
+      group: 'bottom',
     },
     {
       id: 'prot16',
-      group: 'bottom'
+      group: 'bottom',
     },
   ],
 }
@@ -342,7 +372,7 @@ const ellipsePorts = {
         name: 'ellipseSpread',
         args: {
           start: 45,
-        }
+        },
       },
       attrs: {
         circle: {
@@ -358,8 +388,8 @@ const ellipsePorts = {
           },
         },
       },
-    }
-  }
+    },
+  },
 }
 const dragItem = ref({})
 
@@ -372,32 +402,33 @@ const TabsValue = ref('')
 const graphRef = ref(null)
 const minimapPoint = reactive({
   x: '',
-  y: ''
+  y: '',
 })
 // 小地图开关
 const minimapMark = ref(false)
+const loading = ref(true)
+const subGraph = ref({})
 
 // 开始拖动
 const dragStart = (item) => {
   dragItem.value = item
-  console.log(graphRef.value);
   // 元素行为 移动
-  graphRef.value.addEventListener("dragenter", dragenter);
+  graphRef.value.addEventListener('dragenter', dragenter)
   // 目标元素经过 禁止默认事件
-  graphRef.value.addEventListener("dragover", dragover);
+  graphRef.value.addEventListener('dragover', dragover)
   // 离开目标元素设置元素的放置行为  不能拖放
-  graphRef.value.addEventListener("dragleave", dragleave);
+  graphRef.value.addEventListener('dragleave', dragleave)
   // 拖动元素在目标元素松手时添加元素到画布
-  graphRef.value.addEventListener("drop", drop);
+  graphRef.value.addEventListener('drop', drop)
 }
 const dragenter = (e) => {
-  e.dataTransfer.dropEffect = "move"
+  e.dataTransfer.dropEffect = 'move'
 }
 const dragover = (e) => {
   e.preventDefault()
 }
 const dragleave = (e) => {
-  e.dataTransfer.dropEffect = "none"
+  e.dataTransfer.dropEffect = 'none'
 }
 // 控制连接桩显示/隐藏
 const showPorts = (ports, show) => {
@@ -408,22 +439,23 @@ const showPorts = (ports, show) => {
 
 // 拖动松开添加节点
 const drop = (e) => {
+  const point = graph.clientToLocal(e.clientX, e.clientY)
   if (dragItem.value.img) {
     getImgSize(dragItem.value.img).then((res) => {
       const node = graph.addNode({
         shape: dragItem.value.shape,
-        x: e.layerX,
-        y: e.layerY,
+        x: point.x,
+        y: point.y,
         width: res.width,
         height: res.height,
         label: dragItem.value.label,
         attrs: {
           image: {
-            'xlink:href': dragItem.value.img
+            'xlink:href': dragItem.value.img,
           },
           label: {
             refX: 0.5, // 标题水平位置
-            refY: '100%',// 标题垂直位置
+            refY: '100%', // 标题垂直位置
             refY2: 6, // 标题和节点之间的距离
             textAnchor: 'middle',
             textVerticalAnchor: 'top',
@@ -445,8 +477,8 @@ const drop = (e) => {
   } else {
     const node = graph.addNode({
       shape: dragItem.value.shape !== undefined ? dragItem.value.shape : 'custom-rect',
-      x: e.layerX,
-      y: e.layerY,
+      x: point.x,
+      y: point.y,
       label: dragItem.value.label,
       attrs: {
         label: {
@@ -471,7 +503,7 @@ const drop = (e) => {
       Array.from({ length: 10 }).forEach((_, index) => {
         node.addPort({
           id: `${index}`,
-          group: 'ellipse'
+          group: 'ellipse',
         })
       })
     }
@@ -479,10 +511,10 @@ const drop = (e) => {
     saveG6Json()
   }
 
-  graphRef.value.removeEventListener("dragenter", dragenter);
-  graphRef.value.removeEventListener("dragover", dragover);
-  graphRef.value.removeEventListener("dragleave", dragleave);
-  graphRef.value.removeEventListener("drop", drop);
+  graphRef.value.removeEventListener('dragenter', dragenter)
+  graphRef.value.removeEventListener('dragover', dragover)
+  graphRef.value.removeEventListener('dragleave', dragleave)
+  graphRef.value.removeEventListener('drop', drop)
   setTimeout(() => {
     dragItem.value = null
   }, 400)
@@ -520,7 +552,7 @@ const createGraphic = () => {
             group: 'bottom',
           },
         ],
-      }
+      },
     },
     true
   )
@@ -543,7 +575,7 @@ const createGraphic = () => {
           fill: '#262626',
         },
       },
-      ports: { ...absolutePorts }
+      ports: { ...absolutePorts },
     },
     true
   )
@@ -567,7 +599,7 @@ const createGraphic = () => {
       },
       ports: { ...absolutePorts },
     },
-    true,
+    true
   )
   // 圆形
   Graph.registerNode(
@@ -589,7 +621,7 @@ const createGraphic = () => {
       },
       ports: { ...absolutePorts },
     },
-    true,
+    true
   )
   // 椭圆
   Graph.registerNode(
@@ -611,7 +643,7 @@ const createGraphic = () => {
       },
       ports: { ...ellipsePorts },
     },
-    true,
+    true
   )
   // #endregion
   const parentDom = document.getElementById('graph')
@@ -636,7 +668,7 @@ const createGraphic = () => {
       ],
     },
     panning: {
-      enabled: true // 开启拖拽平移
+      enabled: true, // 开启拖拽平移
     },
     mousewheel: {
       enabled: true,
@@ -694,26 +726,30 @@ const createGraphic = () => {
       new Transform({
         resizing: true,
         rotating: true,
-      }),
+      })
     )
     .use(
       new Selection({
         rubberband: true,
         showNodeSelectionBox: true,
-        modifiers: ['ctrl', 'meta'] // 防止拖拽平移冲突，配合快键键框选
-      }),
+        modifiers: ['ctrl', 'meta'], // 防止拖拽平移冲突，配合快键键框选
+      })
     )
     .use(new Snapline())
     .use(new Keyboard())
     .use(new Clipboard())
-    .use(new History({
-      enabled: true,
-    }))
-  .use(new MiniMap({
-    container: document.getElementById('minimap'),
-    width: document.getElementById('minimap').clientWidth,
-    height: document.getElementById('minimap').clientHeight
-  }))
+    .use(
+      new History({
+        enabled: true,
+      })
+    )
+    .use(
+      new MiniMap({
+        container: document.getElementById('minimap'),
+        width: document.getElementById('minimap').clientWidth,
+        height: document.getElementById('minimap').clientHeight,
+      })
+    )
 
   // 快捷键事件
   graph.bindKey(['meta+c', 'ctrl+c'], () => {
@@ -843,12 +879,12 @@ const createGraphic = () => {
 }
 // 初始化图事件
 const initGraphEvent = () => {
-  graph.on("node:mouseenter", (e) => {
+  graph.on('node:mouseenter', (e) => {
     const container = document.getElementById('graph-container')
     const ports = container.querySelectorAll('.x6-port-body')
     showPorts(ports, true)
   })
-  graph.on("node:mouseleave", (e) => {
+  graph.on('node:mouseleave', (e) => {
     const container = document.getElementById('graph-container')
     const ports = container.querySelectorAll('.x6-port-body')
     showPorts(ports, false)
@@ -863,17 +899,17 @@ const initGraphEvent = () => {
   graph.on('history:change', ({ cmds, options }) => {
     const undoAndRedo = {
       canUndo: graph.canUndo(),
-      canRedo: graph.canRedo()
+      canRedo: graph.canRedo(),
     }
     instance.proxy.$bus.emit('undoAndRedo', undoAndRedo)
   })
 
   // 拖动节点的事件
-  graph.on("node:mousemove", (e) => {
+  graph.on('node:mousemove', (e) => {
     saveG6Json()
   })
   // 节点双击事件
-  graph.on("node:dblclick", (e) => {
+  graph.on('node:dblclick', (e) => {
     const models = e.node.store.data
     selectId.value = models.id
     instance.proxy.$bus.emit('aloneNode', models)
@@ -890,20 +926,20 @@ const initGraphEvent = () => {
       } else {
         tabList.value.push({
           key: (tabList.value.length + 1).toString(),
-          ...models
+          ...models,
         })
       }
     } else {
       tabList.value.push({
-        key: "1",
-        ...models
+        key: '1',
+        ...models,
       })
     }
     instance.proxy.$bus.emit('tabSourceChangeSvg', models)
     TabsValue.value = tabList.value.length.toString()
   })
   // 边连接
-  graph.on("edge:connected", ({ isNew, edge }) => {
+  graph.on('edge:connected', ({ isNew, edge }) => {
     if (isNew) {
       saveG6Json()
     }
@@ -941,7 +977,7 @@ const handlerTabsRemove = (targetName) => {
     })
   }
   TabsValue.value = activeName
-  tabList.value = tabs.filter((tab) => tab.key !== targetName);
+  tabList.value = tabs.filter((tab) => tab.key !== targetName)
 }
 const minimapDrop = (e) => {
   const dom = document.getElementsByClassName('minimap_dialog')[0]
@@ -963,20 +999,26 @@ const closeMap = () => {
 }
 
 onMounted(() => {
-  nextTick(() => {
+  instance.proxy.$axios.getTaskDetail({ taskId: 2003 }).then((res) => {
+    if (res.data !== null) {
+      subGraph.value = JSON.parse(res.data.daTree)
+    }
+  })
+  setTimeout(() => {
     createGraphic()
     initGraphEvent()
-  })
+    loading.value = false
+  }, 800)
 })
-onUnmounted(()=>{
+onUnmounted(() => {
   instance.proxy.$bus.all.clear()
 })
 </script>
 <style lang="scss" scoped>
 .canvas_item {
   width: 100%;
-  height: calc(100% - 275px);
-  transition: height .2s linear;
+  height: calc(100% - 225px);
+  transition: height 0.2s linear;
 
   &.out_height {
     height: calc(100% - 10px);
@@ -987,7 +1029,7 @@ onUnmounted(()=>{
   width: 100%;
   height: 100%;
   background: #fff;
-  box-shadow: 0px 0px 12px rgba(0, 0, 0, .12);
+  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.12);
   position: relative;
   z-index: 1;
   border-radius: 3px;
@@ -1022,7 +1064,7 @@ onUnmounted(()=>{
   width: 180px;
   height: 180px;
   border-radius: 5px;
-  box-shadow: 0px 0px 2px #C0C0C0;
+  box-shadow: 0px 0px 2px #c0c0c0;
 
   .mxWindowTitle {
     color: rgb(112, 112, 112);

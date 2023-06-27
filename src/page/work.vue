@@ -1,23 +1,28 @@
 <template>
   <div class="work">
-    <shapeHeader class="shape_header" @handleMenu="handleMenu" :canRedo="history.canRedo" :canUndo="history.canUndo"></shapeHeader>
-    <div class="wrapper">
+    <shapeHeader
+      class="shape_header"
+      @handleMenu="handleMenu"
+      :canRedo="history.canRedo"
+      :canUndo="history.canUndo"
+    ></shapeHeader>
+    <el-container class="el-container-layout">
       <StepMenu @checkTab="checkTab" ref="stepMenuRef"></StepMenu>
       <el-container>
-        <el-main class="el-main-info">
-          <div class="wrapper" v-show="tabIdx == 0">
+        <div class="box" v-show="tabIdx == 0">
+          <div class="wrapper">
             <Canvas ref="childRef" @handleHistory="handleHistory"></Canvas>
-            <TableControl ref="controlRef"></TableControl>
           </div>
-          <div class="over" v-show="tabIdx == 1">
-            <OverAll></OverAll>
-          </div>
-          <div class="relation" v-show="tabIdx == 2">
-            <TaskRelation v-show="tabIdx == 2"></TaskRelation>
-          </div>
-        </el-main>
+          <TableControl ref="controlRef"></TableControl>
+        </div>
+        <div class="over" v-show="tabIdx == 1">
+          <OverAll></OverAll>
+        </div>
+        <div class="relation" v-show="tabIdx == 2">
+          <TaskRelation v-show="tabIdx == 2"></TaskRelation>
+        </div>
       </el-container>
-    </div>
+    </el-container>
   </div>
 </template>
 <script setup>
@@ -34,8 +39,8 @@ const stepMenuRef = ref(null)
 const controlRef = ref(null)
 const hide = ref(false)
 const history = reactive({
-  canUndo:false,
-  canRedo:false
+  canUndo: false,
+  canRedo: false,
 })
 
 const checkTab = (index) => {
@@ -44,16 +49,16 @@ const checkTab = (index) => {
 const handleMenu = (val) => {
   if (val === '保存') {
     childRef.value.saveTaskDetail()
-  }else if (val === '格式') {
+  } else if (val === '格式') {
     hide.value = !hide.value
-    childRef.value.handleToolMenu(hide.value,val)
-    stepMenuRef.value.handleToolMenu(hide.value,val)
-    controlRef.value.handleToolMenu(hide.value,val)
-  }else {
-    childRef.value.handleToolMenu('none',val)
+    childRef.value.handleToolMenu(hide.value, val)
+    stepMenuRef.value.handleToolMenu(hide.value, val)
+    controlRef.value.handleToolMenu(hide.value, val)
+  } else {
+    childRef.value.handleToolMenu('none', val)
   }
 }
-const handleHistory = ({canUndo,canRedo}) => {
+const handleHistory = ({ canUndo, canRedo }) => {
   history.canUndo = canUndo
   history.canRedo = canRedo
 }
@@ -69,37 +74,29 @@ const handleHistory = ({canUndo,canRedo}) => {
   box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.1);
   border-radius: 3px;
 }
-.shape_header{
+.shape_header {
   border-radius: 3px;
 }
-.wrapper{
+.box{
   width: 100%;
-  height: calc(100% - 40px);
-  display: flex;
-}
-
-.el-main-info {
-  min-width: 0;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-right: 0;
   height: 100%;
-  overflow: visible;
-
-  .wrapper {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    position: relative;
-    overflow: visible;
-  }
+  padding-left:8px;
+}
+.wrapper {
+  width: 100%;
+  height: calc(100% - 214px);
+  display: flex;
+  flex: 1;
+  overflow: hidden;
 }
 .over,
 .relation {
   box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.12);
   width: 100%;
   height: 100%;
+}
+.el-container-layout {
+  width: 100%;
+  height: calc(100% - 41px);
 }
 </style>

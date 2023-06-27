@@ -2,6 +2,7 @@ import { createApp,h } from 'vue'
 import App from './App.vue'
 import router from './router'
 import ElementPlus from 'element-plus'
+import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 import 'element-plus/dist/index.css'
 import '@/assets/styles/index.scss'
 import '@/assets/styles/font-family.scss'
@@ -16,8 +17,11 @@ import modal from './utils/modal'
 const ElementLabelLine = getElementLabelLine(h)
 const app = createApp(App)
 const pinia = createPinia()
+
+app.use(ElementPlus,{
+  locale:zhCn
+})
 app.use(router)
-app.use(ElementPlus)
 app.use(pinia)
 app.use(vueTyped)
 app.config.globalProperties.$bus = mitt()
