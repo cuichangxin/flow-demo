@@ -87,10 +87,10 @@ function handleUploadError(err) {
 }
 
 .upload {
-  height: calc(100% - 175px);
+  height: calc(100% - 145px);
   background-color: #fff;
   padding: 0 15px 15px;
-  margin: 20px 20px 0;
+  margin: 20px 8px 0;
   border-radius: 2px;
   border: 3px dashed #e6e6e6;
   box-shadow: 0px 0px 22px rgba(0, 0, 0, 0.1);

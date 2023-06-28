@@ -1002,6 +1002,7 @@ onMounted(() => {
   instance.proxy.$axios.getTaskDetail({ taskId: 2003 }).then((res) => {
     if (res.data !== null) {
       subGraph.value = JSON.parse(res.data.daTree)
+      console.log(subGraph.value);
     }
   })
   setTimeout(() => {

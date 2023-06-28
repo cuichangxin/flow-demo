@@ -60,10 +60,10 @@
             </el-button>
             <div class="handle_content">
               <el-form :inline="true" :model="formInline">
-                <el-form-item prop="caseName" label="用例名称">
+                <el-form-item prop="caseName" label="用例名称" class="form-item">
                   <el-input v-model="formInline.caseName" :disabled="stepDisabled"></el-input>
                 </el-form-item>
-                <el-form-item prop="caseId" label="用例ID">
+                <el-form-item prop="caseId" label="用例ID" class="form-item">
                   <el-input v-model="formInline.caseId" :disabled="stepDisabled"></el-input>
                 </el-form-item>
                 <el-table :data="formInline.suppContact" :max-height="tableHeight">
@@ -207,6 +207,18 @@ const operandList = ref([
   {
     value: '偏航姿态角',
     label: '偏航姿态角',
+  },
+  {
+    value: '双口RAM',
+    label: '双口RAM',
+  },
+  {
+    value: '=0xAAFF',
+    label: '=0xAAFF',
+  },
+  {
+    value: '=0xFFFF',
+    label: '=0xFFFF',
   },
 ])
 const caseGo = ref(true)
@@ -505,5 +517,8 @@ onUnmounted(() => {
     color: #fff;
     margin-right: 4px;
   }
+}
+.form-item{
+  width: 45%;
 }
 </style>

@@ -38,18 +38,6 @@
           "isBackground": false
         },
         {
-          "isArrows": false,
-          "isBackground": true
-        },
-        {
-          "isArrows": false,
-          "isBackground": true
-        },
-        {
-          "isArrows": false,
-          "isBackground": true
-        },
-        {
           "isArrows": true,
           "isBackground": false
         },
@@ -76,19 +64,6 @@
         {
           "isArrows": true,
           "isBackground": false
-        }
-      ]
-    },
-    {
-      "parentList": [
-        {
-          "value": ""
-        }
-      ],
-      "data":[
-        {
-          "isArrows": false,
-          "isBackground":true
         }
       ]
     }

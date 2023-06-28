@@ -75,13 +75,15 @@
                 default-expand-all
                 :expand-on-click-node="false"
                 ref="elTreeTop"
-                :render-content="renderContent"
               >
                 <template #default="{ node, data }">
-                  <span>
+                  <span v-if="node.label !== ''" class="custom-tree-node" :style="{background: data.isRelation ? '#e46a64' : ''}">
+                    <span class="element-top-line"></span>
                     <img v-if="data.children" class="back-pic" src="../assets/image/back-wenjianjia.png" />
-                    <img v-else class="back-pic" src="../assets/image/back-wenjian.png" />
-                    <span>{{ node.label }}</span>
+                    <img style="margin: 0 0 5px 0" v-else class="back-pic" src="../assets/image/back-wenjian.png" />
+                    <span class="tree-label">{{ node.label }}</span>
+                    <span class="element-land-line"></span>
+                    <span class="element-after-line"></span>
                   </span>
                 </template>
               </el-tree>
@@ -172,19 +174,6 @@ const changeColumn = (val) => {
   postAll()
   isShow.value = false
 }
-
-const renderContent = (h, { node, data }) => {
-  return h(
-    'span',
-    {
-      class: data.bgTarget && node.childNodes.length <= 0 ? 'custom-tree-node no_bg' : 'custom-tree-node',
-    },
-    h('i', { class: node.childNodes.length ? 'iconfont icon-wenjianjia1' : 'iconfont icon-wenjian' }),
-    h('span', { class: 'tree-label' }, node.label),
-    node.label ? h('span', { class: 'element-land-line' }) : '',
-    h('span', { class: 'element-after-line' })
-  )
-}
 const getRowInfo = () => {
   return new Promise((resolve, reject) => {
     Axios.get(`http://localhost:8080/mock/goBackData/rowel/${rowValue.value}.json`).then((res) => {
@@ -204,7 +193,6 @@ function getColumnInfo() {
 function getUnite() {
   return new Promise((resolve, reject) => {
     Axios.get(`http://localhost:8080/mock/goBackData/unite/${rowValue.value + columnValue.value}.json`).then((res) => {
-      console.log(res)
       cellRelation.value = res.cellRelation
       cellList.value = res.data
       resolve('unite')
@@ -229,7 +217,7 @@ function deepTreeLink(tree) {
         if (item.key === key) {
           item.linkNum = cellRelation.value[key].length
         }
-      }else {
+      } else {
         item.linkNum = 0
       }
     })
@@ -245,6 +233,7 @@ const initMatrix = () => {
   let columnNum = 0
   // 顶部竖向展示的条数的key集合
   let keysArr = []
+  const flatCell = Object.values(cellRelation.value).flat(Infinity)
 
   columnTree.value.forEach((column) => {
     if (column?.children) {
@@ -253,6 +242,9 @@ const initMatrix = () => {
       column.children.forEach((child) => {
         if (!keysArr.includes(child.key)) {
           keysArr.push(child.key)
+        }
+        if (!flatCell.includes(child.key)) {
+          child.isRelation = true
         }
       })
     }
@@ -326,20 +318,10 @@ onUnmounted(() => {
         display: flex;
         .el-tree {
           display: flex;
-
           :deep(.el-tree-node) {
             position: relative;
             width: 100%;
             white-space: pre-line;
-
-            .icon-wenjianjia1 {
-              color: #f7c53c;
-              padding-right: 3px;
-              padding-left: 10px;
-              position: relative;
-              z-index: 9;
-            }
-
             .el-tree-node__content {
               position: relative;
 
@@ -350,7 +332,7 @@ onUnmounted(() => {
 
                 .element-land-line {
                   flex: 1;
-                  border-top: 1px dashed #9a9a9d;
+                  border-top: 1px dashed #dcdfe6;
                   margin: 0 20px 0 4px;
                 }
 
@@ -358,18 +340,12 @@ onUnmounted(() => {
                   white-space: nowrap;
                 }
               }
-
-              .no_bg {
-                background: #e46a64;
-              }
             }
 
             .el-tree-node__children {
               display: flex;
               height: calc(100% - 40px);
-              .el-tree-node__expand-icon{
-                display: none;
-              }
+              overflow: visible;
               .el-tree-node {
                 width: 40px;
                 border-left: 1px solid transparent;
@@ -377,6 +353,10 @@ onUnmounted(() => {
 
               .el-tree-node__content {
                 height: 100%;
+                flex-direction: column;
+                .el-tree-node__expand-icon.is-leaf {
+                  display: none;
+                }
               }
 
               .custom-tree-node {
@@ -386,6 +366,7 @@ onUnmounted(() => {
                 flex-direction: column;
                 align-items: center;
                 flex: 1;
+                position: relative;
 
                 .tree-label {
                   display: flex;
@@ -396,32 +377,33 @@ onUnmounted(() => {
                   text-align: center;
                   white-space: pre-line;
                   writing-mode: vertical-rl;
-
-                  .icon-wenjian {
-                    padding-bottom: 10px;
-                  }
                 }
-
+                
+                .element-top-line {
+                  height: 10px;
+                  display: block;
+                  border-left: 1px solid #dcdfe6;
+                  position: absolute;
+                  top: 0px;
+                }
                 .element-land-line {
                   display: block;
                   height: 20px;
                   flex: none;
                   border-top: none;
                   margin: 0;
-                  border-left: 1px dashed #9a9a9d;
+                  border-left: 1px dashed #dcdfe6;
                   position: absolute;
                   top: -20px;
                 }
-
                 .element-after-line {
                   flex: 1;
-                  border-left: 1px dashed #9a9a9d;
+                  border-left: 1px dashed #dcdfe6;
                   margin: 10px 0;
                 }
               }
             }
           }
-
           :deep(.el-tree-node__content) {
             width: 100%;
             height: 40px;

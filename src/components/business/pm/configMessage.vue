@@ -1,7 +1,7 @@
 <template>
   <div class="config_message_info">
     <steps :isActive="1"></steps>
-    <div class="config" :style="{ height: `${configHeight}px` }">
+    <div class="config">
       <header class="header">配置信息</header>
       <el-form :model="configForm" label-position="right" label-width="120px" class="form" ref="configFormRef">
         <el-form-item label="配置项名称" required prop="name">
@@ -167,14 +167,15 @@ onUnmounted(() => {
   height: 100%;
 }
 .config {
-  height: calc(100% - 220px);
+  height: calc(100% - 146px);
   background-color: #fff;
-  margin: 30px 20px 0;
+  margin: 20px 8px 0;
   border-radius: 6px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
+  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.07);
 }
 
 .header {
