@@ -69,14 +69,14 @@
         "1-2",
         "3-3"
       ],
-      "1-8": []
+      "1-8": ["1-1"]
   },
   "data": [
     {
       "parentList": [
         {
           "isArrows": true,
-          "value": 5
+          "value": 6
         },
         {
           "isArrows": true,
@@ -691,8 +691,76 @@
         },
 
         {
+          "isArrows": true,
+          "isBackground":false
+        },
+        {
           "isArrows": false,
-          "isBackground":true
+          "isBackground":false
+        },
+        {
+          "isArrows": false,
+          "isBackground":false
+        },
+        {
+          "isArrows": false,
+          "isBackground":false
+        },
+        {
+          "isArrows": false,
+          "isBackground":false
+        },
+        {
+          "isArrows": false,
+          "isBackground":false
+        },
+        {
+          "isArrows": false,
+          "isBackground":false
+        },
+        {
+          "isArrows": false,
+          "isBackground":false
+        },
+        {
+          "isArrows": false,
+          "isBackground":false
+        },
+        {
+          "isArrows": false,
+          "isBackground":false
+        },
+        {
+          "isArrows": false,
+          "isBackground":false
+        },
+        {
+          "isArrows": false,
+          "isBackground":false
+        },
+        {
+          "isArrows": false,
+          "isBackground":false
+        },
+        {
+          "isArrows": false,
+          "isBackground":false
+        },
+        {
+          "isArrows": false,
+          "isBackground":false
+        },
+        {
+          "isArrows": false,
+          "isBackground":false
+        },
+        {
+          "isArrows": false,
+          "isBackground":false
+        },
+        {
+          "isArrows": false,
+          "isBackground":false
         },
         {
           "isArrows": false,
@@ -700,91 +768,23 @@
         },
         {
           "isArrows": false,
-          "isBackground":true
+          "isBackground":false
         },
         {
           "isArrows": false,
-          "isBackground":true
+          "isBackground":false
         },
         {
           "isArrows": false,
-          "isBackground":true
+          "isBackground":false
         },
         {
           "isArrows": false,
-          "isBackground":true
+          "isBackground":false
         },
         {
           "isArrows": false,
-          "isBackground":true
-        },
-        {
-          "isArrows": false,
-          "isBackground":true
-        },
-        {
-          "isArrows": false,
-          "isBackground":true
-        },
-        {
-          "isArrows": false,
-          "isBackground":true
-        },
-        {
-          "isArrows": false,
-          "isBackground":true
-        },
-        {
-          "isArrows": false,
-          "isBackground":true
-        },
-        {
-          "isArrows": false,
-          "isBackground":true
-        },
-        {
-          "isArrows": false,
-          "isBackground":true
-        },
-        {
-          "isArrows": false,
-          "isBackground":true
-        },
-        {
-          "isArrows": false,
-          "isBackground":true
-        },
-        {
-          "isArrows": false,
-          "isBackground":true
-        },
-        {
-          "isArrows": false,
-          "isBackground":true
-        },
-        {
-          "isArrows": false,
-          "isBackground":true
-        },
-        {
-          "isArrows": false,
-          "isBackground":true
-        },
-        {
-          "isArrows": false,
-          "isBackground":true
-        },
-        {
-          "isArrows": false,
-          "isBackground":true
-        },
-        {
-          "isArrows": false,
-          "isBackground":true
-        },
-        {
-          "isArrows": false,
-          "isBackground":true
+          "isBackground":false
         }
       ]
     }

@@ -19,7 +19,7 @@
       ref="graphRef"
       :style="{ height: tabList.length ? 'calc(100% - 40px)' : '100%' }"
     >
-      <!-- <flowEditor></flowEditor> -->
+      <flowEditor></flowEditor>
       <div id="graph-container" class="graph-container"></div>
     </div>
     <!-- 小地图 -->

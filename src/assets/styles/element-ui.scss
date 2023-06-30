@@ -94,3 +94,29 @@
 .el-dropdown .el-dropdown-link{
   color: var(--el-color-primary) !important;
 }
+.is-collapse{
+  width: 40px !important;
+  height: 100%;
+}
+.is-collapse>.el-tree-node__content{
+  width: 40px !important;
+  height: 100% !important;
+  flex-direction: column;
+}
+.is-collapse>.el-tree-node__content>.custom-tree-node{
+  flex-direction: column;
+  width: 40px;
+}
+.is-collapse>.el-tree-node__content>.el-tree-node__expand-icon{
+  margin-top: 8px;
+}
+.is-collapse>.el-tree-node__content>.custom-tree-node>.tree-label{
+  display: block;
+  white-space: pre-wrap !important;
+  flex: 1;
+  height: 100%;
+  width: 14px;
+}
+.is-collapse>.el-tree-node__content>.custom-tree-node>.back-pic{
+  margin: 0;
+}

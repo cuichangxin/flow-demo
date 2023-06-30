@@ -13,7 +13,7 @@
           <div class="affirm_item">
             <span class="label">安全关键等级:</span>
             <div class="content">
-              <div class="name_item">{{ LEVELMAP[projectList.level]}}</div>
+              <div class="name_item">{{ LEVELMAP[projectList.level] }}</div>
             </div>
           </div>
           <div class="affirm_item">
@@ -123,9 +123,9 @@ const enter = () => {
       if (res.success) {
         proxy.$modal.msgSuccess('创建成功，稍后返回列表页')
         NProgress.start()
-        
+
         // 创建成功后看板展示切换到当前项目
-        proxy.$axios.projectChange({type:projectList.value.type}).then((res) => {
+        proxy.$axios.projectChange({ type: projectList.value.type }).then((res) => {
           console.log('切换项目成功')
         })
         removeKeepAlive('configMessage')
@@ -134,7 +134,7 @@ const enter = () => {
             name: 'pmList',
           })
         }, 2000)
-      }else {
+      } else {
         loading.value = false
         proxy.$modal.msgError('创建失败，请稍后再试')
       }
@@ -161,24 +161,27 @@ const initG6 = () => {
       size: [50, 30],
       type: 'rect',
       style: {
-        lineWidth: 0,
+        lineWidth: 1,
         stroke: '#5B8FF9',
-        fill: '#b5b5b5',
+        fill: '#fff',
       },
       labelCfg: {
         style: {
-          fontSize: 8,
+          fontSize: 12,
         },
       },
     },
     defaultEdge: {
       type: 'polyline',
-      color: '#e2e2e2',
+      color: '#dedede',
       style: {
-        endArrow: true,
-        radius: 2,
-        lineWidth: 1,
-        stroke: '#73879a',
+        endArrow: {
+          path: 'M 0,0 L 6,3 L 6,-3 Z',
+          fill: '#e2e2e2',
+        },
+        radius: 0,
+        lineWidth: 2,
+        stroke: '#dedede',
       },
     },
   })
@@ -207,7 +210,7 @@ onMounted(() => {
         flowList.value.edges = res.data.edges
         tableList.value = res.data.attr
         initG6()
-      }else {
+      } else {
         proxy.$modal.msgWarning('当前项目暂无活动流程数据')
         createBtnFlag.value = true
       }

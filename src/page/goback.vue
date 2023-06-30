@@ -36,6 +36,7 @@
                 :indent="treeProps.indent"
                 default-expand-all
                 :expand-on-click-node="false"
+                @node-collapse="leftCollapseHandler"
               >
                 <template v-slot:default="{ node, data }">
                   <element-tree-line
@@ -74,16 +75,22 @@
                 :indent="0"
                 default-expand-all
                 :expand-on-click-node="false"
-                ref="elTreeTop"
+                :props="{ class: customNodeClass }"
+                @node-collapse="topCollapseHandler"
+                @node-expand="topExpandHandler"
               >
                 <template #default="{ node, data }">
-                  <span v-if="node.label !== ''" class="custom-tree-node" :style="{background: data.isRelation ? '#e46a64' : ''}">
+                  <span
+                    v-if="node.label !== ''"
+                    class="custom-tree-node"
+                    :style="{ background: data.isRelation ? '#e46a64' : '' }"
+                  >
                     <span class="element-top-line"></span>
                     <img v-if="data.children" class="back-pic" src="../assets/image/back-wenjianjia.png" />
                     <img style="margin: 0 0 5px 0" v-else class="back-pic" src="../assets/image/back-wenjian.png" />
                     <span class="tree-label">{{ node.label }}</span>
-                    <span class="element-land-line"></span>
-                    <span class="element-after-line"></span>
+                    <span v-if="node.expanded" class="element-land-line"></span>
+                    <span v-if="!data.children || !node.expanded" class="element-after-line"></span>
                   </span>
                 </template>
               </el-tree>
@@ -115,8 +122,8 @@
                 <img
                   v-if="item.isArrows"
                   class="img_jiantou"
-                  src="../assets/image/jiantou.png"
-                  :style="{ transform: rowValue == 'software' && columnValue == 'need' ? 'rotate(225deg)' : '' }"
+                  src="../assets/image/arrows.png"
+                  :style="{ transform: rowValue == 'software' && columnValue == 'need' ? 'rotate(180deg)' : '' }"
                 />
               </div>
             </div>
@@ -165,6 +172,25 @@ const cellRelation = ref({}) // 中间格子交集数据
 const isShow = ref(false)
 const topColumn = ref(null)
 const cellList = ref([])
+
+const customNodeClass = (data) => {
+  if (data.isCollapse) {
+    return 'is-collapse'
+  }
+  return null
+}
+
+const leftCollapseHandler = (data, node, tree) => {
+  data.isCollapse = true
+  console.log(data, node)
+}
+const topCollapseHandler = (data, node) => {
+  data.isCollapse = true
+  console.log(data, node)
+}
+const topExpandHandler = (data,node)=>{
+  data.isCollapse = false
+}
 
 const changeRow = (val) => {
   postAll()
@@ -353,7 +379,6 @@ onUnmounted(() => {
 
               .el-tree-node__content {
                 height: 100%;
-                flex-direction: column;
                 .el-tree-node__expand-icon.is-leaf {
                   display: none;
                 }
@@ -373,12 +398,11 @@ onUnmounted(() => {
                   align-items: center;
                   width: 20px;
                   min-height: 100px;
-                  color: #333;
                   text-align: center;
                   white-space: pre-line;
                   writing-mode: vertical-rl;
                 }
-                
+
                 .element-top-line {
                   height: 10px;
                   display: block;
@@ -395,11 +419,6 @@ onUnmounted(() => {
                   border-left: 1px dashed #dcdfe6;
                   position: absolute;
                   top: -20px;
-                }
-                .element-after-line {
-                  flex: 1;
-                  border-left: 1px dashed #dcdfe6;
-                  margin: 10px 0;
                 }
               }
             }
@@ -430,6 +449,7 @@ onUnmounted(() => {
             border: 1px solid #333;
             border-right: none;
             background: rgb(213, 213, 213);
+            font-size: 14px;
           }
         }
 
@@ -443,9 +463,8 @@ onUnmounted(() => {
           justify-content: center;
 
           .img_jiantou {
-            width: 18px;
-            height: 18px;
-            transform: rotate(45deg);
+            width: 24px;
+            height: 24px;
           }
         }
       }
@@ -485,7 +504,7 @@ onUnmounted(() => {
         border: 1px solid #333;
         background: rgb(213, 213, 213);
         color: #000;
-        font-size: 15px;
+        font-size: 14px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -507,4 +526,14 @@ onUnmounted(() => {
   height: 16px;
   margin-right: 5px;
 }
+.element-after-line {
+  flex: 1;
+  border-left: 1px dashed #dcdfe6;
+  margin: 10px 0;
+}
+:deep(.el-collapse-transition-enter-active),
+:deep(.el-collapse-transition-leave-active) {
+  transition: none !important;
+}
+
 </style>

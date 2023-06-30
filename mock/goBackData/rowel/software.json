@@ -5,6 +5,7 @@
       "name": "nav",
       "label": "SD_DHSJ 导航任务",
       "linkNum": 0,
+      "isCollapse":true,
       "children": [
         {
           "key": "1-1",

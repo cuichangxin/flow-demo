@@ -3,8 +3,15 @@
     <div class="flow-editor-collapse-wrapper">
       <div class="flow-json-schema-form-body">
         <div class="tabs">设置</div>
-        <el-form :model="flowForm">
-          <el-form-item label="标题"></el-form-item>
+        <el-form :model="flowForm" class="flow-editor-form">
+          <div class="type-title">内容</div>
+          <el-form-item class="form-item border" label="标题">
+            <el-input size="small" v-model="flowForm.label"></el-input>
+          </el-form-item>
+          <div class="type-title">样式</div>
+          <el-form-item class="form-item" label="位置">
+            <el-input size="small" v-model="flowForm.label"></el-input>
+          </el-form-item>
         </el-form>
       </div>
       <div class="flow-editor-icon">
@@ -15,6 +22,10 @@
 </template>
 <script setup>
 import { DArrowRight } from '@element-plus/icons-vue'
+
+const flowForm = ref({
+  label:''
+})
 </script>
 <style lang="scss" scoped>
 .flow-editor-collapse{
@@ -63,5 +74,26 @@ import { DArrowRight } from '@element-plus/icons-vue'
   font-size: 13px;
   color: #225ceb;
   font-weight: 600;
+}
+.flow-editor-form{
+  padding: 10px;
+}
+.type-title{
+  margin-top: 18px;
+  margin-bottom: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+}
+:deep(.form-item){
+  .el-form-item__label{
+    color: rgba(0,0,0,.45);
+    font-size: 12px;
+    font-weight: normal;
+  }
+}
+.border{
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 14px;
 }
 </style>

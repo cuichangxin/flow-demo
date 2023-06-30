@@ -44,6 +44,10 @@
     {
       "serial": 6,
       "status": 2
+    },
+    {
+      "serial": 4,
+      "status": 3
     }
   ],
   "postLineList": [

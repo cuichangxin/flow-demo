@@ -1115,6 +1115,9 @@ watch(
         infoList.value.autoHostList.forEach((item) => {
           foreach(n, item)
         })
+        infoList.value.autoTwoList.forEach((item) => {
+          foreach(n, item)
+        })
         infoList.value.postTwoList.forEach((item) => {
           foreach(n, item)
         })
@@ -1139,9 +1142,9 @@ function foreach(val, item) {
         item.status = v.status
       }
     })
-    // if (!arr.includes(item.serial)) {
-    //   item.status = 1
-    // }
+    if (!arr.includes(item.serial)) {
+      item.status = 1
+    }
   }
 }
 
@@ -1218,13 +1221,19 @@ const init = () => {
     isFlag.value = false
     itemList.value = lines.value.map((item, i) => {
       idx.value = i
-      console.log(item.start - 1, item.end - 1);
-      if (item.end - 1 <= 9) {
+      if ((item.start - 1) <= 9) {
         styleOption.startSocket = 'bottom'
+        if (item.end-1 > 9) {
+          styleOption.endSocket = 'top'
+        }else {
+          styleOption.endSocket = 'bottom'
+        }
+        
       } else if ((item.start - 1) > 38 && item.start - 1 <= 48) {
         styleOption.startSocket = 'top'
       }else {
         styleOption.startSocket = ''
+        styleOption.endSocket = ''
       }
       return new LeaderLine({
         ...styleOption,
@@ -1372,7 +1381,7 @@ onUnmounted(() => {
 
     .label {
       width: 20px;
-      font-size: 15px;
+      font-size: 22px;
       color: #fff;
       position: absolute;
       right: 20px;
