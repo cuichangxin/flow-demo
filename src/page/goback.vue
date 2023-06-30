@@ -104,11 +104,11 @@
                   class="cell-item"
                   :style="{
                     borderRight: i === node.parentList.length - 1 ? 'none' : '',
-                    background: d.value == '' ? '#e46a64' : '',
+                    background: d.value === '' ? '#e46a64' : '',
                     borderLeftColor: i == 0 ? 'transparent' : '',
                   }"
                 >
-                  {{ d.value }}
+                  {{ d.value === 0 ? '' : d.value }}
                 </div>
               </div>
               <div
@@ -260,7 +260,7 @@ const initMatrix = () => {
   // 顶部竖向展示的条数的key集合
   let keysArr = []
   const flatCell = Object.values(cellRelation.value).flat(Infinity)
-
+  columnNum += columnTree.value.length
   columnTree.value.forEach((column) => {
     if (column?.children) {
       columnNum += column.children.length
@@ -342,91 +342,36 @@ onUnmounted(() => {
       .top-column {
         min-width: 40px;
         display: flex;
-        .el-tree {
+        :deep(.el-tree){
           display: flex;
-          :deep(.el-tree-node) {
-            position: relative;
+          .el-tree-node{
             width: 100%;
-            white-space: pre-line;
-            .el-tree-node__content {
-              position: relative;
-
-              .custom-tree-node {
-                display: flex;
-                align-items: center;
-                flex: 1;
-
-                .element-land-line {
-                  flex: 1;
-                  border-top: 1px dashed #dcdfe6;
-                  margin: 0 20px 0 4px;
-                }
-
-                .tree-label {
-                  white-space: nowrap;
-                }
-              }
-            }
-
-            .el-tree-node__children {
+            display: flex;
+          }
+          .el-tree-node__content{
+            height: 100%;
+            flex-direction: column;
+            .custom-tree-node{
+              width: 40px;
+              height: 100%;
               display: flex;
-              height: calc(100% - 40px);
-              overflow: visible;
-              .el-tree-node {
-                width: 40px;
-                border-left: 1px solid transparent;
-              }
-
-              .el-tree-node__content {
-                height: 100%;
-                .el-tree-node__expand-icon.is-leaf {
-                  display: none;
-                }
-              }
-
-              .custom-tree-node {
-                width: 40px;
-                height: 100%;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                flex: 1;
-                position: relative;
-
-                .tree-label {
-                  display: flex;
-                  align-items: center;
-                  width: 20px;
-                  min-height: 100px;
-                  text-align: center;
-                  white-space: pre-line;
-                  writing-mode: vertical-rl;
-                }
-
-                .element-top-line {
-                  height: 10px;
-                  display: block;
-                  border-left: 1px solid #dcdfe6;
-                  position: absolute;
-                  top: 0px;
-                }
-                .element-land-line {
-                  display: block;
-                  height: 20px;
-                  flex: none;
-                  border-top: none;
-                  margin: 0;
-                  border-left: 1px dashed #dcdfe6;
-                  position: absolute;
-                  top: -20px;
-                }
+              align-items: center;
+              flex-direction: column;
+              .tree-label{
+                display: inline-block;
+                margin-top: 3px;
+                writing-mode: vertical-rl;
               }
             }
           }
-          :deep(.el-tree-node__content) {
-            width: 100%;
-            height: 40px;
+          .el-tree-node__children{
             display: flex;
+          }
+          .el-tree-node__expand-icon.expanded{
+            transform: rotate(0deg);
+          }
+          .el-tree-node__expand-icon{
+            transform: rotate(90deg);
           }
         }
       }
@@ -524,7 +469,7 @@ onUnmounted(() => {
 .back-pic {
   width: 16px;
   height: 16px;
-  margin-right: 5px;
+  /* margin-right: 5px; */
 }
 .element-after-line {
   flex: 1;
@@ -533,7 +478,7 @@ onUnmounted(() => {
 }
 :deep(.el-collapse-transition-enter-active),
 :deep(.el-collapse-transition-leave-active) {
-  transition: none !important;
+  transition: none;
 }
 
 </style>

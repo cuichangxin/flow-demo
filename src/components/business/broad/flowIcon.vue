@@ -1092,7 +1092,6 @@ const isPostLine = ref(true)
 watch(
   () => props.list,
   (n, o) => {
-    console.log(JSON.stringify(n) !== JSON.stringify(o));
     if (JSON.stringify(n) !== JSON.stringify(o)) {
       if (JSON.stringify(n) == '{}' || n.postLineList.length === 0) {
         lines.value = []
@@ -1104,7 +1103,6 @@ watch(
         })
         itemList.value = []
       } else {
-        console.log('123');
         lines.value = n.postLineList
         infoList.value.postList.forEach((item) => {
           foreach(n, item)

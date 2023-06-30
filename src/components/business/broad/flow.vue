@@ -1,8 +1,15 @@
 <template>
-  <div class="flow" id="container"></div>
+  <!-- <div class="flow" id="container"></div> -->
+  <div id="graph" class="flow">
+    <div id="graph-container" class="graph-container"></div>
+  </div>
 </template>
 <script setup>
+import axios from 'axios'
 import G6 from '@antv/g6'
+import { Graph, Shape } from '@antv/x6'
+import insertCss from 'insert-css'
+import { nextTick, onMounted, ref } from 'vue'
 
 const props = defineProps({
   list: {
@@ -1130,157 +1137,266 @@ const flowList = ref({
 let graph = null
 const showStatus = ref(0)
 
+const graphData = ref({})
+const graphDataStatusList = ref([])
+const projectType = ref([])
+
 watch(
   () => props.list,
-  (n) => {
+  (n, o) => {
     if (JSON.stringify(n) == '{}') {
-      flowList_1.value.nodes.forEach((item) => {
-        item.status = '1'
-      })
-      flowList_2.value.nodes.forEach((item) => {
-        item.status = '1'
-      })
-      flowList.value = {
-        nodes: [],
-        edges: [],
-      }
       if (graph !== null) {
-        graph.destroy()
+        graph.dispose()
       }
     } else {
       showStatus.value = n.showStatus
-      let select = props.list.rank == 'A' ? flowList_2.value : props.list.rank == 'C' ? flowList_1.value : ''
-      if (select !== '') {
-        select.nodes.forEach((item) => {
-          n.flowList.forEach((v) => {
-            if (item.status == undefined) {
-              item.status = '1'
-            }
-            if (item.id == v.serial) {
-              item.status = v.status
-            }
-          })
-        })
-        flowList.value = select
-      }
-      if (graph !== null) {
-        graph.destroy()
-      }
-      initG6()
+      projectType.value[0] = n.rank
+      projectType.value[1] = o.rank
+      graphDataStatusList.value = n.flowList
+      nextTick(() => {
+        if (n.rank === 'A') {
+          getFlow('flow',o)
+          
+        } else {
+          getFlow('comflow',o)
+        }
+      })
     }
   }
 )
-const initG6 = () => {
-  const container = document.getElementById('container')
-  const width = container.clientWidth
-  const height = container.clientHeight
-  graph = new G6.Graph({
-    container: 'container',
-    width,
-    height,
-    fitView: true,
-    modes: {
-      default: ['drag-canvas', 'zoom-canvas'],
-    },
-    layout: {
-      type: '',
-    },
-    defaultNode: {
-      size: [80, 50],
-      type: 'rect',
-      style: {
-        lineWidth: 0,
-        stroke: '#5B8FF9',
-        fill: '#b5b5b5',
-      },
-      labelCfg: {
-        style: {
-          fontSize: 12,
+const init = (o) => {
+  if (JSON.stringify(o) === '{}') {
+    createGraphic()
+  } else {
+    attrsNode()
+  }
+}
+// 绝对定位连接桩
+const absolutePorts = {
+  groups: {
+    top: {
+      position: 'top',
+      attrs: {
+        circle: {
+          r: 4,
+          magnet: true,
+          stroke: '#5F95FF',
+          strokeWidth: 1,
+          fill: '#fff',
+          style: {
+            visibility: 'hidden',
+          },
         },
       },
     },
-    defaultEdge: {
-      type: 'polyline',
-      color: '#e2e2e2',
-      style: {
-        endArrow: true,
-        radius: 5,
-        // offset:45,
-        lineWidth: 2,
-        stroke: '#73879a',
+    right: {
+      position: 'right',
+      attrs: {
+        circle: {
+          r: 4,
+          magnet: true,
+          stroke: '#5F95FF',
+          strokeWidth: 1,
+          fill: '#fff',
+          style: {
+            visibility: 'hidden',
+          },
+        },
       },
     },
-  })
-  graph.node((node) => {
-    if (showStatus.value === 1) {
-      return {
-        style: {
+    bottom: {
+      position: 'bottom',
+      attrs: {
+        circle: {
+          r: 4,
+          magnet: true,
+          stroke: '#5F95FF',
+          strokeWidth: 1,
+          fill: '#fff',
+          style: {
+            visibility: 'hidden',
+          },
+        },
+      },
+    },
+    left: {
+      position: 'left',
+      attrs: {
+        circle: {
+          r: 4,
+          magnet: true,
+          stroke: '#5F95FF',
+          strokeWidth: 1,
+          fill: '#fff',
+          style: {
+            visibility: 'hidden',
+          },
+        },
+      },
+    },
+  },
+  items: [
+    {
+      group: 'top',
+    },
+    {
+      group: 'right',
+    },
+    {
+      group: 'bottom',
+    },
+    {
+      group: 'left',
+    },
+  ],
+}
+
+// 初始化创建画布
+const createGraphic = () => {
+  // #region 构建自定义图形
+  // 菱形
+  Graph.registerNode(
+    'custom-polygon-rhombus',
+    {
+      inherit: 'polygon',
+      width: 100,
+      height: 60,
+      attrs: {
+        body: {
+          strokeWidth: 1,
+          stroke: '#333',
+          fill: '#fff',
+          refPoints: '0,10 10,0 20,10 10,20',
+        },
+        text: {
+          fontSize: 12,
+          fill: '#262626',
+        },
+      },
+      ports: { ...absolutePorts },
+    },
+    true
+  )
+  // 矩形
+  Graph.registerNode(
+    'custom-rect',
+    {
+      inherit: 'rect',
+      width: 100,
+      height: 70,
+      attrs: {
+        body: {
+          strokeWidth: 1,
+          stroke: '#333',
           fill: '#fff',
         },
-      }
-    } else {
-      // status 1暗 2蓝 3白 4红
-      if (node.status == 1) {
-        return {
-          style: {
-            fill: '#b5b5b5',
-          },
-        }
-      } else if (node.status == 2) {
-        return {
-          style: {
-            fill: '#91d9ff',
-          },
-        }
-      } else if (node.status == 3) {
-        return {
-          style: {
-            fill: '#fff',
-          },
-        }
-      } else if (node.status == 4) {
-        return {
-          style: {
-            fill: '#ff3636',
-          },
-        }
-      } else {
-        return {
-          style: {
-            fill: '#b5b5b5',
-          },
-        }
-      }
-    }
+        text: {
+          fontSize: 12,
+          fill: '#262626',
+        },
+      },
+      ports: { ...absolutePorts },
+    },
+    true
+  )
+  // #endregion
+  const parentDom = document.getElementById('graph')
+  const graphDom = document.getElementById('graph-container')
+  graph = new Graph({
+    container: graphDom,
+    width: parentDom.clientWidth,
+    height: parentDom.clientHeight,
+    mousewheel: {
+      enabled: true,
+      modifiers: ['ctrl', 'meta'],
+    },
+    interacting: false, // 禁止节点边交互
+    connecting: {
+      router: 'manhattan',
+      connector: {
+        name: 'rounded',
+        args: {
+          radius: 2,
+        },
+      },
+      anchor: 'center',
+      connectionPoint: 'anchor',
+      allowBlank: false,
+      snap: {
+        radius: 2,
+      },
+    },
   })
-  if (Object.keys(flowList.value).length) {
-    flowList.value.nodes.forEach((item) => {
-      item.label = superLongTextHandle(item.title, 80, 15)
+  insertCss(`
+    #container {
+      display: flex;
+      border: 1px solid #dfe3e8;
+    }
+    #graph-container {
+      width: calc(100% - 180px);
+      height: 100%;
+    }
+  `)
+  attrsNode()
+  console.log('2')
+}
+
+function attrsNode() {
+  if (Object.keys(graphData.value).length) {
+    if (projectType.value[0] !== projectType.value[1]) {
+      graph.fromJSON(graphData.value.cells)
+    }
+    graph.zoomToFit()
+    const data = graph.getNodes()
+    data.forEach((item, index) => {
+      graphDataStatusList.value.forEach((status) => {
+        if (showStatus.value === 1) {
+          item.attr({
+            body: { fill: '#fff' },
+            label: { fill: '#333' },
+          })
+        } else {
+          if (index + 1 === status.serial) {
+            if (status.status === 1) {
+              item.attr({
+                body: { fill: '#c0c6c9' },
+                label: { fill: '#333' },
+              })
+            } else if (status.status === 2) {
+              item.attr({
+                body: { fill: '#38a1db' },
+                label: { fill: '#fff' },
+              })
+              // {
+              //   type: 'linearGradient',
+              //   stops: [
+              //     { offset: '0%', color: '#457fca' },
+              //     { offset: '100%', color: '#5691c8' },
+              //   ],
+              // }
+            } else if (status.status === 3) {
+              item.attr({
+                body: { fill: '#fff' },
+                label: { fill: '#333' },
+              })
+            } else if (status.status === 4) {
+              item.attr({
+                body: { fill: '#ff3636' },
+                label: { fill: '#fff' },
+              })
+            }
+          }
+        }
+      })
     })
   }
-  graph.data(flowList.value)
-  graph.render()
 }
-// 节点字体换行
-function superLongTextHandle(str, maxWidth, fontSize) {
-  let currentWidth = 0
-  let res = str
-  // 区分汉字和字母
-  const pattern = new RegExp('[\u4E00-\u9FA5]+')
-  str.split('').forEach((letter, i) => {
-    if (currentWidth > maxWidth) return
-    if (pattern.test(letter)) {
-      // 中文字符
-      currentWidth += fontSize
-    } else {
-      // 根据字体大小获取单个字母的宽度
-      currentWidth += G6.Util.getLetterWidth(letter, fontSize)
-    }
-    if (currentWidth > maxWidth) {
-      res = `${str.substr(0, i)}\n${superLongTextHandle(str.substr(i), maxWidth, fontSize)}`
-    }
+function getFlow(json,o) {
+  axios.get(`http://localhost:8080/mock/flow/${json}.json`).then((res) => {
+    graphData.value = res
+    console.log('1')
+    init(o)
   })
-  return res
 }
 </script>
 <style lang="scss" scoped>
@@ -1292,5 +1408,12 @@ function superLongTextHandle(str, maxWidth, fontSize) {
   margin-top: 10px;
   margin-bottom: 10px;
   flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+.graph-container {
+  width: 100%;
+  height: 100% !important;
+  flex: 1 1;
 }
 </style>

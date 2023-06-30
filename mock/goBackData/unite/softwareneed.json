@@ -76,6 +76,10 @@
       "parentList": [
         {
           "isArrows": true,
+          "value": 0
+        },
+        {
+          "isArrows": true,
           "value": 6
         },
         {
@@ -109,6 +113,10 @@
         {
           "isArrows": false,
           "value": 1
+        },
+        {
+          "isArrows": true,
+          "value": 0
         },
         {
           "isArrows": false,
@@ -151,6 +159,10 @@
           "value": ""
         },
         {
+          "isArrows": true,
+          "value": 0
+        },
+        {
           "isArrows": false,
           "value": 1
         },
@@ -173,7 +185,7 @@
       ],
       "data": [
         {
-          "isArrows": true
+          "isArrows": false
         },
         {
           "isArrows": true
@@ -195,6 +207,12 @@
         },
         {
           "isArrows": true
+        },
+        {
+          "isArrows": true
+        },
+        {
+          "isArrows": false
         },
         {
           "isArrows": false
@@ -245,7 +263,13 @@
         {
           "isArrows": false
         },
+        {
+          "isArrows": false
+        },
 
+        {
+          "isArrows": false
+        },
         {
           "isArrows": true
         },
@@ -275,6 +299,9 @@
         },
         {
           "isArrows": false
+        },
+        {
+          "isArrows": true
         },
         {
           "isArrows": false
@@ -319,11 +346,17 @@
         {
           "isArrows": false
         },
+        {
+          "isArrows": false
+        },
 
         {
           "isArrows": false
         },
         {
+          "isArrows": false
+        },
+        {
           "isArrows": true
         },
         {
@@ -340,6 +373,9 @@
         },
         {
           "isArrows": true
+        },
+        {
+          "isArrows": false
         },
         {
           "isArrows": false
@@ -393,6 +429,9 @@
         {
           "isArrows": false
         },
+        {
+          "isArrows": false
+        },
 
         {
           "isArrows": false
@@ -410,7 +449,13 @@
           "isArrows": false
         },
         {
+          "isArrows": false
+        },
+        {
           "isArrows": true
+        },
+        {
+          "isArrows": false
         },
         {
           "isArrows": false
@@ -467,7 +512,16 @@
         {
           "isArrows": false
         },
+        {
+          "isArrows": false
+        },
 
+        {
+          "isArrows": false
+        },
+        {
+          "isArrows": false
+        },
         {
           "isArrows": false
         },
@@ -527,6 +581,9 @@
           "isBackground":true
         },
         {
+          "isArrows": false
+        },
+        {
           "isArrows": true
         },
         {
@@ -558,13 +615,19 @@
           "isArrows": false
         },
         {
-          "isArrows": true
+          "isArrows": false
         },
         {
           "isArrows": true
         },
         {
           "isArrows": true
+        },
+        {
+          "isArrows": true
+        },
+        {
+          "isArrows": false
         },
         {
           "isArrows": false
@@ -615,12 +678,21 @@
         {
           "isArrows": false
         },
+        {
+          "isArrows": false
+        },
 
+        {
+          "isArrows": false
+        },
         {
           "isArrows": true
         },
         {
           "isArrows": true
+        },
+        {
+          "isArrows": false
         },
         {
           "isArrows": false
@@ -681,6 +753,9 @@
           "isArrows": false
         },
         {
+          "isArrows": false
+        },
+        {
           "isArrows": true
         },
         {
@@ -690,6 +765,9 @@
           "isArrows": false
         },
 
+        {
+          "isArrows": false
+        },
         {
           "isArrows": true,
           "isBackground":false
@@ -727,6 +805,9 @@
           "isBackground":false
         },
         {
+          "isArrows": false
+        },
+        {
           "isArrows": false,
           "isBackground":false
         },
@@ -765,6 +846,9 @@
         {
           "isArrows": false,
           "isBackground":true
+        },
+        {
+          "isArrows": false
         },
         {
           "isArrows": false,
