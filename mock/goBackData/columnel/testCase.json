@@ -3,13 +3,7 @@
     {
       "key": "1",
       "name": "posture",
-      "label": "",
-      "children": [
-        {
-          "key": "1-1",
-          "label": "RQ_ZTZHKZ 姿控芯一级控制功能"
-        }
-      ]
+      "label": "RQ_ZTZHKZ 姿控芯一级控制功能"
     }
   ]
 }

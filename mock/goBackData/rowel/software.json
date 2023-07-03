@@ -4,13 +4,10 @@
       "key": "1",
       "name": "nav",
       "label": "SD_DHSJ 导航任务",
-      "linkNum": 0,
-      "isCollapse":true,
       "children": [
         {
           "key": "1-1",
-          "label": "SD_ZDKZ 制导控制",
-          "linkNum": 8
+          "label": "SD_ZDKZ 制导控制"
         },
         {
           "key": "1-2",

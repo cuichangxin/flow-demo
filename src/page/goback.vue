@@ -81,42 +81,41 @@
               >
                 <template #default="{ node, data }">
                   <span
-                    v-if="node.label !== ''"
                     class="custom-tree-node"
-                    :style="{ background: data.isRelation ? '#e46a64' : '' }"
+                    :style="{ background: data.isRelation ? '#e46a64' : '', color: data.isRelation ? '#fff' : '' }"
                   >
-                    <span class="element-top-line"></span>
+                    <span v-if="data.key.indexOf('-') !== -1" class="element-top-line"></span>
                     <img v-if="data.children" class="back-pic" src="../assets/image/back-wenjianjia.png" />
                     <img style="margin: 0 0 5px 0" v-else class="back-pic" src="../assets/image/back-wenjian.png" />
                     <span class="tree-label">{{ node.label }}</span>
-                    <span v-if="node.expanded" class="element-land-line"></span>
-                    <span v-if="!data.children || !node.expanded" class="element-after-line"></span>
+                    <span v-if="data.key.indexOf('-') !== -1" class="element-land-line"></span>
+                    <span class="element-after-line"></span>
                   </span>
                 </template>
               </el-tree>
             </div>
             <!-- 中间交集格子 -->
-            <div class="mid_cell" :style="{ width: midWidth + 'px' }" v-for="(node, index) in cellList" :key="index">
+            <div class="mid_cell" :style="{ width: midWidth + 'px' }" v-for="(node, index) in rowTree" :key="index">
               <div class="cell-info">
                 <div
-                  v-for="(d, i) in node.parentList"
+                  v-for="(d, i) in node.parentNodeCells"
                   :key="i"
                   class="cell-item"
                   :style="{
-                    borderRight: i === node.parentList.length - 1 ? 'none' : '',
-                    background: d.value === '' ? '#e46a64' : '',
+                    borderRight: i === node.parentNodeCells.length - 1 ? 'none' : '',
+                    background: d.value === '' && d.key.indexOf('-') !== -1 ? '#e46a64' : '',
                     borderLeftColor: i == 0 ? 'transparent' : '',
                   }"
                 >
-                  {{ d.value === 0 ? '' : d.value }}
+                  {{ d.value }}
                 </div>
               </div>
               <div
-                v-for="(item, idx) in node.data"
+                v-for="(item, idx) in node.cells"
                 :key="idx"
                 class="cell"
                 :style="{
-                  background: item.isBackground ? '#e46a64' : '',
+                  background: item.isRelation === false ? '#e46a64' : '',
                 }"
               >
                 <img
@@ -136,6 +135,7 @@
 <script setup>
 import _ from 'lodash'
 import Axios from 'axios'
+import { nextTick } from 'vue';
 
 const treeProps = {
   indent: 16,
@@ -172,6 +172,8 @@ const cellRelation = ref({}) // 中间格子交集数据
 const isShow = ref(false)
 const topColumn = ref(null)
 const cellList = ref([])
+const columnNum = ref(0)
+const cellGroup = ref({})
 
 const customNodeClass = (data) => {
   if (data.isCollapse) {
@@ -188,54 +190,83 @@ const topCollapseHandler = (data, node) => {
   data.isCollapse = true
   console.log(data, node)
 }
-const topExpandHandler = (data,node)=>{
+const topExpandHandler = (data, node) => {
   data.isCollapse = false
 }
 
 const changeRow = (val) => {
   postAll()
   isShow.value = false
+  cellGroup.value = {}
+  columnNum.value = 0
 }
 const changeColumn = (val) => {
   postAll()
   isShow.value = false
+  cellGroup.value = {}
+  columnNum.value = 0
 }
 const getRowInfo = () => {
   return new Promise((resolve, reject) => {
     Axios.get(`http://localhost:8080/mock/goBackData/rowel/${rowValue.value}.json`).then((res) => {
-      rowTree.value = res.rowTree
-      resolve('row')
+      resolve(res.rowTree)
     })
   })
 }
 function getColumnInfo() {
   return new Promise((resolve, reject) => {
     Axios.get(`http://localhost:8080/mock/goBackData/columnel/${columnValue.value}.json`).then((res) => {
-      columnTree.value = res.columnTree
-      resolve('column')
+      resolve(res.columnTree)
     })
   })
 }
 function getUnite() {
   return new Promise((resolve, reject) => {
     Axios.get(`http://localhost:8080/mock/goBackData/unite/${rowValue.value + columnValue.value}.json`).then((res) => {
-      cellRelation.value = res.cellRelation
-      cellList.value = res.data
-      resolve('unite')
+      resolve(res)
     })
   })
 }
 function postAll() {
   Promise.all([getRowInfo(), getColumnInfo(), getUnite()]).then((res) => {
-    rowTree.value.forEach((item) => {
-      if (item?.children) {
-        deepTreeLink(item.children)
-      }
-    })
+    rowTree.value = res[0]
+    columnTree.value = res[1]
+    cellRelation.value = res[2].cellRelation
+    cellList.value = res[2].data
     initMatrix()
   })
 }
 
+// 中间cell对应的关系
+function deepCell(tree,data,cellArr,flatCell) {
+  cellArr.push(data.length)
+  data.forEach((item) => {
+    nextTick(()=>{
+      subGroup(tree.cells,columnNum.value,item.key)
+      cellGroup.value[item.key].forEach(cell=>{
+        cellRelation.value[item.key].forEach(item=>{
+          if (cell.key === item) {
+            cell.isArrows = true
+          }
+        })
+        if (!flatCell.includes(cell.key)) {
+          if (cell.key.indexOf('-') !== -1) {
+            cell.isRelation = false
+          }
+        }
+        if (cellRelation.value[item.key].length === 0) {
+          cell.isRelation = false
+        }
+      })
+    })
+    
+    if (item?.children) {
+      deepCell(tree,item.children, cellArr,flatCell)
+    }
+  })
+}
+
+// 计算左侧树每个节点对应关系的数量
 function deepTreeLink(tree) {
   tree.forEach((item) => {
     Object.keys(cellRelation.value).forEach((key) => {
@@ -253,30 +284,104 @@ function deepTreeLink(tree) {
   })
 }
 
+// 头部树是否存在关系
+function deepRelation(tree, keysArr, flatCell) {
+  columnNum.value += tree.length
+  tree.forEach((item) => {
+    if (!keysArr.includes(item.key)) {
+      keysArr.push(item.key)
+    }
+    if (!flatCell.includes(item.key)) {
+      item.isRelation = true
+    }
+    if (item?.children) {
+      deepRelation(item.children, keysArr, flatCell)
+    }
+  })
+}
+
+/**
+ * @description 按照长度分割数组
+ * @param arr 被切割的数组
+ * @param len 切割的长度
+ * @param key 切割标记
+*/
+function subGroup(arr, len, key){
+  var newArr = {}
+  var keys = parseInt(key.split('-')[key.split('-').length - 1])
+  newArr[key] = new Array(1)
+  for (var i = 0; i < arr.length; i += len) {
+    newArr[key].push(arr.slice(i, i + len))
+  }
+  newArr[key].forEach(() => {
+    cellGroup.value[key] = newArr[key][keys]
+  })
+}
+// parentNodeCells对应节点出现次数
+function keysSize(arr){
+  return arr.reduce((obj, key) => {
+    if (key in obj) {
+      obj[key]++
+    } else {
+      obj[key] = 1
+    }
+    return obj
+  }, {})
+}
+
 // 初始化
 const initMatrix = () => {
-  // 顶部列个数
-  let columnNum = 0
   // 顶部竖向展示的条数的key集合
   let keysArr = []
+  let numberTarget = 0
+  let sizeObj = []
   const flatCell = Object.values(cellRelation.value).flat(Infinity)
-  columnNum += columnTree.value.length
+  columnNum.value += columnTree.value.length
   columnTree.value.forEach((column) => {
+    keysArr.push(column.key)
     if (column?.children) {
-      columnNum += column.children.length
-      // TODO: 目前先计算一层，后面需要根据树折叠展开动态计算
-      column.children.forEach((child) => {
-        if (!keysArr.includes(child.key)) {
-          keysArr.push(child.key)
-        }
-        if (!flatCell.includes(child.key)) {
-          child.isRelation = true
-        }
-      })
+      deepRelation(column.children, keysArr, flatCell)
     }
   })
   // 动态计算中间格子集合的宽度， 单个格子宽度40
-  midWidth.value = columnNum * 40
+  midWidth.value = columnNum.value * 40
+
+  rowTree.value.forEach((item) => {
+    item.cellLgh = []
+    item.cells = []
+    item.parentNodeCells = []
+    sizeObj = keysSize(flatCell)
+    if (item?.children) {
+      deepCell(item,item.children, item.cellLgh,flatCell)
+      deepTreeLink(item.children)
+    }
+    item.cellLgh = _.add(...item.cellLgh) * columnNum.value
+
+    for (let index = 0; index < columnNum.value; index++) {
+      item.parentNodeCells.push({
+        id:index,
+        key:keysArr[index],
+        value:sizeObj[keysArr[index]] === undefined ? '' : sizeObj[keysArr[index]]
+      })
+    }
+    for (let index = 0; index < item.cellLgh; index++) {
+      var key
+      keysArr.forEach((value, i, array) => {
+        key = array[numberTarget]
+      })
+      item.cells.push({
+        id: index,
+        key: key,
+        isArrows: false,
+        isRelation:true
+      })
+      if (numberTarget === keysArr.length - 1) {
+        numberTarget = 0
+      } else {
+        numberTarget++
+      }
+    }
+  })
   nextTick(() => {
     isShow.value = true
     setTimeout(() => {
@@ -342,36 +447,55 @@ onUnmounted(() => {
       .top-column {
         min-width: 40px;
         display: flex;
-        :deep(.el-tree){
+        :deep(.el-tree) {
           display: flex;
-          .el-tree-node{
+          .el-tree-node {
             width: 100%;
             display: flex;
           }
-          .el-tree-node__content{
+          .el-tree-node__content {
             height: 100%;
             flex-direction: column;
-            .custom-tree-node{
+            .custom-tree-node {
               width: 40px;
               height: 100%;
               display: flex;
               align-items: center;
               flex-direction: column;
-              .tree-label{
+              .tree-label {
                 display: inline-block;
                 margin-top: 3px;
                 writing-mode: vertical-rl;
               }
             }
           }
-          .el-tree-node__children{
+          .el-tree-node__children {
             display: flex;
+            .el-tree-node__content {
+              padding-top: 10px;
+            }
           }
-          .el-tree-node__expand-icon.expanded{
+          .el-tree-node__expand-icon.expanded {
             transform: rotate(0deg);
           }
-          .el-tree-node__expand-icon{
+          .el-tree-node__expand-icon {
             transform: rotate(90deg);
+          }
+          .element-top-line {
+            height: 18px;
+            display: block;
+            position: absolute;
+            left: 50%;
+            top: 13px;
+            border-left: 1px dashed #dcdfe6;
+          }
+          .element-land-line {
+            display: block;
+            width: 100%;
+            position: absolute;
+            top: 11px;
+            left: 0;
+            border-top: 1px dashed #dcdfe6;
           }
         }
       }
@@ -480,5 +604,4 @@ onUnmounted(() => {
 :deep(.el-collapse-transition-leave-active) {
   transition: none;
 }
-
 </style>
