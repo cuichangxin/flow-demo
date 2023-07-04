@@ -42,11 +42,14 @@
                   <element-tree-line
                     :node="node"
                     :showLabelLine="true"
-                    :style="{ background: data.linkNum === 0 && data.key.indexOf('-') !== -1 ? '#e46a64' : '' }"
+                    :style="{
+                      background: data.linkNum === 0 && data.key.indexOf('-') !== -1 ? '#e46a64' : '',
+                      color: data.linkNum === 0 && data.key.indexOf('-') !== -1 ? '#fff' : '',
+                    }"
                   >
                     <template v-slot:node-label>
-                      <img v-if="data.children" class="back-pic" src="../assets/image/back-wenjianjia.png" />
-                      <img v-else class="back-pic" src="../assets/image/back-wenjian.png" />
+                      <img v-if="data.children" class="back-pic" style="margin:0 5px 0 0" src="../assets/image/back-wenjianjia.png" />
+                      <img v-else class="back-pic" style="margin:0 5px 0 0" src="../assets/image/back-wenjian.png" />
                       <span>{{ node.label }}</span>
                     </template>
                     <template v-slot:after-node-label>
@@ -75,7 +78,6 @@
                 :indent="0"
                 default-expand-all
                 :expand-on-click-node="false"
-                :props="{ class: customNodeClass }"
                 @node-collapse="topCollapseHandler"
                 @node-expand="topExpandHandler"
               >
@@ -122,7 +124,7 @@
                   v-if="item.isArrows"
                   class="img_jiantou"
                   src="../assets/image/arrows.png"
-                  :style="{ transform: rowValue == 'software' && columnValue == 'need' ? 'rotate(180deg)' : '' }"
+                  :style="{ transform: tracking === 0 ? '' : 'rotate(180deg)' }"
                 />
               </div>
             </div>
@@ -133,7 +135,7 @@
   </div>
 </template>
 <script setup>
-import _ from 'lodash'
+import { add,cloneDeep } from 'lodash'
 import Axios from 'axios'
 import { nextTick } from 'vue';
 
@@ -171,16 +173,9 @@ const midWidth = ref('') // 中间格子集合宽度
 const cellRelation = ref({}) // 中间格子交集数据
 const isShow = ref(false)
 const topColumn = ref(null)
-const cellList = ref([])
 const columnNum = ref(0)
 const cellGroup = ref({})
-
-const customNodeClass = (data) => {
-  if (data.isCollapse) {
-    return 'is-collapse'
-  }
-  return null
-}
+const tracking = ref(0)
 
 const leftCollapseHandler = (data, node, tree) => {
   data.isCollapse = true
@@ -232,19 +227,19 @@ function postAll() {
     rowTree.value = res[0]
     columnTree.value = res[1]
     cellRelation.value = res[2].cellRelation
-    cellList.value = res[2].data
+    tracking.value = res[2].tracking
     initMatrix()
   })
 }
 
 // 中间cell对应的关系
-function deepCell(tree,data,cellArr,flatCell) {
+function deepCell(tree, data, cellArr, flatCell) {
   cellArr.push(data.length)
   data.forEach((item) => {
-    nextTick(()=>{
-      subGroup(tree.cells,columnNum.value,item.key)
-      cellGroup.value[item.key].forEach(cell=>{
-        cellRelation.value[item.key].forEach(item=>{
+    nextTick(() => {
+      subGroup(tree.cells, columnNum.value, item.key)
+      cellGroup.value[item.key].forEach((cell) => {
+        cellRelation.value[item.key].forEach((item) => {
           if (cell.key === item) {
             cell.isArrows = true
           }
@@ -259,9 +254,9 @@ function deepCell(tree,data,cellArr,flatCell) {
         }
       })
     })
-    
+
     if (item?.children) {
-      deepCell(tree,item.children, cellArr,flatCell)
+      deepCell(tree, item.children, cellArr, flatCell)
     }
   })
 }
@@ -305,8 +300,8 @@ function deepRelation(tree, keysArr, flatCell) {
  * @param arr 被切割的数组
  * @param len 切割的长度
  * @param key 切割标记
-*/
-function subGroup(arr, len, key){
+ */
+function subGroup(arr, len, key) {
   var newArr = {}
   var keys = parseInt(key.split('-')[key.split('-').length - 1])
   newArr[key] = new Array(1)
@@ -318,7 +313,7 @@ function subGroup(arr, len, key){
   })
 }
 // parentNodeCells对应节点出现次数
-function keysSize(arr){
+function keysSize(arr) {
   return arr.reduce((obj, key) => {
     if (key in obj) {
       obj[key]++
@@ -350,18 +345,25 @@ const initMatrix = () => {
     item.cellLgh = []
     item.cells = []
     item.parentNodeCells = []
+
+    nextTick(()=>{
+      // 保留一份原始数据
+      item.formerCells = cloneDeep(item.cells)
+      item.formerParentNodeCells = cloneDeep(item.parentNodeCells)
+    })
+
     sizeObj = keysSize(flatCell)
     if (item?.children) {
-      deepCell(item,item.children, item.cellLgh,flatCell)
+      deepCell(item, item.children, item.cellLgh, flatCell)
       deepTreeLink(item.children)
     }
-    item.cellLgh = _.add(...item.cellLgh) * columnNum.value
+    item.cellLgh = add(...item.cellLgh) * columnNum.value
 
     for (let index = 0; index < columnNum.value; index++) {
       item.parentNodeCells.push({
-        id:index,
-        key:keysArr[index],
-        value:sizeObj[keysArr[index]] === undefined ? '' : sizeObj[keysArr[index]]
+        id: index,
+        key: keysArr[index],
+        value: sizeObj[keysArr[index]] === undefined ? '' : sizeObj[keysArr[index]],
       })
     }
     for (let index = 0; index < item.cellLgh; index++) {
@@ -373,7 +375,7 @@ const initMatrix = () => {
         id: index,
         key: key,
         isArrows: false,
-        isRelation:true
+        isRelation: true,
       })
       if (numberTarget === keysArr.length - 1) {
         numberTarget = 0

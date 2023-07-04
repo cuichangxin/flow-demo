@@ -3,6 +3,7 @@
     <template v-for="item in menus" :key="item.title">
       <el-sub-menu v-if="item.children && item.children.length" :index="item.title">
         <template #title>
+          <i class="iconfont" :class="[item.icon]"></i>
           <span>{{ item.title }}</span>
         </template>
         <shapeElMenu :menus="item.children"></shapeElMenu>
@@ -33,3 +34,9 @@ const checkType = computed(() => {
   return Array.isArray(props.menus)
 })
 </script>
+<style scoped lang="scss">
+.iconfont{
+  font-size: 19px;
+  margin-right: 4px;
+}
+</style>

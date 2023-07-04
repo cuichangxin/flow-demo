@@ -20,9 +20,10 @@ const emit = defineEmits(['handleMenu'])
 const list = ref([
   {
     title: '文件',
+    icon:'icon-wenjian1',
     children: [
       {
-        title: '保存',
+        title: '保存'
       },
       {
         title: '另存为',
@@ -31,6 +32,7 @@ const list = ref([
   },
   {
     title: '编辑',
+    icon:'icon-bianji1',
     children: [
       {
         title: '撤销',
@@ -42,6 +44,7 @@ const list = ref([
   },
   {
     title: '查看',
+    icon:'icon-chakan',
     children: [
       {
         title: '格式',

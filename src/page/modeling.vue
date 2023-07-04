@@ -12,6 +12,15 @@ proxy.$bus.on('*',(name,val)=>{
     canUndo.value = val.canUndo
     canRedo.value = val.canRedo
   }
+  if (name === 'resize') {
+    if (val !== undefined) {
+      if (val) {
+        mainH.value = window.innerHeight-69
+      }else {
+        mainH.value = window.innerHeight-124
+      }
+    }
+  }
 })
 
 const mainH = ref('')
@@ -89,7 +98,7 @@ const handleMenu = (val)=>{
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
     min-width: 0;
   }
 }

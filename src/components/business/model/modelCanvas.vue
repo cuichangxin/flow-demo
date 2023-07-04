@@ -1022,7 +1022,7 @@ onUnmounted(() => {
   transition: height 0.2s linear;
 
   &.out_height {
-    height: calc(100% - 10px);
+    height: calc(100% - 60px);
   }
 }
 
