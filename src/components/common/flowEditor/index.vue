@@ -4,10 +4,10 @@
       <div class="flow-json-schema-form-body">
         <div class="tabs">设置</div>
         <el-scrollbar :height="formHeight">
-          <el-form :model="flowForm" class="flow-editor-form">
+          <el-form v-if="isSelect" :model="flowForm" class="flow-editor-form">
             <div class="type-title">内容</div>
             <el-form-item class="form-item border" label="标题" prop>
-              <el-input size="small" v-model="flowForm.label"></el-input>
+              <el-input size="small" v-model="flowForm.label" @input="changeConfig"></el-input>
             </el-form-item>
             <div class="type-title">样式</div>
             <el-form-item class="form-item location" label="位置">
@@ -16,6 +16,7 @@
                 style="width: 70px"
                 controls-position="right"
                 v-model="flowForm.x"
+                @change="changeConfig"
               ></el-input-number>
               <span>x</span>
               <el-input-number
@@ -23,6 +24,7 @@
                 style="width: 70px"
                 controls-position="right"
                 v-model="flowForm.y"
+                @change="changeConfig"
               ></el-input-number>
               <span>y</span>
             </el-form-item>
@@ -32,6 +34,7 @@
                 style="width: 70px"
                 controls-position="right"
                 v-model="flowForm.width"
+                @change="changeConfig"
               ></el-input-number>
               <span>w</span>
               <el-input-number
@@ -39,14 +42,27 @@
                 style="width: 70px"
                 controls-position="right"
                 v-model="flowForm.height"
+                @change="changeConfig"
               ></el-input-number>
               <span>h</span>
             </el-form-item>
             <el-form-item class="form-item" label="填充">
-              <el-color-picker v-model="flowForm.fill" show-alpha size="small" :predefine="predefineColors" />
+              <el-color-picker
+                v-model="flowForm.fill"
+                show-alpha
+                size="small"
+                :predefine="predefineColors"
+                @change="changeConfig"
+              />
             </el-form-item>
             <el-form-item class="form-item" label="边框">
-              <el-color-picker v-model="flowForm.stroke" show-alpha size="small" :predefine="predefineColors" />
+              <el-color-picker
+                v-model="flowForm.stroke"
+                show-alpha
+                size="small"
+                :predefine="predefineColors"
+                @change="changeConfig"
+              />
             </el-form-item>
             <el-form-item class="form-item location flex-start" label="字号">
               <el-input-number
@@ -54,10 +70,12 @@
                 style="width: 100px; margin-right: 5px"
                 controls-position="right"
                 v-model="flowForm.fontsize"
+                @change="changeConfig"
               ></el-input-number>
-              <el-color-picker v-model="flowForm.color" show-alpha size="small" :predefine="predefineColors" />
+              <el-color-picker v-model="flowForm.color" show-alpha size="small" :predefine="predefineColors" @change="changeConfig" />
             </el-form-item>
           </el-form>
+          <div v-else class="not-select">未选中</div>
         </el-scrollbar>
       </div>
       <div class="flow-json-schema-form-footer"></div>
@@ -77,8 +95,20 @@
 <script setup>
 import { DArrowRight } from '@element-plus/icons-vue'
 
+const emit = defineEmits(['changeNode'])
+const props = defineProps({
+  nodeConfig: {
+    type: Object,
+    default: () => {},
+  },
+  isSelect:{
+    type:Boolean,
+    default:false
+  }
+})
+
 const isCollapse = ref(false)
-const flowForm = ref({
+const flowForm = reactive({
   label: '',
   x: 0,
   y: 0,
@@ -108,17 +138,37 @@ const predefineColors = ref([
   '#9B9B9B',
   '#FFFFFF',
 ])
+
+watch(
+  () => props.nodeConfig,
+  (n, o) => {
+    flowForm.label = n.label
+    flowForm.x = n.position.x
+    flowForm.y = n.position.y
+    flowForm.width = n.size.width
+    flowForm.height = n.size.height
+    flowForm.fill = n.attrs.body.fill
+    flowForm.stroke = n.attrs.body.stroke
+    flowForm.fontsize = n.attrs.text.fontSize
+    flowForm.color = n.attrs.text.fill
+  },
+  { deep: true }
+)
+
 const collapse = () => {
   isCollapse.value = !isCollapse.value
 }
-onMounted(()=>{
+const changeConfig = () => {
+  emit('changeNode', flowForm)
+}
+onMounted(() => {
   formHeight.value = collapseRef.value.offsetHeight
-  window.addEventListener('resize', ()=>{
+  window.addEventListener('resize', () => {
     formHeight.value = collapseRef.value.offsetHeight - 58
   })
 })
-onBeforeUnmount(()=>{
-  window.removeEventListener('resize',()=>{})
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', () => {})
 })
 </script>
 <style lang="scss" scoped>
@@ -226,5 +276,12 @@ onBeforeUnmount(()=>{
 .border {
   border-bottom: 1px solid #ccc;
   padding-bottom: 14px;
+}
+.not-select{
+  color: #aaa;
+  font-size: 14px;
+  text-align: center;
+  margin-top: 80px;
+  font-weight: 600;
 }
 </style>

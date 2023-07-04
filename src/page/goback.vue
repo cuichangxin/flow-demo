@@ -37,6 +37,7 @@
                 default-expand-all
                 :expand-on-click-node="false"
                 @node-collapse="leftCollapseHandler"
+                @node-expand="leftExpandHandler"
               >
                 <template v-slot:default="{ node, data }">
                   <element-tree-line
@@ -48,8 +49,13 @@
                     }"
                   >
                     <template v-slot:node-label>
-                      <img v-if="data.children" class="back-pic" style="margin:0 5px 0 0" src="../assets/image/back-wenjianjia.png" />
-                      <img v-else class="back-pic" style="margin:0 5px 0 0" src="../assets/image/back-wenjian.png" />
+                      <img
+                        v-if="data.children"
+                        class="back-pic"
+                        style="margin: 0 5px 0 0"
+                        src="../assets/image/back-wenjianjia.png"
+                      />
+                      <img v-else class="back-pic" style="margin: 0 5px 0 0" src="../assets/image/back-wenjian.png" />
                       <span>{{ node.label }}</span>
                     </template>
                     <template v-slot:after-node-label>
@@ -77,7 +83,6 @@
                 node-key="key"
                 :indent="0"
                 default-expand-all
-                :expand-on-click-node="false"
                 @node-collapse="topCollapseHandler"
                 @node-expand="topExpandHandler"
               >
@@ -86,11 +91,16 @@
                     class="custom-tree-node"
                     :style="{ background: data.isRelation ? '#e46a64' : '', color: data.isRelation ? '#fff' : '' }"
                   >
+                    {{ data.length }}
                     <span v-if="data.key.indexOf('-') !== -1" class="element-top-line"></span>
                     <img v-if="data.children" class="back-pic" src="../assets/image/back-wenjianjia.png" />
                     <img style="margin: 0 0 5px 0" v-else class="back-pic" src="../assets/image/back-wenjian.png" />
                     <span class="tree-label">{{ node.label }}</span>
-                    <span v-if="data.key.indexOf('-') !== -1" class="element-land-line"></span>
+                    <span
+                      v-if="data.key.indexOf('-') !== -1"
+                      :style="{ width: data.isLast ? '50%' : '' }"
+                      class="element-land-line"
+                    ></span>
                     <span class="element-after-line"></span>
                   </span>
                 </template>
@@ -108,6 +118,7 @@
                     background: d.value === '' && d.key.indexOf('-') !== -1 ? '#e46a64' : '',
                     borderLeftColor: i == 0 ? 'transparent' : '',
                   }"
+                  v-show="!d.isCollapse"
                 >
                   {{ d.value }}
                 </div>
@@ -119,6 +130,7 @@
                 :style="{
                   background: item.isRelation === false ? '#e46a64' : '',
                 }"
+                v-show="!item.isCollapse"
               >
                 <img
                   v-if="item.isArrows"
@@ -135,9 +147,8 @@
   </div>
 </template>
 <script setup>
-import { add,cloneDeep } from 'lodash'
+import { add } from 'lodash'
 import Axios from 'axios'
-import { nextTick } from 'vue';
 
 const treeProps = {
   indent: 16,
@@ -177,18 +188,55 @@ const columnNum = ref(0)
 const cellGroup = ref({})
 const tracking = ref(0)
 
-const leftCollapseHandler = (data, node, tree) => {
-  data.isCollapse = true
-  console.log(data, node)
+const leftCollapseHandler = (data) => {
+  const arr = data.children.map((item) => {
+    item.isCollapse = true
+    return item.key
+  })
+  collapseTree(rowTree.value, arr, 'rowKey', true)
 }
-const topCollapseHandler = (data, node) => {
-  data.isCollapse = true
-  console.log(data, node)
-}
-const topExpandHandler = (data, node) => {
-  data.isCollapse = false
+const leftExpandHandler = (data) => {
+  const arr = data.children.map((item) => {
+    item.isCollapse = false
+    return item.key
+  })
+  collapseTree(rowTree.value, arr, 'rowKey', false)
 }
 
+const topCollapseHandler = (data, node) => {
+  const arr = data.children.map((item) => {
+    item.isCollapse = true
+    return item.key
+  })
+  collapseTree(rowTree.value, arr, 'key', true)
+  columnNum.value = columnNum.value - arr.length
+  midWidth.value = columnNum.value * 40
+}
+
+const topExpandHandler = (data, node) => {
+  const arr = data.children.map((item) => {
+    item.isCollapse = false
+    return item.key
+  })
+  collapseTree(rowTree.value, arr, 'key', false)
+  columnNum.value = columnNum.value + arr.length
+  midWidth.value = columnNum.value * 40
+}
+
+function collapseTree(tree, includes, key, show) {
+  tree.forEach((item) => {
+    item.cells.forEach((cell) => {
+      if (includes.includes(cell[key])) {
+        cell.isCollapse = show
+      }
+    })
+    item.parentNodeCells.forEach((node) => {
+      if (includes.includes(node[key])) {
+        node.isCollapse = show
+      }
+    })
+  })
+}
 const changeRow = (val) => {
   postAll()
   isShow.value = false
@@ -233,9 +281,12 @@ function postAll() {
 }
 
 // 中间cell对应的关系
-function deepCell(tree, data, cellArr, flatCell) {
+function deepCell(tree, data, cellArr, flatCell, rowKeysArr) {
   cellArr.push(data.length)
   data.forEach((item) => {
+    if (!rowKeysArr.includes(item.key)) {
+      rowKeysArr.push(item.key)
+    }
     nextTick(() => {
       subGroup(tree.cells, columnNum.value, item.key)
       cellGroup.value[item.key].forEach((cell) => {
@@ -282,12 +333,15 @@ function deepTreeLink(tree) {
 // 头部树是否存在关系
 function deepRelation(tree, keysArr, flatCell) {
   columnNum.value += tree.length
-  tree.forEach((item) => {
+  tree.forEach((item, index) => {
     if (!keysArr.includes(item.key)) {
       keysArr.push(item.key)
     }
     if (!flatCell.includes(item.key)) {
       item.isRelation = true
+    }
+    if (tree.length - 1 === index) {
+      item.isLast = true
     }
     if (item?.children) {
       deepRelation(item.children, keysArr, flatCell)
@@ -330,6 +384,8 @@ const initMatrix = () => {
   let keysArr = []
   let numberTarget = 0
   let sizeObj = []
+  let rowKeysArr = []
+  let rowKey = 0
   const flatCell = Object.values(cellRelation.value).flat(Infinity)
   columnNum.value += columnTree.value.length
   columnTree.value.forEach((column) => {
@@ -346,15 +402,9 @@ const initMatrix = () => {
     item.cells = []
     item.parentNodeCells = []
 
-    nextTick(()=>{
-      // 保留一份原始数据
-      item.formerCells = cloneDeep(item.cells)
-      item.formerParentNodeCells = cloneDeep(item.parentNodeCells)
-    })
-
     sizeObj = keysSize(flatCell)
     if (item?.children) {
-      deepCell(item, item.children, item.cellLgh, flatCell)
+      deepCell(item, item.children, item.cellLgh, flatCell, rowKeysArr)
       deepTreeLink(item.children)
     }
     item.cellLgh = add(...item.cellLgh) * columnNum.value
@@ -364,21 +414,26 @@ const initMatrix = () => {
         id: index,
         key: keysArr[index],
         value: sizeObj[keysArr[index]] === undefined ? '' : sizeObj[keysArr[index]],
+        isCollapse: false,
       })
     }
     for (let index = 0; index < item.cellLgh; index++) {
-      var key
+      var key, rowKeys
       keysArr.forEach((value, i, array) => {
         key = array[numberTarget]
+        rowKeys = rowKeysArr[rowKey]
       })
       item.cells.push({
         id: index,
         key: key,
         isArrows: false,
         isRelation: true,
+        isCollapse: false,
+        rowKey: rowKeys,
       })
       if (numberTarget === keysArr.length - 1) {
         numberTarget = 0
+        rowKey++
       } else {
         numberTarget++
       }
@@ -448,6 +503,7 @@ onUnmounted(() => {
 
       .top-column {
         min-width: 40px;
+        height: 320px;
         display: flex;
         :deep(.el-tree) {
           display: flex;
@@ -488,7 +544,7 @@ onUnmounted(() => {
             display: block;
             position: absolute;
             left: 50%;
-            top: 13px;
+            top: 11px;
             border-left: 1px dashed #dcdfe6;
           }
           .element-land-line {

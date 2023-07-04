@@ -19,7 +19,7 @@
       ref="graphRef"
       :style="{ height: tabList.length ? 'calc(100% - 40px)' : '100%' }"
     >
-      <flowEditor></flowEditor>
+      <flowEditor :nodeConfig="nodeConfig" :isSelect="isSelect" @changeNode="changeNode"></flowEditor>
       <div id="graph-container" class="graph-container"></div>
     </div>
     <!-- 小地图 -->
@@ -75,7 +75,7 @@ instance.proxy.$bus.on('*', (name, val) => {
   if (name == 'showCanvasData') {
     if (val.label.indexOf('姿控任务') !== -1) {
       graphData.value = subGraph.value
-    }else if (val.node && JSON.stringify(val.node) !== '{}') {
+    } else if (val.node && JSON.stringify(val.node) !== '{}') {
       graphData.value = val.node
     } else {
       graphData.value = {}
@@ -153,6 +153,7 @@ instance.proxy.$bus.on('*', (name, val) => {
   }
 })
 const isOut = ref(false)
+const nodeConfig = ref({})
 // 绝对定位连接桩
 const absolutePorts = {
   groups: {
@@ -408,6 +409,7 @@ const minimapPoint = reactive({
 const minimapMark = ref(false)
 const loading = ref(true)
 const subGraph = ref({})
+const isSelect = ref(false)
 
 // 开始拖动
 const dragStart = (item) => {
@@ -891,10 +893,12 @@ const initGraphEvent = () => {
   })
   graph.on('node:click', (e) => {
     nodeItem.value = e.node
+    isSelect.value = true
     const container = document.getElementById('graph-container')
     const ports = container.querySelectorAll('.x6-port-body')
     showPorts(ports, false)
     instance.proxy.$bus.emit('tableConfig', e.node.store.data)
+    nodeConfig.value = e.node.store.data
   })
   graph.on('history:change', ({ cmds, options }) => {
     const undoAndRedo = {
@@ -944,8 +948,28 @@ const initGraphEvent = () => {
       saveG6Json()
     }
   })
+  graph.on('blank:click',()=>{
+    isSelect.value = false
+  })
 }
 
+const changeNode = (e) => {
+  nodeItem.value.attr({
+    text: {
+      text: e.label,
+    },
+    label:{
+      fontSize:e.fontsize,
+      fill:e.color
+    },
+    body:{
+      fill:e.fill,
+      stroke:e.stroke
+    }
+  })
+  nodeItem.value.prop(('position', { x: e.x, y: e.y }))
+  nodeItem.value.prop(('size', { width: e.width, height: e.height }))
+}
 // 保存画布数据
 const saveG6Json = () => {
   instance.proxy.$bus.emit('saveData', graph.toJSON())
@@ -1002,7 +1026,7 @@ onMounted(() => {
   instance.proxy.$axios.getTaskDetail({ taskId: 2003 }).then((res) => {
     if (res.data !== null) {
       subGraph.value = JSON.parse(res.data.daTree)
-      console.log(subGraph.value);
+      console.log(subGraph.value)
     }
   })
   setTimeout(() => {

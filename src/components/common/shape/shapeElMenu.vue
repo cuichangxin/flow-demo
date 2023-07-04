@@ -39,4 +39,7 @@ const checkType = computed(() => {
   font-size: 19px;
   margin-right: 4px;
 }
+:deep(.el-sub-menu__title:hover){
+  background-color: #e9f1f6 !important;
+}
 </style>
