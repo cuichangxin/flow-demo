@@ -81,12 +81,14 @@ const handleHistory = ({ canUndo, canRedo }) => {
   width: 100%;
   height: 100%;
   padding-left:8px;
+  display: flex;
+  flex-direction: column;
 }
 .wrapper {
+  flex: 1 1;
   width: 100%;
   height: calc(100% - 214px);
   display: flex;
-  flex: 1;
   overflow: hidden;
 }
 .over,

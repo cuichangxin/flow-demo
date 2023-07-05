@@ -331,6 +331,7 @@ const confirmCase = () => {
     })
     .then((res) => {
       console.log(res)
+      localStorage.setItem('trackingStatus',true)
       proxy.$modal.msgSuccess('提交成功')
     })
 }

@@ -60,7 +60,7 @@ const boardShow = () => {
           getJson(res.data.file)
           timerTask()
         }, 20000)
-      }else  if (specArr.indexOf(res.data.file) !== -1){
+      }else if (specArr.indexOf(res.data.file) !== -1){
         clearInterval(timer.value)
         setTimeout(() => {
           getJson(res.data.file)

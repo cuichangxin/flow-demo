@@ -676,7 +676,7 @@ const getDetail = () => {
     if (res.success && res.data !== null) {
       const data = JSON.parse(res.data.daTree)
       graphData.value = data
-      console.log(data);
+      console.log(graphData.value);
     }
     // else {
     //   let workData = localStorage.getItem('workData')

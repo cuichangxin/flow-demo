@@ -150,12 +150,13 @@
 import { add } from 'lodash'
 import Axios from 'axios'
 
+const { proxy } = getCurrentInstance()
 const treeProps = {
   indent: 16,
   showLabelLine: true,
 }
 const windowH = ref('')
-const rowValue = ref('software')
+const rowValue = ref('testCase')
 const columnValue = ref('need')
 const leftBlankH = ref('')
 const rowSelectList = reactive([
@@ -187,6 +188,7 @@ const topColumn = ref(null)
 const columnNum = ref(0)
 const cellGroup = ref({})
 const tracking = ref(0)
+const timer = ref(null)
 
 const leftCollapseHandler = (data) => {
   const arr = data.children.map((item) => {
@@ -251,22 +253,25 @@ const changeColumn = (val) => {
 }
 const getRowInfo = () => {
   return new Promise((resolve, reject) => {
-    Axios.get(`http://localhost:8080/mock/goBackData/rowel/${rowValue.value}.json`).then((res) => {
+    Axios.get(`http://192.168.30.124:8080/mock/goBackData/rowel/${rowValue.value}.json`).then((res) => {
       resolve(res.rowTree)
     })
   })
 }
 function getColumnInfo() {
   return new Promise((resolve, reject) => {
-    Axios.get(`http://localhost:8080/mock/goBackData/columnel/${columnValue.value}.json`).then((res) => {
+    Axios.get(`http://192.168.30.124:8080/mock/goBackData/columnel/${columnValue.value}.json`).then((res) => {
       resolve(res.columnTree)
     })
   })
 }
 function getUnite() {
   return new Promise((resolve, reject) => {
-    Axios.get(`http://localhost:8080/mock/goBackData/unite/${rowValue.value + columnValue.value}.json`).then((res) => {
-      resolve(res)
+    // Axios.get(`http://192.168.30.124:8080/mock/goBackData/unite/${rowValue.value + columnValue.value}.json`).then((res) => {
+    //   resolve(res)
+    // })
+    proxy.$axios.getTaskDetail({ taskId: 1002 }).then((res) => {
+      resolve(JSON.parse(res.data.daTree))
     })
   })
 }
@@ -448,15 +453,42 @@ const initMatrix = () => {
   console.log(rowTree.value)
 }
 
+// 轮询获取是否为未追踪状态
+function getLocTracking() {
+  const status = localStorage.getItem('trackingStatus')
+  if (Boolean(status)) {
+    if (cellRelation.value['1-1'].length <= 0) {
+      cellRelation.value['1-1'].push('1-1')
+      const data = {
+        cellRelation: cellRelation.value,
+        tracking: 0,
+      }
+      proxy.$axios.saveTaskDetail({ taskId: 1002, daTree: JSON.stringify(data) }).then((res) => {
+        proxy.$axios.getTaskDetail({ taskId: 1002 }).then((res) => {
+          console.log(res)
+          postAll()
+          isShow.value = false
+          cellGroup.value = {}
+          columnNum.value = 0
+        })
+      })
+    }
+  }
+}
+
 onMounted(() => {
   postAll()
   windowH.value = window.innerHeight - 124
   window.addEventListener('resize', () => {
     windowH.value = window.innerHeight - 124
   })
+  timer.value = setInterval(() => {
+    getLocTracking()
+  }, 2000)
 })
 onUnmounted(() => {
   window.removeEventListener('resize', () => {})
+  clearInterval(timer.value)
 })
 </script>
 <style lang="scss" scoped>
@@ -466,6 +498,7 @@ onUnmounted(() => {
   border-radius: 8px;
   margin: 0 8px;
   box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.07);
+  text-align: center;
 }
 
 .select_wrapper {
