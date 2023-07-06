@@ -29,6 +29,8 @@ const list = ref({})
 const serial = ref(1)
 const timer = ref(null)
 const specArr = [9, 10, 14, 15, 17, 18, 19, 20, 21, 22, 23]
+const sevenStatus = ref(true)
+// 20 21 26 27
 
 onMounted(() => {
   let serials = localStorage.getItem('serial')
@@ -55,18 +57,27 @@ const boardShow = () => {
         localStorage.setItem('serial', res.data.file)
       }
       if (res.data.file === 7) {
-        clearInterval(timer.value)
-        setTimeout(() => {
-          getJson(res.data.file)
-          timerTask()
-        }, 20000)
-      }else if (specArr.indexOf(res.data.file) !== -1){
+        if (sevenStatus.value) {
+          sevenStatus.value = false
+          clearInterval(timer.value)
+          setTimeout(() => {
+            getJson(res.data.file)
+            timerTask()
+          }, 20000)
+        } else {
+          clearInterval(timer.value)
+          setTimeout(() => {
+            getJson(res.data.file)
+            timerTask()
+          }, 5000)
+        }
+      } else if (specArr.indexOf(res.data.file) !== -1) {
         clearInterval(timer.value)
         setTimeout(() => {
           getJson(res.data.file)
           timerTask()
         }, 5000)
-      }else {
+      } else {
         getJson(res.data.file)
       }
     }
@@ -74,7 +85,7 @@ const boardShow = () => {
 }
 
 const getJson = (num) => {
-  Axios.get(`http://localhost:8080/mock/flow/${num}.json`).then((res) => {
+  Axios.get(`http://192.168.30.124:8080//mock/flow/${num}.json`).then((res) => {
     list.value = res
   })
 }

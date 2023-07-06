@@ -5,6 +5,7 @@
       @handleMenu="handleMenu"
       :canRedo="history.canRedo"
       :canUndo="history.canUndo"
+      :tabIdx="tabIdx"
     ></shapeHeader>
     <el-container class="el-container-layout">
       <StepMenu @checkTab="checkTab" ref="stepMenuRef"></StepMenu>
@@ -19,7 +20,7 @@
           <OverAll></OverAll>
         </div>
         <div class="relation" v-show="tabIdx == 2">
-          <TaskRelation v-show="tabIdx == 2"></TaskRelation>
+          <TaskRelation></TaskRelation>
         </div>
       </el-container>
     </el-container>
@@ -32,6 +33,7 @@ import TableControl from '../components/business/work/taskControl.vue'
 import OverAll from '../components/business/work/overAll.vue'
 import TaskRelation from '../components/business/work/taskRelation.vue'
 import shapeHeader from '../components/common/shapeHeader.vue'
+
 
 const tabIdx = ref(0)
 const childRef = ref(null)

@@ -6,7 +6,7 @@
           <i class="iconfont" :class="[item.icon]"></i>
           <span>{{ item.title }}</span>
         </template>
-        <shapeElMenu :menus="item.children"></shapeElMenu>
+        <shapeElMenu :menus="item.children" :tabIdx="tabIdx"></shapeElMenu>
       </el-sub-menu>
 
       <el-menu-item v-else :index="item.title" :disabled="item.disabled">
@@ -22,24 +22,46 @@
       <span>{{ menus.title }}</span>
     </template>
   </el-menu-item>
+  <el-menu-item v-if="tabIdx === 2" class="change-over-btn">
+    <el-button type="primary" text>切换视图</el-button>
+  </el-menu-item>
 </template>
 <script setup>
 const props = defineProps({
   menus: {
     type: [Array, Object],
-    required: true
-  }
+    required: true,
+  },
+  tabIdx: {
+    type: Number,
+  },
 })
+
 const checkType = computed(() => {
   return Array.isArray(props.menus)
 })
 </script>
 <style scoped lang="scss">
-.iconfont{
+.iconfont {
   font-size: 19px;
   margin-right: 4px;
 }
-:deep(.el-sub-menu__title:hover){
+:deep(.el-sub-menu__title:hover) {
   background-color: #e9f1f6 !important;
+}
+.el-menu--horizontal .el-menu-item:not(.is-disabled):hover {
+  background-color: transparent;
+}
+.change-over-btn {
+  float: right;
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+.switch {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 </style>

@@ -40,7 +40,8 @@ const fileInfo = reactive({
   fileSize: 500,
   fileType: ['word', 'pdf', 'SysML']
 })
-const uploadFileUrl = ref(import.meta.env.VITE_APP_BASE_API + '123') // 上传文件的地址
+// const uploadFileUrl = ref(import.meta.env.VITE_APP_BASE_API + '123') // 上传文件的地址
+const uploadFileUrl = ref('https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15')
 
 function handleBeforeUpload(file) {
   // 校检文件类型
@@ -66,12 +67,14 @@ function handleBeforeUpload(file) {
 }
 // 上传成功回调
 function handleUploadSuccess(res, file) {
-  if (res.code === 200) {
-    proxy.$modal.msgSuccess('上传成功！')
-  } else {
-    proxy.$modal.closeLoading()
-    proxy.$modal.msgError(res.msg)
-  }
+  // if (res.code === 200) {
+  //   proxy.$modal.msgSuccess('上传成功！')
+  // } else {
+  //   proxy.$modal.closeLoading()
+  //   proxy.$modal.msgError(res.msg)
+  // }
+  proxy.$modal.msgSuccess('上传成功！')
+  proxy.$modal.closeLoading()
 }
 // 上传失败
 function handleUploadError(err) {

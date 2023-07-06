@@ -2,26 +2,17 @@
   <el-menu
     mode="horizontal"
     background-color="#fff"
-    menu-trigger="click"
     @select="itemClick"
   >
-    <shapeElMenu :menus="list" :tabIdx="tabIdx"></shapeElMenu>
+    <shapeElMenu :menus="list"></shapeElMenu>
   </el-menu>
 </template>
 <script setup>
-import shapeElMenu from './shape/shapeElMenu.vue'
+import shapeElMenu from '../../common/shape/shapeElMenu.vue'
 
 const props = defineProps({
-  canRedo: {
-    type: Boolean,
-    default: false,
-  },
-  canUndo: {
-    type: Boolean,
-    default: false,
-  },
   tabIdx:{
-    type:Number
+    type:Number,
   }
 })
 const emit = defineEmits(['handleMenu'])
@@ -43,45 +34,15 @@ const list = ref([
     icon: 'icon-bianji1',
     children: [
       {
-        title: '撤销',
-      },
-      {
-        title: '重做',
-      },
+        title: '批量操作',
+      }
     ],
-  },
-  {
-    title: '查看',
-    icon: 'icon-chakan',
-    children: [
-      {
-        title: '格式',
-      },
-      {
-        title: '缩略图',
-      },
-    ],
-  },
+  }
 ])
 
 const itemClick = (index, indexPath, item) => {
   emit('handleMenu', index)
 }
-
-watchEffect(() => {
-  list.value.forEach((item) => {
-    if (item.children && item.children.length) {
-      item.children.forEach((child) => {
-        if (child.title === '撤销') {
-          child.disabled = !props.canUndo
-        }
-        if (child.title === '重做') {
-          child.disabled = !props.canRedo
-        }
-      })
-    }
-  })
-})
 </script>
 <style lang="scss" scoped>
 .el-menu {

@@ -174,6 +174,7 @@ const moduleTree = ref([
 const aloneNode = ref({})
 const isOut = ref(false)
 const tag = ref(true) // 只是为了解决添加节点后不显示父节点下拉箭头
+const subGraph = ref({})
 
 // 递归树把节点push到对应树结构中
 const interNode = (val, tree) => {
@@ -229,25 +230,42 @@ const hideMenu = (val) => {
 }
 
 onMounted(() => {
+  instance.proxy.$axios.getTaskDetail({ taskId: 2003 }).then((res) => {
+    if (res.data !== null) {
+      subGraph.value = JSON.parse(res.data.daTree)
+    }
+  })
   instance.proxy.$axios.getTaskDetail({ taskId: Cookies.get('taskId') }).then((res) => {
     if (res.data !== null) {
       moduleTree.value = JSON.parse(res.data.daTree)
     }
     // 单独获取任务
     instance.proxy.$axios.getTaskDetail({ taskId: 2001 }).then((result) => {
-      console.log(JSON.parse(result.data.daTree));
+      console.log(JSON.parse(result.data.daTree))
       if (moduleTree.value[0].id === '1') {
-        moduleTree.value.splice(0,1)
+        moduleTree.value.splice(0, 1)
       }
       moduleTree.value.unshift({
-        id:'1',
-        label:'任务名称',
-        hide:false,
-        node:{},
-        active:false,
-        children:JSON.parse(result.data.daTree).cells.filter(item=>{
+        id: '1',
+        label: '任务名称',
+        hide: false,
+        node: {},
+        active: false,
+        children: JSON.parse(result.data.daTree).cells.filter((item) => {
           return item.shape === 'custom-html'
-        })
+        }),
+      })
+      moduleTree.value[0].children.forEach((item) => {
+        if (item.label.indexOf('姿控任务') !== -1) {
+          item.node = subGraph.value
+          item.children = []
+          subGraph.value.cells.forEach((items) => {
+            if (items.shape !== 'edge') {
+              items.label = items.attrs.text.text
+              item.children.push(items)
+            }
+          })
+        }
       })
     })
   })

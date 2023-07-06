@@ -150,7 +150,7 @@
         </div>
         <el-table
           :data="needList"
-          height="180"
+          height="160"
           border
           :cell-style="tableCellStyle"
           :header-cell-style="tableHeaderCellStyle"
@@ -579,7 +579,7 @@ watchEffect(() => {
       border-collapse: collapse;
 
       th {
-        height: 40px;
+        height: 32px;
         text-align: left;
         padding-left: 4px;
         font-weight: normal;
@@ -593,7 +593,7 @@ watchEffect(() => {
       .th {
         font-weight: 600;
         background-color: #f5f7fa;
-        height: 40px;
+        height: 32px;
         font-size: 13px;
       }
 

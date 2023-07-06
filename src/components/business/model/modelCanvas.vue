@@ -73,9 +73,7 @@ instance.proxy.$bus.on('*', (name, val) => {
     }
   }
   if (name == 'showCanvasData') {
-    if (val.label.indexOf('姿控任务') !== -1) {
-      graphData.value = subGraph.value
-    } else if (val.node && JSON.stringify(val.node) !== '{}') {
+    if (val.node && JSON.stringify(val.node) !== '{}') {
       graphData.value = val.node
     } else {
       graphData.value = {}
@@ -1023,12 +1021,6 @@ const closeMap = () => {
 }
 
 onMounted(() => {
-  instance.proxy.$axios.getTaskDetail({ taskId: 2003 }).then((res) => {
-    if (res.data !== null) {
-      subGraph.value = JSON.parse(res.data.daTree)
-      console.log(subGraph.value)
-    }
-  })
   setTimeout(() => {
     createGraphic()
     initGraphEvent()

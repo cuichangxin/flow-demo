@@ -101,10 +101,10 @@ const login = () => {
   })
 }
 function getCookie() {
-  const username = Cookies.get('idNumber')
+  const username = Cookies.get('username')
   const passwords = Cookies.get('password')
   const rememberMes = Cookies.get('rememberMe')
-  loginForm.value.idNumber = username === undefined ? loginForm.value.idNumber : username
+  loginForm.value.username = username === undefined ? loginForm.value.username : username
   loginForm.value.password = passwords === undefined ? loginForm.value.password : decrypt(passwords)
   loginForm.value.rememberMe = rememberMes === undefined ? loginForm.value.rememberMe : Boolean(rememberMes)
 }

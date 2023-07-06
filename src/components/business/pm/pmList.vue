@@ -140,6 +140,7 @@ const removeItem = (row) => {
     .then((res) => {
       proxy.$modal.msgSuccess('删除成功')
       getProject()
+      localStorage.removeItem('serial')
     })
 }
 
@@ -149,14 +150,13 @@ function getProject() {
       userId: Cookies.get('userId'),
     })
     .then((res) => {
-      setTimeout(() => {
-        res.data.forEach((item) => {
-          item.subType = PROJECTMAP[item.type]
-          item.subLevel = LEVELMAP[item.level]
-          item.codeLang = CODELANG[item.deLanguage]
-        })
-        tableList.value = res.data
-      },100)
+      const data = res.data
+      data.forEach((item) => {
+        item.subType = PROJECTMAP[item.type]
+        item.subLevel = LEVELMAP[item.level]
+        item.codeLang = CODELANG[item.deLanguage]
+      })
+      tableList.value = data
     })
 }
 const handleCommand = (command) => {

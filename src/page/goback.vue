@@ -470,6 +470,7 @@ function getLocTracking() {
           isShow.value = false
           cellGroup.value = {}
           columnNum.value = 0
+          localStorage.removeItem('trackingStatus')
         })
       })
     }

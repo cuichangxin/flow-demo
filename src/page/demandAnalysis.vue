@@ -6,6 +6,7 @@
     element-loading-text="加载中..."
   >
     <iframe id="iframe" class="iframe" src="http://192.168.30.117:3000/#/da" frameborder="0"></iframe>
+    <!-- <iframe id="iframe" class="iframe" src="http://172.20.10.2:3000/#/da" frameborder="0"></iframe> -->
   </div>
 </template>
 <script setup>
