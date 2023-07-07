@@ -1,5 +1,5 @@
 <template>
-  <div class="task_info">
+  <div v-show="!viewFlag" class="task_info">
     <div class="top_task">
       <div class="top_title">任务名称</div>
       <div class="task_wrapper">
@@ -143,26 +143,34 @@
       </div>
     </el-drawer>
   </div>
+  <div v-show="viewFlag" class="view_wrapper">
+    <img class="image" src="../../../assets/image/bus.jpg">
+  </div>
 </template>
 <script setup>
 import { workStore } from '@/store/index'
 import { storeToRefs } from 'pinia'
 
 const { proxy } = getCurrentInstance()
-proxy.$bus.on('taskRelationship',(val)=>{
-  val.forEach(item=>{
-    if (!item.store.data.myTarget) {
-      if (!taskList.value.includes(item.store.data)) {
-        taskList.value.push(item.store.data)
+proxy.$bus.on('*', (name, val) => {
+  if (name === 'taskRelationship') {
+    val.forEach((item) => {
+      if (!item.store.data.myTarget) {
+        if (!taskList.value.includes(item.store.data)) {
+          taskList.value.push(item.store.data)
+        }
       }
-    }
-  })
+    })
+  }
+  if (name === 'changeView') {
+    viewFlag.value = val
+  }
 })
-
 
 const work = workStore()
 const { taskAllList } = storeToRefs(work)
 const taskList = ref([])
+const viewFlag = ref(false)
 
 const issueTableData = ref([])
 const takeTableData = ref([])
@@ -170,7 +178,7 @@ const currentPage = ref(1)
 const pagesize = ref(6)
 const takeCurrentPage = ref(1)
 const takePagesize = ref(6)
-const tabIndex = ref(0)
+const tabIndex = ref(5)
 const drawer = ref(false)
 const form = ref({
   codeName: '',
@@ -280,7 +288,7 @@ onMounted(() => {
 })
 </script>
 <style lang="scss" scoped>
-.task_info {
+.task_info,.view_wrapper {
   width: 100%;
   height: 100%;
   background: #fff;
@@ -411,5 +419,9 @@ onMounted(() => {
   .form_box {
     padding: 5px 20px 0 0;
   }
+}
+.image{
+  width: 100%;
+  height: 100%;
 }
 </style>

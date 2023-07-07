@@ -751,7 +751,7 @@
 </template>
 <script setup>
 import LeaderLine from '@/utils/leader-line.min.js'
-import { watch } from 'vue'
+
 let props = defineProps({
   list: {
     type: Object,
@@ -1087,12 +1087,13 @@ const itemList = ref([])
 const timer = ref(null)
 const isFlag = ref(true)
 const idx = ref(null)
-const isPostLine = ref(true)
 
 watch(
   () => props.list,
   (n, o) => {
+    console.log(n);
     if (JSON.stringify(n) !== JSON.stringify(o)) {
+      console.log('true-----');
       if (JSON.stringify(n) == '{}' || n.postLineList.length === 0) {
         lines.value = []
         infoList.value.postList.forEach((item) => {
@@ -1119,7 +1120,6 @@ watch(
         infoList.value.postTwoList.forEach((item) => {
           foreach(n, item)
         })
-        isPostLine.value = n.postLineList.length ? true : false
         if (n.postLineList.length) {
           setTimeout(() => {
             init()
@@ -1146,7 +1146,7 @@ function foreach(val, item) {
   }
 }
 
-const init = () => {
+const init = (param) => {
   const styleOption = {
     // 连线颜色 coral （默认） , 取值参考颜色值
     color: '#ffb800',
@@ -1204,7 +1204,9 @@ const init = () => {
     endLabel: '',
   }
   const itemEl = document.getElementsByClassName('li')
+  console.log(isFlag.value);
   if (!isFlag.value) {
+    console.log('反向');
     if (itemList.value.length) {
       itemList.value.forEach((item, index) => {
         item.remove()
@@ -1213,9 +1215,13 @@ const init = () => {
           init()
         }
       })
+    }else {
+      isFlag.value = true
+      init()
     }
   }
   if (isFlag.value) {
+    console.log('正向');
     isFlag.value = false
     itemList.value = lines.value.map((item, i) => {
       idx.value = i

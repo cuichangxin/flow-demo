@@ -45,6 +45,7 @@ onMounted(() => {
 })
 
 function timerTask() {
+  clearInterval(timer.value)
   timer.value = setInterval(() => {
     boardShow()
   }, 3000)

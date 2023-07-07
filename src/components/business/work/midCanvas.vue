@@ -76,6 +76,7 @@ import insertCss from 'insert-css'
 import { SketchRule } from 'vue3-sketch-ruler'
 import 'vue3-sketch-ruler/lib/style.css'
 import { CloseBold } from '@element-plus/icons-vue'
+import { onBeforeUnmount } from 'vue'
 
 const emit = defineEmits(['handleHistory'])
 const instance = getCurrentInstance()
@@ -743,6 +744,9 @@ onMounted(() => {
   window.addEventListener('resize', () => {
     parentSize()
   })
+})
+onBeforeUnmount(()=>{
+  instance.proxy.$bus.all.clear()
 })
 </script>
 <style lang="scss" scoped>

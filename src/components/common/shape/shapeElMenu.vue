@@ -23,10 +23,14 @@
     </template>
   </el-menu-item>
   <el-menu-item v-if="tabIdx === 2" class="change-over-btn">
-    <el-button type="primary" text>切换视图</el-button>
+    <el-button type="primary" text @click="changeView">切换视图</el-button>
   </el-menu-item>
 </template>
 <script setup>
+
+const { proxy } = getCurrentInstance()
+
+
 const props = defineProps({
   menus: {
     type: [Array, Object],
@@ -36,10 +40,15 @@ const props = defineProps({
     type: Number,
   },
 })
+const viewFlag = ref(false)
 
 const checkType = computed(() => {
   return Array.isArray(props.menus)
 })
+const changeView = () => {
+  viewFlag.value = !viewFlag.value
+  proxy.$bus.emit('changeView',viewFlag.value)
+}
 </script>
 <style scoped lang="scss">
 .iconfont {

@@ -124,6 +124,11 @@ const goTask = (row) => {
       break
   }
   Cookies.set('taskId', row.id)
+  if (row.status === 2) {
+    Cookies.set('status',row.status)
+  }else {
+    Cookies.remove('status')
+  }
   router.push({ name: path })
 }
 const submit = (row) => {

@@ -7,7 +7,7 @@ import { useKeepAliver } from './store/keepAlive';
 import { useCancelToken } from './store/cancelToken';
 
 NProgress.configure({ showSpinner: false });
-const whiteList = ['/login', '/broad'];
+const whiteList = ['/login', '/board'];
 
 router.beforeEach((to, from, next) => {
   NProgress.start()

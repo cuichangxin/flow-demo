@@ -24,7 +24,10 @@ watch(
         const myWindow = dom.contentWindow
         dom.onload = function () {
           loading.value = false
-          myWindow.postMessage({ taskId: Cookies.get('taskId') }, 'http://192.168.30.117:3000')
+          myWindow.postMessage({ 
+            taskId: Cookies.get('taskId'),
+            status:Cookies.get('status')
+         }, 'http://192.168.30.117:3000')
         }
       })
     }
