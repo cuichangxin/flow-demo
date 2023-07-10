@@ -342,8 +342,8 @@ const createGraphic = () => {
       div.innerHTML = `
         <span>${cell.store.data.label}</span>
         <div class='tool-tip'>
-          ${x.toFixed(0)},
-          ${(x + width).toFixed(0)}
+          ${Math.abs(x.toFixed(0))},
+          ${Math.abs((x + width).toFixed(0))}
         </div>`
       return div
     },
@@ -363,8 +363,8 @@ const createGraphic = () => {
       div.innerHTML = `
         <span>${label}</span>
         <div class='tool-tip'>
-          ${x.toFixed(0)},
-          ${(x + width).toFixed(0)}
+          ${Math.abs(x.toFixed(0))},
+          ${Math.abs((x + width).toFixed(0))}
         </div>`
       return div
     },

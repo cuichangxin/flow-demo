@@ -107,7 +107,7 @@ const props = defineProps({
   }
 })
 
-const isCollapse = ref(false)
+const isCollapse = ref(true)
 const flowForm = reactive({
   label: '',
   x: 0,
@@ -142,7 +142,8 @@ const predefineColors = ref([
 watch(
   () => props.nodeConfig,
   (n, o) => {
-    flowForm.label = n.label
+    console.log(n);
+    flowForm.label = n.label || n.attrs.text.text
     flowForm.x = n.position.x
     flowForm.y = n.position.y
     flowForm.width = n.size.width

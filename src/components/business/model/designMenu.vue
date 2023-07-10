@@ -175,6 +175,7 @@ const aloneNode = ref({})
 const isOut = ref(false)
 const tag = ref(true) // 只是为了解决添加节点后不显示父节点下拉箭头
 const subGraph = ref({})
+const subData = ref({})
 
 // 递归树把节点push到对应树结构中
 const interNode = (val, tree) => {
@@ -235,6 +236,9 @@ onMounted(() => {
       subGraph.value = JSON.parse(res.data.daTree)
     }
   })
+  instance.proxy.$axios.getTaskDetail({ taskId: 2005 }).then((success) => {
+    subData.value = JSON.parse(success.data.daTree)
+  })
   instance.proxy.$axios.getTaskDetail({ taskId: Cookies.get('taskId') }).then((res) => {
     if (res.data !== null) {
       moduleTree.value = JSON.parse(res.data.daTree)
@@ -262,6 +266,9 @@ onMounted(() => {
           subGraph.value.cells.forEach((items) => {
             if (items.shape !== 'edge') {
               items.label = items.attrs.text.text
+              if (items.label === '控制方程') {
+                items.node = subData.value
+              }
               item.children.push(items)
             }
           })

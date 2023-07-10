@@ -18,6 +18,7 @@
             <!-- canvas容器 -->
             <div id="graph" class="container" ref="graphRefEm" v-loading="loading" element-loading-text="加载中...">
               <div id="graph-container" class="graph-container"></div>
+              <flowEditor :nodeConfig="nodeConfig" :isSelect="isSelect" @changeNode="changeNode"></flowEditor>
             </div>
           </div>
           <div class="el-aside-right" :class="{ fade_r: isOutR }">
@@ -87,6 +88,7 @@ import { MiniMap } from '@antv/x6-plugin-minimap'
 import insertCss from 'insert-css'
 import Cookies from 'js-cookie'
 import { CloseBold } from '@element-plus/icons-vue'
+import flowEditor from '../components/common/flowEditor/index.vue'
 
 const instance = getCurrentInstance()
 instance.proxy.$bus.on('*', (name, val) => {
@@ -482,6 +484,10 @@ const minimapPoint = reactive({
 })
 // 小地图开关
 const minimapMark = ref(false)
+const nodeConfig = ref({})
+const isSelect = ref(false)
+const nodeItem = ref({})
+
 
 // 绝对定位连接桩
 const absolutePorts = {
@@ -737,7 +743,6 @@ const close = (index) => {
 // 开始拖动
 const dragStart = (item) => {
   dragItem.value = item
-  console.log(graphRefEm.value)
   // 元素行为 移动
   graphRefEm.value.addEventListener('dragenter', dragenter)
   // 目标元素经过 禁止默认事件
@@ -1201,10 +1206,16 @@ const initGraphEvent = () => {
   })
   graph.on('node:click', (e) => {
     // 右侧表格数据
-    tableList.value = e.node.store.data.list
+    const { node } = e
+    tableList.value = node.store.data.list
     const container = document.getElementById('graph-container')
     const ports = container.querySelectorAll('.x6-port-body')
     showPorts(ports, false)
+    if (node.shape !== 'image') {
+      isSelect.value = true
+      nodeConfig.value = node.store.data
+    }
+    nodeItem.value = e.node
   })
   graph.on('edge:click', (e) => {
     tableList.value = []
@@ -1212,6 +1223,9 @@ const initGraphEvent = () => {
   graph.on('history:change', ({ cmds, options }) => {
     canUndo.value = graph.canUndo()
     canRedo.value = graph.canRedo()
+  })
+  graph.on('blank:click',()=>{
+    isSelect.value = false
   })
 }
 // 保存数据
@@ -1307,6 +1321,23 @@ const closeMap = () => {
   minimapPoint.x = 1017
   minimapPoint.y = 50
 }
+const changeNode = (e) => {
+  nodeItem.value.attr({
+    text: {
+      text: e.label,
+    },
+    label:{
+      fontSize:e.fontsize,
+      fill:e.color
+    },
+    body:{
+      fill:e.fill,
+      stroke:e.stroke
+    }
+  })
+  nodeItem.value.prop(('position', { x: e.x, y: e.y }))
+  nodeItem.value.prop(('size', { width: e.width, height: e.height }))
+}
 
 onMounted(() => {
   tableSize()
@@ -1331,7 +1362,7 @@ onMounted(() => {
 function tableSize() {
   nextTick(() => {
     if (isOutB.value) {
-      domH.value = window.innerHeight - 248
+      domH.value = window.innerHeight - 215
     } else {
       domH.value = window.innerHeight - 442
     }
