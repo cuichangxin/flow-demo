@@ -144,12 +144,17 @@
     </el-drawer>
   </div>
   <div v-show="viewFlag" class="view_wrapper">
-    <img class="image" src="../../../assets/image/bus.jpg">
+    <div id="graphs" class="canvas" ref="graphRef">
+      <div id="graph-containers" class="graph-container"></div>
+    </div>
   </div>
 </template>
 <script setup>
 import { workStore } from '@/store/index'
 import { storeToRefs } from 'pinia'
+
+import { Graph, Shape } from '@antv/x6'
+import insertCss from 'insert-css'
 
 const { proxy } = getCurrentInstance()
 proxy.$bus.on('*', (name, val) => {
@@ -192,6 +197,9 @@ const rules = reactive({
   type: [{ required: true, message: '请输入数据类型', trigger: 'blur' }],
   desc: [{ required: true, message: '请输入描述', trigger: 'blur' }],
 })
+let graph = null
+const graphData = ref({})
+
 watch(tabIndex, (n) => {
   if (Object.prototype.hasOwnProperty.call(taskAllList.value, n)) {
     issueTableData.value = taskAllList.value[n].issueTableData
@@ -201,9 +209,105 @@ watch(tabIndex, (n) => {
     takeTableData.value = []
   }
 })
-// watch(taskListStore,(n,o)=>{
-//   taskList.value = n
-// })
+watch(viewFlag, (n) => {
+  if (n) {
+    if (Object.keys(graphData.value).length <= 0) {
+      proxy.$axios.getTaskDetail({ taskId: 2006 }).then((res) => {
+        console.log(res)
+        graphData.value = JSON.parse(res.data.daTree)
+        createGraphic()
+      })
+    }
+  }
+})
+
+// 初始化创建画布
+const createGraphic = () => {
+  // #region 构建自定义图形
+  // 矩形
+  Graph.registerNode(
+    'custom-rect',
+    {
+      inherit: 'rect',
+      width: 100,
+      height: 70,
+      attrs: {
+        body: {
+          strokeWidth: 1,
+          stroke: '#333',
+          fill: '#fff',
+        },
+        text: {
+          fontSize: 12,
+          fill: '#262626',
+        },
+      },
+    },
+    true
+  )
+  // #endregion
+  const parentDom = document.getElementById('graphs')
+  const graphDom = document.getElementById('graph-containers')
+  graph = new Graph({
+    container: graphDom,
+    width: parentDom.clientWidth,
+    height: parentDom.clientHeight,
+    grid: true,
+    panning: {
+      enabled: true, // 开启拖拽平移
+    },
+    connecting: {
+      router: 'manhattan',
+      connector: {
+        name: 'rounded',
+        args: {
+          radius: 8,
+        },
+      },
+      anchor: 'center',
+      connectionPoint: 'anchor',
+      allowBlank: false,
+      snap: {
+        radius: 20,
+      },
+      createEdge() {
+        return new Shape.Edge({
+          attrs: {
+            line: {
+              stroke: '#333',
+              strokeWidth: 1,
+              targetMarker: {
+                name: 'block',
+                width: 12,
+                height: 8,
+              },
+            },
+          },
+          zIndex: 0,
+        })
+      },
+      validateConnection({ targetMagnet }) {
+        return !!targetMagnet
+      },
+    },
+  })
+  insertCss(`
+    #container {
+      display: flex;
+      border: 1px solid #dfe3e8;
+    }
+    #graph-container {
+      width: calc(100% - 180px);
+      height: 100%;
+    }
+  `)
+
+  if (Object.keys(graphData.value).length) {
+    graph.fromJSON(graphData.value.cells)
+    graph.centerContent()
+  }
+}
+
 const tableHeaderCellStyle = () => {
   return {
     background: '#efefef',
@@ -288,7 +392,8 @@ onMounted(() => {
 })
 </script>
 <style lang="scss" scoped>
-.task_info,.view_wrapper {
+.task_info,
+.view_wrapper {
   width: 100%;
   height: 100%;
   background: #fff;
@@ -420,8 +525,26 @@ onMounted(() => {
     padding: 5px 20px 0 0;
   }
 }
-.image{
+.image {
   width: 100%;
   height: 100%;
+}
+.canvas {
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+}
+
+.view_wrapper {
+  padding: 0;
+  width: calc(100% - 8px);
+}
+.graph-container {
+  width: 100%;
+  height: 100% !important;
+  flex: 1 1;
 }
 </style>

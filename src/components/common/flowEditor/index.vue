@@ -142,7 +142,6 @@ const predefineColors = ref([
 watch(
   () => props.nodeConfig,
   (n, o) => {
-    console.log(n);
     flowForm.label = n.label || n.attrs.text.text
     flowForm.x = n.position.x
     flowForm.y = n.position.y
