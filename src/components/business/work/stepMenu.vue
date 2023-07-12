@@ -36,7 +36,7 @@ const stepList = ref([
   {
     id: 3,
     label: "步骤三：任务关系定义",
-    disabled: false
+    disabled: true
   },
 ])
 const activeIdx = ref(0)

@@ -400,7 +400,7 @@ const hideMenu = (val)=>{
       应用任务模型
     </h4>
     <el-scrollbar class="menu_info">
-      <el-menu id="menu">
+      <el-menu id="menu" :default-openeds="[1]">
         <ModelMenu :menus="moduleTree" :drag="true"></ModelMenu>
       </el-menu>
     </el-scrollbar>

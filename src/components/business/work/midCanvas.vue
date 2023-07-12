@@ -56,7 +56,7 @@
 </template>
 <script setup>
 import modelMenu from './modelMenu.vue'
-import _ from 'lodash'
+import _, { reject } from 'lodash'
 import { workStore } from '@/store/index'
 import { storeToRefs } from 'pinia'
 import Cookies from 'js-cookie'
@@ -127,10 +127,12 @@ instance.proxy.$bus.on('*', (name, val) => {
     }
   }
   if (name === 'changeCell') {
+    console.log(val)
     const store = val.store.data.data
     val.prop('position', { x: store.x, y: store.y })
     val.prop('size', { width: store.width, height: val.store.data.size.height })
     val.setData({
+      label: store.taskName,
       x: store.x,
       width: store.width,
       height: val.store.data.size.height,
@@ -140,8 +142,8 @@ instance.proxy.$bus.on('*', (name, val) => {
       startTime: store.startTime,
       endTime: store.endTime,
       needList: store.needList,
-      taskName:store.taskName,
-      funName:store.funName
+      taskName: store.taskName,
+      funName: store.funName,
     })
   }
   if (name == 'sendOut') {
@@ -164,7 +166,7 @@ const moduleTree = ref([
     children: [
       {
         id: '1-1',
-        label: '综合控制任务 integratedTasks',
+        label: '综合控制功能(数据采集功能)',
         isDrag: true,
         bgColor: '#f8ebdc',
         control: false,
@@ -172,7 +174,7 @@ const moduleTree = ref([
       },
       {
         id: '1-2',
-        label: '遥测任务 telemetryTask',
+        label: '遥测功能 telemetryTask',
         isDrag: true,
         bgColor: '#e8f6dc',
         control: false,
@@ -180,7 +182,7 @@ const moduleTree = ref([
       },
       {
         id: '1-3',
-        label: '遥控任务 remoteControlTask',
+        label: '遥控功能 remoteControlTask',
         isDrag: true,
         bgColor: '#e0f4f5',
         control: false,
@@ -188,23 +190,15 @@ const moduleTree = ref([
       },
       {
         id: '1-4',
-        label: '数据采集任务 dataCollectionTasks',
-        isDrag: true,
-        bgColor: '#fff',
-        control: false,
-        shape: 'custom-html',
-      },
-      {
-        id: '1-5',
-        label: '姿控任务 attitudeControlTask',
+        label: '姿控功能 attitudeControlTask',
         isDrag: true,
         bgColor: '#f5deec',
         control: false,
         shape: 'custom-html',
       },
       {
-        id: '1-6',
-        label: '制导任务 quidanceTask',
+        id: '1-5',
+        label: '制导功能 quidanceTask',
         isDrag: true,
         bgColor: '#e8ebed',
         control: false,
@@ -220,7 +214,7 @@ const moduleTree = ref([
     children: [
       {
         id: '2-1',
-        label: '通用任务 generalTask',
+        label: '通用功能 generalTask',
         isDrag: true,
         shape: 'custom-html',
       },
@@ -302,8 +296,8 @@ const drop = (e) => {
     shape: 'custom-html',
     x: point.x - 50,
     y: point.y - 20,
-    label: dragItem.value.label,
     data: {
+      label: dragItem.value.label,
       x: point.x - 50,
       y: point.y - 20,
       color: dragItem.value.bgColor,
@@ -314,8 +308,8 @@ const drop = (e) => {
       startTime: '',
       endTime: '',
       needList: [],
-      taskName:dragItem.value.label,
-      funName:''
+      taskName: dragItem.value.label,
+      funName: '',
     },
   })
   instance.proxy.$bus.emit('taskRelationship', graph.getNodes())
@@ -334,16 +328,16 @@ const createGraphic = () => {
     height: 40,
     effect: ['data'],
     html(cell) {
-      const { color, width, x } = cell.getData()
+      const { color, width, x, label } = cell.getData()
       const div = document.createElement('div')
       div.className = 'custom-html'
       div.style.background = color
       div.style.width = width + 'px'
       div.innerHTML = `
-        <span>${cell.store.data.label}</span>
+        <span>${label}</span>
         <div class='tool-tip'>
-          ${Math.abs(x.toFixed(0))},
-          ${Math.abs((x + width).toFixed(0))}
+          ${x >= 0 ? Math.abs(x.toFixed(0)) : x.toFixed(0)},
+          ${x + width >= 0 ? Math.abs((x + width).toFixed(0)) : (x + width).toFixed(0)}
         </div>`
       return div
     },
@@ -673,18 +667,14 @@ const closeMap = () => {
 }
 // 获取任务详情
 const getDetail = () => {
-  instance.proxy.$axios.getTaskDetail({ taskId: 2001 }).then((res) => {
-    if (res.success && res.data !== null) {
-      const data = JSON.parse(res.data.daTree)
-      graphData.value = data
-      console.log(graphData.value);
-    }
-    // else {
-    //   let workData = localStorage.getItem('workData')
-    //   if (workData) {
-    //     graphData.value = JSON.parse(workData)
-    //   }
-    // }
+  return new Promise((resolve, reject) => {
+    instance.proxy.$axios.getTaskDetail({ taskId: 2001 }).then((res) => {
+      if (res.success && res.data !== null) {
+        const data = JSON.parse(res.data.daTree)
+        graphData.value = data
+        resolve('success')
+      }
+    })
   })
 }
 
@@ -730,22 +720,32 @@ const handleToolMenu = (target, val) => {
 defineExpose({ saveTaskDetail, handleToolMenu })
 
 onMounted(() => {
-  getDetail()
+  getDetail().then(
+    (res) => {
+      if (res === 'success') {
+        createGraphic()
+        initGraphEvent()
+        loading.value = false
+        // 给任务关系定义发送数据
+        instance.proxy.$bus.emit('taskRelationship', graph.getNodes())
+        instance.proxy.$bus.emit('sendMessage', graph.getNodes())
+      }
+    },
+    (err) => {
+      createGraphic()
+      initGraphEvent()
+      loading.value = false
+    }
+  )
   const parentDom = document.getElementById('graph')
   containerInfo.width = parentDom.clientWidth
   containerInfo.height = parentDom.clientHeight
-  setTimeout(() => {
-    createGraphic()
-    initGraphEvent()
-    loading.value = false
-    // 给任务关系定义发送数据
-    instance.proxy.$bus.emit('taskRelationship', graph.getNodes())
-  }, 800)
   window.addEventListener('resize', () => {
     parentSize()
   })
 })
-onBeforeUnmount(()=>{
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', () => {})
   instance.proxy.$bus.all.clear()
 })
 </script>

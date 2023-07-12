@@ -232,49 +232,50 @@ const hideMenu = (val) => {
 
 onMounted(() => {
   instance.proxy.$axios.getTaskDetail({ taskId: 2003 }).then((res) => {
-    if (res.data !== null) {
+    if (res.success) {
       subGraph.value = JSON.parse(res.data.daTree)
-    }
-  })
-  instance.proxy.$axios.getTaskDetail({ taskId: 2005 }).then((success) => {
-    subData.value = JSON.parse(success.data.daTree)
-  })
-  instance.proxy.$axios.getTaskDetail({ taskId: Cookies.get('taskId') }).then((res) => {
-    if (res.data !== null) {
-      moduleTree.value = JSON.parse(res.data.daTree)
-    }
-    // 单独获取任务
-    instance.proxy.$axios.getTaskDetail({ taskId: 2001 }).then((result) => {
-      console.log(JSON.parse(result.data.daTree))
-      if (moduleTree.value[0].id === '1') {
-        moduleTree.value.splice(0, 1)
-      }
-      moduleTree.value.unshift({
-        id: '1',
-        label: '任务名称',
-        hide: false,
-        node: {},
-        active: false,
-        children: JSON.parse(result.data.daTree).cells.filter((item) => {
-          return item.shape === 'custom-html'
-        }),
+      instance.proxy.$axios.getTaskDetail({ taskId: 2005 }).then((success) => {
+        subData.value = JSON.parse(success.data.daTree)
       })
-      moduleTree.value[0].children.forEach((item) => {
-        if (item.label.indexOf('姿控任务') !== -1) {
-          item.node = subGraph.value
-          item.children = []
-          subGraph.value.cells.forEach((items) => {
-            if (items.shape !== 'edge') {
-              items.label = items.attrs.text.text
-              if (items.label === '控制方程') {
-                items.node = subData.value
-              }
-              item.children.push(items)
+      // instance.proxy.$axios.getTaskDetail({ taskId: Cookies.get('taskId') }).then((res) => {
+        // if (res.data !== null) {
+        //   moduleTree.value = JSON.parse(res.data.daTree)
+        // }
+        // 单独获取任务
+        instance.proxy.$axios.getTaskDetail({ taskId: 2001 }).then((result) => {
+          console.log(JSON.parse(result.data.daTree))
+          if (moduleTree.value[0].id === '1') {
+            moduleTree.value.splice(0, 1)
+          }
+          moduleTree.value.unshift({
+            id: '1',
+            label: '功能名称',
+            hide: false,
+            node: {},
+            active: false,
+            children: JSON.parse(result.data.daTree).cells.filter((item) => {
+              return item.shape === 'custom-html'
+            }),
+          })
+          moduleTree.value[0].children.forEach((item) => {
+            item.label = item.data.label
+            if (item.data.label.indexOf('姿控功能') !== -1) {
+              item.node = subGraph.value
+              item.children = []
+              subGraph.value.cells.forEach((items) => {
+                if (items.shape !== 'edge') {
+                  items.label = items.attrs.text.text
+                  if (items.label === '控制方程') {
+                    items.node = subData.value
+                  }
+                  item.children.push(items)
+                }
+              })
             }
           })
-        }
-      })
-    })
+        })
+      // })
+    }
   })
 })
 </script>

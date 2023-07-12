@@ -22,7 +22,7 @@
             </thead>
             <tbody>
               <tr>
-                <th class="label">任务名称</th>
+                <th class="label">功能名称</th>
                 <th @click="edit(5)">
                   <span v-show="hideInput != 5">{{ tableData.taskName }}</span>
                   <el-input
@@ -339,6 +339,7 @@ instance.proxy.$bus.on('*', (name, val) => {
   if (name === 'showCellData') {
     const data = val
     data.store.data.data.y = data.store.data.position.y
+    console.log(data.store.data.data);
     tableData.value = data.store.data.data
     tableData.value.oldEndTime = tableData.value.endTime
     elInformation.value = val

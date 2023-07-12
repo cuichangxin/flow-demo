@@ -3,7 +3,7 @@
     <shapeHeader @handleMenu="handleMenu" :canRedo="canRedo" :canUndo="canUndo"></shapeHeader>
     <el-container class="el-container-layout">
       <el-aside class="el-aside el-aside-left" :class="{ fade: isOut }">
-        <h4 v-if="!isOut" class="title">仿真组件库</h4>
+        <h4 v-if="!isOut" class="title">组件库</h4>
         <el-scrollbar class="el-scrollbar-info" :style="{ padding: isOut ? 0 : '0 10px' }">
           <el-menu @open="open" @close="close" id="elMenu" :collapse="isOut">
             <testElMenu :menus="menuList" :drag="true" :openFlag="openFlag"></testElMenu>
@@ -14,7 +14,7 @@
       <el-container>
         <div class="canvas-wrapper" :style="{ paddingBottom: isOutB ? '0' : '' }">
           <div style="width: 100%; min-width: 0">
-            <h4 class="title">仿真测试环境</h4>
+            <h4 class="title">数字化测试环境</h4>
             <!-- canvas容器 -->
             <div id="graph" class="container" ref="graphRefEm" v-loading="loading" element-loading-text="加载中...">
               <div id="graph-container" class="graph-container"></div>
@@ -338,7 +338,7 @@ let menuList = reactive([
         label: '箭载计算机',
         drag: true,
         shape: 'image',
-        img: new URL('../assets/image/jisuanji.png', import.meta.url).href,
+        img: new URL('../assets/image/jianzai.jpeg', import.meta.url).href,
         list: {
           name: '属性',
           code: '属性值',
@@ -487,7 +487,6 @@ const minimapMark = ref(false)
 const nodeConfig = ref({})
 const isSelect = ref(false)
 const nodeItem = ref({})
-
 
 // 绝对定位连接桩
 const absolutePorts = {
@@ -1224,7 +1223,7 @@ const initGraphEvent = () => {
     canUndo.value = graph.canUndo()
     canRedo.value = graph.canRedo()
   })
-  graph.on('blank:click',()=>{
+  graph.on('blank:click', () => {
     isSelect.value = false
   })
 }
@@ -1326,14 +1325,14 @@ const changeNode = (e) => {
     text: {
       text: e.label,
     },
-    label:{
-      fontSize:e.fontsize,
-      fill:e.color
+    label: {
+      fontSize: e.fontsize,
+      fill: e.color,
     },
-    body:{
-      fill:e.fill,
-      stroke:e.stroke
-    }
+    body: {
+      fill: e.fill,
+      stroke: e.stroke,
+    },
   })
   nodeItem.value.prop(('position', { x: e.x, y: e.y }))
   nodeItem.value.prop(('size', { width: e.width, height: e.height }))
@@ -1344,6 +1343,9 @@ onMounted(() => {
   instance.proxy.$axios.getTaskDetail({ taskId: 2002 }).then((res) => {
     if (res.data !== null) {
       graphData.value = JSON.parse(res.data.daTree)
+      createGraphic()
+      initGraphEvent()
+      loading.value = false
     }
   })
   // instance.proxy.$axios.getTaskDetail({ taskId: Cookies.get('taskId') }).then((res) => {
@@ -1352,11 +1354,6 @@ onMounted(() => {
   //     graphData.value = JSON.parse(res.data.daTree)
   //   }
   // })
-  setTimeout(() => {
-    createGraphic()
-    initGraphEvent()
-    loading.value = false
-  }, 800)
 })
 
 function tableSize() {
@@ -1483,7 +1480,7 @@ onUnmounted(() => {
   overflow: hidden;
 
   .title {
-    font-size: 17px;
+    font-size: 15px;
     text-align: center;
     margin: 0;
     width: 100%;

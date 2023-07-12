@@ -1316,15 +1316,12 @@ const createGraphic = () => {
       connector: {
         name: 'rounded',
         args: {
-          radius: 2,
+          radius: 0,
         },
       },
       anchor: 'center',
       connectionPoint: 'anchor',
       allowBlank: false,
-      snap: {
-        radius: 2,
-      },
     },
   })
   insertCss(`
@@ -1352,19 +1349,19 @@ function attrsNode() {
       graphDataStatusList.value.forEach((status) => {
         if (showStatus.value === 1) {
           item.attr({
-            body: { fill: '#fff' },
+            body: { fill: '#f4fefb',stroke:'#669f88' },
             label: { fill: '#333' },
           })
         } else {
           if (index + 1 === status.serial) {
             if (status.status === 1) {
               item.attr({
-                body: { fill: '#c0c6c9' },
+                body: { fill: '#f4fefb',stroke:'#669f88' },
                 label: { fill: '#333' },
               })
             } else if (status.status === 2) {
               item.attr({
-                body: { fill: '#38a1db' },
+                body: { fill: '#a0d8ef',stroke:'#2ca9e1' },
                 label: { fill: '#fff' },
               })
               // {
@@ -1376,12 +1373,12 @@ function attrsNode() {
               // }
             } else if (status.status === 3) {
               item.attr({
-                body: { fill: '#fff' },
+                body: { fill: '#fff',stroke:'#669f88' },
                 label: { fill: '#333' },
               })
             } else if (status.status === 4) {
               item.attr({
-                body: { fill: '#ff3636' },
+                body: { fill: '#c9171e',stroke:'#e9546b' },
                 label: { fill: '#fff' },
               })
             }
@@ -1392,7 +1389,7 @@ function attrsNode() {
   }
 }
 function getFlow(json,o) {
-  axios.get(`http://192.168.30.124:8080/mock/flow/${json}.json`).then((res) => {
+  axios.get(`http://192.168.89.124:8080/mock/flow/${json}.json`).then((res) => {
     graphData.value = res
     console.log('1')
     init(o)

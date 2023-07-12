@@ -7,7 +7,7 @@
           <el-tree :data="treeData.list" :show-checkbox="showCheckout" ref="treeRef" @node-click="handleTree">
             <template #default="{ node, data }">
               <span class="custom-tree-node">
-                <span v-if="data.params && data.params.confirm2" class="affirm">待确认</span>
+                <span v-if="data.params && !data.params.confirm2" class="affirm">待确认</span>
                 <span>{{ node.label }}</span>
               </span>
             </template>
@@ -291,8 +291,8 @@ function findParent(data, target, res = []) {
     let item = data[i]
     if (item.label === target.label) {
       res.unshift(item.label)
-      if (item.params && item.params.confirm2) {
-        item.params.confirm2 = false
+      if (item.params && !item.params.confirm2) {
+        item.params.confirm2 = true
       }
       return true
     }
@@ -341,6 +341,7 @@ const remove = (row) => {
 }
 const confirmCase = () => {
   const res = []
+  console.log(useCase.value);
   findParent(treeData.list, useCase.value, res)
   const tree = treeData.list.map((val) => {
     if (val.label === res[0]) {
@@ -355,7 +356,9 @@ const confirmCase = () => {
     })
     .then((res) => {
       console.log(res)
-      localStorage.setItem('trackingStatus', true)
+      if (useCase.value.label.indexOf('姿态自毁控制') !== -1) {
+        localStorage.setItem('trackingStatus', true)
+      }
       proxy.$modal.msgSuccess('提交成功')
     })
 }

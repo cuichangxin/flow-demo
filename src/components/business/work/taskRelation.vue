@@ -11,7 +11,7 @@
             @click="checkTask(index)"
           >
             <i class="iconfont icon">&#xec35;</i>
-            <span>{{ item.label }}</span>
+            <span>{{ item.data.label }}</span>
           </li>
         </ul>
       </div>
@@ -183,7 +183,7 @@ const currentPage = ref(1)
 const pagesize = ref(6)
 const takeCurrentPage = ref(1)
 const takePagesize = ref(6)
-const tabIndex = ref(5)
+const tabIndex = ref(1)
 const drawer = ref(false)
 const form = ref({
   codeName: '',
@@ -199,11 +199,12 @@ const rules = reactive({
 })
 let graph = null
 const graphData = ref({})
+const taskRelationData = ref({})
 
 watch(tabIndex, (n) => {
-  if (Object.prototype.hasOwnProperty.call(taskAllList.value, n)) {
-    issueTableData.value = taskAllList.value[n].issueTableData
-    takeTableData.value = taskAllList.value[n].takeTableData
+  if (Object.prototype.hasOwnProperty.call(taskRelationData.value, n)) {
+    issueTableData.value = taskRelationData.value[n].issueTableData
+    takeTableData.value = taskRelationData.value[n].takeTableData
   } else {
     issueTableData.value = []
     takeTableData.value = []
@@ -379,16 +380,12 @@ const drawerOff = () => {
   drawer.value = false
 }
 onMounted(() => {
-  // let allWork = localStorage.getItem('workData')
-  let relation = localStorage.getItem('relationData')
-  // if (allWork) {
-  //   taskList.value = JSON.parse(allWork).dragData
-  // }
-  if (relation) {
-    issueTableData.value = JSON.parse(relation)[tabIndex.value].issueTableData
-    takeTableData.value = JSON.parse(relation)[tabIndex.value].takeTableData
-    taskAllList.value = JSON.parse(relation)
-  }
+  proxy.$axios.getTaskDetail({taskId:2007}).then((res) => {
+    console.log(res);
+    taskRelationData.value = JSON.parse(res.data.daTree)
+    issueTableData.value = taskRelationData.value[tabIndex.value].issueTableData
+    takeTableData.value = taskRelationData.value[tabIndex.value].takeTableData
+  })
 })
 </script>
 <style lang="scss" scoped>
