@@ -235,6 +235,7 @@ onMounted(()=>{
   background: #fff;
   border-radius: 3px;
   padding: 20px;
+  margin-left: 8px;
 
   .top_search {
     width: 400px;

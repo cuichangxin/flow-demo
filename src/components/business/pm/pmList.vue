@@ -150,13 +150,13 @@ function getProject() {
       userId: Cookies.get('userId'),
     })
     .then((res) => {
-      const data = res.data
-      data.forEach((item) => {
+      console.log(res.data);
+      res.data.forEach((item) => {
         item.subType = PROJECTMAP[item.type]
         item.subLevel = LEVELMAP[item.level]
         item.codeLang = CODELANG[item.deLanguage]
       })
-      tableList.value = data
+      tableList.value = res.data
     })
 }
 const handleCommand = (command) => {

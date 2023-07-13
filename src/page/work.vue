@@ -8,7 +8,7 @@
       :tabIdx="tabIdx"
     ></shapeHeader>
     <el-container class="el-container-layout">
-      <StepMenu @checkTab="checkTab" ref="stepMenuRef"></StepMenu>
+      <StepMenu @checkTab="checkTab" :tabIdx="tabIdx" ref="stepMenuRef"></StepMenu>
       <el-container>
         <div class="box" v-show="tabIdx == 0">
           <div class="wrapper">

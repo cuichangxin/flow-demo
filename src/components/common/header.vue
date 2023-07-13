@@ -5,6 +5,13 @@
       <h2>航天软件智能生产线</h2>
     </div>
     <p v-if="!isOut" class="user_info">
+      <div v-if="taskLength && badge" class="alert">
+        <el-tooltip content="您有新的任务待处理" placement="bottom">
+          <el-badge :value="taskLength">
+          <i class="iconfont icon-xiaoxi"></i>
+        </el-badge>
+        </el-tooltip>
+      </div>
       <el-dropdown trigger="click" @command="handleDrop">
         <span class="user">
           <el-avatar class="avatar" :size="32"  />
@@ -30,11 +37,14 @@
 <script setup>
 import markPoiner from '../common/mark/markPoiner.vue'
 import Cookies from 'js-cookie'
+import { allStore } from '../../store';
+import { storeToRefs } from 'pinia';
 
+const { taskLength } = storeToRefs(allStore())
 const instance = getCurrentInstance()
 const route = useRoute()
 const router = useRouter()
-
+const badge = ref(false)
 const userInfo = ref({
   userName: Cookies.get('userName'),
 })
@@ -42,12 +52,12 @@ const userInfo = ref({
 watch(
   () => route.path,
   (n) => {
-    if (n == '/broad') {
-      isOut.value = true
+    if (n === '/myTask/list') {
+      badge.value = true
     } else {
-      isOut.value = false
+      badge.value = false
     }
-  }
+  },{immediate:true}
 )
 
 const hideMenu = (val) => {
@@ -58,6 +68,7 @@ const isOut = ref(false)
 
 const handleDrop = (command) => {
   if (command === '1') {
+    allStore().clearTaskLength()
     const rememberMe = Cookies.get('rememberMe')
     if (Boolean(rememberMe)) {
       Cookies.remove('userId')
@@ -120,11 +131,18 @@ const handleDrop = (command) => {
 
 .user_info {
   display: flex;
+  align-items: center;
 
   span {
     color: #000;
     font-size: 15px;
     font-weight: 500;
+  }
+  .alert{
+    margin-right: 40px;
+    i{
+      font-size: 23px;
+    }
   }
 }
 

@@ -1,16 +1,17 @@
 <template>
-  <el-menu
-    mode="horizontal"
-    background-color="#fff"
-    menu-trigger="click"
-    @select="itemClick"
-  >
-    <shapeElMenu :menus="list" :tabIdx="tabIdx"></shapeElMenu>
-  </el-menu>
+  <div class="menu-wrap">
+    <el-menu mode="horizontal" background-color="#fff" @select="itemClick">
+      <shapeElMenu :menus="list" :tabIdx="tabIdx"></shapeElMenu>
+      <div v-if="tabIdx === 2" class="change-over-btn">
+        <el-button type="primary" text @click="changeView">切换视图</el-button>
+      </div>
+    </el-menu>
+  </div>
 </template>
 <script setup>
 import shapeElMenu from './shape/shapeElMenu.vue'
 
+const { proxy } = getCurrentInstance()
 const props = defineProps({
   canRedo: {
     type: Boolean,
@@ -20,9 +21,9 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  tabIdx:{
-    type:Number
-  }
+  tabIdx: {
+    type: Number,
+  },
 })
 const emit = defineEmits(['handleMenu'])
 const list = ref([
@@ -62,8 +63,17 @@ const list = ref([
       },
     ],
   },
+  {
+    title: '恢复视图',
+    icon: 'icon-huifubeifen'
+  },
 ])
+const viewFlag = ref(false)
 
+const changeView = () => {
+  viewFlag.value = !viewFlag.value
+  proxy.$bus.emit('changeView', viewFlag.value)
+}
 const itemClick = (index, indexPath, item) => {
   emit('handleMenu', index)
 }
@@ -80,10 +90,16 @@ watchEffect(() => {
         }
       })
     }
+    if (item.title === '恢复视图') {
+      item.hide = props.tabIdx === 0
+    }
   })
 })
 </script>
 <style lang="scss" scoped>
+.menu-wrap {
+  display: flex;
+}
 .el-menu {
   height: 40px;
   width: 100%;
@@ -99,5 +115,12 @@ watchEffect(() => {
 :deep(.el-sub-menu__title),
 :deep(.el-menu-item) {
   border-radius: 3px !important;
+}
+.change-over-btn {
+  float: right;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex: 1;
 }
 </style>

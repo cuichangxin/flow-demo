@@ -52,7 +52,9 @@ import { ElNotification } from 'element-plus'
 import _ from 'lodash'
 import Cookies from 'js-cookie'
 import { TASKSTATUS } from '@/utils/map'
+import { allStore } from '../store/index'
 
+const store = allStore()
 const router = useRouter()
 const { proxy } = getCurrentInstance()
 const currentPage = ref(1)
@@ -60,6 +62,7 @@ const pagesize = ref(10)
 const tableHeight = ref(0)
 const tableList = ref([])
 const taskStatus = TASKSTATUS
+const beingTask = ref([])
 
 const handlerCurrentChange = (val) => {
   currentPage.value = val
@@ -152,6 +155,10 @@ const getTask = () => {
       roleId: Cookies.get('roleId'),
     })
     .then((res) => {
+      beingTask.value = res.data.filter(item=>{
+        return item.status !== 1
+      })
+      store.getTaskLength(beingTask.value)
       res.data.forEach((item) => {
         item.subStatus = taskStatus[item.status]
       })

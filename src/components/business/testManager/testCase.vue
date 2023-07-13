@@ -61,7 +61,7 @@
                 </el-icon>
               </el-button>
               <div class="handle_content">
-                <el-form :inline="true" :model="formInline">
+                <el-form :inline="true" :model="formInline" ref="formRef">
                   <el-form-item prop="caseName" label="用例名称" class="form-item">
                     <el-input v-model="formInline.caseName" :disabled="stepDisabled"></el-input>
                   </el-form-item>
@@ -273,6 +273,8 @@ const addFrom = () => {
   })
 }
 const handleTree = (node) => {
+  proxy.$refs.formRef.resetFields()
+  formInline.suppContact = []
   if (node.params) {
     useCase.value = node
     caseGo.value = false

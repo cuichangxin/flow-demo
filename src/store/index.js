@@ -28,6 +28,7 @@ export const allStore = defineStore('all',{
       taskId:'',
       projectInfo:{}, // 新建项目配置信息
       dragstartItem:{}, // 模型拖动的数据
+      taskLength:0
     }
   },
   actions:{
@@ -38,6 +39,12 @@ export const allStore = defineStore('all',{
       }).then((res) => {
         console.log(res);
       })
+    },
+    getTaskLength(data){
+      this.taskLength = data.length
+    },
+    clearTaskLength(){
+      this.taskLength = 0
     }
   }
 })

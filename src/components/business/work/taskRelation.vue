@@ -222,6 +222,11 @@ watch(viewFlag, (n) => {
   }
 })
 
+const addss = () => {
+  proxy.$axios.saveTaskDetail({ taskId: 2006,daTree:JSON.stringify(graph.toJSON()) }).then((res) => {
+    console.log(res)
+  })
+}
 // 初始化创建画布
 const createGraphic = () => {
   // #region 构建自定义图形

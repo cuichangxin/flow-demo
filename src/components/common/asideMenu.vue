@@ -1,6 +1,6 @@
 <template>
-  <div class="container-wrap" :class="{ transform: isOut }">
-    <el-aside class="aside" :class="{ transform: isOut }">
+  <div class="container-wrap" :class="{ transform: isOut, hide_nav: !isNavMenu }">
+    <el-aside class="aside" :class="{ transform: isOut,hide_nav: !isNavMenu }">
       <el-menu
         background-color="#fff"
         :collapse="isOut"
@@ -21,6 +21,7 @@ import Cookies from 'js-cookie'
 
 const instance = getCurrentInstance()
 const route = useRoute()
+const router = useRouter()
 const useList = reactive([
   {
     id: '1',
@@ -114,6 +115,19 @@ const useList = reactive([
   },
 ])
 const isOut = ref(false)
+const isNavMenu = ref(true)
+const routerBlack = ['/modeling', '/work', '/testManager/testCase']
+
+watch(
+  () => router.currentRoute.value,
+  (n) => {
+    if (routerBlack.includes(n.path)) {
+      isNavMenu.value = false
+    }else {
+      isNavMenu.value = true
+    }
+  },{immediate:true}
+)
 
 const hideMenu = (bol) => {
   isOut.value = bol
@@ -139,10 +153,13 @@ const activeMenu = computed(() => {
     height: 100%;
   }
 }
+.hide_nav {
+  width: 0 !important;
+}
 
 :deep(.el-sub-menu__title) {
   &:hover {
-    background-color: #0069F3 !important;
+    background-color: #0069f3 !important;
     color: #fff !important;
   }
 }
@@ -168,29 +185,29 @@ const activeMenu = computed(() => {
     height: 45px;
     font-weight: 500;
     margin: 2px 0;
-    &:hover{
-      background-color: #0069F3 !important;
+    &:hover {
+      background-color: #0069f3 !important;
       color: #fff !important;
     }
   }
-  :deep(.el-sub-menu .el-menu-item){
+  :deep(.el-sub-menu .el-menu-item) {
     height: 40px;
   }
-  :deep(.el-sub-menu__title){
+  :deep(.el-sub-menu__title) {
     height: 45px;
     border-radius: 4px;
     font-weight: 500;
     padding: 0 17px;
   }
-  :deep(.el-menu-item.is-active){
-    background-color: #0069F3 !important;
+  :deep(.el-menu-item.is-active) {
+    background-color: #0069f3 !important;
     color: #fff;
   }
 }
-:deep(.el-menu-item .el-menu-tooltip__trigger){
+:deep(.el-menu-item .el-menu-tooltip__trigger) {
   padding: 0 17px;
 }
-.el-menu{
+.el-menu {
   padding: 5px;
 }
 </style>

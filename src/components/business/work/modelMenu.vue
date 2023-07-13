@@ -35,7 +35,7 @@ let props = defineProps({
   }
 })
 function checkType(menus) {
-  return Array.isArray(menus);
+  return Array.isArray(menus)
 }
 const dragstart = (e, v) => {
   store.dragEv = v
@@ -47,8 +47,8 @@ const dragend = () => {
 </script>
 <style lang="scss" scoped>
 .sub_img,.item_img{
-  width: 19px;
-  height: 19px;
+  width: 17px;
+  height: 17px;
   margin-right: 5px;
 }
 </style>
