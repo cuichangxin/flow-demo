@@ -178,7 +178,7 @@
         </div>
         <el-table
           :data="flyList"
-          height="180"
+          height="160"
           border
           :cell-style="tableCellStyle"
           :header-cell-style="tableHeaderCellStyle"
@@ -356,6 +356,13 @@ instance.proxy.$bus.on('*', (name, val) => {
         item.eTime = val.store.data.position.x + val.store.data.size.width + 's'
       }
     })
+  }
+  if (name === 'sendFlight') {
+    flyList.value = val.map(item=>{
+      item.data.title = item.data.label
+      return item.data
+    })
+    console.log(flyList.value);
   }
 })
 
@@ -540,15 +547,6 @@ const handleToolMenu = (target, val) => {
   }
 }
 defineExpose({ handleToolMenu })
-watchEffect(() => {
-  if (tabPosition.value == 3) {
-    let fly = localStorage.getItem('flyData')
-    if (fly) {
-      flyList.value = JSON.parse(fly)
-      console.log(flyList.value)
-    }
-  }
-})
 </script>
 <style lang="scss" scoped>
 .table_control {
@@ -613,9 +611,7 @@ watchEffect(() => {
   }
 
   .need_box {
-    /* width: 100%; */
-    /* height: calc(100% - 96px); */
-    min-height: 204px;
+    height: 187px;
     background: #fff;
     border-radius: 3px;
     padding: 0 5px;
@@ -664,7 +660,7 @@ watchEffect(() => {
 
   .fight_box {
     width: 100%;
-    /* height: calc(100% - 96px); */
+    height: 187px;
     min-height: 204px;
     box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.12);
     background: #fff;

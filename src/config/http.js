@@ -52,11 +52,11 @@ Axios.interceptors.request.use(
     // 是否需要设置token
     // const isToken = (config.headers || {}).isToken === false
 
-    config.cancelToken = new Axios.CancelToken((cancel) => {
-      // 正在进行的请求记录
-      const { addCancelToken } = useCancelToken()
-      addCancelToken(cancel)
-    })
+    // config.cancelToken = new Axios.CancelToken((cancel) => {
+    //   // 正在进行的请求记录
+    //   const { addCancelToken } = useCancelToken()
+    //   addCancelToken(cancel)
+    // })
     if (getToken()) {
       config.headers['Authorization'] = getToken()
     }

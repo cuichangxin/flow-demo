@@ -7,6 +7,7 @@
         v-for="(item, index) in stepList"
         :key="index"
         :class="{ disabled: item.disabled, hover: activeIdx == index }"
+        :title="item.tooltip"
         @click="stepHandler(item, index, $event)"
       >
         {{ item.label }}
@@ -33,7 +34,7 @@ const props = defineProps({
     type:Number
   }
 })
-const emit = defineEmits(['checkTab'])
+const emit = defineEmits(['checkTab','openAI'])
 const instance = getCurrentInstance()
 instance.proxy.$bus.on('sendMessage', (val) => {
   if (val.length <= 0) {
@@ -47,6 +48,7 @@ const stepList = ref([
     id: 1,
     label: '步骤一：任务定义',
     disabled: false,
+    tooltip:'智能建议'
   },
   {
     id: 2,
@@ -129,6 +131,7 @@ const scrollbarHeight = ref(0)
 
 const assistAI = () => {
   console.log('robot');
+  emit('openAI')
 }
 const stepHandler = (item, index, event) => {
   if (item.disabled) {

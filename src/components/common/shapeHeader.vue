@@ -33,9 +33,11 @@ const list = ref([
     children: [
       {
         title: '保存',
+        hide:false
       },
       {
         title: '另存为',
+        hide:false
       },
     ],
   },
@@ -45,9 +47,11 @@ const list = ref([
     children: [
       {
         title: '撤销',
+        hide:false
       },
       {
         title: '重做',
+        hide:false
       },
     ],
   },
@@ -57,9 +61,11 @@ const list = ref([
     children: [
       {
         title: '格式',
+        hide:false
       },
       {
         title: '缩略图',
+        hide:false
       },
     ],
   },
@@ -91,7 +97,7 @@ watchEffect(() => {
       })
     }
     if (item.title === '恢复视图') {
-      item.hide = props.tabIdx === 0
+      item.hide = props.tabIdx !== 0
     }
   })
 })

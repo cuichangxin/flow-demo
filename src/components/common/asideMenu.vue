@@ -116,7 +116,7 @@ const useList = reactive([
 ])
 const isOut = ref(false)
 const isNavMenu = ref(true)
-const routerBlack = ['/modeling', '/work', '/testManager/testCase']
+const routerBlack = ['/modeling', '/work', '/testManager/testCase','/demandAnalysis','/demandReview']
 
 watch(
   () => router.currentRoute.value,

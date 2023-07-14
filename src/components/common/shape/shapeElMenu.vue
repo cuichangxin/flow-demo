@@ -10,7 +10,7 @@
       </el-sub-menu>
       
       <el-menu-item v-else :index="item.title" :disabled="item.disabled">
-        <template #title v-if="item.hide">
+        <template #title v-if="!item.hide">
           <i class="iconfont" :class="[item.icon]"></i>
           <span>{{ item.title }}</span>
         </template>

@@ -1,5 +1,10 @@
 <template>
-  <div class="task_info">
+  <div
+    class="task_info"
+    v-loading="loading"
+    element-loading-text="加载中..."
+    element-loading-background="rgba(122, 122, 122, 0.8)"
+  >
     <el-table
       :data="tableList.slice((currentPage - 1) * pagesize, currentPage * pagesize)"
       border
@@ -9,7 +14,10 @@
     >
       <el-table-column align="center" label="序号" width="80">
         <template #default="scope">
-          {{ scope.$index + (currentPage - 1) * pagesize + 1 }}
+          <el-badge v-if="scope.row.isNew === 0" class="badge" value="新">
+            {{ scope.$index + (currentPage - 1) * pagesize + 1 }}
+          </el-badge>
+          <span v-else>{{ scope.$index + (currentPage - 1) * pagesize + 1 }}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" prop="name" label="任务名称"> </el-table-column>
@@ -44,6 +52,9 @@
       >
       </el-pagination>
     </div>
+    <audio ref="audioRef" @ended="ended">
+      <source src="../assets/audio/hint.mp3" />
+    </audio>
   </div>
 </template>
 <script setup>
@@ -53,8 +64,9 @@ import _ from 'lodash'
 import Cookies from 'js-cookie'
 import { TASKSTATUS } from '@/utils/map'
 import { allStore } from '../store/index'
+import { storeToRefs } from 'pinia'
 
-const store = allStore()
+const store = storeToRefs(allStore())
 const router = useRouter()
 const { proxy } = getCurrentInstance()
 const currentPage = ref(1)
@@ -63,6 +75,7 @@ const tableHeight = ref(0)
 const tableList = ref([])
 const taskStatus = TASKSTATUS
 const beingTask = ref([])
+const loading = ref(true)
 
 const handlerCurrentChange = (val) => {
   currentPage.value = val
@@ -96,6 +109,7 @@ onMounted(() => {
 })
 onUnmounted(() => {
   window.removeEventListener('resize', () => {})
+  window.removeEventListener('click', () => {})
 })
 
 const goTask = (row) => {
@@ -128,14 +142,17 @@ const goTask = (row) => {
   }
   Cookies.set('taskId', row.id)
   if (row.status === 2) {
-    Cookies.set('status',row.status)
-  }else {
+    Cookies.set('status', row.status)
+  } else {
     Cookies.remove('status')
   }
+  isNewTask(row)
   router.push({ name: path })
 }
 const submit = (row) => {
-  proxy.$axios.submitTask({
+  isNewTask(row)
+  proxy.$axios
+    .submitTask({
       taskId: row.id,
       roleId: parseInt(Cookies.get('roleId')),
       groupId: row.groupId,
@@ -151,19 +168,45 @@ const submit = (row) => {
 const getTask = () => {
   proxy.$axios
     .getUserTask({
-      typeId:Cookies.get('typeId'),
+      typeId: Cookies.get('typeId'),
       roleId: Cookies.get('roleId'),
     })
     .then((res) => {
-      beingTask.value = res.data.filter(item=>{
+      loading.value = false
+      beingTask.value = res.data.filter((item) => {
         return item.status !== 1
       })
-      store.getTaskLength(beingTask.value)
       res.data.forEach((item) => {
         item.subStatus = taskStatus[item.status]
       })
       tableList.value = res.data
+      if (store.isPlay.value) {
+        proxy.$refs.audioRef.play().then((res) => {
+          store.isPlay.value = false
+        })
+        // 监听点击事件
+        window.addEventListener('click', () => {
+          if (store.isPlay.value) {
+            store.isPlay.value = false
+            play()
+          }
+        })
+      }
     })
+}
+function play() {
+  proxy.$refs.audioRef.play()
+}
+function isNewTask(row) {
+  if (row.isNew === 0) {
+    proxy.$axios.changeTaskStatus({ id: row.id }).then((res) => {
+      console.log('isNew remove')
+    })
+  }
+}
+const ended = () => {
+  console.log('播放完毕')
+  window.removeEventListener('click', () => {})
 }
 </script>
 <style lang="scss" scoped>
@@ -174,11 +217,21 @@ const getTask = () => {
   margin: 8px 8px 0;
   height: calc(100% - 65px);
   box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.07);
+  overflow: hidden;
 }
 
 .pagination {
   margin-top: 30px;
   display: flex;
   justify-content: center;
+}
+:deep(.el-table .cell) {
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.el-badge {
+  --el-badge-size: 14px;
 }
 </style>

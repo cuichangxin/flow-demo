@@ -279,8 +279,8 @@ const createGraphic = () => {
       div.innerHTML = `
         <span>${label}</span>
         <div class='tool-tip'>
-          ${Math.abs(x.toFixed(0))},
-          ${Math.abs((x + width).toFixed(0))}
+          ${x>=0 ? Math.abs(x.toFixed(0)) : x.toFixed(0)},
+          ${(x + width) >= 0 ? Math.abs((x + width).toFixed(0)) : (x + width).toFixed(0)}
         </div>`
       return div
     },
@@ -594,6 +594,11 @@ const getDetail = () => {
       if (res.success && res.data !== null) {
         const data = JSON.parse(res.data.daTree)
         graphData.value = data
+        const flight = graphData.value.cells.filter(item=>{
+          return item.shape === 'custom-flight-html'
+        })
+        console.log(flight);
+        instance.proxy.$bus.emit('sendFlight',flight)
         resolve('success')
       }
     })

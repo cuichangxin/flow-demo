@@ -28,7 +28,8 @@ export const allStore = defineStore('all',{
       taskId:'',
       projectInfo:{}, // 新建项目配置信息
       dragstartItem:{}, // 模型拖动的数据
-      taskLength:0
+      taskLength:0,
+      isPlay:true // 音频是否首次播放
     }
   },
   actions:{

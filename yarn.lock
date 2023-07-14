@@ -191,7 +191,7 @@
     "@antv/util" "^2.0.9"
     insert-css "^2.0.0"
 
-"@antv/g6@^4.6.4", "@antv/g6@^4.8.9":
+"@antv/g6@^4.8.9":
   version "4.8.9"
   resolved "https://registry.npmmirror.com/@antv/g6/-/g6-4.8.9.tgz#07e327a48a75a0c50af6903a37e87ab431b62628"
   integrity sha512-BQAh4HLcQ/rbMkMBCib+q2iJoR1pjwN2DjeGDies4Blbiwg8RRK7CJoV8Av9Uh7OtA95BK9j7hWxfpWd3qdBAw==
@@ -1482,6 +1482,11 @@ sourcemap-codec@^1.4.8:
   resolved "https://registry.npmmirror.com/sourcemap-codec/-/sourcemap-codec-1.4.8.tgz"
   integrity sha512-9NykojV5Uih4lgo5So5dtw+f0JgJX30KCNI8gwhz2J9A15wD0Ml6tjHKwf6fTSa6fAdVBdZeNOs9eJ71qCk8vA==
 
+splitpanes@^3.1.5:
+  version "3.1.5"
+  resolved "https://registry.npmmirror.com/splitpanes/-/splitpanes-3.1.5.tgz#de81da25681c252d131747a9cb48a17156e2b210"
+  integrity sha512-r3Mq2ITFQ5a2VXLOy4/Sb2Ptp7OfEO8YIbhVJqJXoFc9hc5nTXXkCvtVDjIGbvC0vdE7tse+xTM9BMjsszP6bw==
+
 strip-literal@^1.0.1:
   version "1.0.1"
   resolved "https://registry.npmmirror.com/strip-literal/-/strip-literal-1.0.1.tgz#0115a332710c849b4e46497891fb8d585e404bd2"
@@ -1658,11 +1663,3 @@ webpack-virtual-modules@^0.5.0:
   version "0.5.0"
   resolved "https://registry.npmmirror.com/webpack-virtual-modules/-/webpack-virtual-modules-0.5.0.tgz#362f14738a56dae107937ab98ea7062e8bdd3b6c"
   integrity sha512-kyDivFZ7ZM0BVOUteVbDFhlRt7Ah/CSPwJdi8hBpkK7QLumUqdLtVfm/PX/hkcnrvr0i77fO5+TjZ94Pe+C9iw==
-
-welabx-g6@^0.8.0:
-  version "0.8.0"
-  resolved "https://registry.npmmirror.com/welabx-g6/-/welabx-g6-0.8.0.tgz#34b65f24146b7aeb2bf1e9bc6f9129e70b2fdb8c"
-  integrity sha512-BqpZaiD+YXtRWFaibFIi/xEQtwpOKHpFUReyDBoLXReq3hylMNyqMMmSeQyfRZBs6T5EJHcOylJyFZWrQ6QVVQ==
-  dependencies:
-    "@antv/g6" "^4.6.4"
-    insert-css "^2.0.0"

@@ -23,7 +23,7 @@ const route = useRoute()
 const router = useRouter()
 const bread = ref([])
 const isBack = ref(false)
-const routerBlack = ['/modeling', '/work', '/testManager/testCase']
+const routerBlack = ['/modeling', '/work', '/testManager/testCase','/demandAnalysis','/demandReview']
 
 watch(
   () => router.currentRoute.value,

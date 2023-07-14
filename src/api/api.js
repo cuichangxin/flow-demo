@@ -24,5 +24,7 @@ export default {
   // 项目看板切换
   projectChange:api('/user/changeBoardProject','post'),
   // 看板展示
-  boardShow:api('/user/getBoardLine','post')
+  boardShow:api('/user/getBoardLine','post'),
+  // 任务提示状态改变
+  changeTaskStatus:api('/user/finishRead','post')
 }
