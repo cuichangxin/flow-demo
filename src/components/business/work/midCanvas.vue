@@ -279,8 +279,8 @@ const createGraphic = () => {
       div.innerHTML = `
         <span>${label}</span>
         <div class='tool-tip'>
-          ${x>=0 ? Math.abs(x.toFixed(0)) : x.toFixed(0)},
-          ${(x + width) >= 0 ? Math.abs((x + width).toFixed(0)) : (x + width).toFixed(0)}
+          ${x >= 0 ? Math.abs(x.toFixed(0)) : x.toFixed(0)},
+          ${x + width >= 0 ? Math.abs((x + width).toFixed(0)) : (x + width).toFixed(0)}
         </div>`
       return div
     },
@@ -594,11 +594,11 @@ const getDetail = () => {
       if (res.success && res.data !== null) {
         const data = JSON.parse(res.data.daTree)
         graphData.value = data
-        const flight = graphData.value.cells.filter(item=>{
+        const flight = graphData.value.cells.filter((item) => {
           return item.shape === 'custom-flight-html'
         })
-        console.log(flight);
-        instance.proxy.$bus.emit('sendFlight',flight)
+        console.log(flight)
+        instance.proxy.$bus.emit('sendFlight', flight)
         resolve('success')
       }
     })
@@ -627,6 +627,9 @@ const saveTaskDetail = () => {
 }
 
 const handleToolMenu = (target, val) => {
+  if (target === 'resize') {
+    parentSize()
+  }
   if (val === '缩略图') {
     minimapMark.value = true
   }
@@ -642,6 +645,26 @@ const handleToolMenu = (target, val) => {
     if (graph.canRedo()) {
       graph.redo()
     }
+  }
+  if (val === '重新生成') {
+    graph.dispose()
+    getDetail().then(
+      (res) => {
+        if (res === 'success') {
+          createGraphic()
+          initGraphEvent()
+          loading.value = false
+          // 给任务关系定义发送数据
+          instance.proxy.$bus.emit('taskRelationship', graph.getNodes())
+          instance.proxy.$bus.emit('sendMessage', graph.getNodes())
+        }
+      },
+      (err) => {
+        createGraphic()
+        initGraphEvent()
+        loading.value = false
+      }
+    )
   }
 }
 defineExpose({ saveTaskDetail, handleToolMenu })
@@ -672,7 +695,9 @@ onMounted(() => {
   })
 })
 onBeforeUnmount(() => {
-  window.removeEventListener('resize', () => {parentSize()})
+  window.removeEventListener('resize', () => {
+    parentSize()
+  })
   instance.proxy.$bus.all.clear()
 })
 </script>

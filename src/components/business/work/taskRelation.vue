@@ -159,13 +159,18 @@ import insertCss from 'insert-css'
 const { proxy } = getCurrentInstance()
 proxy.$bus.on('*', (name, val) => {
   if (name === 'taskRelationship') {
-    val.forEach((item) => {
+    const data = val.map(item=>{
       if (!item.store.data.myTarget) {
-        if (!taskList.value.includes(item.store.data)) {
-          taskList.value.push(item.store.data)
-        }
+        return item.store.data
       }
     })
+    data.forEach((item,index)=>{
+      if (item === undefined) {
+        data.splice(index,1)
+      }
+    })
+    data.splice(0,1)
+    taskList.value = data
   }
   if (name === 'changeView') {
     viewFlag.value = val
@@ -384,13 +389,22 @@ const drawerOff = () => {
   }
   drawer.value = false
 }
-onMounted(() => {
+const getRelation = ()=>{
   proxy.$axios.getTaskDetail({taskId:2007}).then((res) => {
     console.log(res);
     taskRelationData.value = JSON.parse(res.data.daTree)
     issueTableData.value = taskRelationData.value[tabIndex.value].issueTableData
     takeTableData.value = taskRelationData.value[tabIndex.value].takeTableData
   })
+}
+const handleToolMenu = (target,val)=>{
+  if (val === '重新生成') {
+    getRelation()
+  }
+}
+defineExpose({handleToolMenu})
+onMounted(() => {
+  getRelation()
 })
 </script>
 <style lang="scss" scoped>

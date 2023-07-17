@@ -31,7 +31,7 @@ const dragstart = (e, v) => {
         <template #title>
           <!-- <i class="iconfont icon" :class="[icon]"></i> -->
           <img src="../../../assets/image/wenjianjia.png" class="sub_img" />
-          <span>{{ item.label }}</span>
+          <span class="title">{{ item.label }}</span>
         </template>
         <modelMenu :menus="item.children" :drag="drag" :icon="icon"></modelMenu>
       </el-sub-menu>
@@ -39,7 +39,7 @@ const dragstart = (e, v) => {
         :data-id="item.id" :data-img="item.img" :data-shape="item.shape" :data-fill="item.fill" @dragstart="(e) => dragstart(e, item)">
         <template #title>
           <img class="model_img" src="../../../assets/image/model.png" />
-          <span>{{ item.label }}</span>
+          <span class="title">{{ item.label }}</span>
           <img v-if="item?.img" style="margin-left: 10px" :src="item.img" />
         </template>
       </el-menu-item>
@@ -54,24 +54,27 @@ const dragstart = (e, v) => {
 
 <style lang="scss" scoped>
 .icon {
-  margin-right: 6px;
   font-size: 19px;
 }
 
 .sub_img {
-  width: 19px;
-  height: 19px;
+  width: 15px;
+  height: 15px;
   margin-right: 5px;
-}
-
-:deep(.el-submenu__title i) {
-  color: #000;
-  font-size: 15px;
 }
 
 .model_img {
-  width: 20px;
-  height: 20px;
+  width: 15px;
+  height: 15px;
   margin-right: 5px;
+}
+.title{
+  font-size: 13px;
+}
+:deep(.el-sub-menu__title){
+  height: 45px;
+}
+:deep(.el-menu-item){
+  height: 40px;
 }
 </style>

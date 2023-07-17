@@ -1,10 +1,5 @@
 <template>
-  <div
-    class="task_info"
-    v-loading="loading"
-    element-loading-text="加载中..."
-    element-loading-background="rgba(122, 122, 122, 0.8)"
-  >
+  <div class="task_info" v-loading="loading" element-loading-text="加载中...">
     <el-table
       :data="tableList.slice((currentPage - 1) * pagesize, currentPage * pagesize)"
       border
@@ -20,7 +15,7 @@
           <span v-else>{{ scope.$index + (currentPage - 1) * pagesize + 1 }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" prop="name" label="任务名称"> </el-table-column>
+      <el-table-column align="center" prop="name" label="任务名称"></el-table-column>
       <el-table-column align="center" prop="projectName" label="项目名称"> </el-table-column>
       <el-table-column align="center" prop="beginTime" label="任务分配时间"> </el-table-column>
       <el-table-column align="center" prop="endTime" label="要求完成时间"> </el-table-column>
@@ -176,22 +171,24 @@ const getTask = () => {
       beingTask.value = res.data.filter((item) => {
         return item.status !== 1
       })
+      tableList.value = res.data
       res.data.forEach((item) => {
         item.subStatus = taskStatus[item.status]
-      })
-      tableList.value = res.data
-      if (store.isPlay.value) {
-        proxy.$refs.audioRef.play().then((res) => {
-          store.isPlay.value = false
-        })
-        // 监听点击事件
-        window.addEventListener('click', () => {
-          if (store.isPlay.value) {
-            store.isPlay.value = false
-            play()
+        if (item.isNew === 0) {
+          if (store.isPlay.value && res.data.length) {
+            proxy.$refs.audioRef.play().then((res) => {
+              store.isPlay.value = false
+            })
+            // 监听点击事件
+            window.addEventListener('click', () => {
+              if (store.isPlay.value && res.data.length) {
+                store.isPlay.value = false
+                play()
+              }
+            })
           }
-        })
-      }
+        }
+      })
     })
 }
 function play() {
@@ -225,11 +222,21 @@ const ended = () => {
   display: flex;
   justify-content: center;
 }
-:deep(.el-table .cell) {
+/* :deep(.el-table .cell) {
   min-height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
+} */
+:deep(.el-table td.el-table__cell){
+  padding: 0;
+  height: 43px;
+  .cell{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 .el-badge {
   --el-badge-size: 14px;

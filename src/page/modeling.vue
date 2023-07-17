@@ -68,7 +68,6 @@ const handleMenu = (val)=>{
             <ModelCanvas></ModelCanvas>
             <ModelTable></ModelTable>
           </div>
-          <UseModelMenu></UseModelMenu>
         </el-main>
       </el-container>
     </el-container>

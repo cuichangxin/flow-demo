@@ -291,8 +291,8 @@ const tableData = ref({
   prec: '', // 优先级
   w: '', // 宽度
   left: '', // 左边距离
-  taskName:'',
-  funName:''
+  taskName: '',
+  funName: '',
 })
 const hideInput = ref(null)
 const tabPosition = ref(1)
@@ -339,7 +339,7 @@ instance.proxy.$bus.on('*', (name, val) => {
   if (name === 'showCellData') {
     const data = val
     data.store.data.data.y = data.store.data.position.y
-    console.log(data.store.data.data);
+    console.log(data.store.data.data)
     tableData.value = data.store.data.data
     tableData.value.oldEndTime = tableData.value.endTime
     elInformation.value = val
@@ -358,11 +358,11 @@ instance.proxy.$bus.on('*', (name, val) => {
     })
   }
   if (name === 'sendFlight') {
-    flyList.value = val.map(item=>{
+    flyList.value = val.map((item) => {
       item.data.title = item.data.label
       return item.data
     })
-    console.log(flyList.value);
+    console.log(flyList.value)
   }
 })
 
@@ -545,6 +545,20 @@ const handleToolMenu = (target, val) => {
   if (val === '格式') {
     hideMenu(target)
   }
+  if (val === '重新生成') {
+    needList.value = []
+    tableData.value = {
+      langTime: '', // 最长执行时间
+      startTime: '', // 开始时间
+      endTime: '', // 结束时间
+      desc: '', // 描述
+      prec: '', // 优先级
+      w: '', // 宽度
+      left: '', // 左边距离
+      taskName: '',
+      funName: '',
+    }
+  }
 }
 defineExpose({ handleToolMenu })
 </script>
@@ -605,7 +619,7 @@ defineExpose({ handleToolMenu })
         background-color: #ecedef;
       }
     }
-    .scroll{
+    .scroll {
       width: 100%;
     }
   }

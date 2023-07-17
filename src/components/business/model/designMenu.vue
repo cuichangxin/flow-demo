@@ -1,6 +1,6 @@
 <template>
   <el-aside class="design_menu" :class="{ fade: isOut }">
-    <h4 v-if="!isOut">领域算法设计工具</h4>
+    <h5 v-if="!isOut">领域算法设计工具</h5>
     <el-scrollbar class="menu_info">
       <el-tree
         v-if="tag"
@@ -25,6 +25,7 @@
           </span>
         </template>
       </el-tree>
+      <useModelMenu></useModelMenu>
     </el-scrollbar>
     <markPoint :isOut="isOut" :direction="'right'" :color="'#fff'" @hideMenu="hideMenu"></markPoint>
   </el-aside>
@@ -33,6 +34,7 @@
 import markPoint from '../../common/mark/markPoiner.vue'
 import _ from 'lodash'
 import Cookies from 'js-cookie'
+import useModelMenu from './useModelMenu.vue'
 
 const instance = getCurrentInstance()
 
@@ -238,42 +240,42 @@ onMounted(() => {
         subData.value = JSON.parse(success.data.daTree)
       })
       // instance.proxy.$axios.getTaskDetail({ taskId: Cookies.get('taskId') }).then((res) => {
-        // if (res.data !== null) {
-        //   moduleTree.value = JSON.parse(res.data.daTree)
-        // }
-        // 单独获取任务
-        instance.proxy.$axios.getTaskDetail({ taskId: 2001 }).then((result) => {
-          console.log(JSON.parse(result.data.daTree))
-          if (moduleTree.value[0].id === '1') {
-            moduleTree.value.splice(0, 1)
-          }
-          moduleTree.value.unshift({
-            id: '1',
-            label: '功能名称',
-            hide: false,
-            node: {},
-            active: false,
-            children: JSON.parse(result.data.daTree).cells.filter((item) => {
-              return item.shape === 'custom-html'
-            }),
-          })
-          moduleTree.value[0].children.forEach((item) => {
-            item.label = item.data.label
-            if (item.data.label.indexOf('姿控功能') !== -1) {
-              item.node = subGraph.value
-              item.children = []
-              subGraph.value.cells.forEach((items) => {
-                if (items.shape !== 'edge') {
-                  items.label = items.attrs.text.text
-                  if (items.label === '控制方程') {
-                    items.node = subData.value
-                  }
-                  item.children.push(items)
-                }
-              })
-            }
-          })
+      // if (res.data !== null) {
+      //   moduleTree.value = JSON.parse(res.data.daTree)
+      // }
+      // 单独获取任务
+      instance.proxy.$axios.getTaskDetail({ taskId: 2001 }).then((result) => {
+        console.log(JSON.parse(result.data.daTree))
+        if (moduleTree.value[0].id === '1') {
+          moduleTree.value.splice(0, 1)
+        }
+        moduleTree.value.unshift({
+          id: '1',
+          label: '功能名称',
+          hide: false,
+          node: {},
+          active: false,
+          children: JSON.parse(result.data.daTree).cells.filter((item) => {
+            return item.shape === 'custom-html'
+          }),
         })
+        moduleTree.value[0].children.forEach((item) => {
+          item.label = item.data.label
+          if (item.data.label.indexOf('姿控功能') !== -1) {
+            item.node = subGraph.value
+            item.children = []
+            subGraph.value.cells.forEach((items) => {
+              if (items.shape !== 'edge') {
+                items.label = items.attrs.text.text
+                if (items.label === '控制方程') {
+                  items.node = subData.value
+                }
+                item.children.push(items)
+              }
+            })
+          }
+        })
+      })
       // })
     }
   })
@@ -281,7 +283,7 @@ onMounted(() => {
 </script>
 <style lang="scss" scoped>
 .design_menu {
-  width: 240px;
+  width: 220px;
   height: 100%;
   background: #fff;
   border-radius: 3px;
@@ -292,12 +294,12 @@ onMounted(() => {
   overflow: visible;
   transition: width 0.2s linear;
 
-  h4 {
+  h5 {
+    font-size: 15px;
     padding: 15px 0;
     border-bottom: 1px solid #e4e8ea;
     text-align: center;
     margin: 0;
-    white-space: nowrap;
   }
 
   &.fade {
@@ -313,19 +315,17 @@ onMounted(() => {
 
 .menu_info {
   height: calc(100% - 60px);
-
   .custom-tree-node {
     display: flex;
     align-items: center;
-
     .node_label {
       color: #333;
+      font-size: 13px;
     }
-
     .item_img,
     .sub_img {
-      width: 18px;
-      height: 18px;
+      width: 15px;
+      height: 15px;
       margin-right: 5px;
     }
   }
@@ -334,14 +334,24 @@ onMounted(() => {
 .el-tree {
   min-width: 100%;
   display: inline-block !important;
+  position: relative;
+  margin-bottom: 15px;
+  /* &::after{
+    content: '';
+    display: block;
+    width: 85%;
+    margin: 20px 10px;
+    text-align: center;
+    border-bottom: 1px solid #acadae;
+  } */
 }
 
 :deep(.el-tree-node__content) {
-  height: 50px;
+  height: 40px;
 
   .el-tree-node__expand-icon {
     font-size: 16px;
-    margin-right: 6px;
+    margin-right: 1px;
   }
 }
 </style>

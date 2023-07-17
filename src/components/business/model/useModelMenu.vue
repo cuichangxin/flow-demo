@@ -409,45 +409,36 @@ const hideMenu = (val) => {
 </script>
 <template>
   <el-aside class="model_menu" :class="{ fade: isOut }">
-    <h4 v-if="!isOut">
-      <i class="iconfont icon">&#xe622;</i>
-      应用任务模型
-    </h4>
-    <el-scrollbar class="menu_info">
-      <el-menu id="menu" :default-openeds="['2']">
-        <ModelMenu :menus="moduleTree" :drag="true"></ModelMenu>
-      </el-menu>
-    </el-scrollbar>
+    <h5 v-if="!isOut">应用任务模型</h5>
+    <el-menu id="menu" :default-openeds="['2']">
+      <ModelMenu :menus="moduleTree" :drag="true"></ModelMenu>
+    </el-menu>
     <markPoint :isOut="isOut" :direction="'left'" :color="'#fff'" @hideMenu="hideMenu"></markPoint>
   </el-aside>
 </template>
 
 <style lang="scss" scoped>
 .model_menu {
-  margin-left: 10px;
   padding: 0;
-  width: 240px;
+  width: 220px;
   height: 100%;
   background: #fff;
   border-radius: 3px;
-  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.12);
   position: relative;
   overflow: visible;
   transition: width 0.2s linear;
 
-  h4 {
-    margin: 0;
+  h5 {
+    font-size: 15px;
     padding: 15px 0;
     border-bottom: 1px solid #e4e8ea;
+    border-top: 1px solid #e4e8ea;
     text-align: center;
+    margin: 0;
   }
   .icons {
     display: flex;
     justify-content: center;
-  }
-
-  .menu_info {
-    height: calc(100% - 60px);
   }
   &.fade {
     width: 0;

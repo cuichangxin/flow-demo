@@ -67,12 +67,21 @@ const list = ref([
         title: '缩略图',
         hide:false
       },
+      {
+        title:'视图对照'
+      }
     ],
   },
   {
-    title: '恢复视图',
-    icon: 'icon-huifubeifen'
-  },
+    title:'操作',
+    icon:'icon-caozuo-bianji',
+    children:[
+      {
+        title:'重新生成',
+        hide:false
+      }
+    ]
+  }
 ])
 const viewFlag = ref(false)
 

@@ -24,6 +24,7 @@
     "@antv/x6-plugin-transform": "^2.1.7",
     "@element-plus/icons-vue": "^2.1.0",
     "axios": "^1.4.0",
+    "docx-preview": "^0.1.18",
     "element-plus": "^2.3.3",
     "element-tree-line": "^0.2.1",
     "js-cookie": "^3.0.5",
