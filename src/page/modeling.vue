@@ -1,13 +1,19 @@
 <script setup>
-import DesignMenu from '../components/business/model/designMenu.vue';
-import ModelCanvas from '../components/business/model/modelCanvas.vue';
-import ModelTable from '../components/business/model/modelTable.vue';
-import UseModelMenu from '../components/business/model/useModelMenu.vue'
+import DesignMenu from '../components/business/model/designMenu.vue'
+import ModelCanvas from '../components/business/model/modelCanvas.vue'
+import ModelTable from '../components/business/model/modelTable.vue'
 import shapeHeader from '../components/common/shapeHeader.vue'
+import Dialog from '../components/common/dialog/dialog.vue'
+import useDialog from '../hooks/useDialog'
 
+import { Splitpanes, Pane } from 'splitpanes'
+import 'splitpanes/dist/splitpanes.css'
+import { renderAsync } from 'docx-preview'
+
+const { visible: visible, openDialog: openDialog, closeDialog: closeDialog } = useDialog()
 const { proxy } = getCurrentInstance()
 
-proxy.$bus.on('*',(name,val)=>{
+proxy.$bus.on('*', (name, val) => {
   if (name === 'undoAndRedo') {
     canUndo.value = val.canUndo
     canRedo.value = val.canRedo
@@ -15,9 +21,9 @@ proxy.$bus.on('*',(name,val)=>{
   if (name === 'resize') {
     if (val !== undefined) {
       if (val) {
-        mainH.value = window.innerHeight-69
-      }else {
-        mainH.value = window.innerHeight-124
+        mainH.value = window.innerHeight - 69
+      } else {
+        mainH.value = window.innerHeight - 124
       }
     }
   }
@@ -26,6 +32,8 @@ proxy.$bus.on('*',(name,val)=>{
 const mainH = ref('')
 const canUndo = ref(false) // 是否能撤销
 const canRedo = ref(false) // 是否能重做
+const showWord = ref(true)
+
 onMounted(() => {
   mainH.value = window.innerHeight - 124
   window.addEventListener('resize', () => {
@@ -33,12 +41,12 @@ onMounted(() => {
   })
 })
 onUnmounted(() => {
-  window.removeEventListener('resize', () => { })
+  window.removeEventListener('resize', () => {})
 })
 
 const contractionFlag = ref(false)
-const handleMenu = (val)=>{
-  console.log(val);
+const handleMenu = (val) => {
+  console.log(val)
   if (val === '保存') {
     proxy.$bus.emit('saveFile')
   }
@@ -50,39 +58,88 @@ const handleMenu = (val)=>{
   }
   if (val === '格式') {
     contractionFlag.value = !contractionFlag.value
-    proxy.$bus.emit('contraction',contractionFlag.value)
+    proxy.$bus.emit('contraction', contractionFlag.value)
   }
   if (val === '缩略图') {
     proxy.$bus.emit('minimap')
   }
+  if (val === '智能辅助') {
+    openDialog()
+  }
+  if (val === '重新生成') {
+    proxy.$bus.emit('regen')
+  }
+  if (val === '视图对照') {
+    showWord.value = !showWord.value
+  }
 }
+const handleConfirm = () => {
+  closeDialog()
+}
+const handleClose = () => {
+  closeDialog()
+}
+function previewFile() {
+  nextTick(() => {
+    fetch('/mock/word/2.docx')
+      .then((response) => {
+        const docData = response.blob()
+        const html = document.getElementsByClassName('docx')
+
+        renderAsync(docData, html[0]).then((res) => {
+          console.log('res---->', res)
+        })
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  })
+}
+previewFile()
 </script>
 <template>
-  <div class="modeling" :style="{ height: `${mainH}px` }">
+  <div class="modeling">
     <shapeHeader @handleMenu="handleMenu" :canRedo="canRedo" :canUndo="canUndo"></shapeHeader>
-    <el-container class="container">
-      <DesignMenu></DesignMenu>
-      <el-container>
-        <el-main class="main_info">
-          <div class="wrapper">
-            <ModelCanvas></ModelCanvas>
-            <ModelTable></ModelTable>
-          </div>
-        </el-main>
-      </el-container>
-    </el-container>
+    <Splitpanes class="default-theme">
+      <pane :size="showWord ? 50 : 0">
+        <el-scrollbar>
+          <div class="docx"></div>
+        </el-scrollbar>
+      </pane>
+      <pane :size="showWord ? 50 : 100">
+        <el-container class="container">
+          <DesignMenu></DesignMenu>
+          <el-container>
+            <el-main class="main_info">
+              <div class="wrapper">
+                <ModelCanvas></ModelCanvas>
+                <ModelTable></ModelTable>
+              </div>
+            </el-main>
+          </el-container>
+        </el-container>
+      </pane>
+    </Splitpanes>
+    <Dialog
+      title="智能辅助"
+      :hidden-full-btn="false"
+      v-model="visible"
+      @confirm="handleConfirm"
+      @close="handleClose"
+    ></Dialog>
   </div>
 </template>
 <style lang="scss" scoped>
 .modeling {
-  height: calc(100% - 147px);
+  height: calc(100% - 66px);
   margin: 0 8px;
   background: #f4f4f4;
   box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.1);
   position: relative;
 }
-.container{
-  height: calc(100% - 40px);
+.container {
+  /* height: calc(100% - 40px); */
+  height: 100%;
 }
 
 .main_info {
@@ -91,7 +148,7 @@ const handleMenu = (val)=>{
   display: flex;
   justify-content: space-between;
   overflow: hidden;
-  transition: height .2s linear;
+  transition: height 0.2s linear;
 
   .wrapper {
     flex: 1;
@@ -100,5 +157,24 @@ const handleMenu = (val)=>{
     justify-content: flex-start;
     min-width: 0;
   }
+}
+:deep(.splitpanes__splitter) {
+  background-color: #e9f1f6 !important;
+}
+.splitpanes {
+  height: calc(100% - 40px);
+}
+.splitpanes__pane {
+  border-radius: 3px;
+}
+:deep(.docx-wrapper) {
+  background-color: #f4f4f4;
+}
+:deep(.docx-wrapper > section.docx) {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+}
+.show_word{
+  width: 0 !important;
 }
 </style>

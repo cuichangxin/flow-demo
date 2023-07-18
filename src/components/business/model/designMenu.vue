@@ -68,6 +68,9 @@ instance.proxy.$bus.on('*', (name, val) => {
   if (name === 'contraction') {
     isOut.value = val
   }
+  if (name === 'regen') {
+    getTask()
+  }
 })
 const moduleTree = ref([
   // {
@@ -231,8 +234,7 @@ const hideMenu = (val) => {
   isOut.value = val
   instance.proxy.$bus.emit('resize')
 }
-
-onMounted(() => {
+function getTask() {
   instance.proxy.$axios.getTaskDetail({ taskId: 2003 }).then((res) => {
     if (res.success) {
       subGraph.value = JSON.parse(res.data.daTree)
@@ -279,6 +281,9 @@ onMounted(() => {
       // })
     }
   })
+}
+onMounted(() => {
+  getTask()
 })
 </script>
 <style lang="scss" scoped>

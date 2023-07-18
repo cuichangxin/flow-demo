@@ -52,6 +52,10 @@
                 </template>
               </el-table-column>
             </el-table>
+            <div class="case_count">
+              <span>测试用例总数:</span>
+              <span>{{ tableData.length }}</span>
+            </div>
             <!-- 处理步骤 -->
             <div class="handle">
               <span class="handle_title">处理步骤</span>
@@ -150,6 +154,7 @@ import { Plus, Edit, Delete, CirclePlus } from '@element-plus/icons-vue'
 import Cookies from 'js-cookie'
 import { getToken } from '@/utils/auth'
 import caseMenu from './caseMenu.vue'
+import { ElMessageBox } from 'element-plus'
 
 const { proxy } = getCurrentInstance()
 
@@ -341,28 +346,63 @@ const remove = (row) => {
   const index = tableData.value.indexOf(row)
   tableData.value.splice(index, 1)
 }
+function caseRange(useCase) {
+  return new Promise((resolve, reject) => {
+    let range = []
+    let isRange
+    useCase.value.useCase.forEach((item) => {
+      if (item.suppContact && item.suppContact.length) {
+        item.suppContact.forEach(val=>{
+          range.push(val.operationInput)
+        })
+      }
+    })
+    for (let index = 0; index < range.length; index++) {
+      if (range[index].indexOf('[') !== -1 && range[index].indexOf(']') !== -1) {
+        isRange = true
+        continue
+      }
+    }
+    resolve(isRange)
+  })
+}
 const confirmCase = () => {
   const res = []
-  console.log(useCase.value);
-  findParent(treeData.list, useCase.value, res)
-  const tree = treeData.list.map((val) => {
-    if (val.label === res[0]) {
-      return val.children
-    }
-  })
-  console.log(...tree)
-  proxy.$axios
-    .saveTaskDetail({
-      taskId: '1', // 特殊处理 测试用例定死1
-      daTree: JSON.stringify(...tree),
-    })
-    .then((res) => {
-      console.log(res)
-      if (useCase.value.label.indexOf('姿态自毁控制') !== -1) {
-        localStorage.setItem('trackingStatus', true)
+  console.log(useCase.value)
+  if (useCase.value.useCase) {
+    caseRange(useCase).then((res) => {
+      if (res) {
+        ElMessageBox.confirm('是否需要生成批量测试用例？', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+        })
+          .then(() => {
+            console.log("开始生成");
+          })
+          .catch(() => {})
       }
-      proxy.$modal.msgSuccess('提交成功')
     })
+  } else {
+    findParent(treeData.list, useCase.value, res)
+    const tree = treeData.list.map((val) => {
+      if (val.label === res[0]) {
+        return val.children
+      }
+    })
+    console.log(...tree)
+    proxy.$axios
+      .saveTaskDetail({
+        taskId: '1', // 特殊处理 测试用例定死1
+        daTree: JSON.stringify(...tree),
+      })
+      .then((res) => {
+        console.log(res)
+        if (useCase.value.label.indexOf('姿态自毁控制') !== -1) {
+          localStorage.setItem('trackingStatus', true)
+        }
+        proxy.$modal.msgSuccess('提交成功')
+      })
+  }
 }
 const selectHandle = (e) => {
   tableData.value.forEach((item, index) => {
@@ -509,7 +549,7 @@ onUnmounted(() => {
 
 .handle {
   display: flex;
-  margin-top: 30px;
+  margin-top: 40px;
   position: relative;
 
   .handle_title {
@@ -555,5 +595,14 @@ onUnmounted(() => {
 .test-case-content {
   display: flex;
   width: 100%;
+}
+.case_count {
+  font-size: 14px;
+  float: right;
+  margin: 10px 0 0 0;
+  &::after {
+    content: '';
+    clear: both;
+  }
 }
 </style>

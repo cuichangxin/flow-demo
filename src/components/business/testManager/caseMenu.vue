@@ -37,6 +37,24 @@ const list = ref([
         title: '批量操作',
       }
     ],
+  },
+  {
+    title:'查看',
+    icon:'icon-chakan',
+    children:[
+      {
+        title:'视图对照'
+      }
+    ]
+  },
+  {
+    title:'操作',
+    icon:'icon-caozuo-bianji',
+    children:[
+      {
+        title:'智能辅助'
+      }
+    ]
   }
 ])
 

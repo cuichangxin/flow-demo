@@ -8,13 +8,15 @@
         </template>
         <shapeElMenu :menus="item.children" :tabIdx="tabIdx"></shapeElMenu>
       </el-sub-menu>
-      
-      <el-menu-item v-else :index="item.title" :disabled="item.disabled">
-        <template #title v-if="!item.hide">
-          <i class="iconfont" :class="[item.icon]"></i>
-          <span>{{ item.title }}</span>
-        </template>
-      </el-menu-item>
+
+      <div v-else>
+        <el-menu-item v-if="!item.hide" :index="item.title" :disabled="item.disabled">
+          <template #title>
+            <i class="iconfont" :class="[item.icon]"></i>
+            <span>{{ item.title }}</span>
+          </template>
+        </el-menu-item>
+      </div>
     </template>
   </template>
 

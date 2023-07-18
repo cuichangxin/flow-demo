@@ -200,6 +200,7 @@ previewFile()
 }
 :deep(.docx-wrapper > section.docx) {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
 }
 .show_word{
   width: 0 !important;

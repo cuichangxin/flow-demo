@@ -25,7 +25,7 @@
     <!-- 小地图 -->
     <div
       class="minimap_dialog"
-      :style="{ left: `${minimapPoint.x}%`, top: `${minimapPoint.y}px`, visibility: minimapMark ? '' : 'hidden' }"
+      :style="{ left: `${minimapPoint.x}px`, top: `${minimapPoint.y}px`, visibility: minimapMark ? '' : 'hidden' }"
     >
       <header class="mxWindowTitle" @mousedown="minimapDrop">
         <span>缩略图</span>
@@ -148,6 +148,14 @@ instance.proxy.$bus.on('*', (name, val) => {
       .then((res) => {
         console.log(res)
       })
+  }
+  if (name === 'regen') {
+    loading.value = true
+    graph.dispose()
+    graphData.value = {}
+    createGraphic()
+    initGraphEvent()
+    loading.value = false
   }
 })
 const isOut = ref(false)
@@ -946,7 +954,7 @@ const initGraphEvent = () => {
       saveG6Json()
     }
   })
-  graph.on('blank:click',()=>{
+  graph.on('blank:click', () => {
     isSelect.value = false
   })
 }
@@ -956,14 +964,14 @@ const changeNode = (e) => {
     text: {
       text: e.label,
     },
-    label:{
-      fontSize:e.fontsize,
-      fill:e.color
+    label: {
+      fontSize: e.fontsize,
+      fill: e.color,
     },
-    body:{
-      fill:e.fill,
-      stroke:e.stroke
-    }
+    body: {
+      fill: e.fill,
+      stroke: e.stroke,
+    },
   })
   nodeItem.value.prop(('position', { x: e.x, y: e.y }))
   nodeItem.value.prop(('size', { width: e.width, height: e.height }))
@@ -1000,6 +1008,12 @@ const handlerTabsRemove = (targetName) => {
   }
   TabsValue.value = activeName
   tabList.value = tabs.filter((tab) => tab.key !== targetName)
+  if (tabList.value.length <= 0) {
+    graphData.value = {}
+    graph.dispose()
+    createGraphic()
+    initGraphEvent()
+  }
 }
 const minimapDrop = (e) => {
   const dom = document.getElementsByClassName('minimap_dialog')[0]

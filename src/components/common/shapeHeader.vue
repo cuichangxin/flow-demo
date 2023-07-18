@@ -11,6 +11,7 @@
 <script setup>
 import shapeElMenu from './shape/shapeElMenu.vue'
 
+const router = useRouter()
 const { proxy } = getCurrentInstance()
 const props = defineProps({
   canRedo: {
@@ -79,11 +80,16 @@ const list = ref([
       {
         title:'重新生成',
         hide:false
+      },
+      {
+        title:'智能辅助',
+        hide:false
       }
     ]
   }
 ])
 const viewFlag = ref(false)
+const pathWhite = ref(['/modeling'])
 
 const changeView = () => {
   viewFlag.value = !viewFlag.value
@@ -92,6 +98,15 @@ const changeView = () => {
 const itemClick = (index, indexPath, item) => {
   emit('handleMenu', index)
 }
+
+watch(()=>router.currentRoute.value,(n)=>{
+  console.log(n);
+  if (pathWhite.value.includes(n.path)) {
+    list.value[3].children[1].hide = false
+  }else {
+    list.value[3].children[1].hide = true
+  }
+},{immediate:true})
 
 watchEffect(() => {
   list.value.forEach((item) => {

@@ -145,6 +145,9 @@ instance.proxy.$bus.on('*', (name, val) => {
   if (name === 'contraction') {
     isOut.value = val
   }
+  if (name === 'regen') {
+    config.value = {}
+  }
 })
 
 const tabPosition = ref(1)
