@@ -127,21 +127,21 @@
           <ul class="suggest_ul">
             <li>
               <img src="../../../assets/image/shengdantubiao-05.png" alt="" />
-              {{ showTitle }}的临界值是正负40。所以，建议测试用例至少要覆盖：-41，-40，-39，0，39，40，41等
+              助推级的限幅值最大值不超过：1.5*π/180
             </li>
           </ul>
         </el-tab-pane>
         <el-tab-pane label="历史案例" name="case">
           <el-tabs v-model="caseName">
-            <el-tab-pane label="长5案例" name="langFive">
+            <el-tab-pane label="xxx案例" name="langFive">
               <ul class="suggest_ul">
                 <li>
                   <img src="../../../assets/image/shengdantubiao-05.png" alt="" />
-                  测试用例覆盖了俯仰姿态角的值：-50，-41，-40，-39，-10，0，10，39，40，41，50
+                  助推级的限幅值最大值不超过：1.4*π/180
                 </li>
               </ul>
             </el-tab-pane>
-            <el-tab-pane label="长6案例" name="langSix"></el-tab-pane>
+            <el-tab-pane label="xxx案例" name="langSix"></el-tab-pane>
           </el-tabs>
         </el-tab-pane>
       </el-tabs>

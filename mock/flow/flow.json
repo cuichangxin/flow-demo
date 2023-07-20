@@ -1670,14 +1670,14 @@
           "text": "开始"
         },
         "body": {
-          "fill": "#f4fefb",
+          "fill": "#c2ccd0",
           "stroke": "#669f88",
           "strokeWidth":2,
           "rx":16,
           "ry":16
         },
         "label": {
-          "fontSize": 12,
+          "fontSize": 14,
           "fill": "#333"
         }
       },
@@ -1789,12 +1789,12 @@
           "text": "创建项目"
         },
         "body": {
-          "fill": "#f4fefb",
+          "fill": "#c2ccd0",
           "stroke": "#669f88",
           "strokeWidth":2
         },
         "label": {
-          "fontSize": 12,
+          "fontSize": 14,
           "fill": "#333"
         }
       },
@@ -1901,12 +1901,12 @@
           "text": "运行环境分析"
         },
         "body": {
-          "fill": "#f4fefb",
+          "fill": "#c2ccd0",
           "stroke": "#669f88",
           "strokeWidth":2
         },
         "label": {
-          "fontSize": 12,
+          "fontSize": 14,
           "fill": "#333"
         }
       },
@@ -2013,12 +2013,12 @@
           "text": "功能需求分析"
         },
         "body": {
-          "fill": "#f4fefb",
+          "fill": "#c2ccd0",
           "stroke": "#669f88",
           "strokeWidth":2
         },
         "label": {
-          "fontSize": 12,
+          "fontSize": 14,
           "fill": "#333"
         }
       },
@@ -2125,12 +2125,12 @@
           "text": "性能需求分析"
         },
         "body": {
-          "fill": "#f4fefb",
+          "fill": "#c2ccd0",
           "stroke": "#669f88",
           "strokeWidth":2
         },
         "label": {
-          "fontSize": 12,
+          "fontSize": 14,
           "fill": "#333"
         }
       },
@@ -2234,15 +2234,15 @@
       },
       "attrs": {
         "text": {
-          "text": "安全性需求分析"
+          "text": "安全性需求\n分析"
         },
         "body": {
-          "fill": "#f4fefb",
+          "fill": "#c2ccd0",
           "stroke": "#669f88",
           "strokeWidth":2
         },
         "label": {
-          "fontSize": 12,
+          "fontSize": 14,
           "fill": "#333"
         }
       },
@@ -2333,7 +2333,7 @@
       "id": "e2ef366c-7539-4934-98e7-41fff54ef5db",
       "oldLabel": "安全性需求分析",
       "zIndex": 6,
-      "label": "安全性需求分析"
+      "label": "安全性需求\n分析"
     },
     {
       "position": {
@@ -2346,15 +2346,15 @@
       },
       "attrs": {
         "text": {
-          "text": "可靠性需求分析"
+          "text": "可靠性需求\n分析"
         },
         "body": {
-          "fill": "#f4fefb",
+          "fill": "#c2ccd0",
           "stroke": "#669f88",
           "strokeWidth":2
         },
         "label": {
-          "fontSize": 12,
+          "fontSize": 14,
           "fill": "#333"
         }
       },
@@ -2445,7 +2445,7 @@
       "id": "9bb11db0-4998-4b4f-a38f-7be16dff5745",
       "oldLabel": "可靠性需求分析",
       "zIndex": 7,
-      "label": "可靠性需求分析"
+      "label": "可靠性需求\n分析"
     },
     {
       "position": {
@@ -2461,12 +2461,12 @@
           "text": "质量门"
         },
         "body": {
-          "fill": "#f4fefb",
+          "fill": "#c2ccd0",
           "stroke": "#669f88",
           "strokeWidth":2
         },
         "label": {
-          "fontSize": 12,
+          "fontSize": 14,
           "fill": "#333"
         }
       },
@@ -2579,12 +2579,12 @@
           "text": "质量门"
         },
         "body": {
-          "fill": "#f4fefb",
+          "fill": "#c2ccd0",
           "stroke": "#669f88",
           "strokeWidth":2
         },
         "label": {
-          "fontSize": 12,
+          "fontSize": 14,
           "fill": "#333"
         }
       },
@@ -2690,12 +2690,12 @@
           "text": "质量门"
         },
         "body": {
-          "fill": "#f4fefb",
+          "fill": "#c2ccd0",
           "stroke": "#669f88",
           "strokeWidth":2
         },
         "label": {
-          "fontSize": 12,
+          "fontSize": 14,
           "fill": "#333"
         }
       },
@@ -2801,12 +2801,12 @@
           "text": "质量门"
         },
         "body": {
-          "fill": "#f4fefb",
+          "fill": "#c2ccd0",
           "stroke": "#669f88",
           "strokeWidth":2
         },
         "label": {
-          "fontSize": 12,
+          "fontSize": 14,
           "fill": "#333"
         }
       },
@@ -2912,12 +2912,12 @@
           "text": "质量门"
         },
         "body": {
-          "fill": "#f4fefb",
+          "fill": "#c2ccd0",
           "stroke": "#669f88",
           "strokeWidth":2
         },
         "label": {
-          "fontSize": 12,
+          "fontSize": 14,
           "fill": "#333"
         }
       },
@@ -3021,15 +3021,15 @@
       },
       "attrs": {
         "text": {
-          "text": "仿真测试环境构建"
+          "text": "仿真测试\n环境构建"
         },
         "body": {
-          "fill": "#f4fefb",
+          "fill": "#c2ccd0",
           "stroke": "#669f88",
           "strokeWidth":2
         },
         "label": {
-          "fontSize": 12,
+          "fontSize": 14,
           "fill": "#333"
         }
       },
@@ -3120,7 +3120,7 @@
       "id": "48a7c25f-ad0d-42e1-8cc0-d607c94293e0",
       "oldLabel": "仿真测试环境构建",
       "zIndex": 13,
-      "label": "仿真测试环境构建"
+      "label": "仿真测试\n环境构建"
     },
     {
       "position": {
@@ -3136,12 +3136,12 @@
           "text": "应用架构设计"
         },
         "body": {
-          "fill": "#f4fefb",
+          "fill": "#c2ccd0",
           "stroke": "#669f88",
           "strokeWidth":2
         },
         "label": {
-          "fontSize": 12,
+          "fontSize": 14,
           "fill": "#333"
         }
       },
@@ -3248,12 +3248,12 @@
           "text": "质量门"
         },
         "body": {
-          "fill": "#f4fefb",
+          "fill": "#c2ccd0",
           "stroke": "#669f88",
           "strokeWidth":2
         },
         "label": {
-          "fontSize": 12,
+          "fontSize": 14,
           "fill": "#333"
         }
       },
@@ -3360,12 +3360,12 @@
           "text": "质量门"
         },
         "body": {
-          "fill": "#f4fefb",
+          "fill": "#c2ccd0",
           "stroke": "#669f88",
           "strokeWidth":2
         },
         "label": {
-          "fontSize": 12,
+          "fontSize": 14,
           "fill": "#333"
         }
       },
@@ -3469,15 +3469,15 @@
       },
       "attrs": {
         "text": {
-          "text": "功能测试用例设计"
+          "text": "功能测试用例\n设计"
         },
         "body": {
-          "fill": "#f4fefb",
+          "fill": "#c2ccd0",
           "stroke": "#669f88",
           "strokeWidth":2
         },
         "label": {
-          "fontSize": 12,
+          "fontSize": 14,
           "fill": "#333"
         }
       },
@@ -3568,7 +3568,7 @@
       "id": "274e977f-a386-4285-8db7-3c46e25669e5",
       "oldLabel": "功能测试用例设计",
       "zIndex": 17,
-      "label": "功能测试用例设计"
+      "label": "功能测试用例\n设计"
     },
     {
       "position": {
@@ -3581,15 +3581,15 @@
       },
       "attrs": {
         "text": {
-          "text": "安全性测试用例设计"
+          "text": "安全性测试用例\n设计"
         },
         "body": {
-          "fill": "#f4fefb",
+          "fill": "#c2ccd0",
           "stroke": "#669f88",
           "strokeWidth":2
         },
         "label": {
-          "fontSize": 12,
+          "fontSize": 14,
           "fill": "#333"
         }
       },
@@ -3680,7 +3680,7 @@
       "id": "fb4ceae8-6bee-436f-beca-492164e06176",
       "oldLabel": "安全性测试用例设计",
       "zIndex": 18,
-      "label": "安全性测试用例设计"
+      "label": "安全性测试用例\n设计"
     },
     {
       "position": {
@@ -3696,12 +3696,12 @@
           "text": "安全性设计"
         },
         "body": {
-          "fill": "#f4fefb",
+          "fill": "#c2ccd0",
           "stroke": "#669f88",
           "strokeWidth":2
         },
         "label": {
-          "fontSize": 12,
+          "fontSize": 14,
           "fill": "#333"
         }
       },
@@ -3808,12 +3808,12 @@
           "text": "质量门"
         },
         "body": {
-          "fill": "#f4fefb",
+          "fill": "#c2ccd0",
           "stroke": "#669f88",
           "strokeWidth":2
         },
         "label": {
-          "fontSize": 12,
+          "fontSize": 14,
           "fill": "#333"
         }
       },
@@ -3920,12 +3920,12 @@
           "text": "质量门"
         },
         "body": {
-          "fill": "#f4fefb",
+          "fill": "#c2ccd0",
           "stroke": "#669f88",
           "strokeWidth":2
         },
         "label": {
-          "fontSize": 12,
+          "fontSize": 14,
           "fill": "#333"
         }
       },
@@ -4032,12 +4032,12 @@
           "text": "质量门"
         },
         "body": {
-          "fill": "#f4fefb",
+          "fill": "#c2ccd0",
           "stroke": "#669f88",
           "strokeWidth":2
         },
         "label": {
-          "fontSize": 12,
+          "fontSize": 14,
           "fill": "#333"
         }
       },
@@ -4141,15 +4141,15 @@
       },
       "attrs": {
         "text": {
-          "text": "性能测试用例设计"
+          "text": "性能测试用例\n设计"
         },
         "body": {
-          "fill": "#f4fefb",
+          "fill": "#c2ccd0",
           "stroke": "#669f88",
           "strokeWidth":2
         },
         "label": {
-          "fontSize": 12,
+          "fontSize": 14,
           "fill": "#333"
         }
       },
@@ -4240,7 +4240,7 @@
       "id": "96871909-08d2-481a-a61b-b92bfdcf651e",
       "oldLabel": "性能测试用例设计",
       "zIndex": 23,
-      "label": "性能测试用例设计"
+      "label": "性能测试用例\n设计"
     },
     {
       "position": {
@@ -4253,15 +4253,15 @@
       },
       "attrs": {
         "text": {
-          "text": "可靠性测试用例设计"
+          "text": "可靠性测试用例\n设计"
         },
         "body": {
-          "fill": "#f4fefb",
+          "fill": "#c2ccd0",
           "stroke": "#669f88",
           "strokeWidth":2
         },
         "label": {
-          "fontSize": 12,
+          "fontSize": 14,
           "fill": "#333"
         }
       },
@@ -4352,7 +4352,7 @@
       "id": "cacc75c6-05fd-45b2-82bd-e85f7191783a",
       "oldLabel": "可靠性测试用例设计",
       "zIndex": 24,
-      "label": "可靠性测试用例设计"
+      "label": "可靠性测试用例\n设计"
     },
     {
       "position": {
@@ -4368,12 +4368,12 @@
           "text": "任务算法设计"
         },
         "body": {
-          "fill": "#f4fefb",
+          "fill": "#c2ccd0",
           "stroke": "#669f88",
           "strokeWidth":2
         },
         "label": {
-          "fontSize": 12,
+          "fontSize": 14,
           "fill": "#333"
         }
       },
@@ -4480,12 +4480,12 @@
           "text": "质量门"
         },
         "body": {
-          "fill": "#f4fefb",
+          "fill": "#c2ccd0",
           "stroke": "#669f88",
           "strokeWidth":2
         },
         "label": {
-          "fontSize": 12,
+          "fontSize": 14,
           "fill": "#333"
         }
       },
@@ -4592,12 +4592,12 @@
           "text": "质量门"
         },
         "body": {
-          "fill": "#f4fefb",
+          "fill": "#c2ccd0",
           "stroke": "#669f88",
           "strokeWidth":2
         },
         "label": {
-          "fontSize": 12,
+          "fontSize": 14,
           "fill": "#333"
         }
       },
@@ -4704,12 +4704,12 @@
           "text": "质量门"
         },
         "body": {
-          "fill": "#f4fefb",
+          "fill": "#c2ccd0",
           "stroke": "#669f88",
           "strokeWidth":2
         },
         "label": {
-          "fontSize": 12,
+          "fontSize": 14,
           "fill": "#333"
         }
       },
@@ -4816,12 +4816,12 @@
           "text": "代码生成"
         },
         "body": {
-          "fill": "#f4fefb",
+          "fill": "#c2ccd0",
           "stroke": "#669f88",
           "strokeWidth":2
         },
         "label": {
-          "fontSize": 12,
+          "fontSize": 14,
           "fill": "#333"
         }
       },
@@ -4928,12 +4928,12 @@
           "text": "编译链接"
         },
         "body": {
-          "fill": "#f4fefb",
+          "fill": "#c2ccd0",
           "stroke": "#669f88",
           "strokeWidth":2
         },
         "label": {
-          "fontSize": 12,
+          "fontSize": 14,
           "fill": "#333"
         }
       },
@@ -5040,12 +5040,12 @@
           "text": "质量门"
         },
         "body": {
-          "fill": "#f4fefb",
+          "fill": "#c2ccd0",
           "stroke": "#669f88",
           "strokeWidth":2
         },
         "label": {
-          "fontSize": 12,
+          "fontSize": 14,
           "fill": "#333"
         }
       },
@@ -5152,12 +5152,12 @@
           "text": "功能测试"
         },
         "body": {
-          "fill": "#f4fefb",
+          "fill": "#c2ccd0",
           "stroke": "#669f88",
           "strokeWidth":2
         },
         "label": {
-          "fontSize": 12,
+          "fontSize": 14,
           "fill": "#333"
         }
       },
@@ -5264,12 +5264,12 @@
           "text": "性能测试"
         },
         "body": {
-          "fill": "#f4fefb",
+          "fill": "#c2ccd0",
           "stroke": "#669f88",
           "strokeWidth":2
         },
         "label": {
-          "fontSize": 12,
+          "fontSize": 14,
           "fill": "#333"
         }
       },
@@ -5376,12 +5376,12 @@
           "text": "安全性测试"
         },
         "body": {
-          "fill": "#f4fefb",
+          "fill": "#c2ccd0",
           "stroke": "#669f88",
           "strokeWidth":2
         },
         "label": {
-          "fontSize": 12,
+          "fontSize": 14,
           "fill": "#333"
         }
       },
@@ -5488,12 +5488,12 @@
           "text": "可靠性测试"
         },
         "body": {
-          "fill": "#f4fefb",
+          "fill": "#c2ccd0",
           "stroke": "#669f88",
           "strokeWidth":2
         },
         "label": {
-          "fontSize": 12,
+          "fontSize": 14,
           "fill": "#333"
         }
       },
@@ -5600,13 +5600,13 @@
           "text": "质量门"
         },
         "body": {
-          "fill": "#f4fefb",
+          "fill": "#c2ccd0",
           "stroke": "#669f88",
           "rx": 5,
           "ry": 5
         },
         "label": {
-          "fontSize": 12,
+          "fontSize": 14,
           "fill": "#333"
         }
       },
@@ -5713,12 +5713,12 @@
           "text": "质量门"
         },
         "body": {
-          "fill": "#f4fefb",
+          "fill": "#c2ccd0",
           "stroke": "#669f88",
           "strokeWidth":2
         },
         "label": {
-          "fontSize": 12,
+          "fontSize": 14,
           "fill": "#333"
         }
       },
@@ -5825,12 +5825,12 @@
           "text": "质量门"
         },
         "body": {
-          "fill": "#f4fefb",
+          "fill": "#c2ccd0",
           "stroke": "#669f88",
           "strokeWidth":2
         },
         "label": {
-          "fontSize": 12,
+          "fontSize": 14,
           "fill": "#333"
         }
       },
@@ -5937,12 +5937,12 @@
           "text": "质量门"
         },
         "body": {
-          "fill": "#f4fefb",
+          "fill": "#c2ccd0",
           "stroke": "#669f88",
           "strokeWidth":2
         },
         "label": {
-          "fontSize": 12,
+          "fontSize": 14,
           "fill": "#333"
         }
       },
@@ -6048,14 +6048,14 @@
           "text": "结束"
         },
         "body": {
-          "fill": "#f4fefb",
+          "fill": "#c2ccd0",
           "stroke": "#669f88",
           "strokeWidth":2,
           "rx":16,
           "ry":16
         },
         "label": {
-          "fontSize": 12,
+          "fontSize": 14,
           "fill": "#333"
         }
       },
@@ -6161,12 +6161,12 @@
           "text": "分析问题"
         },
         "body": {
-          "fill": "#f4fefb",
+          "fill": "#c2ccd0",
           "stroke": "#669f88",
           "strokeWidth":2
         },
         "label": {
-          "fontSize": 12,
+          "fontSize": 14,
           "fill": "#333"
         }
       },
@@ -6272,12 +6272,12 @@
           "text": "问题类型"
         },
         "body": {
-          "fill": "#f4fefb",
+          "fill": "#c2ccd0",
           "stroke": "#669f88",
           "strokeWidth":2
         },
         "label": {
-          "fontSize": 12,
+          "fontSize": 14,
           "fill": "#333"
         }
       },

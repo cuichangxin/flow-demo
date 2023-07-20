@@ -67,9 +67,6 @@ const list = ref([
       {
         title: '缩略图',
         hide:false
-      },
-      {
-        title:'视图对照'
       }
     ],
   },
@@ -84,6 +81,9 @@ const list = ref([
       {
         title:'智能辅助',
         hide:false
+      },
+      {
+        title:'视图对照'
       }
     ]
   }

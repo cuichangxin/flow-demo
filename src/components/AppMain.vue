@@ -28,5 +28,6 @@ const key = computed(()=>{
   width: 100%;
   position: relative;
   overflow: hidden;
+  padding: 5px;
 }
 </style>

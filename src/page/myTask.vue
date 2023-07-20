@@ -19,16 +19,24 @@
       <el-table-column align="center" prop="projectName" label="项目名称"> </el-table-column>
       <el-table-column align="center" prop="beginTime" label="任务分配时间"> </el-table-column>
       <el-table-column align="center" prop="endTime" label="要求完成时间"> </el-table-column>
-      <el-table-column align="center" prop="subStatus" label="状态" width="120"> </el-table-column>
+      <el-table-column align="center" prop="subStatus" label="状态" width="120">
+        <template #default="scope">
+          <el-tag
+            :type="scope.row.status === 1 ? 'success' : scope.row.status === 2 ? 'danger' : scope.row.status === 3 ? 'warning' : 'info' "
+            effect="dark"
+            >{{ scope.row.subStatus }}</el-tag
+          >
+        </template>
+      </el-table-column>
       <el-table-column align="center" label="动作" width="150">
         <template #default="scope">
-          <el-button link @click="goTask(scope.row)">
-            <el-icon color="#3b6bde" size="20">
+          <el-button link @click="goTask(scope.row)" title="查看任务">
+            <el-icon color="#3b6bde" size="20" class="el--icon">
               <VideoPlay />
             </el-icon>
           </el-button>
-          <el-button link :disabled="scope.row.status === 1" @click="submit(scope.row)">
-            <el-icon :color="scope.row.status === 1 ? '' : '#3b6bde'" size="20">
+          <el-button link :disabled="scope.row.status === 1" @click="submit(scope.row)" title="提交">
+            <el-icon :color="scope.row.status === 1 ? '' : '#3b6bde'" size="20" class="el--icon">
               <UploadFilled />
             </el-icon>
           </el-button>
@@ -38,7 +46,7 @@
     <div class="pagination">
       <el-pagination
         background
-        layout="prev, pager, next"
+        layout="prev, pager, next, jumper"
         :total="tableList.length"
         :page-size="pagesize"
         :current-page="currentPage"
@@ -95,6 +103,9 @@ function cellStyle({ row, column, rowIndex, columnIndex }) {
 }
 onMounted(() => {
   getTask()
+  setInterval(()=>{
+    getTask()
+  },2000)
   nextTick(() => {
     tableHeight.value = window.innerHeight - 238
   })
@@ -221,6 +232,9 @@ const ended = () => {
   margin-top: 30px;
   display: flex;
   justify-content: center;
+  :deep(.el-pagination.is-background .el-pager li.is-active){
+    background-color: #0069f3;
+  }
 }
 /* :deep(.el-table .cell) {
   min-height: 40px;
@@ -228,10 +242,10 @@ const ended = () => {
   align-items: center;
   justify-content: center;
 } */
-:deep(.el-table td.el-table__cell){
+:deep(.el-table td.el-table__cell) {
   padding: 0;
   height: 43px;
-  .cell{
+  .cell {
     height: 100%;
     display: flex;
     align-items: center;

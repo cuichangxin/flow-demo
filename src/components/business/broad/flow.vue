@@ -1349,14 +1349,14 @@ function attrsNode() {
       graphDataStatusList.value.forEach((status) => {
         if (showStatus.value === 1) {
           item.attr({
-            body: { fill: '#f4fefb',stroke:'#669f88' },
+            body: { fill: '#fff',stroke:'#669f88' },
             label: { fill: '#333' },
           })
         } else {
           if (index + 1 === status.serial) {
             if (status.status === 1) {
               item.attr({
-                body: { fill: '#f4fefb',stroke:'#669f88' },
+                body: { fill: '#c2ccd0',stroke:'#669f88' },
                 label: { fill: '#333' },
               })
             } else if (status.status === 2) {

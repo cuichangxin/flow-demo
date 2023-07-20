@@ -82,7 +82,7 @@
                       <el-table :data="formInline.suppContact" :max-height="tableHeight">
                         <el-table-column label="序号" width="80">
                           <template #default="scope">
-                            <el-badge class="badge" is-dot :hidden="suggest" @click="openSuggest(scope)" />
+                            <i v-if="!suggest" class="iconfont icon-jiqiren_o" @click="openSuggest(scope)"></i>
                             {{ scope.$index + 1 }}
                           </template>
                         </el-table-column>
@@ -169,7 +169,7 @@
         </el-tab-pane>
         <el-tab-pane label="历史案例" name="case">
           <el-tabs v-model="caseName">
-            <el-tab-pane label="长5案例" name="langFive">
+            <el-tab-pane label="xxx案例" name="langFive">
               <ul class="suggest_ul">
                 <li>
                   <img src="../../../assets/image/shengdantubiao-05.png" alt="" />
@@ -177,7 +177,7 @@
                 </li>
               </ul>
             </el-tab-pane>
-            <el-tab-pane label="长6案例" name="langSix"></el-tab-pane>
+            <el-tab-pane label="xxx案例" name="langSix"></el-tab-pane>
           </el-tabs>
         </el-tab-pane>
       </el-tabs>
@@ -314,7 +314,7 @@ const handleMenu = (e) => {
       })
       .then((res) => {
         console.log(res)
-        localStorage.setItem('trackingStatus', true)
+        // localStorage.setItem('trackingStatus', true)
         proxy.$modal.msgSuccess('提交成功')
       })
   }
@@ -408,7 +408,7 @@ const remove = (row) => {
 function caseRange(useCase) {
   return new Promise((resolve, reject) => {
     let range = []
-    let isRange
+    let isRange = false
     useCase.value.useCase.forEach((item) => {
       if (item.suppContact && item.suppContact.length) {
         item.suppContact.forEach((val) => {
@@ -417,7 +417,7 @@ function caseRange(useCase) {
       }
     })
     for (let index = 0; index < range.length; index++) {
-      if (range[index].indexOf('[') !== -1 && range[index].indexOf(']') !== -1) {
+      if ((range[index].toString()).indexOf('[') !== -1 && (range[index].toString()).indexOf(']') !== -1) {
         isRange = true
         continue
       }
@@ -438,8 +438,10 @@ const confirmCase = () => {
   let subIndex
   let str
   let weeks
+  console.log(useCase.value.useCase)
   if (useCase.value.useCase) {
     caseRange(useCase).then((res) => {
+      console.log(res);
       if (res.isRange) {
         ElMessageBox.confirm('是否需要生成批量测试用例？', '提示', {
           confirmButtonText: '确定',
@@ -490,6 +492,27 @@ const confirmCase = () => {
             }
           })
           .catch(() => {})
+      } else {
+        let res = []
+        findParent(treeData.list, useCase.value, res)
+        const tree = treeData.list.map((val) => {
+          if (val.label === res[0]) {
+            return val.children
+          }
+        })
+        console.log(...tree)
+        proxy.$axios
+          .saveTaskDetail({
+            taskId: '1', // 特殊处理 测试用例定死1
+            daTree: JSON.stringify(...tree),
+          })
+          .then((res) => {
+            console.log(res)
+            if (useCase.value.label.indexOf('姿态自毁控制') !== -1) {
+              localStorage.setItem('trackingStatus', true)
+            }
+            proxy.$modal.msgSuccess('提交成功')
+          })
       }
     })
   } else {
@@ -576,7 +599,7 @@ onMounted(() => {
     areaHeight.value = window.innerHeight - 190
   })
   proxy.$axios.getTestTree().then((res) => {
-    // console.log(res);
+    console.log(res)
     treeData.list = res.data
   })
 })
@@ -783,5 +806,8 @@ onUnmounted(() => {
       margin: 3px 5px 0 0;
     }
   }
+}
+.icon-jiqiren_o {
+  cursor: pointer;
 }
 </style>

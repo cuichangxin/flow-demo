@@ -1,7 +1,13 @@
 <template>
   <div class="tool_room" :style="{ height: `${toolH}px` }">
     <el-scrollbar class="tree_box">
-      <el-tree :data="treeData.list" :highlight-current="true" node-key="name" @node-click="HandleTree"></el-tree>
+      <el-tree
+        :data="treeData.list"
+        :highlight-current="true"
+        node-key="name"
+        default-expand-all
+        @node-click="HandleTree"
+      ></el-tree>
     </el-scrollbar>
 
     <el-scrollbar class="tool_room_wrapper">
@@ -286,9 +292,9 @@ const toolList = ref([
     name: '问题管理Mantis',
     version: '2021',
     manufacturer: '美国',
-    type:'问题管理类工具',
+    type: '问题管理类工具',
     imgUrl: new URL('../../../assets/image/item.png', import.meta.url).href,
-    desc:'Mantis主要用于缺陷跟踪，其具有多种特征，包括：易于安装，易于操作，基于Web，支持任何可运行php的平台(Windows,Linux,Mac,Solaris,AS400/i5等)'
+    desc: 'Mantis主要用于缺陷跟踪，其具有多种特征，包括：易于安装，易于操作，基于Web，支持任何可运行php的平台(Windows,Linux,Mac,Solaris,AS400/i5等)',
   },
   {
     name: '测试管理ZenTao',
@@ -399,14 +405,14 @@ const toolDetail = (item) => {
 const back = () => {
   toolDetailTarget.value = false
 }
-const HandleTree = (node)=>{
-  console.log(node);
+const HandleTree = (node) => {
+  console.log(node)
 }
 
 onMounted(() => {
-  toolH.value = window.innerHeight - 106
+  toolH.value = window.innerHeight - 114
   window.addEventListener('resize', () => {
-    toolH.value = window.innerHeight - 106
+    toolH.value = window.innerHeight - 114
   })
 })
 onUnmounted(() => {
@@ -424,7 +430,8 @@ onUnmounted(() => {
 .tree_box {
   background: #fff;
   border-radius: 8px;
-  width: 200px;
+  width: 220px;
+  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.07);
 }
 
 .el-tree {
@@ -442,7 +449,7 @@ onUnmounted(() => {
   padding: 20px;
   overflow: hidden;
   background-color: #fff;
-
+  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.07);
   header {
     display: flex;
     justify-content: center;
@@ -453,7 +460,7 @@ onUnmounted(() => {
       text-align: center;
       margin-top: 10px;
     }
-    .fh{
+    .fh {
       width: 25px;
       height: 25px;
       cursor: pointer;
@@ -468,10 +475,11 @@ onUnmounted(() => {
   display: grid;
   justify-content: space-around;
   grid-template-columns: repeat(auto-fill, 350px);
-  grid-gap: 0 30px;
+  grid-gap: 0 14px;
 }
 
 .tool_room_content_item {
+  position: relative;
   width: 350px;
   border: 1px solid #ebebeb;
   padding: 20px 10px;
@@ -479,12 +487,43 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   margin: 20px 0;
-  border-radius: 3px;
+  border-radius: 10px;
   box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.1);
   cursor: pointer;
-  transition: transform .3s ease-in-out;
-  &:hover{
-    transform: translateY(-8px);
+  transition: transform 0.3s ease-in-out;
+  &::before,
+  &::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 0;
+    border: 1px solid transparent;
+    box-sizing: border-box;
+    position: absolute;
+    border-radius: 10px;
+    transition: height 0.2s ease-out, width 0.2s ease-out 0.2s, border-color 0.4s ease-in;
+  }
+  &::before {
+    top: 0;
+    left: 0;
+  }
+  &::after {
+    right: 0;
+    bottom: 0;
+  }
+  &:hover::before,
+  &:hover::after {
+    width: 100%;
+    height: 100%;
+    transition: border-color 0.4s ease-in, width 0.2s ease-out, height 0.2s ease-out 0.2s;
+  }
+  &:hover::before {
+    border-top-color: #8d4bbb;
+    border-right-color: #8d4bbb;
+  }
+  &:hover::after {
+    border-bottom-color: #8d4bbb;
+    border-left-color: #8d4bbb;
   }
 }
 
@@ -504,6 +543,7 @@ onUnmounted(() => {
 
     &:nth-child(1) {
       margin-right: 6px;
+      font-weight: 600;
     }
   }
 }
@@ -577,18 +617,19 @@ onUnmounted(() => {
     height: 35px;
     margin: 20px 0;
     p {
-      width: 90px;
+      width: 80px;
       font-weight: normal;
       font-size: 15px;
       margin: 0;
       line-height: 35px;
+      color: #8a8d99;
     }
     .content {
       flex: 1;
       height: 100%;
-      background-color: #ededed;
+      background-color: #f4f4f4;
       border: 1px solid #d2d1d2;
-      font-size: 15px;
+      font-size: 14px;
       padding: 8px 5px;
       border-radius: 3px;
     }

@@ -1,8 +1,8 @@
 {
   "projectName": "XXX火箭飞控系统",
   "rank": "A",
-  "sDate": "2023-03-24",
-  "eDate": "2023-04-20",
+  "sDate": "2023-07-21",
+  "eDate": "2023-07-21",
   "isShowRDate": false,
   "rate": 42.0,
   "rateOffset": 17.0,
@@ -14,8 +14,8 @@
       "name": "安全性设计",
       "tool": "领域安全架构设计工具",
       "person": "李四",
-      "sDate": "2023-04-12",
-      "eDate": "2023-04-14",
+      "sDate": "2023-07-21",
+      "eDate": "2023-07-21",
       "content": ""
     }
   ],

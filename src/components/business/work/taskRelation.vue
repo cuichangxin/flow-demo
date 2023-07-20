@@ -70,6 +70,7 @@
           <div class="flex">
             <i class="iconfont icon">&#xe600;</i>
             <span>订阅数据</span>
+            <i v-if="!suggest" class="iconfont icon-jiqiren_o" @click="openSuggest(scope)"></i>
           </div>
           <div class="top_add">
             <i class="iconfont icon" @click="addCode('takeTableData')">&#xe683;</i>
@@ -83,7 +84,6 @@
           >
             <el-table-column align="center" label="序号" width="100">
               <template #default="scope">
-                <el-badge class="badge" is-dot :hidden="suggest" @click="openSuggest(scope)" />
                 {{ scope.$index + (takeCurrentPage - 1) * takePagesize + 1 }}
               </template>
             </el-table-column>
@@ -161,7 +161,7 @@
       </el-tab-pane>
       <el-tab-pane label="历史案例" name="case">
         <el-tabs v-model="caseName">
-          <el-tab-pane label="长5案例" name="langFive">
+          <el-tab-pane label="xxx案例" name="langFive">
             <ul class="suggest_ul">
               <li>
                 <img src="../../../assets/image/shengdantubiao-05.png" alt="" />
@@ -169,7 +169,7 @@
               </li>
             </ul>
           </el-tab-pane>
-          <el-tab-pane label="长6案例" name="langSix"></el-tab-pane>
+          <el-tab-pane label="xxx案例" name="langSix"></el-tab-pane>
         </el-tabs>
       </el-tab-pane>
     </el-tabs>
@@ -626,5 +626,10 @@ onMounted(() => {
       margin: 3px 5px 0 0;
     }
   }
+}
+.icon-jiqiren_o{
+  font-size: 18px;
+  margin-left: 5px;
+  cursor: pointer;
 }
 </style>

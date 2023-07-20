@@ -13,14 +13,14 @@
         {{ item.label }}
       </li>
     </ul>
-    <span v-if="!isOut" class="sub-title">
-      应用任务模型
-    </span>
-    <el-scrollbar class="scrollbar" :height="scrollbarHeight">
-      <el-menu :default-openeds="['1']" class="menu-info">
-        <modelMenu :moduleTree="moduleTree"></modelMenu>
-      </el-menu>
-    </el-scrollbar>
+    <div v-if="tabIdx === 0">
+      <span v-if="!isOut" class="sub-title"> 应用任务模型 </span>
+      <el-scrollbar class="scrollbar" :height="scrollbarHeight">
+        <el-menu :default-openeds="['1']" class="menu-info">
+          <modelMenu :moduleTree="moduleTree"></modelMenu>
+        </el-menu>
+      </el-scrollbar>
+    </div>
     <markPoint :isOut="isOut" :direction="'right'" :color="'#fff'" @hideMenu="hideMenu"></markPoint>
   </el-aside>
 </template>
@@ -29,11 +29,11 @@ import markPoint from '../../common/mark/markPoiner.vue'
 import modelMenu from './modelMenu.vue'
 
 const props = defineProps({
-  tabIdx:{
-    type:Number
-  }
+  tabIdx: {
+    type: Number,
+  },
 })
-const emit = defineEmits(['checkTab','openAI'])
+const emit = defineEmits(['checkTab', 'openAI'])
 const instance = getCurrentInstance()
 instance.proxy.$bus.on('sendMessage', (val) => {
   if (val.length <= 0) {
@@ -47,7 +47,7 @@ const stepList = ref([
     id: 1,
     label: '步骤一：任务定义',
     disabled: false,
-    tooltip:'智能建议'
+    tooltip: '智能建议',
   },
   {
     id: 2,
@@ -69,7 +69,7 @@ const moduleTree = ref([
     children: [
       {
         id: '1-1',
-        label: '综合控制功能(数据采集功能)',
+        label: '综合控制功能 integrateTask',
         isDrag: true,
         bgColor: '#f8ebdc',
         control: false,
@@ -148,7 +148,7 @@ const handleToolMenu = (target, val) => {
 defineExpose({ handleToolMenu })
 onMounted(() => {
   scrollbarHeight.value = window.innerHeight - 460
-  window.addEventListener('resize',()=>{
+  window.addEventListener('resize', () => {
     scrollbarHeight.value = window.innerHeight - 460
   })
 })
@@ -172,7 +172,7 @@ onMounted(() => {
     }
   }
 }
-.step-box{
+.step-box {
   border-bottom: 1px solid #ccc;
   padding-bottom: 20px;
   margin: 0 10px;
@@ -186,7 +186,7 @@ h5 {
   margin: 0;
   box-shadow: 0 0 16px -5px rgba(0, 0, 0, 0.2);
 }
-.sub-title{
+.sub-title {
   display: inline-block;
   font-size: 14px;
   font-weight: 500;
@@ -239,25 +239,26 @@ ul {
     opacity: 0;
   }
 }
-.el-menu{
+.el-menu {
   width: 100%;
   border-right: none;
 }
-:deep(.menu-info){
+:deep(.menu-info) {
   width: 100%;
   display: inline-block;
-  .el-sub-menu__title,.el-menu-item{
+  .el-sub-menu__title,
+  .el-menu-item {
     height: 50px;
     font-weight: 500;
     font-size: 13px;
     color: #626262;
   }
 }
-.icon-jiqiren_o{
+.icon-jiqiren_o {
   font-size: 20px;
   font-weight: 600;
   margin-right: 4px;
-  &:hover{
+  &:hover {
     color: #a1afc9;
   }
 }

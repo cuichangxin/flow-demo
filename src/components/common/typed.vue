@@ -22,7 +22,7 @@ function textSplit(content) {
       clearInterval(timers.value)
       timers.value = null
     }
-  }, 200)
+  }, 800)
 }
 </script>
   
