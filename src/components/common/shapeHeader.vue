@@ -89,7 +89,7 @@ const list = ref([
   }
 ])
 const viewFlag = ref(false)
-const pathWhite = ref(['/modeling'])
+const pathWhite = ref(['/modeling','/work'])
 
 const changeView = () => {
   viewFlag.value = !viewFlag.value
@@ -100,7 +100,6 @@ const itemClick = (index, indexPath, item) => {
 }
 
 watch(()=>router.currentRoute.value,(n)=>{
-  console.log(n);
   if (pathWhite.value.includes(n.path)) {
     list.value[3].children[1].hide = false
   }else {

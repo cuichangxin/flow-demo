@@ -15,7 +15,7 @@
       </pane>
       <pane :size="showWord ? 50 : 100">
         <el-container class="el-container-layout">
-          <StepMenu @checkTab="checkTab" :tabIdx="tabIdx" @openAI="openAI" ref="stepMenuRef"></StepMenu>
+          <StepMenu @checkTab="checkTab" :tabIdx="tabIdx" ref="stepMenuRef"></StepMenu>
           <el-container>
             <div class="box" v-show="tabIdx == 0">
               <div class="wrapper">
@@ -33,14 +33,6 @@
         </el-container>
       </pane>
     </Splitpanes>
-
-    <Dialog
-      title="智能辅助"
-      :hidden-full-btn="false"
-      v-model="visible"
-      @confirm="handleConfirm"
-      @close="handleClose"
-    ></Dialog>
   </div>
 </template>
 <script setup>
@@ -50,15 +42,11 @@ import TableControl from '../components/business/work/taskControl.vue'
 import OverAll from '../components/business/work/overAll.vue'
 import TaskRelation from '../components/business/work/taskRelation.vue'
 import shapeHeader from '../components/common/shapeHeader.vue'
-import Dialog from '../components/common/dialog/dialog.vue'
 
 import { Splitpanes, Pane } from 'splitpanes'
 import 'splitpanes/dist/splitpanes.css'
 import { renderAsync } from 'docx-preview'
 
-import useDialog from '../hooks/useDialog'
-
-const { visible: visible, openDialog: openDialog, closeDialog: closeDialog } = useDialog()
 
 const tabIdx = ref(0)
 const childRef = ref(null)
@@ -86,6 +74,8 @@ const handleMenu = (val) => {
   } else if (val === '视图对照') {
     showWord.value = !showWord.value
     childRef.value.handleToolMenu('resize')
+  } else if (val === '智能辅助') {
+    relationRef.value.handleToolMenu('none', val)
   } else {
     childRef.value.handleToolMenu('none', val)
     controlRef.value.handleToolMenu('none', val)
@@ -96,15 +86,6 @@ const handleMenu = (val) => {
 const handleHistory = ({ canUndo, canRedo }) => {
   history.canUndo = canUndo
   history.canRedo = canRedo
-}
-const handleConfirm = () => {
-  closeDialog()
-}
-const handleClose = () => {
-  closeDialog()
-}
-const openAI = () => {
-  openDialog()
 }
 
 const paneSize = (e) => {

@@ -83,6 +83,7 @@
           >
             <el-table-column align="center" label="序号" width="100">
               <template #default="scope">
+                <el-badge class="badge" is-dot :hidden="suggest" @click="openSuggest(scope)" />
                 {{ scope.$index + (takeCurrentPage - 1) * takePagesize + 1 }}
               </template>
             </el-table-column>
@@ -148,6 +149,31 @@
       <div id="graph-containers" class="graph-container"></div>
     </div>
   </div>
+  <Dialog title="智能辅助" :hidden-full-btn="false" v-model="visible" @confirm="handleConfirm" @close="handleClose">
+    <el-tabs v-model="activeName">
+      <el-tab-pane label="建议" name="suggest">
+        <ul class="suggest_ul">
+          <li>
+            <img src="../../../assets/image/shengdantubiao-05.png" alt="" />
+            建议增加惯性坐标系位置信息和视速度
+          </li>
+        </ul>
+      </el-tab-pane>
+      <el-tab-pane label="历史案例" name="case">
+        <el-tabs v-model="caseName">
+          <el-tab-pane label="长5案例" name="langFive">
+            <ul class="suggest_ul">
+              <li>
+                <img src="../../../assets/image/shengdantubiao-05.png" alt="" />
+                订阅数据有惯性坐标系位置信息和视速度
+              </li>
+            </ul>
+          </el-tab-pane>
+          <el-tab-pane label="长6案例" name="langSix"></el-tab-pane>
+        </el-tabs>
+      </el-tab-pane>
+    </el-tabs>
+  </Dialog>
 </template>
 <script setup>
 import { workStore } from '@/store/index'
@@ -155,28 +181,34 @@ import { storeToRefs } from 'pinia'
 
 import { Graph, Shape } from '@antv/x6'
 import insertCss from 'insert-css'
+import Dialog from '../../../components/common/dialog/dialog.vue'
+import useDialog from '../../../hooks/useDialog'
+
+const { visible: visible, openDialog: openDialog, closeDialog: closeDialog } = useDialog()
 
 const { proxy } = getCurrentInstance()
 proxy.$bus.on('*', (name, val) => {
   if (name === 'taskRelationship') {
-    const data = val.map(item=>{
+    const data = val.map((item) => {
       if (!item.store.data.myTarget) {
         return item.store.data
       }
     })
-    data.forEach((item,index)=>{
+    data.forEach((item, index) => {
       if (item === undefined) {
-        data.splice(index,1)
+        data.splice(index, 1)
       }
     })
-    data.splice(0,1)
+    data.splice(0, 1)
     taskList.value = data
   }
   if (name === 'changeView') {
     viewFlag.value = val
   }
 })
-
+const activeName = ref('suggest')
+const caseName = ref('langFive')
+const suggest = ref(true)
 const work = workStore()
 const { taskAllList } = storeToRefs(work)
 const taskList = ref([])
@@ -226,9 +258,18 @@ watch(viewFlag, (n) => {
     }
   }
 })
+const openSuggest = (scope) => {
+  openDialog()
+}
+const handleConfirm = () => {
+  closeDialog()
+}
+const handleClose = () => {
+  closeDialog()
+}
 
 const addss = () => {
-  proxy.$axios.saveTaskDetail({ taskId: 2006,daTree:JSON.stringify(graph.toJSON()) }).then((res) => {
+  proxy.$axios.saveTaskDetail({ taskId: 2006, daTree: JSON.stringify(graph.toJSON()) }).then((res) => {
     console.log(res)
   })
 }
@@ -389,20 +430,23 @@ const drawerOff = () => {
   }
   drawer.value = false
 }
-const getRelation = ()=>{
-  proxy.$axios.getTaskDetail({taskId:2007}).then((res) => {
-    console.log(res);
+const getRelation = () => {
+  proxy.$axios.getTaskDetail({ taskId: 2007 }).then((res) => {
+    console.log(res)
     taskRelationData.value = JSON.parse(res.data.daTree)
     issueTableData.value = taskRelationData.value[tabIndex.value].issueTableData
     takeTableData.value = taskRelationData.value[tabIndex.value].takeTableData
   })
 }
-const handleToolMenu = (target,val)=>{
+const handleToolMenu = (target, val) => {
   if (val === '重新生成') {
     getRelation()
   }
+  if (val === '智能辅助') {
+    suggest.value = !suggest.value
+  }
 }
-defineExpose({handleToolMenu})
+defineExpose({ handleToolMenu })
 onMounted(() => {
   getRelation()
 })
@@ -562,5 +606,25 @@ onMounted(() => {
   width: 100%;
   height: 100% !important;
   flex: 1 1;
+}
+.el-badge {
+  --el-badge-size: 14px;
+  --el-badge-bg-color: #0095d9;
+  cursor: pointer;
+}
+:deep(.el-badge__content--danger) {
+  background-color: #0095d9;
+}
+.suggest_ul {
+  list-style: none;
+  padding-left: 0;
+  li {
+    display: flex;
+    img {
+      width: 14px;
+      height: 14px;
+      margin: 3px 5px 0 0;
+    }
+  }
 }
 </style>

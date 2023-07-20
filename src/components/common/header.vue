@@ -74,7 +74,6 @@ const handleDrop = (command) => {
   justify-content: space-between;
   background: #ffffff;
   position: relative;
-  z-index: 11;
   border-bottom: 1px solid #eaeaea;
   transition: height 0.2s linear;
 

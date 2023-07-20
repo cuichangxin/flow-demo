@@ -59,3 +59,24 @@ export function formatTime(time) {
   var createTime = year + '-' + month + '-' + day
   return createTime
 }
+
+// 求两数之间的所有数字
+export function week(arr, arr2){
+  let a = parseInt(arr)
+  let b = parseInt(arr2)
+  let c = []
+  if (arr - b < 0) {
+    const number = Math.abs(a - b) + 1
+    for (let i = a; i < a + number; i++) {
+      c.push(i)
+    }
+  } else if (a - b === 0) {
+    c.push(a)
+  } else if (a - b > 0) {
+    const number = Math.abs(a - b)
+    for (let i = a; i > number; i--) {
+      c.push(i)
+    }
+  }
+  return c
+}

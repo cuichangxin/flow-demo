@@ -11,7 +11,6 @@
         @click="stepHandler(item, index, $event)"
       >
         {{ item.label }}
-        <i v-if="index === 0 && tabIdx === 0" class="iconfont icon-jiqiren_o" @click.stop="assistAI"></i>
       </li>
     </ul>
     <span v-if="!isOut" class="sub-title">
@@ -129,10 +128,6 @@ const activeIdx = ref(0)
 const isOut = ref(false)
 const scrollbarHeight = ref(0)
 
-const assistAI = () => {
-  console.log('robot');
-  emit('openAI')
-}
 const stepHandler = (item, index, event) => {
   if (item.disabled) {
     event.preventDefault()

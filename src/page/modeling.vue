@@ -64,7 +64,7 @@ const handleMenu = (val) => {
     proxy.$bus.emit('minimap')
   }
   if (val === '智能辅助') {
-    openDialog()
+    proxy.$bus.emit('showAi')
   }
   if (val === '重新生成') {
     proxy.$bus.emit('regen')

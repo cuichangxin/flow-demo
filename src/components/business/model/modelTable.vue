@@ -30,7 +30,7 @@
             >
             </el-input>
           </th>
-          <th class="label">描述</th>
+          <th class="label">描述 <i v-if="showSuggest" class="iconfont icon-jiqiren_o" @click="openSuggest"></i></th>
           <th @click="edit(1)">
             <span v-show="hideInput != 1">{{ config.desc }}</span>
             <el-input
@@ -47,7 +47,7 @@
           </th>
         </tr>
         <tr>
-          <th class="label">输入</th>
+          <th class="label">输入 <i v-if="showSuggest" class="iconfont icon-jiqiren_o" @click="openSuggest"></i></th>
           <th @click="edit(2)">
             <span v-show="hideInput != 2">{{ config.input }}</span>
             <el-input
@@ -66,7 +66,7 @@
           <th></th>
         </tr>
         <tr>
-          <th class="label">输出</th>
+          <th class="label">输出 <i v-if="showSuggest" class="iconfont icon-jiqiren_o" @click="openSuggest"></i></th>
           <th @click="edit(3)">
             <span v-show="hideInput != 3">{{ config.output }}</span>
             <el-input
@@ -121,14 +121,42 @@
         </span>
       </template>
     </el-dialog>
+    <Dialog title="智能辅助" :hidden-full-btn="false" v-model="visible" @confirm="handleConfirm" @close="handleClose">
+      <el-tabs v-model="activeName">
+        <el-tab-pane label="建议" name="suggest">
+          <ul class="suggest_ul">
+            <li>
+              <img src="../../../assets/image/shengdantubiao-05.png" alt="" />
+              {{ showTitle }}的临界值是正负40。所以，建议测试用例至少要覆盖：-41，-40，-39，0，39，40，41等
+            </li>
+          </ul>
+        </el-tab-pane>
+        <el-tab-pane label="历史案例" name="case">
+          <el-tabs v-model="caseName">
+            <el-tab-pane label="长5案例" name="langFive">
+              <ul class="suggest_ul">
+                <li>
+                  <img src="../../../assets/image/shengdantubiao-05.png" alt="" />
+                  测试用例覆盖了俯仰姿态角的值：-50，-41，-40，-39，-10，0，10，39，40，41，50
+                </li>
+              </ul>
+            </el-tab-pane>
+            <el-tab-pane label="长6案例" name="langSix"></el-tab-pane>
+          </el-tabs>
+        </el-tab-pane>
+      </el-tabs>
+    </Dialog>
   </div>
 </template>
 <script setup>
 import _ from 'lodash'
 import markPoint from '../../common/mark/markPoiner.vue'
 import { Delete } from '@element-plus/icons-vue'
+import Dialog from '../../common/dialog/dialog.vue'
+import useDialog from '../../../hooks/useDialog'
 
 const instance = getCurrentInstance()
+const { visible: visible, openDialog: openDialog, closeDialog: closeDialog } = useDialog()
 
 instance.proxy.$bus.on('*', (name, val) => {
   if (name === 'tableConfig') {
@@ -148,7 +176,12 @@ instance.proxy.$bus.on('*', (name, val) => {
   if (name === 'regen') {
     config.value = {}
   }
+  if (name === 'showAi') {
+    showSuggest.value = !showSuggest.value
+  }
 })
+const activeName = ref('suggest')
+const caseName = ref('langFive')
 
 const tabPosition = ref(1)
 const hideInput = ref(null)
@@ -173,6 +206,7 @@ const dialogNeedList = ref([
     label: '姿态网络计算',
   },
 ])
+const showSuggest = ref(false)
 const isNext = ref(true)
 
 const inputRef = (el) => {
@@ -251,6 +285,15 @@ const hideMenu = (val) => {
   isOut.value = val
   instance.proxy.$bus.emit('resize', isOut.value)
 }
+const openSuggest = () => {
+  openDialog()
+}
+const handleConfirm = () => {
+  closeDialog()
+}
+const handleClose = () => {
+  closeDialog()
+}
 </script>
 <style lang="scss" scoped>
 .model_table {
@@ -262,7 +305,7 @@ const hideMenu = (val) => {
 
   .table_box {
     width: 100%;
-    height:200px;
+    height: 200px;
     background: #fff;
     border-radius: 3px;
     display: flex;
@@ -352,5 +395,25 @@ const hideMenu = (val) => {
 
 .mark {
   bottom: 84.9% !important;
+}
+.icon-jiqiren_o {
+  cursor: pointer;
+  font-weight: 600;
+  color: #3e4f66;
+  &:hover {
+    color: #518edf;
+  }
+}
+.suggest_ul {
+  list-style: none;
+  padding-left: 0;
+  li {
+    display: flex;
+    img {
+      width: 14px;
+      height: 14px;
+      margin: 3px 5px 0 0;
+    }
+  }
 }
 </style>
