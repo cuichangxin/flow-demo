@@ -216,6 +216,9 @@ const ended = () => {
   console.log('播放完毕')
   window.removeEventListener('click', () => {})
 }
+onBeforeUnmount(() => {
+  store.isPlay.value = true
+})
 </script>
 <style lang="scss" scoped>
 .task_info {
