@@ -13,20 +13,11 @@
         {{ item.label }}
       </li>
     </ul>
-    <div v-if="tabIdx === 0">
-      <span v-if="!isOut" class="sub-title"> 应用任务模型 </span>
-      <el-scrollbar class="scrollbar" :height="scrollbarHeight">
-        <el-menu :default-openeds="['1']" class="menu-info">
-          <modelMenu :moduleTree="moduleTree"></modelMenu>
-        </el-menu>
-      </el-scrollbar>
-    </div>
     <markPoint :isOut="isOut" :direction="'right'" :color="'#fff'" @hideMenu="hideMenu"></markPoint>
   </el-aside>
 </template>
 <script setup>
 import markPoint from '../../common/mark/markPoiner.vue'
-import modelMenu from './modelMenu.vue'
 
 const props = defineProps({
   tabIdx: {
@@ -58,70 +49,6 @@ const stepList = ref([
     id: 3,
     label: '步骤三：任务关系定义',
     disabled: true,
-  },
-])
-const moduleTree = ref([
-  {
-    id: '1',
-    label: '业务模型库',
-    isDrag: false,
-    hide: false,
-    children: [
-      {
-        id: '1-1',
-        label: '综合控制功能 integrateTask',
-        isDrag: true,
-        bgColor: '#f8ebdc',
-        control: false,
-        shape: 'custom-html',
-      },
-      {
-        id: '1-2',
-        label: '遥测功能 telemetryTask',
-        isDrag: true,
-        bgColor: '#e8f6dc',
-        control: false,
-        shape: 'custom-html',
-      },
-      {
-        id: '1-3',
-        label: '遥控功能 remoteControlTask',
-        isDrag: true,
-        bgColor: '#e0f4f5',
-        control: false,
-        shape: 'custom-html',
-      },
-      {
-        id: '1-4',
-        label: '姿控功能 attitudeControlTask',
-        isDrag: true,
-        bgColor: '#f5deec',
-        control: false,
-        shape: 'custom-html',
-      },
-      {
-        id: '1-5',
-        label: '制导功能 quidanceTask',
-        isDrag: true,
-        bgColor: '#e8ebed',
-        control: false,
-        shape: 'custom-html',
-      },
-    ],
-  },
-  {
-    id: '2',
-    label: '基础模型库',
-    isDrag: false,
-    hide: false,
-    children: [
-      {
-        id: '2-1',
-        label: '通用功能 generalTask',
-        isDrag: true,
-        shape: 'custom-html',
-      },
-    ],
   },
 ])
 const activeIdx = ref(0)
@@ -173,7 +100,6 @@ onMounted(() => {
   }
 }
 .step-box {
-  border-bottom: 1px solid #ccc;
   padding-bottom: 20px;
   margin: 0 10px;
 }

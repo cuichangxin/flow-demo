@@ -151,6 +151,9 @@ watch(() => props.list, (n,o) => {
 },{deep:true})
 </script>
 <style lang="scss" scoped>
+:deep(.el-progress-circle){
+  --el-fill-color-light: #487293;
+}
 .card {
   display: flex;
   flex-direction: column;

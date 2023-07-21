@@ -30,3 +30,8 @@ export const CODELANG = {
   '2':'FPGA',
   '3':'C++'
 }
+export const USERROLE = {
+  '1':'姿控需求分析工程师',
+  '2':'姿控需求评审工程师',
+  '3':'仿真环境'
+}

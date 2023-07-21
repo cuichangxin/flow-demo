@@ -22,7 +22,15 @@
       <el-table-column align="center" prop="subStatus" label="状态" width="120">
         <template #default="scope">
           <el-tag
-            :type="scope.row.status === 1 ? 'success' : scope.row.status === 2 ? 'danger' : scope.row.status === 3 ? 'warning' : 'info' "
+            :type="
+              scope.row.status === 1
+                ? 'success'
+                : scope.row.status === 2
+                ? 'danger'
+                : scope.row.status === 3
+                ? 'warning'
+                : 'info'
+            "
             effect="dark"
             >{{ scope.row.subStatus }}</el-tag
           >
@@ -79,6 +87,8 @@ const tableList = ref([])
 const taskStatus = TASKSTATUS
 const beingTask = ref([])
 const loading = ref(true)
+const timer = ref(null)
+const userId = ref('')
 
 const handlerCurrentChange = (val) => {
   currentPage.value = val
@@ -102,10 +112,18 @@ function cellStyle({ row, column, rowIndex, columnIndex }) {
   }
 }
 onMounted(() => {
+  store.isPlay.value = true
   getTask()
-  setInterval(()=>{
-    getTask()
-  },2000)
+  userId.value = Cookies.get('userId')
+  if (userId.value == 1) {
+    timer.value = setInterval(() => {
+      getTask()
+    }, 20000)
+  } else {
+    timer.value = setInterval(() => {
+      getTask()
+    }, 2000)
+  }
   nextTick(() => {
     tableHeight.value = window.innerHeight - 238
   })
@@ -203,6 +221,7 @@ const getTask = () => {
     })
 }
 function play() {
+  console.log(proxy.$refs.audioRef);
   proxy.$refs.audioRef.play()
 }
 function isNewTask(row) {
@@ -217,7 +236,8 @@ const ended = () => {
   window.removeEventListener('click', () => {})
 }
 onBeforeUnmount(() => {
-  store.isPlay.value = true
+  clearInterval(timer.value)
+  timer.value = null
 })
 </script>
 <style lang="scss" scoped>
@@ -235,7 +255,7 @@ onBeforeUnmount(() => {
   margin-top: 30px;
   display: flex;
   justify-content: center;
-  :deep(.el-pagination.is-background .el-pager li.is-active){
+  :deep(.el-pagination.is-background .el-pager li.is-active) {
     background-color: #0069f3;
   }
 }

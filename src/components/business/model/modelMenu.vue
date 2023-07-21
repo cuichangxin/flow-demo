@@ -58,23 +58,23 @@ const dragstart = (e, v) => {
 }
 
 .sub_img {
-  width: 15px;
-  height: 15px;
+  width: 17px;
+  height: 17px;
   margin-right: 5px;
 }
 
 .model_img {
-  width: 15px;
-  height: 15px;
+  width: 17px;
+  height: 17px;
   margin-right: 5px;
 }
 .title{
-  font-size: 13px;
+  font-size: 14px;
 }
 :deep(.el-sub-menu__title){
-  height: 45px;
+  height: 48px;
 }
 :deep(.el-menu-item){
-  height: 40px;
+  height: 43px;
 }
 </style>

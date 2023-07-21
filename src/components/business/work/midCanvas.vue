@@ -27,6 +27,18 @@
     </div>
   </div>
 
+  <el-aside class="el-aside-menu" :class="{ fade: slideFade, out_height: isOut }">
+    <h4 v-if="!slideFade">
+      <i class="iconfont icon">&#xe622;</i>
+      应用任务模型
+    </h4>
+    <el-scrollbar class="scrollbar">
+      <el-menu :default-openeds="['1']" class="menu-info">
+        <modelMenu :moduleTree="moduleTree"></modelMenu>
+      </el-menu>
+    </el-scrollbar>
+    <markPoint :isOut="slideFade" :direction="'left'" :color="'#fff'" @hideMenu="hideMenu"></markPoint>
+  </el-aside>
   <div
     class="minimap_dialog"
     :style="{ left: `${minimapPoint.x}px`, top: `${minimapPoint.y}px`, visibility: minimapMark ? '' : 'hidden' }"
@@ -62,7 +74,8 @@ import insertCss from 'insert-css'
 import { SketchRule } from 'vue3-sketch-ruler'
 import 'vue3-sketch-ruler/lib/style.css'
 import { CloseBold } from '@element-plus/icons-vue'
-import { onBeforeUnmount } from 'vue'
+import modelMenu from './modelMenu.vue'
+import markPoint from '../../common/mark/markPoiner.vue'
 
 const emit = defineEmits(['handleHistory'])
 const instance = getCurrentInstance()
@@ -141,6 +154,70 @@ instance.proxy.$bus.on('*', (name, val) => {
   }
 })
 
+const moduleTree = ref([
+  {
+    id: '1',
+    label: '业务模型库',
+    isDrag: false,
+    hide: false,
+    children: [
+      {
+        id: '1-1',
+        label: '综合控制功能(数据采集功能)',
+        isDrag: true,
+        bgColor: '#f8ebdc',
+        control: false,
+        shape: 'custom-html',
+      },
+      {
+        id: '1-2',
+        label: '遥测功能 telemetryTask',
+        isDrag: true,
+        bgColor: '#e8f6dc',
+        control: false,
+        shape: 'custom-html',
+      },
+      {
+        id: '1-3',
+        label: '遥控功能 remoteControlTask',
+        isDrag: true,
+        bgColor: '#e0f4f5',
+        control: false,
+        shape: 'custom-html',
+      },
+      {
+        id: '1-4',
+        label: '姿控功能 attitudeControlTask',
+        isDrag: true,
+        bgColor: '#f5deec',
+        control: false,
+        shape: 'custom-html',
+      },
+      {
+        id: '1-5',
+        label: '制导功能 quidanceTask',
+        isDrag: true,
+        bgColor: '#e8ebed',
+        control: false,
+        shape: 'custom-html',
+      },
+    ],
+  },
+  {
+    id: '2',
+    label: '基础模型库',
+    isDrag: false,
+    hide: false,
+    children: [
+      {
+        id: '2-1',
+        label: '通用功能 generalTask',
+        isDrag: true,
+        shape: 'custom-html',
+      },
+    ],
+  },
+])
 const work = workStore()
 const { dragEv } = storeToRefs(work)
 
@@ -785,5 +862,60 @@ onBeforeUnmount(() => {
   bottom: 0;
   top: auto;
   width: 100% !important;
+}
+.el-aside-menu {
+  height: 100%;
+  max-width: 200px;
+  margin-bottom: 0;
+  padding: 0;
+  background: #fff;
+  border-radius: 3px;
+  margin-left: 8px;
+  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.12);
+  position: relative;
+  overflow: visible;
+  transition: width 0.3s ease-in-out, height 0.2s ease-in-out;
+
+  h4 {
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e4e8ea;
+    text-align: center;
+    margin-bottom: 0;
+    white-space: nowrap;
+
+    .icon {
+      margin-right: 8px;
+    }
+  }
+
+  .icons {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+  }
+
+  .scrollbar {
+    height: calc(100% - 60px);
+  }
+
+  &.fade {
+    width: 0;
+  }
+
+  &.out_height {
+    height: 100%;
+  }
+
+  &:hover {
+    .click {
+      opacity: 1;
+    }
+  }
+}
+
+.menu-info {
+  width: 100%;
+  display: inline-block;
+  border-right: none;
 }
 </style>

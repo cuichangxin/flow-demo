@@ -25,7 +25,6 @@
           </span>
         </template>
       </el-tree>
-      <useModelMenu></useModelMenu>
     </el-scrollbar>
     <markPoint :isOut="isOut" :direction="'right'" :color="'#fff'" @hideMenu="hideMenu"></markPoint>
   </el-aside>
@@ -325,7 +324,7 @@ onMounted(() => {
     align-items: center;
     .node_label {
       color: #333;
-      font-size: 13px;
+      font-size: 14px;
     }
     .item_img,
     .sub_img {
@@ -352,7 +351,7 @@ onMounted(() => {
 }
 
 :deep(.el-tree-node__content) {
-  height: 40px;
+  height: 45px;
 
   .el-tree-node__expand-icon {
     font-size: 16px;

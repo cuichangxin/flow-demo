@@ -424,6 +424,7 @@ const hideMenu = (val) => {
   height: 100%;
   background: #fff;
   border-radius: 3px;
+  margin-left: 10px;
   position: relative;
   overflow: visible;
   transition: width 0.2s linear;

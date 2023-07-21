@@ -5,6 +5,7 @@ import ModelTable from '../components/business/model/modelTable.vue'
 import shapeHeader from '../components/common/shapeHeader.vue'
 import Dialog from '../components/common/dialog/dialog.vue'
 import useDialog from '../hooks/useDialog'
+import UseModelMenu from '../components/business/model/useModelMenu.vue'
 
 import { Splitpanes, Pane } from 'splitpanes'
 import 'splitpanes/dist/splitpanes.css'
@@ -115,6 +116,7 @@ previewFile()
                 <ModelCanvas></ModelCanvas>
                 <ModelTable></ModelTable>
               </div>
+              <UseModelMenu></UseModelMenu>
             </el-main>
           </el-container>
         </el-container>

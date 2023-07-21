@@ -7,7 +7,7 @@
     <p v-if="!isOut" class="user_info">
       <el-dropdown trigger="click" @command="handleDrop">
         <span class="user">
-          <el-avatar class="avatar" :size="32"  />
+          <el-avatar class="avatar" :src="state.avatarUrl" :size="32"  />
           {{ userInfo.userName }}
         </span>
         <template #dropdown>
@@ -42,6 +42,10 @@ const hideMenu = (val) => {
   instance.proxy.$bus.emit('resize', isOut.value)
 }
 const isOut = ref(false)
+const state = reactive({
+  avatarUrl: new URL('../../assets/image/avator.png', import.meta.url).href,
+  size:''
+})
 
 const handleDrop = (command) => {
   if (command === '1') {
