@@ -35,10 +35,14 @@
             <i class="iconfont icon icon-yunhang"></i>
           </el-space>
           <div class="terminal" v-if="!isOutB">
-            <el-radio-group v-model="radio" class="button-group">
+            <el-tabs class="tabs-box">
+              <el-tab-pane label="控制台"> </el-tab-pane>
+              <el-tab-pane label="输出问题"> </el-tab-pane>
+            </el-tabs>
+            <!-- <el-radio-group v-model="radio" class="button-group">
               <el-radio-button label="控制台" />
               <el-radio-button label="输出问题" />
-            </el-radio-group>
+            </el-radio-group> -->
             <div class="terminal-item"></div>
           </div>
           <markPoiner
@@ -1565,7 +1569,7 @@ onUnmounted(() => {
 
   .terminal-item {
     width: 100%;
-    height: calc(100% - 34px);
+    height: calc(100% - 53px);
   }
 
   &.fade {
@@ -1627,5 +1631,8 @@ onUnmounted(() => {
   .minimap {
     height: 158px;
   }
+}
+.tabs-box{
+  padding: 0 20px;
 }
 </style>

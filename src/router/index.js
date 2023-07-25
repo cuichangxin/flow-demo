@@ -38,7 +38,7 @@ const constantRoutes = [
         path: '/emulation',
         name: 'emulation',
         component: () => import('@/page/emulation.vue'),
-        meta: { title: '仿真测试环境' }
+        meta: { title: '数字化测试环境' }
       },
       {
         path: '/pm',

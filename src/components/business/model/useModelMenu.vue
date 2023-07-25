@@ -410,9 +410,11 @@ const hideMenu = (val) => {
 <template>
   <el-aside class="model_menu" :class="{ fade: isOut }">
     <h5 v-if="!isOut">应用任务模型</h5>
-    <el-menu id="menu" :default-openeds="['2']">
-      <ModelMenu :menus="moduleTree" :drag="true"></ModelMenu>
-    </el-menu>
+    <el-scrollbar>
+      <el-menu id="menu" :default-openeds="['2']">
+        <ModelMenu :menus="moduleTree" :drag="true"></ModelMenu>
+      </el-menu>
+    </el-scrollbar>
     <markPoint :isOut="isOut" :direction="'left'" :color="'#fff'" @hideMenu="hideMenu"></markPoint>
   </el-aside>
 </template>

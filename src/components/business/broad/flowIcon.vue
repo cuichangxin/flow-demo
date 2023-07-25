@@ -1235,6 +1235,9 @@ const init = (param) => {
         
       } else if ((item.start - 1) > 38 && item.start - 1 <= 48) {
         styleOption.startSocket = 'top'
+        if (item.end - 1 > 21 && item.end - 1 < 29) {
+          styleOption.endSocket = 'top'
+        }
       }else {
         styleOption.startSocket = ''
         styleOption.endSocket = ''
@@ -1265,7 +1268,7 @@ const changPosition = () => {
     itemList.value.forEach((item) => {
       item.position()
     })
-  }, 300)
+  }, 1000)
 }
 const hovers = (num, code) => {
   infoList.value[code].forEach((item) => {

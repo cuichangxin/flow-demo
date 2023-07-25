@@ -1,10 +1,14 @@
 <template>
   <div class="model_table" :class="{ fade: isOut }">
     <div class="button_box">
-      <el-radio-group v-model="tabPosition">
+      <el-tabs v-model="tabPosition" type="card" class="tabs-box">
+        <el-tab-pane label="属性" name="1"></el-tab-pane>
+        <el-tab-pane label="需求追踪" name="2"></el-tab-pane>
+      </el-tabs>
+      <!-- <el-radio-group v-model="tabPosition">
         <el-radio-button label="1">属性</el-radio-button>
         <el-radio-button label="2">需求追踪</el-radio-button>
-      </el-radio-group>
+      </el-radio-group> -->
     </div>
     <div class="table_box" :style="{ alignItems: tabPosition == 1 ? 'center' : '' }">
       <table v-show="tabPosition == 1" class="table">
@@ -183,7 +187,7 @@ instance.proxy.$bus.on('*', (name, val) => {
 const activeName = ref('suggest')
 const caseName = ref('langFive')
 
-const tabPosition = ref(1)
+const tabPosition = ref('1')
 const hideInput = ref(null)
 const config = ref({})
 const trackList = ref([])
@@ -415,5 +419,14 @@ const handleClose = () => {
       margin: 3px 5px 0 0;
     }
   }
+}
+:deep(.el-tabs__header){
+  margin: 0;
+}
+:deep(.el-tabs--card>.el-tabs__header .el-tabs__item.is-active){
+  background-color: #fff;
+}
+:deep(.el-tabs){
+  --el-tabs-header-height:33px; 
 }
 </style>

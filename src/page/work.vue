@@ -131,7 +131,7 @@ previewFile()
 }
 .work {
   width: calc(100% - 16px);
-  height: 100%;
+  height: calc(100% - 65px);
   margin: 0 auto;
   overflow: hidden;
   flex-wrap: wrap;
@@ -171,7 +171,7 @@ previewFile()
   background-color: #e9f1f6 !important;
 }
 .splitpanes {
-  height: calc(100% - 65px);
+  height: 100%;
 }
 .splitpanes__pane {
   border-radius: 3px;

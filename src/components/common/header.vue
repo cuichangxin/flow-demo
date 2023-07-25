@@ -7,8 +7,11 @@
     <p v-if="!isOut" class="user_info">
       <el-dropdown trigger="click" @command="handleDrop">
         <span class="user">
-          <el-avatar class="avatar" :src="state.avatarUrl" :size="32"  />
-          {{ userInfo.userName }}
+          <el-avatar class="avatar" :src="state.avatarUrl" :size="32" />
+          <div class="user_role">
+            <span>{{ userInfo.userName }}</span>
+            <span class="role--span">{{ USERROLE[Cookies.get('roleId')] }}</span>
+          </div>
         </span>
         <template #dropdown>
           <el-dropdown-menu class="dropdown-menu">
@@ -30,6 +33,7 @@
 <script setup>
 import markPoiner from '../common/mark/markPoiner.vue'
 import Cookies from 'js-cookie'
+import { USERROLE } from '../../utils/map'
 
 const instance = getCurrentInstance()
 const router = useRouter()
@@ -44,7 +48,7 @@ const hideMenu = (val) => {
 const isOut = ref(false)
 const state = reactive({
   avatarUrl: new URL('../../assets/image/avator.png', import.meta.url).href,
-  size:''
+  size: '',
 })
 
 const handleDrop = (command) => {
@@ -117,9 +121,9 @@ const handleDrop = (command) => {
     font-size: 15px;
     font-weight: 500;
   }
-  .alert{
+  .alert {
     margin-right: 40px;
-    i{
+    i {
       font-size: 23px;
     }
   }
@@ -133,5 +137,18 @@ const handleDrop = (command) => {
 
 .avatar {
   margin-right: 8px;
+}
+.user_role{
+  display: flex;
+  flex-direction: column;
+  .role--span{
+    &:nth-child(2){
+      font-family: PingFangSC-Bold !important;
+      display: inline-block;
+      font-size: 13px;
+      margin-top: 3px;
+      font-weight: 500;
+    }
+  }
 }
 </style>

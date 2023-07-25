@@ -1,11 +1,16 @@
 <template>
   <div class="table_control" :class="{ out: isOut }">
     <div class="button_box" :class="{ op: isOut }">
-      <el-radio-group v-model="tabPosition">
+      <el-tabs v-model="tabPosition" type="card" class="tabs-box">
+        <el-tab-pane label="属性" name="1"></el-tab-pane>
+        <el-tab-pane label="需求追踪" name="2"></el-tab-pane>
+        <el-tab-pane label="飞行段定义" name="3"></el-tab-pane>
+      </el-tabs>
+      <!-- <el-radio-group v-model="tabPosition">
         <el-radio-button label="1">属性</el-radio-button>
         <el-radio-button label="2">需求追踪</el-radio-button>
         <el-radio-button label="3">飞行段定义</el-radio-button>
-      </el-radio-group>
+      </el-radio-group> -->
     </div>
     <!-- 属性 -->
     <div v-if="!isOut">
@@ -295,7 +300,7 @@ const tableData = ref({
   funName: '',
 })
 const hideInput = ref(null)
-const tabPosition = ref(1)
+const tabPosition = ref('1')
 // 需求追踪列表
 const needList = ref([])
 // 需求追踪弹窗列表
@@ -728,5 +733,17 @@ defineExpose({ handleToolMenu })
       display: none;
     }
   }
+}
+.tabs-box{
+  /* background-color: #ededed; */
+}
+:deep(.el-tabs__header){
+  margin: 0;
+}
+:deep(.el-tabs--card>.el-tabs__header .el-tabs__item.is-active){
+  background-color: #fff;
+}
+:deep(.el-tabs){
+  --el-tabs-header-height:33px; 
 }
 </style>
