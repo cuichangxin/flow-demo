@@ -19,7 +19,7 @@
       ref="graphRef"
       :style="{ height: tabList.length ? 'calc(100% - 40px)' : '100%' }"
     >
-      <flowEditor :nodeConfig="nodeConfig" :isSelect="isSelect" @changeNode="changeNode"></flowEditor>
+      <flowEditor :nodeConfig="nodeConfig" :edge="edge" :isSelect="isSelect" @changeNode="changeNode"></flowEditor>
       <div id="graph-container" class="graph-container"></div>
     </div>
     <!-- 小地图 -->
@@ -416,6 +416,7 @@ const minimapMark = ref(false)
 const loading = ref(true)
 const subGraph = ref({})
 const isSelect = ref(false)
+const edge = ref({})
 
 // 开始拖动
 const dragStart = (item) => {
@@ -684,12 +685,7 @@ const createGraphic = () => {
     },
     connecting: {
       router: 'manhattan',
-      connector: {
-        name: 'rounded',
-        args: {
-          radius: 8,
-        },
-      },
+      // connector: 'rounded',
       anchor: 'center',
       connectionPoint: 'anchor',
       allowBlank: false,
@@ -700,12 +696,13 @@ const createGraphic = () => {
         return new Shape.Edge({
           attrs: {
             line: {
-              stroke: '#A2B1C3',
+              stroke: '#000',
               strokeWidth: 2,
+              sourceMarker: {
+                name: '',
+              },
               targetMarker: {
                 name: 'block',
-                width: 12,
-                height: 8,
               },
             },
           },
@@ -878,6 +875,9 @@ const createGraphic = () => {
       stroke:#69c0ff;
       stroke-width:2;
     }
+    .x6-edge:hover path:nth-child(2){
+      stroke: #1890ff;
+    }
   `)
 
   if (Object.keys(graphData.value).length) {
@@ -956,25 +956,104 @@ const initGraphEvent = () => {
   })
   graph.on('blank:click', () => {
     isSelect.value = false
+    nodeConfig.value = {}
   })
+  graph.on('edge:click', (e) => {
+    console.log(e);
+    edge.value = e.edge
+    isSelect.value = true
+    nodeConfig.value = e.edge.store.data
+    insertCss(`
+      .x6-edge.x6-edge-selected path:nth-child(2) {
+        stroke: #1890ff;
+      }
+    `)
+  })
+  // graph.on('node:change:size', (e) => {
+  //   isSelect.value = true
+  //   nodeConfig.value = e.node.store.data
+  // })
 }
 
 const changeNode = (e) => {
-  nodeItem.value.attr({
-    text: {
-      text: e.label,
-    },
-    label: {
-      fontSize: e.fontsize,
-      fill: e.color,
-    },
-    body: {
-      fill: e.fill,
-      stroke: e.stroke,
-    },
-  })
-  nodeItem.value.prop(('position', { x: e.x, y: e.y }))
-  nodeItem.value.prop(('size', { width: e.width, height: e.height }))
+  const { shape, data } = e
+  if (shape === 'edge') {
+    edge.value.attr({
+      line: {
+        targetMarker: {
+          name:
+            data.direction === 'positive' || data.direction === 'bothway'
+              ? data.arrowType
+              : data.direction === 'reverse'
+              ? ''
+              : '',
+          rx: data.arrowType === 'ellipse' ? 7 : ''
+        },
+        sourceMarker: {
+          name:
+            data.direction === 'positive'
+              ? ''
+              : data.direction === 'reverse' || data.direction === 'bothway'
+              ? data.arrowType
+              : '',
+          rx: data.arrowType === 'ellipse' ? 7 : ''
+        },
+        strokeDasharray: data.lineShape === 'solid' ? 0 : 5,
+        stroke:data.lineColor,
+        strokeWidth:data.lineSize
+      },
+    })
+    edge.value.setLabels([
+      {
+        attrs: {
+          label: {
+            text: data.label,
+            fill: data.lineTextColor,
+            fontSize: data.lineFontsize,
+          },
+        },
+      },
+    ])
+    edge.value.setConnector(data.lineStyle)
+  } else {
+    nodeItem.value.attr({
+      text: {
+        text: data.label,
+      },
+      label: {
+        fontSize: data.fontsize,
+        fill: data.color,
+      },
+      body: {
+        fill: data.fill,
+        stroke: data.stroke,
+        rx: data.radio,
+        ry: data.radio,
+        filter: data.shadow
+          ? {
+              name: 'highlight',
+              args: {
+                color: '#252527',
+                width: 2,
+                blur: 4,
+                opacity: 1,
+              },
+            }
+          : {
+              name: 'highlight',
+              args: {
+                color: '#252527',
+                width: 0,
+                blur: 0,
+                opacity: 0,
+              },
+            },
+        strokeWidth:data.nodeStrokeWidth
+      },
+    })
+    nodeItem.value.prop(('position', { x: data.x, y: data.y }))
+    nodeItem.value.prop(('size', { width: data.width, height: data.height }))
+  }
 }
 // 保存画布数据
 const saveG6Json = () => {
@@ -1052,7 +1131,7 @@ onUnmounted(() => {
   transition: height 0.2s linear;
 
   &.out_height {
-    height: calc(100% - 60px);
+    height: 100%;
   }
 }
 

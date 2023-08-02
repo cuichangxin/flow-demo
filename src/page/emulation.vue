@@ -18,7 +18,7 @@
             <!-- canvas容器 -->
             <div id="graph" class="container" ref="graphRefEm" v-loading="loading" element-loading-text="加载中...">
               <div id="graph-container" class="graph-container"></div>
-              <flowEditor :nodeConfig="nodeConfig" :isSelect="isSelect" @changeNode="changeNode"></flowEditor>
+              <flowEditor :nodeConfig="nodeConfig" :isSelect="isSelect" :edge="edge" @changeNode="changeNode"></flowEditor>
             </div>
           </div>
           <div class="el-aside-right" :class="{ fade_r: isOutR }">
@@ -491,6 +491,7 @@ const minimapMark = ref(false)
 const nodeConfig = ref({})
 const isSelect = ref(false)
 const nodeItem = ref({})
+const edge = ref({})
 
 // 绝对定位连接桩
 const absolutePorts = {
@@ -766,12 +767,13 @@ const dragleave = (e) => {
 }
 // 拖动松开添加节点
 const drop = (e) => {
+  const point = graph.clientToLocal(e.clientX, e.clientY)
   if (dragItem.value.img) {
     getImgSize(dragItem.value.img).then((res) => {
       graph.addNode({
         shape: dragItem.value.shape,
-        x: e.layerX,
-        y: e.layerY,
+        x: point.x,
+        y: point.y,
         width: res.width,
         height: res.height,
         label: dragItem.value.label,
@@ -796,8 +798,8 @@ const drop = (e) => {
   } else {
     const node = graph.addNode({
       shape: dragItem.value.shape !== undefined ? dragItem.value.shape : 'custom-rect',
-      x: e.layerX,
-      y: e.layerY,
+      x: point.x,
+      y: point.y,
       label: dragItem.value.label,
       attrs: {
         label: {
@@ -994,12 +996,7 @@ const createGraphic = () => {
     },
     connecting: {
       router: 'manhattan',
-      connector: {
-        name: 'rounded',
-        args: {
-          radius: 4,
-        },
-      },
+      // connector: 'rounded',
       anchor: 'center',
       connectionPoint: 'anchor',
       allowBlank: false,
@@ -1012,6 +1009,11 @@ const createGraphic = () => {
             line: {
               stroke: '#A2B1C3',
               strokeWidth: 2,
+              sourceMarker: {
+                name: '',
+                width: 12,
+                height: 8,
+              },
               targetMarker: {
                 name: 'block',
                 width: 10,
@@ -1188,6 +1190,9 @@ const createGraphic = () => {
       stroke:#69c0ff;
       stroke-width:2;
     }
+    .x6-edge:hover path:nth-child(2){
+      stroke: #1890ff;
+    }
   `)
 
   if (Object.keys(graphData.value).length) {
@@ -1220,15 +1225,23 @@ const initGraphEvent = () => {
     }
     nodeItem.value = e.node
   })
-  graph.on('edge:click', (e) => {
-    tableList.value = []
-  })
   graph.on('history:change', ({ cmds, options }) => {
     canUndo.value = graph.canUndo()
     canRedo.value = graph.canRedo()
   })
   graph.on('blank:click', () => {
     isSelect.value = false
+  })
+  graph.on('edge:click', (e) => {
+    tableList.value = []
+    edge.value = e.edge
+    isSelect.value = true
+    nodeConfig.value = e.edge.store.data
+    insertCss(`
+      .x6-edge.x6-edge-selected path:nth-child(2) {
+        stroke: #1890ff;
+      }
+    `)
   })
 }
 // 保存数据
@@ -1325,33 +1338,102 @@ const closeMap = () => {
   minimapPoint.y = 50
 }
 const changeNode = (e) => {
-  nodeItem.value.attr({
-    text: {
-      text: e.label,
-    },
-    label: {
-      fontSize: e.fontsize,
-      fill: e.color,
-    },
-    body: {
-      fill: e.fill,
-      stroke: e.stroke,
-    },
-  })
-  nodeItem.value.prop(('position', { x: e.x, y: e.y }))
-  nodeItem.value.prop(('size', { width: e.width, height: e.height }))
+  const { shape, data } = e
+  if (shape === 'edge') {
+    edge.value.attr({
+      line: {
+        targetMarker: {
+          name:
+            data.direction === 'positive' || data.direction === 'bothway'
+              ? data.arrowType
+              : data.direction === 'reverse'
+              ? ''
+              : '',
+        },
+        sourceMarker: {
+          name:
+            data.direction === 'positive'
+              ? ''
+              : data.direction === 'reverse' || data.direction === 'bothway'
+              ? data.arrowType
+              : '',
+        },
+        strokeDasharray: data.lineShape === 'solid' ? 0 : 5,
+        stroke: data.lineColor,
+        strokeWidth:data.lineSize
+      },
+    })
+    edge.value.setLabels([
+      {
+        attrs: {
+          label: {
+            text: data.label,
+            fill: data.lineTextColor,
+            fontSize: data.lineFontsize,
+          },
+        },
+      },
+    ])
+    edge.value.setConnector(data.lineStyle)
+  } else {
+    nodeItem.value.attr({
+      text: {
+        text: data.label,
+      },
+      label: {
+        fontSize: data.fontsize,
+        fill: data.color,
+      },
+      body: {
+        fill: data.fill,
+        stroke: data.stroke,
+        rx: data.radio,
+        ry: data.radio,
+        filter: data.shadow
+          ? {
+              name: 'highlight',
+              args: {
+                color: '#252527',
+                width: 2,
+                blur: 4,
+                opacity: 1,
+              },
+            }
+          : {
+              name: 'highlight',
+              args: {
+                color: '#252527',
+                width: 0,
+                blur: 0,
+                opacity: 0,
+              },
+            },
+        strokeWidth:data.nodeStrokeWidth
+      },
+    })
+    nodeItem.value.prop(('position', { x: data.x, y: data.y }))
+    nodeItem.value.prop(('size', { width: data.width, height: data.height }))
+  }
 }
 
 onMounted(() => {
   tableSize()
-  instance.proxy.$axios.getTaskDetail({ taskId: 2002 }).then((res) => {
-    if (res.data !== null) {
-      graphData.value = JSON.parse(res.data.daTree)
-      createGraphic()
-      initGraphEvent()
+  loading.value = false
+  createGraphic()
+  initGraphEvent()
+  instance.proxy.$axios.getTaskDetail({ taskId: 2002 }).then(
+    (res) => {
+      if (res.data !== null) {
+        graphData.value = JSON.parse(res.data.daTree)
+        createGraphic()
+        initGraphEvent()
+        loading.value = false
+      }
+    },
+    (err) => {
       loading.value = false
     }
-  })
+  )
   // instance.proxy.$axios.getTaskDetail({ taskId: Cookies.get('taskId') }).then((res) => {
   //   // console.log(res);
   //   if (res.data !== null) {
@@ -1632,7 +1714,7 @@ onUnmounted(() => {
     height: 158px;
   }
 }
-.tabs-box{
+.tabs-box {
   padding: 0 20px;
 }
 </style>

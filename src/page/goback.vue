@@ -1,5 +1,5 @@
 <template>
-  <div class="go_back_wrapper" :style="{ height: `${windowH}px` }">
+  <div class="go_back_wrapper">
     <div class="select_wrapper">
       <div class="element">
         <label>行元素类型：</label>
@@ -130,7 +130,7 @@
                 :style="{
                   background: item.isRelation === false ? '#e46a64' : '',
                 }"
-                v-show="!item.isCollapse"
+                v-show="!item.isCollapse && !item.isDbCollapse"
               >
                 <img
                   v-if="item.isArrows"
@@ -155,7 +155,6 @@ const treeProps = {
   indent: 16,
   showLabelLine: true,
 }
-const windowH = ref('')
 const rowValue = ref('testCase')
 const columnValue = ref('need')
 const leftBlankH = ref('')
@@ -434,6 +433,7 @@ const initMatrix = () => {
         isArrows: false,
         isRelation: true,
         isCollapse: false,
+        isDbCollapse:false,
         rowKey: rowKeys,
       })
       if (numberTarget === keysArr.length - 1) {
@@ -479,21 +479,17 @@ function getLocTracking() {
 
 onMounted(() => {
   postAll()
-  windowH.value = window.innerHeight - 124
-  window.addEventListener('resize', () => {
-    windowH.value = window.innerHeight - 124
-  })
   timer.value = setInterval(() => {
     getLocTracking()
   }, 2000)
 })
 onUnmounted(() => {
-  window.removeEventListener('resize', () => {})
   clearInterval(timer.value)
 })
 </script>
 <style lang="scss" scoped>
 .go_back_wrapper {
+  height: calc(100% - 65px);
   padding: 0 20px;
   background: #fff;
   border-radius: 8px;

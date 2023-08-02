@@ -1,6 +1,6 @@
 <template>
   <el-header class="header" :class="{ fade: isOut }">
-    <div v-if="!isOut" class="title_box">
+    <div v-if="!isOut" class="title_box" @click="backIndex">
       <img class="logo" src="../../assets/image/login-logo.png" />
       <h2>航天软件智能生产线</h2>
     </div>
@@ -51,6 +51,11 @@ const state = reactive({
   size: '',
 })
 
+const backIndex = () => {
+  router.replace({
+    path:'/'
+  })
+}
 const handleDrop = (command) => {
   if (command === '1') {
     const rememberMe = Cookies.get('rememberMe')
@@ -104,6 +109,7 @@ const handleDrop = (command) => {
 .title_box {
   display: flex;
   align-items: center;
+  cursor: pointer;
 
   h2 {
     color: #000000;

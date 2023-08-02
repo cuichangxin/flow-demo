@@ -1154,11 +1154,12 @@ watch(
       projectType.value[1] = o.rank
       graphDataStatusList.value = n.flowList
       nextTick(() => {
-        if (n.rank === 'A') {
-          getFlow('flow',o)
-          
-        } else {
-          getFlow('comflow',o)
+        if (n.isShowFlow) {
+          if (n.rank === 'A') {
+            getFlow('flow', o)
+          } else {
+            getFlow('comflow', o)
+          }
         }
       })
     }
@@ -1349,19 +1350,19 @@ function attrsNode() {
       graphDataStatusList.value.forEach((status) => {
         if (showStatus.value === 1) {
           item.attr({
-            body: { fill: '#fff',stroke:'#669f88' },
+            body: { fill: '#fff', stroke: '#669f88' },
             label: { fill: '#333' },
           })
         } else {
           if (index + 1 === status.serial) {
             if (status.status === 1) {
               item.attr({
-                body: { fill: '#c2ccd0',stroke:'#669f88' },
+                body: { fill: '#c2ccd0', stroke: '#669f88' },
                 label: { fill: '#333' },
               })
             } else if (status.status === 2) {
               item.attr({
-                body: { fill: '#a0d8ef',stroke:'#2ca9e1' },
+                body: { fill: '#a0d8ef', stroke: '#2ca9e1' },
                 label: { fill: '#fff' },
               })
               // {
@@ -1373,12 +1374,12 @@ function attrsNode() {
               // }
             } else if (status.status === 3) {
               item.attr({
-                body: { fill: '#fff',stroke:'#669f88' },
+                body: { fill: '#fff', stroke: '#669f88' },
                 label: { fill: '#333' },
               })
             } else if (status.status === 4) {
               item.attr({
-                body: { fill: '#c9171e',stroke:'#e9546b' },
+                body: { fill: '#c9171e', stroke: '#e9546b' },
                 label: { fill: '#fff' },
               })
             }
@@ -1388,7 +1389,7 @@ function attrsNode() {
     })
   }
 }
-function getFlow(json,o) {
+function getFlow(json, o) {
   axios.get(`http://192.168.89.124:8080/mock/flow/${json}.json`).then((res) => {
     graphData.value = res
     console.log('1')

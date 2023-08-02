@@ -67,4 +67,8 @@ const checkType = computed(() => {
   display: flex;
   align-items: center;
 }
+.el-menu--horizontal .el-menu .el-menu-item.is-active{
+  background-color: #409eff;
+  color: #fff;
+}
 </style>

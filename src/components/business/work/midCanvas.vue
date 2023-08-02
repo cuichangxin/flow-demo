@@ -163,7 +163,7 @@ const moduleTree = ref([
     children: [
       {
         id: '1-1',
-        label: '综合控制功能(数据采集功能)',
+        label: '综合控制功能 integrateTask',
         isDrag: true,
         bgColor: '#f8ebdc',
         control: false,

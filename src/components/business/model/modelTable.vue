@@ -130,8 +130,9 @@
         <el-tab-pane label="建议" name="suggest">
           <ul class="suggest_ul">
             <li>
-              <img src="../../../assets/image/shengdantubiao-05.png" alt="" />
-              助推级的限幅值最大值不超过：1.5*π/180
+              <!-- <img src="../../../assets/image/shengdantubiao-05.png" alt="" /> -->
+              <p>针对限幅处理输出值，为您搜索到以下建议:</p>
+              <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;助推级的限幅值最大值不超过：1.5*π/180</p>
             </li>
           </ul>
         </el-tab-pane>
@@ -140,8 +141,8 @@
             <el-tab-pane label="xxx案例" name="langFive">
               <ul class="suggest_ul">
                 <li>
-                  <img src="../../../assets/image/shengdantubiao-05.png" alt="" />
-                  助推级的限幅值最大值不超过：1.4*π/180
+                  <!-- <img src="../../../assets/image/shengdantubiao-05.png" alt="" /> -->
+                  该案例下助推级的限幅值最大值不超过：1.4*π/180
                 </li>
               </ul>
             </el-tab-pane>
@@ -412,7 +413,8 @@ const handleClose = () => {
   list-style: none;
   padding-left: 0;
   li {
-    display: flex;
+    /* display: flex; */
+    color: #333;
     img {
       width: 14px;
       height: 14px;

@@ -1,7 +1,6 @@
 <template>
   <el-aside class="aside" :class="{ fade: isOut }">
     <h5 v-if="!isOut">领域化架构设计工具</h5>
-    <span v-if="!isOut" class="sub-title">步骤</span>
     <ul class="step-box" :class="{ op: isOut }">
       <li
         v-for="(item, index) in stepList"

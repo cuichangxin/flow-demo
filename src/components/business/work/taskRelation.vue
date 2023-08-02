@@ -154,8 +154,9 @@
       <el-tab-pane label="建议" name="suggest">
         <ul class="suggest_ul">
           <li>
-            <img src="../../../assets/image/shengdantubiao-05.png" alt="" />
-            建议增加惯性坐标系位置信息和视速度
+            <!-- <img src="../../../assets/image/shengdantubiao-05.png" alt="" /> -->
+            <p>针对遥控功能的订阅数据，为您搜索到以下建议:</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;建议增加惯性坐标系位置信息和视速度</p>
           </li>
         </ul>
       </el-tab-pane>
@@ -164,8 +165,8 @@
           <el-tab-pane label="xxx案例" name="langFive">
             <ul class="suggest_ul">
               <li>
-                <img src="../../../assets/image/shengdantubiao-05.png" alt="" />
-                订阅数据有惯性坐标系位置信息和视速度
+                <!-- <img src="../../../assets/image/shengdantubiao-05.png" alt="" /> -->
+                该案例下订阅数据有惯性坐标系位置信息和视速度
               </li>
             </ul>
           </el-tab-pane>

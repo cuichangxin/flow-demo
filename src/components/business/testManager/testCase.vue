@@ -162,8 +162,9 @@
         <el-tab-pane label="建议" name="suggest">
           <ul class="suggest_ul">
             <li>
-              <img src="../../../assets/image/shengdantubiao-05.png" alt="" />
-              {{ showTitle }}的临界值是正负40。所以，建议测试用例至少要覆盖：-41，-40，-39，0，39，40，41等
+              <!-- <img src="../../../assets/image/shengdantubiao-05.png" alt="" /> -->
+              <p>针对{{ showTitle }}，为您搜索到以下建议:</p>
+              <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ showTitle }}的临界值是正负40。所以，建议测试用例至少要覆盖：-41，-40，-39，0，39，40，41等</p>
             </li>
           </ul>
         </el-tab-pane>
@@ -172,8 +173,8 @@
             <el-tab-pane label="xxx案例" name="langFive">
               <ul class="suggest_ul">
                 <li>
-                  <img src="../../../assets/image/shengdantubiao-05.png" alt="" />
-                  测试用例覆盖了俯仰姿态角的值：-50，-41，-40，-39，-10，0，10，39，40，41，50
+                  <!-- <img src="../../../assets/image/shengdantubiao-05.png" alt="" /> -->
+                  该案例下测试用例覆盖了俯仰姿态角的值：-50，-41，-40，-39，-10，0，10，39，40，41，50
                 </li>
               </ul>
             </el-tab-pane>
