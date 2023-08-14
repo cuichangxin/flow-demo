@@ -164,7 +164,11 @@
             <li>
               <!-- <img src="../../../assets/image/shengdantubiao-05.png" alt="" /> -->
               <p>针对{{ showTitle }}，为您搜索到以下建议:</p>
-              <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ showTitle }}的临界值是正负40。所以，建议测试用例至少要覆盖：-41，-40，-39，0，39，40，41等</p>
+              <p>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{
+                  showTitle
+                }}的临界值是正负40。所以，建议测试用例至少要覆盖：-41，-40，-39，0，39，40，41等
+              </p>
             </li>
           </ul>
         </el-tab-pane>
@@ -418,7 +422,7 @@ function caseRange(useCase) {
       }
     })
     for (let index = 0; index < range.length; index++) {
-      if ((range[index].toString()).indexOf('[') !== -1 && (range[index].toString()).indexOf(']') !== -1) {
+      if (range[index].toString().indexOf('[') !== -1 && range[index].toString().indexOf(']') !== -1) {
         isRange = true
         continue
       }
@@ -438,11 +442,11 @@ const confirmCase = () => {
   let lastNum
   let subIndex
   let str
-  let weeks
+  let weeks = []
   console.log(useCase.value.useCase)
   if (useCase.value.useCase) {
     caseRange(useCase).then((res) => {
-      console.log(res);
+      console.log(res)
       if (res.isRange) {
         ElMessageBox.confirm('是否需要生成批量测试用例？', '提示', {
           confirmButtonText: '确定',
@@ -463,16 +467,23 @@ const confirmCase = () => {
                   subIndex = index
                 })
                 if (subIndex === item.suppContact.length - 1) {
-                  weeks = week(str[0], str[1])
-
-                  for (let index = 0; index < weeks.length; index++) {
-                    const rowClone = cloneDeep(item)
-                    rowClone.suppContact[idx].operationInput = weeks[index]
-                    useCase.value.useCase.push({
-                      name: item.name,
-                      id: idArr[0] + '_' + idArr[1] + '_' + '0' + ++lastNum,
-                      suppContact: rowClone.suppContact,
-                    })
+                  weeks.push(week(str[0], str[1]))
+                  weeks.push(week(str[1], str[2]))
+                  for (let myIndex = 0; myIndex < 2; myIndex++) {
+                    const I = myIndex
+                    const random = Math.floor(Math.random() * (weeks[I].length - weeks[I][0])) + weeks[I][0]
+                    console.log(random);
+                    for (let index = 0; index < weeks[I].length; index++) {
+                      if (index < random) {
+                        const rowClone = cloneDeep(item)
+                        rowClone.suppContact[idx].operationInput = weeks[I][index]
+                        useCase.value.useCase.push({
+                          name: item.name,
+                          id: idArr[0] + '_' + idArr[1] + '_' + '0' + ++lastNum,
+                          suppContact: rowClone.suppContact,
+                        })
+                      }
+                    }
                   }
                   console.log(useCase.value.useCase)
                 }

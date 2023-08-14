@@ -84,6 +84,9 @@ const list = ref([
       },
       {
         title:'视图对照'
+      },
+      {
+        title:'智能验证'
       }
     ]
   }

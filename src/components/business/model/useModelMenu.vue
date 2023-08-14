@@ -7,6 +7,20 @@ instance.proxy.$bus.on('*', (name, val) => {
   if (name === 'contraction') {
     isOut.value = val
   }
+  if (name === 'saveAlg') {
+    console.log(val)
+    moduleTree.value.forEach((item) => {
+      if (item.label === '领域算法库') {
+        item.children.push({
+          id: '3-' + item.children.length + 1,
+          label: '3选1',
+          hide: false,
+          active: false,
+          children: [],
+        })
+      }
+    })
+  }
 })
 
 const moduleTree = ref([
@@ -393,6 +407,13 @@ const moduleTree = ref([
       {
         id: '3-4',
         label: '故障诊断',
+        hide: false,
+        active: false,
+        children: [],
+      },
+      {
+        id: '3-5',
+        label: '3选2',
         hide: false,
         active: false,
         children: [],

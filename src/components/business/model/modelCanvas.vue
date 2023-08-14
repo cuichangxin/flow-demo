@@ -21,6 +21,7 @@
     >
       <flowEditor :nodeConfig="nodeConfig" :edge="edge" :isSelect="isSelect" @changeNode="changeNode"></flowEditor>
       <div id="graph-container" class="graph-container"></div>
+      <el-button v-if="codeValid" class="button" color="#626aef" @click="codeValidBtn">代码验证</el-button>
     </div>
     <!-- 小地图 -->
     <div
@@ -37,6 +38,20 @@
       </header>
       <div class="minimap" id="minimap"></div>
     </div>
+    <Dialog title="代码验证" confirmText="保存算法" :disabled="disabled" :hidden-full-btn="false" v-model="visible" @confirm="handleConfirm" @close="handleClose">
+      <span style="display: inline-block; margin-bottom: 5px;">下面是验证该算法正确性的测试用例</span>
+      <el-table :data="tableData">
+        <el-table-column prop="input_1" label="输入1" />
+        <el-table-column prop="input_2" label="输入2" />
+        <el-table-column prop="input_3" label="输入3" />
+        <el-table-column label="期望结果">
+          <template #default="scope">
+            <el-input v-model="scope.row.output" size="small"></el-input>
+          </template>
+        </el-table-column>
+      </el-table>
+      <span v-if="!disabled" style="display: inline-block; margin-top: 5px;">该算法通过验证，可以保存到算法库，供复用</span>
+    </Dialog>
   </div>
 </template>
 <script setup>
@@ -53,9 +68,12 @@ import { History } from '@antv/x6-plugin-history'
 import { MiniMap } from '@antv/x6-plugin-minimap'
 import insertCss from 'insert-css'
 import { CloseBold } from '@element-plus/icons-vue'
+import Dialog from '../../common/dialog/dialog.vue'
+import useDialog from '../../../hooks/useDialog'
 
 import flowEditor from '@/components/common/flowEditor/index.vue'
 
+const { visible: visible, openDialog: openDialog, closeDialog: closeDialog } = useDialog()
 const instance = getCurrentInstance()
 instance.proxy.$bus.on('*', (name, val) => {
   if (name == 'updateNode') {
@@ -160,6 +178,58 @@ instance.proxy.$bus.on('*', (name, val) => {
 })
 const isOut = ref(false)
 const nodeConfig = ref({})
+const tableData = ref([
+  {
+    input_1:0,
+    input_2:0,
+    input_3:0,
+    output:''
+  },
+  {
+    input_1:0,
+    input_2:0,
+    input_3:1,
+    output:''
+  },
+  {
+    input_1:0,
+    input_2:1,
+    input_3:0,
+    output:''
+  },
+  {
+    input_1:0,
+    input_2:1,
+    input_3:1,
+    output:''
+  },
+  {
+    input_1:1,
+    input_2:0,
+    input_3:0,
+    output:''
+  },
+  {
+    input_1:1,
+    input_2:0,
+    input_3:1,
+    output:''
+  },
+  {
+    input_1:1,
+    input_2:1,
+    input_3:0,
+    output:''
+  },
+  {
+    input_1:1,
+    input_2:1,
+    input_3:1,
+    output:''
+  },
+])
+const outputList = ref([1,1,1,0,1,0,0,0])
+const disabled = ref(true)
 // 绝对定位连接桩
 const absolutePorts = {
   groups: {
@@ -417,6 +487,21 @@ const loading = ref(true)
 const subGraph = ref({})
 const isSelect = ref(false)
 const edge = ref({})
+const codeValid = ref(false)
+
+
+watch(tableData,(n)=>{
+  console.log(n);
+  const result = n.every((item,index)=>{
+    return parseInt(item.output) == outputList.value[index]
+  })
+  console.log(result);
+  if (result) {
+    disabled.value = false
+  }else {
+    disabled.value = true
+  }
+},{deep:true})
 
 // 开始拖动
 const dragStart = (item) => {
@@ -905,6 +990,9 @@ const initGraphEvent = () => {
     showPorts(ports, false)
     instance.proxy.$bus.emit('tableConfig', e.node.store.data)
     nodeConfig.value = e.node.store.data
+    if (e.node.store.data.label === '3选2') {
+      codeValid.value = true
+    }
   })
   graph.on('history:change', ({ cmds, options }) => {
     const undoAndRedo = {
@@ -1112,6 +1200,19 @@ const closeMap = () => {
   minimapPoint.x = 1017
   minimapPoint.y = 50
 }
+const codeValidBtn = ()=>{
+  openSuggest()
+}
+const openSuggest = (scope) => {
+  openDialog()
+}
+const handleConfirm = () => {
+  closeDialog()
+  instance.proxy.$bus.emit('saveAlg',true)
+}
+const handleClose = () => {
+  closeDialog()
+}
 
 onMounted(() => {
   setTimeout(() => {
@@ -1200,5 +1301,10 @@ onUnmounted(() => {
   .minimap {
     height: 158px;
   }
+}
+.button{
+  position: absolute;
+  bottom: 2%;
+  right: 10px;
 }
 </style>

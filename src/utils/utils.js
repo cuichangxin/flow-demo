@@ -61,7 +61,7 @@ export function formatTime(time) {
 }
 
 // 求两数之间的所有数字
-export function week(arr, arr2){
+export function week(arr, arr2) {
   let a = parseInt(arr)
   let b = parseInt(arr2)
   let c = []

@@ -7,7 +7,8 @@ export const workStore = defineStore('work', {
       tableFlyData: [], // 飞行段表格数据
       taskAllList: {}, // 任务关系全部数据
       dragEv: null,
-      TaskRelationship:[] // 任务关系定义任务列表
+      redundant:'',
+      taskId:1999,
     }
   },
   actions: {
@@ -29,7 +30,7 @@ export const allStore = defineStore('all',{
       projectInfo:{}, // 新建项目配置信息
       dragstartItem:{}, // 模型拖动的数据
       taskLength:0,
-      isPlay:true // 音频是否首次播放
+      isPlay:true, // 音频是否首次播放
     }
   },
   actions:{

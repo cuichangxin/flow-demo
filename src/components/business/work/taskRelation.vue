@@ -190,17 +190,22 @@ const { visible: visible, openDialog: openDialog, closeDialog: closeDialog } = u
 const { proxy } = getCurrentInstance()
 proxy.$bus.on('*', (name, val) => {
   if (name === 'taskRelationship') {
-    const data = val.map((item) => {
+    console.log(name,val);
+    const data = val.filter((item) => {
       if (!item.store.data.myTarget) {
         return item.store.data
       }
     })
     data.forEach((item, index) => {
+      // TODO: 赋值不对
+      // if (item.store.data.data.label.indexOf('姿控功能') !== -1) {
+      //   tabIndex.value = index
+      // }
       if (item === undefined) {
         data.splice(index, 1)
       }
     })
-    data.splice(0, 1)
+    // data.splice(0, 1)
     taskList.value = data
   }
   if (name === 'changeView') {
@@ -433,7 +438,7 @@ const drawerOff = () => {
 }
 const getRelation = () => {
   proxy.$axios.getTaskDetail({ taskId: 2007 }).then((res) => {
-    console.log(res)
+    console.log(JSON.parse(res.data.daTree))
     taskRelationData.value = JSON.parse(res.data.daTree)
     issueTableData.value = taskRelationData.value[tabIndex.value].issueTableData
     takeTableData.value = taskRelationData.value[tabIndex.value].takeTableData

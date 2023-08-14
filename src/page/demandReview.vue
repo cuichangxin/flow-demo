@@ -5,7 +5,7 @@
     v-loading="loading"
     element-loading-text="加载中..."
   >
-    <iframe id="iframe" class="iframe" src="http://192.168.89.117:3000/#/dr" frameborder="0"></iframe>
+    <iframe id="iframe" class="iframe" src="http://39.105.98.46:16381/#/dr" frameborder="0"></iframe>
     <!-- <iframe id="iframe" class="iframe" src="http://172.20.10.2:3000/#/dr" frameborder="0"></iframe> -->
   </div>
 </template>
@@ -23,7 +23,7 @@ watch(
         const myWindow = dom.contentWindow
         dom.onload = function () {
           loading.value = false
-          myWindow.postMessage({ taskId: Cookies.get('taskId') }, 'http://192.168.89.117:3000')
+          myWindow.postMessage({ taskId: Cookies.get('taskId') }, 'http://39.105.98.46:16381')
           
         }
       })

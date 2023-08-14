@@ -201,6 +201,14 @@ const moduleTree = ref([
         control: false,
         shape: 'custom-html',
       },
+      {
+        id: '1-6',
+        label: '数据采集功能 dataCollectionTask',
+        isDrag: true,
+        bgColor: '#fff',
+        control: false,
+        shape: 'custom-html',
+      },
     ],
   },
   {
@@ -227,6 +235,7 @@ const targetContent = ref(null)
 const slideFade = ref(false)
 const isOut = ref(false)
 const rbgIndex = ref(0)
+const taskId = ref(2001) // 1999
 
 let graph = null
 const graphData = ref({})
@@ -667,7 +676,7 @@ const closeMap = () => {
 // 获取任务详情
 const getDetail = () => {
   return new Promise((resolve, reject) => {
-    instance.proxy.$axios.getTaskDetail({ taskId: 2001 }).then((res) => {
+    instance.proxy.$axios.getTaskDetail({ taskId: taskId.value }).then((res) => {
       if (res.success && res.data !== null) {
         const data = JSON.parse(res.data.daTree)
         graphData.value = data
@@ -694,7 +703,7 @@ const saveTaskDetail = () => {
   // 单独保存画布数据
   instance.proxy.$axios
     .saveTaskDetail({
-      taskId: 2001,
+      taskId: taskId.value,
       daTree: JSON.stringify(graph.toJSON()),
     })
     .then((res) => {
@@ -744,18 +753,28 @@ const handleToolMenu = (target, val) => {
     )
   }
 }
-defineExpose({ saveTaskDetail, handleToolMenu })
-
-onMounted(() => {
+const handleCreate = (val) => {
+  console.log(val)
+  if (val.model) {
+    taskId.value = 1999
+  } else {
+    taskId.value = 2001
+  }
+  work.taskId = taskId.value
+  work.redundant = val.security
   getDetail().then(
     (res) => {
       if (res === 'success') {
         createGraphic()
         initGraphEvent()
-        loading.value = false
+        setTimeout(() => {
+          loading.value = false
+        }, 600)
         // 给任务关系定义发送数据
-        instance.proxy.$bus.emit('taskRelationship', graph.getNodes())
-        instance.proxy.$bus.emit('sendMessage', graph.getNodes())
+        setTimeout(() => {
+          instance.proxy.$bus.emit('taskRelationship', graph.getNodes())
+          instance.proxy.$bus.emit('sendMessage', graph.getNodes())
+        }, 1000)
       }
     },
     (err) => {
@@ -770,7 +789,10 @@ onMounted(() => {
   window.addEventListener('resize', () => {
     parentSize()
   })
-})
+}
+defineExpose({ saveTaskDetail, handleToolMenu, handleCreate })
+
+onMounted(() => {})
 onBeforeUnmount(() => {
   window.removeEventListener('resize', () => {
     parentSize()

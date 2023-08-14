@@ -138,8 +138,12 @@
                   >
                   </el-input>
                 </th>
-                <th></th>
-                <th></th>
+                <th v-if="showRedundant" class="label">冗余策略</th>
+                <th v-if="showRedundant">
+                  <span>{{ work.redundant }}</span>
+                </th>
+                <th v-if="!showRedundant"></th>
+                <th v-if="!showRedundant"></th>
               </tr>
             </tbody>
           </table>
@@ -256,8 +260,10 @@
 import _ from 'lodash'
 import markPoint from '../../common/mark/markPoiner.vue'
 import { Delete, Edit } from '@element-plus/icons-vue'
+import { workStore } from '../../../store';
 
 const instance = getCurrentInstance()
+const work = storeToRefs(workStore())
 
 const timeReg = /^([-+])?\d{1,}s|ms|S/
 var checkSTime = (rule, value, callback) => {
@@ -339,12 +345,18 @@ const flyRules = ref({
 const isflag = ref(true)
 const isOut = ref(false)
 const elInformation = ref({})
+const showRedundant = ref(false)
 
 instance.proxy.$bus.on('*', (name, val) => {
   if (name === 'showCellData') {
     const data = val
     data.store.data.data.y = data.store.data.position.y
     console.log(data.store.data.data)
+    if (data.store.data.data.label.indexOf('姿控') !== -1 || data.store.data.data.label.indexOf('遥控') !== -1) {
+      showRedundant.value = true
+    }else {
+      showRedundant.value = false
+    }
     tableData.value = data.store.data.data
     tableData.value.oldEndTime = tableData.value.endTime
     elInformation.value = val

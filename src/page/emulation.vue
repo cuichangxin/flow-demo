@@ -1,7 +1,7 @@
 <template>
-  <div class="test-info" :style="{ height: `${mainH}px` }">
+  <div class="test-info">
     <shapeHeader @handleMenu="handleMenu" :canRedo="canRedo" :canUndo="canUndo"></shapeHeader>
-    <el-container class="el-container-layout">
+    <el-container v-if="!pageBefore" class="el-container-layout">
       <el-aside class="el-aside el-aside-left" :class="{ fade: isOut }">
         <h4 v-if="!isOut" class="title">组件库</h4>
         <el-scrollbar class="el-scrollbar-info" :style="{ padding: isOut ? 0 : '0 10px' }">
@@ -18,7 +18,12 @@
             <!-- canvas容器 -->
             <div id="graph" class="container" ref="graphRefEm" v-loading="loading" element-loading-text="加载中...">
               <div id="graph-container" class="graph-container"></div>
-              <flowEditor :nodeConfig="nodeConfig" :isSelect="isSelect" :edge="edge" @changeNode="changeNode"></flowEditor>
+              <flowEditor
+                :nodeConfig="nodeConfig"
+                :isSelect="isSelect"
+                :edge="edge"
+                @changeNode="changeNode"
+              ></flowEditor>
             </div>
           </div>
           <div class="el-aside-right" :class="{ fade_r: isOutR }">
@@ -55,6 +60,9 @@
         </el-footer>
       </el-container>
     </el-container>
+    <div v-else class="page_before">
+      <el-button class="button" color="#626aef" @click="addProject">生成数字化测试环境</el-button>
+    </div>
     <!-- 小地图 -->
     <div
       class="minimap_dialog"
@@ -70,6 +78,47 @@
       </header>
       <div class="minimap" id="minimap"></div>
     </div>
+
+    <!-- dialog -->
+    <el-dialog v-model="isAuto" width="30%">
+      <el-form>
+        <el-form-item v-if="nextStep === 1" label="需求模板">
+          <el-select v-model="autoInfo.template">
+            <el-option v-for="item in autoList.template" :key="item.value" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item v-if="nextStep === 2" label="模型">
+          <el-select v-model="autoInfo.model">
+            <el-option v-for="item in autoList.model" :key="item.value" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item v-if="nextStep === 3" label="其他选项">
+          <el-select v-model="autoInfo.other">
+            <el-option v-for="item in autoList.other" :key="item.value" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <div v-if="nextStep === 4">
+          <el-form-item label="需求模版">
+            {{ autoInfo.template }}
+          </el-form-item>
+          <el-form-item label="模型">
+            {{ autoInfo.model }}
+          </el-form-item>
+          <el-form-item label="其他选项">
+            {{ autoInfo.other }}
+          </el-form-item>
+        </div>
+      </el-form>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="cancel">取消</el-button>
+          <el-button type="primary" @click="nextAuto">{{ nextStep === 4 ? '确认' : '下一步' }}</el-button>
+        </span>
+      </template>
+    </el-dialog>
   </div>
 </template>
 <script setup>
@@ -107,6 +156,62 @@ instance.proxy.$bus.on('*', (name, val) => {
     dragStart(val)
   }
 })
+const autoInfo = ref({
+  template: '',
+  model: '',
+  other: '',
+})
+const autoList = reactive({
+  template: [
+    {
+      label: '长征5号',
+      value: '长征5号',
+    },
+    {
+      label: '长征7号',
+      value: '长征7号',
+    },
+  ],
+  model: [
+    {
+      label: '激光陀螺模型',
+      value: '激光陀螺模型',
+    },
+    {
+      label: 'GPS模型',
+      value: 'GPS模型',
+    },
+    {
+      label: '捷联惯组模型',
+      value: '捷联惯组模型',
+    },
+    {
+      label: '时序模型',
+      value: '时序模型',
+    },
+    {
+      label: '伺服模型',
+      value: '伺服模型',
+    },
+    {
+      label: '动力学模型',
+      value: '动力学模型',
+    },
+  ],
+  other: [
+    {
+      label: 'UART',
+      value: 'UART',
+    },
+    {
+      label: '1553B',
+      value: '1553B',
+    },
+  ],
+})
+const isAuto = ref(false)
+const nextStep = ref(1)
+const pageBefore = ref(true)
 const loading = ref(true)
 const radio = ref('控制台')
 let graph = null
@@ -1360,7 +1465,7 @@ const changeNode = (e) => {
         },
         strokeDasharray: data.lineShape === 'solid' ? 0 : 5,
         stroke: data.lineColor,
-        strokeWidth:data.lineSize
+        strokeWidth: data.lineSize,
       },
     })
     edge.value.setLabels([
@@ -1408,19 +1513,35 @@ const changeNode = (e) => {
                 opacity: 0,
               },
             },
-        strokeWidth:data.nodeStrokeWidth
+        strokeWidth: data.nodeStrokeWidth,
       },
     })
     nodeItem.value.prop(('position', { x: data.x, y: data.y }))
     nodeItem.value.prop(('size', { width: data.width, height: data.height }))
   }
 }
-
-onMounted(() => {
+const addProject = () => {
+  isAuto.value = !isAuto.value
+}
+const cancel = () => {
+  isAuto.value = false
+  nextStep.value = 1
+}
+const nextAuto = () => {
+  if (nextStep.value < 4) {
+    nextStep.value++
+  } else {
+    pageBefore.value = false
+    isAuto.value = false
+    nextStep.value = 1
+    loading.value = true
+    setTimeout(()=>{
+      init()
+    },800)
+  }
+}
+function init() {
   tableSize()
-  loading.value = false
-  createGraphic()
-  initGraphEvent()
   instance.proxy.$axios.getTaskDetail({ taskId: 2002 }).then(
     (res) => {
       if (res.data !== null) {
@@ -1434,6 +1555,8 @@ onMounted(() => {
       loading.value = false
     }
   )
+}
+onMounted(() => {
   // instance.proxy.$axios.getTaskDetail({ taskId: Cookies.get('taskId') }).then((res) => {
   //   // console.log(res);
   //   if (res.data !== null) {
@@ -1470,7 +1593,7 @@ onUnmounted(() => {
 
 <style lang="scss" scoped>
 .test-info {
-  height: 100%;
+  height: calc(100% - 60px);
   margin: 0 8px;
   background-color: #f4f4f4;
   border-radius: 3px;
@@ -1481,7 +1604,7 @@ onUnmounted(() => {
 
 .el-container-layout {
   width: 100%;
-  height: calc(100% - 41px);
+  height: calc(100% - 40px);
 }
 
 .el-aside {
@@ -1716,5 +1839,13 @@ onUnmounted(() => {
 }
 .tabs-box {
   padding: 0 20px;
+}
+.page_before {
+  width: 100%;
+  height: calc(100% - 40px);
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

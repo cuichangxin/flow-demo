@@ -17,11 +17,14 @@
         <el-container class="el-container-layout">
           <StepMenu @checkTab="checkTab" :tabIdx="tabIdx" ref="stepMenuRef"></StepMenu>
           <el-container>
-            <div class="box" v-show="tabIdx == 0">
-              <div class="wrapper">
-                <Canvas ref="childRef" @handleHistory="handleHistory"></Canvas>
+            <div class="box" :class="{ center: !autoCreate }" v-show="tabIdx == 0">
+              <div v-if="autoCreate" class="flex-box">
+                <div class="wrapper">
+                  <Canvas ref="childRef" @handleHistory="handleHistory"></Canvas>
+                </div>
+                <TableControl ref="controlRef"></TableControl>
               </div>
-              <TableControl ref="controlRef"></TableControl>
+              <el-button v-else class="button" color="#626aef" @click="addProject">自动生成架构设计</el-button>
             </div>
             <div class="over" v-show="tabIdx == 1">
               <OverAll></OverAll>
@@ -33,6 +36,52 @@
         </el-container>
       </pane>
     </Splitpanes>
+    <el-dialog v-model="isAuto" width="30%">
+      <el-form>
+        <el-form-item v-if="nextStep === 1" label="架构设计模板">
+          <el-select v-model="autoInfo.template">
+            <el-option v-for="item in autoList.template" :key="item.value" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item v-if="nextStep === 2" label="应用任务模型">
+          <el-checkbox v-model="autoInfo.model" label="数据采集功能是否包含在综合控制模块" />
+        </el-form-item>
+        <el-form-item v-if="nextStep === 3" label="安全性">
+          <el-select v-model="autoInfo.security">
+            <el-option v-for="item in autoList.security" :key="item.value" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <div v-if="nextStep === 4">
+          <el-form-item label="架构设计模版">
+            {{ autoInfo.template }}
+          </el-form-item>
+          <el-form-item label="应用任务模型">
+            <el-checkbox disabled v-model="autoInfo.model" label="数据采集功能是否包含在综合控制模块" />
+          </el-form-item>
+          <el-form-item label="安全性">
+            {{ autoInfo.security }}
+          </el-form-item>
+        </div>
+      </el-form>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="cancel">取消</el-button>
+          <el-button type="primary" @click="nextAuto">{{ nextStep === 4 ? '确认' : '下一步' }}</el-button>
+        </span>
+      </template>
+    </el-dialog>
+    <Dialog title="总体建议" :hidden-full-btn="false" v-model="visible" @confirm="handleConfirm" @close="handleClose">
+      <el-tabs v-model="activeName">
+        <el-tab-pane label="总体问题" name="suggest">
+          
+        </el-tab-pane>
+        <el-tab-pane label="建议" name="case">
+          
+        </el-tab-pane>
+      </el-tabs>
+    </Dialog>
   </div>
 </template>
 <script setup>
@@ -42,11 +91,14 @@ import TableControl from '../components/business/work/taskControl.vue'
 import OverAll from '../components/business/work/overAll.vue'
 import TaskRelation from '../components/business/work/taskRelation.vue'
 import shapeHeader from '../components/common/shapeHeader.vue'
+import Dialog from '../components/common/dialog/dialog.vue'
+import useDialog from '../hooks/useDialog'
 
 import { Splitpanes, Pane } from 'splitpanes'
 import 'splitpanes/dist/splitpanes.css'
 import { renderAsync } from 'docx-preview'
 
+const { visible: visible, openDialog: openDialog, closeDialog: closeDialog } = useDialog()
 
 const tabIdx = ref(0)
 const childRef = ref(null)
@@ -59,7 +111,70 @@ const history = reactive({
   canRedo: false,
 })
 const showWord = ref(true)
+const autoCreate = ref(false)
+const isAuto = ref(false)
+const nextStep = ref(1)
+const autoInfo = ref({
+  template: '',
+  model: false,
+  security: '',
+})
+const autoList = reactive({
+  template: [
+    {
+      label: '长征5号',
+      value: '长征5号',
+    },
+    {
+      label: '长征7号',
+      value: '长征7号',
+    },
+  ],
+  security: [
+    {
+      label: '1选1',
+      value: '1选1',
+    },
+    {
+      label: '2选1',
+      value: '2选1',
+    },
+    {
+      label: '3选1',
+      value: '3选1',
+    },
+    {
+      label: '3选2',
+      value: '3选2',
+    },
+    {
+      label: '5选3',
+      value: '5选3',
+    },
+    {
+      label: '5选4',
+      value: '5选4',
+    },
+  ],
+})
+const activeName = ref('suggest')
 
+const nextAuto = () => {
+  if (nextStep.value < 4) {
+    nextStep.value++
+  } else {
+    autoCreate.value = true
+    isAuto.value = false
+    nextStep.value = 1
+    nextTick(() => {
+      childRef.value.handleCreate(autoInfo.value)
+    })
+  }
+}
+const cancel = () => {
+  isAuto.value = false
+  nextStep.value = 1
+}
 const checkTab = (index) => {
   tabIdx.value = index
 }
@@ -76,11 +191,24 @@ const handleMenu = (val) => {
     childRef.value.handleToolMenu('resize')
   } else if (val === '智能辅助') {
     relationRef.value.handleToolMenu('none', val)
+  } else if (val === '智能验证') {
+    openSuggest()
+    relationRef.value.handleToolMenu('none', val)
   } else {
     childRef.value.handleToolMenu('none', val)
     controlRef.value.handleToolMenu('none', val)
     relationRef.value.handleToolMenu('none', val)
   }
+}
+
+const openSuggest = (scope) => {
+  openDialog()
+}
+const handleConfirm = () => {
+  closeDialog()
+}
+const handleClose = () => {
+  closeDialog()
 }
 
 const handleHistory = ({ canUndo, canRedo }) => {
@@ -90,6 +218,10 @@ const handleHistory = ({ canUndo, canRedo }) => {
 
 const paneSize = (e) => {
   childRef.value.handleToolMenu('resize')
+}
+
+const addProject = () => {
+  isAuto.value = !isAuto.value
 }
 function previewFile() {
   nextTick(() => {
@@ -146,9 +278,20 @@ previewFile()
 .box {
   width: 100%;
   height: 100%;
-  padding-left: 8px;
-  display: flex;
-  flex-direction: column;
+  background-color: #fff;
+  border-left: 1px solid #d3d3d3;
+  .flex-box {
+    width: 100%;
+    height: 100%;
+    padding-left: 8px;
+    display: flex;
+    flex-direction: column;
+  }
+  &.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 .wrapper {
   flex: 1 1;
@@ -183,7 +326,7 @@ previewFile()
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   margin-bottom: 10px;
 }
-.show_word{
+.show_word {
   width: 0 !important;
 }
 </style>

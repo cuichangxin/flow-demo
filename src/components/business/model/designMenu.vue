@@ -34,7 +34,9 @@ import markPoint from '../../common/mark/markPoiner.vue'
 import _ from 'lodash'
 import Cookies from 'js-cookie'
 import useModelMenu from './useModelMenu.vue'
+import { workStore } from '../../../store'
 
+const work = storeToRefs(workStore())
 const instance = getCurrentInstance()
 
 instance.proxy.$bus.on('*', (name, val) => {
@@ -234,6 +236,7 @@ const hideMenu = (val) => {
   instance.proxy.$bus.emit('resize')
 }
 function getTask() {
+  console.log(work.taskId);
   instance.proxy.$axios.getTaskDetail({ taskId: 2003 }).then((res) => {
     if (res.success) {
       subGraph.value = JSON.parse(res.data.daTree)
@@ -245,7 +248,7 @@ function getTask() {
       //   moduleTree.value = JSON.parse(res.data.daTree)
       // }
       // 单独获取任务
-      instance.proxy.$axios.getTaskDetail({ taskId: 2001 }).then((result) => {
+      instance.proxy.$axios.getTaskDetail({ taskId: work.taskId.value }).then((result) => {
         console.log(JSON.parse(result.data.daTree))
         if (moduleTree.value[0].id === '1') {
           moduleTree.value.splice(0, 1)
