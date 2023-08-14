@@ -39,3 +39,8 @@ export const USERROLE = {
   '6':'测试工程师',
   '7':'管理员'
 }
+export const RECORDSTATUS = {
+  '0':'进行中',
+  '1':'已完成',
+  '2':'已下线'
+}

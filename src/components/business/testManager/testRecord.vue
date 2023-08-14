@@ -1,7 +1,7 @@
 <template>
   <div class="test_record">
     <header>
-      <div class="header-left">
+      <!-- <div class="header-left">
         <el-select v-model="project" @change="handleSelect">
           <el-option
             v-for="(item, index) in projectList"
@@ -17,18 +17,16 @@
           class="search"
           @input="search"
         ></el-input>
-      </div>
+      </div> -->
       <div class="record_all">
         <div class="record_all_item" v-for="(item, index) in recordAllList" :key="index">
-          <div class="record_all_item_header" :style="{ background: recordListColor[index] }">
-            {{ item.recordName }}
-          </div>
+          <span class="label" :style="{ color: recordListColor[index] }">{{ item.recordName }}</span>
           <div class="record_all_item_content">{{ item.value }}</div>
         </div>
       </div>
     </header>
-    <section>
-      <el-table :data="tableData.tableData" :max-height="tableHeight" :cell-style="cellStyle">
+    <section class="record_body">
+      <!-- <el-table :data="tableData.tableData" :max-height="tableHeight" :cell-style="cellStyle">
         <el-table-column label="序号" width="100" type="index" :index="(index) => index + 1"></el-table-column>
         <el-table-column prop="needName" label="需求名称"></el-table-column>
         <el-table-column prop="testCase" label="测试用例集"></el-table-column>
@@ -48,6 +46,33 @@
           @size-change="handleSizeChange"
         >
         </el-pagination>
+      </div> -->
+      <h3 class="title">测试概览</h3>
+      <div class="record-wrapper">
+        <div class="record-item" v-for="(item,index) in recordOverAllList" :key="index">
+          <header>
+            <span class="test-name">{{ item.name }}</span>
+            <div class="status_shape" :style="{background:recordOverallColor[item.status]}"></div>
+          </header>
+          <section>
+            <div class="status_wrapper">
+              <span class="status_title">状态:</span>
+              <span class="status_item" :style="{color:recordOverallColor[item.status]}">{{ RECORDSTATUS[item.status] }}</span>
+            </div>
+            <div class="status_wrapper">
+              <span class="status_title">测试类型:</span>
+              <span class="status_item">{{ item.type }}</span>
+            </div>
+            <div class="status_wrapper">
+              <span class="status_title">测试时间:</span>
+              <span class="status_item">{{ item.createTime }}</span>
+            </div>
+            <div class="status_wrapper">
+              <span class="status_title">代码版本:</span>
+              <span class="status_item">{{ item.version }}</span>
+            </div>
+          </section>
+        </div>
       </div>
     </section>
   </div>
@@ -56,9 +81,15 @@
 import { Search } from '@element-plus/icons-vue'
 import _ from 'lodash'
 import { allStore } from '@/store'
+import { RECORDSTATUS } from '@/utils/map'
 
 const store = allStore()
-const recordListColor = ['#4988dd', '#44b364', '#d19995']
+const recordListColor = ['#4988dd', '#666', '#44b364', '#d64035']
+const recordOverallColor = {
+  '0':'#336deb',
+  '1':'#44b364',
+  '2':'#666'
+}
 const projectList = ref([
   {
     label: 'xxx火箭飞控软件项目',
@@ -79,6 +110,10 @@ const recordAllList = ref([
   {
     recordName: '用例总数',
     value: '529',
+  },
+  {
+    recordName: '进行中',
+    value: '0',
   },
   {
     recordName: '通过',
@@ -172,6 +207,39 @@ const searchId = ref(1)
 const cloneSearchData = ref([])
 const currentPage = ref(1)
 const pagesize = ref(10)
+/**
+ * @param {status} 0 进行中  1 已完成  2 下线
+ */
+const recordOverAllList = ref([
+  {
+    name:'XXX火箭飞控系统',
+    status: 0,
+    createTime:'2023-08-14',
+    version:'1.0',
+    type:'功能测试'
+  },
+  {
+    name:'XXX综控器监控软件',
+    status: 0,
+    createTime:'2023-08-14',
+    version:'1.0',
+    type:'功能测试'
+  },
+  {
+    name:'航天软件型号A',
+    status: 1,
+    createTime:'2023-07-12',
+    version:'1.0',
+    type:'性能测试'
+  },
+  {
+    name:'航天软件型号B',
+    status: 2,
+    createTime:'2023-07-11',
+    version:'1.0',
+    type:'接口测试'
+  },
+])
 
 const handlerCurrentChange = (val) => {
   currentPage.value = val
@@ -292,47 +360,56 @@ const recordAllList_3 = [
 </script>
 <style lang="scss" scoped>
 .test_record {
-  background-color: #fff;
+  /* background-color: #fff; */
   margin: 0 8px;
   border-radius: 8px;
-  padding: 20px;
+  padding: 10px 0;
   height: calc(100% - 65px);
-  box-shadow: 0px 0px 22px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0px 0px 22px rgba(0, 0, 0, 0.1); */
 }
 
 header {
   display: flex;
   margin-bottom: 10px;
 }
-
+.record_body {
+  .title {
+    font-weight: 600;
+  }
+}
 .record_all {
-  flex: 1;
-  margin-left: 30px;
+  width: 100%;
+  /* margin-left: 30px; */
   display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  width: 100%;
+  padding: 20px 0;
+  border-radius: 3px;
 }
 
 .record_all_item {
-  flex: 1;
+  width: 280px;
+  height: 100px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(128, 127, 127, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 25px;
+  background-color: #fff;
+  .label {
+    display: inline-block;
+    font-size: 18px;
+    font-weight: 600;
+  }
 }
 
-.record_all_item_header {
-  height: 36px !important;
-  color: #fff;
-  font-weight: 600;
-  line-height: 36px !important;
-}
-.record_all_item_content{
-  font-size: 24px !important;
-  font-weight: 700;
-}
-
-.record_all_item_header,
 .record_all_item_content {
-  height: 50px;
-  text-align: center;
-  line-height: 50px;
-  font-size: 14px;
-  border: 1px solid #d6d6d6;
+  font-size: 30px;
+  font-family: din;
+  font-weight: normal;
+  color: #414770;
 }
 
 .search {
@@ -344,9 +421,57 @@ header {
   display: flex;
   justify-content: center;
 }
-.header-left{
+.header-left {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+.record-wrapper {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  .record-item {
+    width: 24%;
+    height: 200px;
+    background-color: #fff;
+    box-shadow: 0px 0px 10px rgba(128, 127, 127, 0.2);
+    border-radius: 10px;
+    padding: 15px;
+    /* margin: 15px 15px 0 0; */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .test-name {
+        display: inline-block;
+        font-weight: 600;
+        color: #333;
+      }
+      .status_shape {
+        width: 20px;
+        height: 20px;
+        border-radius: 100%;
+        background-color: #333;
+      }
+    }
+    section{
+      display: inline-block;
+      margin-top: 8px;
+    }
+    .status_wrapper {
+      display: flex;
+      align-items: center;
+      margin-bottom: 14px;
+      .status_title ,.status_item{
+        font-size: 14px;
+        color: #afb2b6;
+        font-family: PingFangSC-Heavy;
+      }
+      .status_item{
+        margin-left: 10px;
+        color: #000;
+      }
+    }
+  }
 }
 </style>
