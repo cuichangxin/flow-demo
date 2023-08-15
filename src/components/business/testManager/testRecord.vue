@@ -49,15 +49,25 @@
       </div> -->
       <h3 class="title">测试概览</h3>
       <div class="record-wrapper">
-        <div class="record-item" v-for="(item,index) in recordOverAllList" :key="index">
+        <div class="record-item" v-for="(item, index) in recordOverAllList" :key="index">
           <header>
             <span class="test-name">{{ item.name }}</span>
-            <div class="status_shape" :style="{background:recordOverallColor[item.status]}"></div>
+            <el-dropdown trigger="click" @command="(e) => command(e, item)">
+              <i class="status_shape iconfont icon-qita"></i>
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item command="测试管理">测试管理</el-dropdown-item>
+                  <el-dropdown-item command="测试报告">测试报告</el-dropdown-item>
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
           </header>
           <section>
             <div class="status_wrapper">
               <span class="status_title">状态:</span>
-              <span class="status_item" :style="{color:recordOverallColor[item.status]}">{{ RECORDSTATUS[item.status] }}</span>
+              <span class="status_item" :style="{ color: recordOverallColor[item.status] }">{{
+                RECORDSTATUS[item.status]
+              }}</span>
             </div>
             <div class="status_wrapper">
               <span class="status_title">测试类型:</span>
@@ -75,6 +85,53 @@
         </div>
       </div>
     </section>
+    <Dialog
+      :title="changeFlag ? '测试管理' : '测试报告'"
+      :hidden-full-btn="true"
+      v-model="visible"
+      :confirmText="changeFlag ? '应用' : '确认'"
+      @confirm="handleConfirm"
+      @close="handleClose"
+    >
+      <el-form v-if="changeFlag" :model="formData" label-width="90px">
+        <el-form-item label="测试项目" prop="name">
+          <el-input v-model="formData.name" disabled></el-input>
+        </el-form-item>
+        <el-form-item label="状态" prop="status">
+          <el-select v-model="formData.status">
+            <el-option label="进行中" value="0"></el-option>
+            <el-option label="已完成" value="1"></el-option>
+            <el-option label="已下线" value="2"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="创建时间" prop="createTime">
+          <el-date-picker
+            v-model="formData.createTime"
+            type="datetime"
+            format="YYYY-MM-DD HH:mm:ss"
+            value-format="YYYY-MM-DD HH:mm:ss"
+          />
+        </el-form-item>
+        <el-form-item label="测试类型" prop="type">
+          <el-select v-model="formData.type">
+            <el-option label="功能测试" value="功能测试"></el-option>
+            <el-option label="性能测试" value="性能测试"></el-option>
+            <el-option label="接口测试" value="接口测试"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="代码版本" prop="version">
+          <el-input v-model="formData.version"></el-input>
+        </el-form-item>
+      </el-form>
+      <el-descriptions v-else direction="vertical" border>
+        <el-descriptions-item label="测试项目">{{ report.name }}</el-descriptions-item>
+        <el-descriptions-item label="测试日期">{{ report.createTime }}</el-descriptions-item>
+        <el-descriptions-item label="操作系统">{{ report.system }}</el-descriptions-item>
+        <el-descriptions-item label="测试用例总数">{{ report.useCaseTotal }}</el-descriptions-item>
+        <el-descriptions-item label="失败用例数">{{ report.failUseCase }}</el-descriptions-item>
+        <el-descriptions-item label="测试用例通过率">{{ report.useCaseRate }}</el-descriptions-item>
+      </el-descriptions>
+    </Dialog>
   </div>
 </template>
 <script setup>
@@ -82,13 +139,17 @@ import { Search } from '@element-plus/icons-vue'
 import _ from 'lodash'
 import { allStore } from '@/store'
 import { RECORDSTATUS } from '@/utils/map'
+import Dialog from '../../common/dialog/dialog.vue'
+import useDialog from '../../../hooks/useDialog'
+
+const { visible: visible, openDialog: openDialog, closeDialog: closeDialog } = useDialog()
 
 const store = allStore()
 const recordListColor = ['#4988dd', '#666', '#44b364', '#d64035']
 const recordOverallColor = {
-  '0':'#336deb',
-  '1':'#44b364',
-  '2':'#666'
+  0: '#336deb',
+  1: '#44b364',
+  2: '#666',
 }
 const projectList = ref([
   {
@@ -212,34 +273,95 @@ const pagesize = ref(10)
  */
 const recordOverAllList = ref([
   {
-    name:'XXX火箭飞控系统',
-    status: 0,
-    createTime:'2023-08-14',
-    version:'1.0',
-    type:'功能测试'
+    name: 'XXX火箭飞控系统',
+    status: '0',
+    createTime: '2023-08-14 09:00:00',
+    version: '1.0',
+    type: '功能测试',
+    system: 'ubuntu20.04',
+    useCaseTotal: 126,
+    failUseCase: 21,
+    useCaseRate: '83%',
   },
   {
-    name:'XXX综控器监控软件',
-    status: 0,
-    createTime:'2023-08-14',
-    version:'1.0',
-    type:'功能测试'
+    name: 'XXX综控器监控软件',
+    status: '0',
+    createTime: '2023-08-14 09:00:00',
+    version: '1.0',
+    type: '功能测试',
+    system: 'ubuntu20.04',
+    useCaseTotal: 179,
+    failUseCase: 33,
+    useCaseRate: '82%',
   },
   {
-    name:'航天软件型号A',
-    status: 1,
-    createTime:'2023-07-12',
-    version:'1.0',
-    type:'性能测试'
+    name: '航天软件型号A',
+    status: '1',
+    createTime: '2023-07-12 11:30:12',
+    version: '1.0',
+    type: '性能测试',
+    system: 'ubuntu20.04',
+    useCaseTotal: 213,
+    failUseCase: 16,
+    useCaseRate: '93%',
   },
   {
-    name:'航天软件型号B',
-    status: 2,
-    createTime:'2023-07-11',
-    version:'1.0',
-    type:'接口测试'
+    name: '航天软件型号B',
+    status: '2',
+    createTime: '2023-07-11 12:12:40',
+    version: '1.0',
+    type: '接口测试',
+    system: 'ubuntu20.04',
+    useCaseTotal: 155,
+    failUseCase: 82,
+    useCaseRate: '47%',
   },
 ])
+const formData = ref({
+  name: '',
+  status: '',
+  createTime: '',
+  version: '',
+  type: '',
+})
+const report = ref({
+  name: '',
+  createTime: '',
+  system: '',
+  useCaseTotal: '',
+  failUseCase: '',
+  useCaseRate: '',
+})
+const changeFlag = ref(false)
+const command = (e, item) => {
+  if (e === '测试管理') {
+    changeFlag.value = true
+    formData.value = JSON.parse(JSON.stringify(item))
+    openDialog()
+  }
+  if (e === '测试报告') {
+    changeFlag.value = false
+    report.value = JSON.parse(JSON.stringify(item))
+    openDialog()
+  }
+}
+const handleConfirm = () => {
+  if (changeFlag.value) {
+    recordOverAllList.value.forEach((item) => {
+      if (item.name === formData.value.name) {
+        console.log(item, '------', formData.value)
+        item.status = formData.value.status
+        item.createTime = formData.value.createTime
+        item.version = formData.value.version
+        item.type = formData.value.type
+      }
+    })
+  }
+  closeDialog()
+}
+const handleClose = () => {
+  closeDialog()
+}
 
 const handlerCurrentChange = (val) => {
   currentPage.value = val
@@ -448,13 +570,14 @@ header {
         color: #333;
       }
       .status_shape {
-        width: 20px;
-        height: 20px;
-        border-radius: 100%;
-        background-color: #333;
+        font-size: 24px;
+        cursor: pointer;
+        &:hover {
+          color: #2c67ea;
+        }
       }
     }
-    section{
+    section {
       display: inline-block;
       margin-top: 8px;
     }
@@ -462,12 +585,13 @@ header {
       display: flex;
       align-items: center;
       margin-bottom: 14px;
-      .status_title ,.status_item{
+      .status_title,
+      .status_item {
         font-size: 14px;
         color: #afb2b6;
         font-family: PingFangSC-Heavy;
       }
-      .status_item{
+      .status_item {
         margin-left: 10px;
         color: #000;
       }

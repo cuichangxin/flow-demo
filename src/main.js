@@ -10,7 +10,7 @@ import { createPinia } from 'pinia'
 import mitt from 'mitt'
 import vueTyped from 'vue3typed'
 import axios from './api/api'
-import './permission'
+// import './permission'
 import { getElementLabelLine } from 'element-tree-line'
 import modal from './utils/modal'
 
