@@ -594,6 +594,7 @@ header {
       .status_item {
         margin-left: 10px;
         color: #000;
+        font-family: PingFangSC;
       }
     }
   }
