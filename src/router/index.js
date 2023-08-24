@@ -140,6 +140,12 @@ const constantRoutes = [
         name: 'demandReview',
         component: () => import('@/page/demandReview.vue'),
         meta: { title: '需求评审' }
+      },
+      {
+        path:'/results',
+        name:'results',
+        component:()=>import('@/page/results.vue'),
+        meta:{title:'成果管理'}
       }
     ]
   },

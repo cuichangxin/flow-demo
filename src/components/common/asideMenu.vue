@@ -91,21 +91,28 @@ const useList = reactive([
     hide: Cookies.get('roleId') !== '7' ? true : false,
   },
   {
-    id: '6',
+    id:'6',
+    name:'成果管理',
+    link:'/results',
+    icon:'icon-chengguoguanli',
+    hide: Cookies.get('roleId') !== '7' ? true :false
+  },
+  {
+    id: '7',
     name: '系统管理',
     link: '/system',
     icon: 'icon-xitongguanli',
     hide: true,
     children: [
       {
-        id: '6-1',
+        id: '7-1',
         name: '活动库管理',
         link: '/system/eventRoom',
         icon: 'icon-wuzishenling',
         hide: true,
       },
       {
-        id: '6-2',
+        id: '7-2',
         name: '工具库管理',
         link: '/system/toolRoom',
         icon: 'icon-xitongshezhi',
