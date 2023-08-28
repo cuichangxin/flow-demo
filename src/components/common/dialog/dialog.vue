@@ -5,6 +5,7 @@
       :model-value="props.modelValue"
       :show-close="false"
       :fullscreen="attrs?.fullscreen ?? isFullscreen"
+      :width="props.width"
       :before-close="handleClose"
     >
       <template #header>
@@ -43,7 +44,8 @@ interface PropType {
   hiddenFullBtn?: boolean
   confirmText?:string,
   cancelText?:string,
-  disabled?:boolean
+  disabled?:boolean,
+  width:string|number
 }
 const props = withDefaults(defineProps<PropType>(), {
   title: '',
@@ -51,7 +53,8 @@ const props = withDefaults(defineProps<PropType>(), {
   hiddenFullBtn: true,
   confirmText:'确认',
   cancelText:'取消',
-  disabled:false
+  disabled:false,
+  width:'80%'
 })
 const emits = defineEmits<{
   (e: 'update:modelValue'): void

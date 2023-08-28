@@ -72,15 +72,10 @@
         </span>
       </template>
     </el-dialog>
-    <Dialog title="总体建议" :hidden-full-btn="false" v-model="visible" @confirm="handleConfirm" @close="handleClose">
-      <el-tabs v-model="activeName">
-        <el-tab-pane label="总体问题" name="suggest">
-          
-        </el-tab-pane>
-        <el-tab-pane label="建议" name="case">
-          
-        </el-tab-pane>
-      </el-tabs>
+    <Dialog title="总体建议" :hidden-full-btn="false" :width="'30%'" v-model="visible" @confirm="handleConfirm" @close="handleClose">
+      <p>通过对本文档的分析解读，以及和历史案例的对照，我们有以下建议：</p>
+      <p style="margin-left: 10px;">1.目前各项任务的优先级都是同样的值，通常情况下这是不准确的。请对不同任务指定不同的优先级。</p>
+      <p style="margin-left: 10px;">2.系统缺少对异常情况的处理描述，请补充说明。</p>
     </Dialog>
   </div>
 </template>
@@ -157,7 +152,6 @@ const autoList = reactive({
     },
   ],
 })
-const activeName = ref('suggest')
 
 const nextAuto = () => {
   if (nextStep.value < 4) {

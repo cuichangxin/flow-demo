@@ -22,7 +22,7 @@
       </el-table>
       <div style="margin-top: 20px">
         <el-button type="primary" @click="checkoutHandle">需求评审</el-button>
-        <el-button type="primary" :disabled="disabled">生成文档</el-button>
+        <el-button type="primary" :disabled="disabled" @click="createDocx">生成文档</el-button>
       </div>
       <div class="pagination">
         <el-pagination
@@ -37,9 +37,18 @@
         </el-pagination>
       </div>
     </el-scrollbar>
+    <Dialog title="评审报告" :hidden-full-btn="false" :width="'50%'" v-model="visible" @confirm="handleConfirm" @close="handleClose">
+      <div class="docx"></div>
+    </Dialog>
   </div>
 </template>
 <script setup>
+import Dialog from '../components/common/dialog/dialog.vue';
+import useDialog from '../hooks/useDialog';
+import { renderAsync } from 'docx-preview'
+
+const { visible: visible, openDialog: openDialog, closeDialog: closeDialog } = useDialog()
+
 const radio = ref('软件需求')
 const radioList = reactive([
   {
@@ -185,6 +194,32 @@ const checkoutHandle = () => {
     disabled.value = true
   }
 }
+const handleConfirm = () => {
+  closeDialog()
+}
+const handleClose = () => {
+  closeDialog()
+}
+const createDocx = () => {
+  openDialog()
+  previewFile()
+}
+function previewFile() {
+  nextTick(() => {
+    fetch('/mock/word/4.docx')
+      .then((response) => {
+        const docData = response.blob()
+        const html = document.getElementsByClassName('docx')
+
+        renderAsync(docData, html[0]).then((res) => {
+          console.log('res---->', res)
+        })
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  })
+}
 </script>
 <style lang="scss" scoped>
 .results {
@@ -201,5 +236,12 @@ const checkoutHandle = () => {
   margin-bottom: 10px;
   display: flex;
   justify-content: center;
+}
+:deep(.docx-wrapper) {
+  background-color: #f4f4f4;
+}
+:deep(.docx-wrapper > section.docx) {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
 }
 </style>
