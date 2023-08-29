@@ -8,7 +8,7 @@
             <!--顶部占位 -->
             <div class="top_div"></div>
             <FlowIcon :list="list" :serial="serial"></FlowIcon>
-            <Flow :list="list"></Flow>
+            <Flow :list="list" :serials="serial"></Flow>
           </div>
           <Card :list="list"></Card>
         </div>
@@ -86,7 +86,7 @@ const boardShow = () => {
 }
 
 const getJson = (num) => {
-  Axios.get(`http://localhost:8080//mock/flow/${num}.json`).then((res) => {
+  Axios.get(`http://localhost:8080/mock/flow/${num}.json`).then((res) => {
     list.value = res
   })
 }

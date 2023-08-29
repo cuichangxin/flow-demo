@@ -3,18 +3,21 @@
   <div id="graph" class="flow">
     <div id="graph-container" class="graph-container"></div>
   </div>
+  <Tooltip :content="'原计划2天完成，现已超过3天'" :visible="visible" :x="position.x" :y="position.y"></Tooltip>
 </template>
 <script setup>
 import axios from 'axios'
-import G6 from '@antv/g6'
 import { Graph, Shape } from '@antv/x6'
 import insertCss from 'insert-css'
-import { nextTick, onMounted, ref } from 'vue'
+import Tooltip from '../../common/tooltip.vue'
 
 const props = defineProps({
   list: {
     type: Object,
     default: () => [],
+  },
+  serials: {
+    type: Number,
   },
 })
 // 综控
@@ -1140,6 +1143,11 @@ const showStatus = ref(0)
 const graphData = ref({})
 const graphDataStatusList = ref([])
 const projectType = ref([])
+const position = ref({
+  x: 0,
+  y: 0,
+})
+const visible = ref(false)
 
 watch(
   () => props.list,
@@ -1168,6 +1176,7 @@ watch(
 const init = (o) => {
   if (JSON.stringify(o) === '{}') {
     createGraphic()
+    initGraphEvent()
   } else {
     attrsNode()
   }
@@ -1283,6 +1292,20 @@ const createGraphic = () => {
     'custom-rect',
     {
       inherit: 'rect',
+      markup: [
+        {
+          tagName: 'rect',
+          selector: 'body',
+        },
+        {
+          tagName: 'image',
+          selector: 'avatar',
+        },
+        {
+          tagName: 'text',
+          selector: 'label',
+        },
+      ],
       width: 100,
       height: 70,
       attrs: {
@@ -1290,6 +1313,12 @@ const createGraphic = () => {
           strokeWidth: 1,
           stroke: '#333',
           fill: '#fff',
+        },
+        avatar: {
+          width: 22,
+          height: 22,
+          refX: 4,
+          refY: 6,
         },
         text: {
           fontSize: 12,
@@ -1337,6 +1366,19 @@ const createGraphic = () => {
   `)
   attrsNode()
   console.log('2')
+}
+// 初始化图事件
+const initGraphEvent = () => {
+  graph.on('node:mouseenter', (e) => {
+    if (props.serials == 11 && e.node.store.data.attrs.text.text.indexOf('可靠性测试\n用例') !== -1) {
+      visible.value = true
+      position.value.x = e.e.pageX
+      position.value.y = e.e.pageY
+    }
+  })
+  graph.on('node:mouseleave', (e) => {
+    visible.value = false
+  })
 }
 
 function attrsNode() {
@@ -1390,7 +1432,7 @@ function attrsNode() {
   }
 }
 function getFlow(json, o) {
-  axios.get(`http://192.168.162.124:8080/mock/flow/${json}.json`).then((res) => {
+  axios.get(`http://localhost:8080/mock/flow/${json}.json`).then((res) => {
     graphData.value = res
     console.log('1')
     init(o)

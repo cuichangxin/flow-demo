@@ -4,7 +4,7 @@
       <el-radio-group v-model="radio" @change="changeRadio">
         <el-radio-button v-for="(item, index) in radioList" :key="index" :label="item.label" />
       </el-radio-group>
-      <el-table class="table" :data="tableData" border @selection-change="handleSelectionChange">
+      <el-table class="table" :data="tableData.slice((currentPage - 1) * pagesize, currentPage * pagesize)" border @selection-change="handleSelectionChange">
         <el-table-column v-if="isCheckout" type="selection" width="55" />
         <el-table-column label="序号" width="80" type="index" :index="(index) => index + 1"></el-table-column>
         <el-table-column prop="resultsType" label="成果类型" />
@@ -37,14 +37,21 @@
         </el-pagination>
       </div>
     </el-scrollbar>
-    <Dialog title="评审报告" :hidden-full-btn="false" :width="'50%'" v-model="visible" @confirm="handleConfirm" @close="handleClose">
+    <Dialog
+      title="评审报告"
+      :hidden-full-btn="false"
+      :width="'50%'"
+      v-model="visible"
+      @confirm="handleConfirm"
+      @close="handleClose"
+    >
       <div class="docx"></div>
     </Dialog>
   </div>
 </template>
 <script setup>
-import Dialog from '../components/common/dialog/dialog.vue';
-import useDialog from '../hooks/useDialog';
+import Dialog from '../components/common/dialog/dialog.vue'
+import useDialog from '../hooks/useDialog'
 import { renderAsync } from 'docx-preview'
 
 const { visible: visible, openDialog: openDialog, closeDialog: closeDialog } = useDialog()
@@ -168,6 +175,217 @@ const tableData = ref([
     firstChangeUser: 'admin',
   },
 ])
+const tableDataClone = ref([
+  {
+    resultsType: '软件需求',
+    resultsName: '软件需求',
+    version: '1',
+    lastChangeTime: '2023-02-16 09:47:51',
+    lastChangeUser: 'admin',
+    firstChangeTime: '2023-02-16 09:47:50',
+    firstChangeUser: 'admin',
+  },
+  {
+    resultsType: '软件需求',
+    resultsName: '软件需求',
+    version: '1',
+    lastChangeTime: '2023-02-16 14:51:50',
+    lastChangeUser: 'admin',
+    firstChangeTime: '2023-02-16 14:51:49',
+    firstChangeUser: 'admin',
+  },
+  {
+    resultsType: '软件需求',
+    resultsName: '软件需求',
+    version: '1',
+    lastChangeTime: '2023-02-16 15:25:18',
+    lastChangeUser: 'admin',
+    firstChangeTime: '2023-02-16 15:25:17',
+    firstChangeUser: 'admin',
+  },
+  {
+    resultsType: '软件需求',
+    resultsName: '软件需求',
+    version: '1',
+    lastChangeTime: '2023-02-16 15:43:22',
+    lastChangeUser: 'admin',
+    firstChangeTime: '2023-02-16 15:43:21',
+    firstChangeUser: 'admin',
+  },
+  {
+    resultsType: '软件需求',
+    resultsName: '软件需求',
+    version: '1',
+    lastChangeTime: '2023-02-17 14:22:22',
+    lastChangeUser: 'admin',
+    firstChangeTime: '2023-02-17 14:22:22',
+    firstChangeUser: 'admin',
+  },
+  {
+    resultsType: '软件需求',
+    resultsName: '软件需求',
+    version: '1',
+    lastChangeTime: '2023-02-20 02:57:08',
+    lastChangeUser: 'admin',
+    firstChangeTime: '2023-02-20 02:57:08',
+    firstChangeUser: 'admin',
+  },
+  {
+    resultsType: '软件需求',
+    resultsName: '软件需求',
+    version: '1',
+    lastChangeTime: '2023-02-20 07:23:24',
+    lastChangeUser: 'admin',
+    firstChangeTime: '2023-02-20 07:23:24',
+    firstChangeUser: 'admin',
+  },
+  {
+    resultsType: '软件需求',
+    resultsName: '软件需求',
+    version: '1',
+    lastChangeTime: '2023-02-20 08:04:17',
+    lastChangeUser: 'admin',
+    firstChangeTime: '2023-02-20 08:04:17',
+    firstChangeUser: 'admin',
+  },
+  {
+    resultsType: '软件需求',
+    resultsName: '软件需求',
+    version: '1',
+    lastChangeTime: '2023-02-20 08:26:29',
+    lastChangeUser: 'admin',
+    firstChangeTime: '2023-02-20 08:26:29',
+    firstChangeUser: 'admin',
+  },
+])
+const tableData_2 = reactive([
+  {
+    resultsType: '软件架构',
+    resultsName: '软件架构',
+    version: '1',
+    lastChangeTime: '2023-02-16 09:47:51',
+    lastChangeUser: 'admin',
+    firstChangeTime: '2023-02-16 09:47:50',
+    firstChangeUser: 'admin',
+  },
+  {
+    resultsType: '软件架构',
+    resultsName: '软件架构',
+    version: '1',
+    lastChangeTime: '2023-02-16 09:50:29',
+    lastChangeUser: 'admin',
+    firstChangeTime: '2023-02-16 09:50:37',
+    firstChangeUser: 'admin',
+  },
+  {
+    resultsType: '软件架构',
+    resultsName: '软件架构',
+    version: '1',
+    lastChangeTime: '2023-02-16 15:29:29',
+    lastChangeUser: 'admin',
+    firstChangeTime: '2023-02-16 15:29:29',
+    firstChangeUser: 'admin',
+  },
+  {
+    resultsType: '软件架构',
+    resultsName: '软件架构',
+    version: '1',
+    lastChangeTime: '2023-02-16 09:47:51',
+    lastChangeUser: 'admin',
+    firstChangeTime: '2023-02-16 09:47:50',
+    firstChangeUser: 'admin',
+  },
+  {
+    resultsType: '软件架构',
+    resultsName: '软件架构',
+    version: '1',
+    lastChangeTime: '2023-02-16 15:46:09',
+    lastChangeUser: 'admin',
+    firstChangeTime: '2023-02-16 15:46:09',
+    firstChangeUser: 'admin',
+  },
+  {
+    resultsType: '软件架构',
+    resultsName: '软件架构',
+    version: '1',
+    lastChangeTime: '2023-02-20 03:00:56',
+    lastChangeUser: 'admin',
+    firstChangeTime: '2023-02-20 03:00:56',
+    firstChangeUser: 'admin',
+  },
+  {
+    resultsType: '软件架构',
+    resultsName: '软件架构',
+    version: '1',
+    lastChangeTime: '2023-02-20 07:28:52',
+    lastChangeUser: 'admin',
+    firstChangeTime: '2023-02-20 07:28:52',
+    firstChangeUser: 'admin',
+  },
+  {
+    resultsType: '软件架构',
+    resultsName: '软件架构',
+    version: '1',
+    lastChangeTime: '2023-02-20 08:06:45',
+    lastChangeUser: 'admin',
+    firstChangeTime: '2023-02-20 08:06:45',
+    firstChangeUser: 'admin',
+  },
+  {
+    resultsType: '软件架构',
+    resultsName: '软件架构',
+    version: '1',
+    lastChangeTime: '2023-02-16 09:47:51',
+    lastChangeUser: 'admin',
+    firstChangeTime: '2023-02-16 09:47:50',
+    firstChangeUser: 'admin',
+  },
+  {
+    resultsType: '软件架构',
+    resultsName: '软件架构',
+    version: '1',
+    lastChangeTime: '2023-02-20 08:28:57',
+    lastChangeUser: 'admin',
+    firstChangeTime: '2023-02-20 08:28:57',
+    firstChangeUser: 'admin',
+  },
+  {
+    resultsType: '软件架构',
+    resultsName: '软件架构',
+    version: '1',
+    lastChangeTime: '2023-02-21 01:07:12',
+    lastChangeUser: 'admin',
+    firstChangeTime: '2023-02-21 01:07:12',
+    firstChangeUser: 'admin',
+  },
+  {
+    resultsType: '软件架构',
+    resultsName: '软件架构',
+    version: '1',
+    lastChangeTime: '2023-02-21 01:56:06',
+    lastChangeUser: 'admin',
+    firstChangeTime: '2023-02-21 01:56:06',
+    firstChangeUser: 'admin',
+  },
+  {
+    resultsType: '软件架构',
+    resultsName: '软件架构',
+    version: '1',
+    lastChangeTime: '2023-02-21 06:09:18',
+    lastChangeUser: 'admin',
+    firstChangeTime: '2023-02-21 06:09:18',
+    firstChangeUser: 'admin',
+  },
+  {
+    resultsType: '软件架构',
+    resultsName: '软件架构',
+    version: '1',
+    lastChangeTime: '2023-02-21 07:31:52',
+    lastChangeUser: 'admin',
+    firstChangeTime: '2023-02-21 07:31:52',
+    firstChangeUser: 'admin',
+  },
+])
 const pagesize = ref(10)
 const currentPage = ref(1)
 const isCheckout = ref(false)
@@ -187,7 +405,19 @@ const handleSelectionChange = (val) => {
     disabled.value = true
   }
 }
-const changeRadio = () => {}
+const changeRadio = (e) => {
+  console.log(e)
+  switch (e) {
+    case '软件需求':
+      tableData.value = tableDataClone.value
+      break
+    case '软件架构':
+      tableData.value = tableData_2
+      break
+    default:
+      break
+  }
+}
 const checkoutHandle = () => {
   isCheckout.value = !isCheckout.value
   if (!isCheckout.value) {

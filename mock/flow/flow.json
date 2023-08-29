@@ -4248,12 +4248,12 @@
         "y": 248
       },
       "size": {
-        "width": 120,
+        "width": 140,
         "height": 40
       },
       "attrs": {
         "text": {
-          "text": "可靠性测试用例\n设计"
+          "text": "可靠性测试\n用例设计"
         },
         "body": {
           "fill": "#c2ccd0",
@@ -4263,6 +4263,10 @@
         "label": {
           "fontSize": 14,
           "fill": "#333"
+        },
+        "avatar": {
+          "opacity": 1,
+          "xlink:href": "../../src/assets/image/wranning.png"
         }
       },
       "visible": true,
@@ -4352,7 +4356,7 @@
       "id": "cacc75c6-05fd-45b2-82bd-e85f7191783a",
       "oldLabel": "可靠性测试用例设计",
       "zIndex": 24,
-      "label": "可靠性测试用例\n设计"
+      "label": "可靠性测试\n用例设计"
     },
     {
       "position": {
