@@ -44,8 +44,8 @@ Axios.defaults.timeout = 100000
 Axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
 
 // 默认URL
-Axios.defaults.baseURL = import.meta.env.VITE_APP_BASE_API
-// Axios.defaults.baseURL = 'http://39.105.98.46:16380'
+// Axios.defaults.baseURL = import.meta.env.VITE_APP_BASE_API
+Axios.defaults.baseURL = 'http://39.105.98.46:16380'
 // 通用请求拦截器
 Axios.interceptors.request.use(
   config => {

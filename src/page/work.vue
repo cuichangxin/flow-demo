@@ -219,7 +219,7 @@ const addProject = () => {
 }
 function previewFile() {
   nextTick(() => {
-    fetch('/mock/word/1.docx')
+    fetch('/assets/mock/word/1.docx')
       .then((response) => {
         const docData = response.blob()
         const html = document.getElementsByClassName('docx')

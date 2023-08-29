@@ -82,7 +82,7 @@ const handleClose = () => {
 }
 function previewFile() {
   nextTick(() => {
-    fetch('/mock/word/2.docx')
+    fetch('/assets/mock/word/2.docx')
       .then((response) => {
         const docData = response.blob()
         const html = document.getElementsByClassName('docx')

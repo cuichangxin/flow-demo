@@ -436,7 +436,7 @@ const createDocx = () => {
 }
 function previewFile() {
   nextTick(() => {
-    fetch('/mock/word/4.docx')
+    fetch('/assets/mock/word/4.docx')
       .then((response) => {
         const docData = response.blob()
         const html = document.getElementsByClassName('docx')

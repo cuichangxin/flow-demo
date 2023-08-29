@@ -95,7 +95,7 @@ const useList = reactive([
     name:'成果管理',
     link:'/results',
     icon:'icon-chengguoguanli',
-    hide: Cookies.get('roleId') !== '7' ? true :false
+    hide: Cookies.get('roleId') == '7' ? true :false
   },
   {
     id: '7',
