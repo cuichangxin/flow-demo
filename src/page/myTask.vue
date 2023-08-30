@@ -9,7 +9,7 @@
     >
       <el-table-column align="center" label="序号" width="80">
         <template #default="scope">
-          <el-badge v-if="scope.row.isNew === 0" class="badge" value="新">
+          <el-badge v-if="scope.row.isNew === 0 || scope.row.isNew === null" class="badge" value="新">
             {{ scope.$index + (currentPage - 1) * pagesize + 1 }}
           </el-badge>
           <span v-else>{{ scope.$index + (currentPage - 1) * pagesize + 1 }}</span>
@@ -203,7 +203,8 @@ const getTask = () => {
       tableList.value = res.data
       res.data.forEach((item) => {
         item.subStatus = taskStatus[item.status]
-        if (item.isNew === 0) {
+        // 这里的null是因为isNew数据库初始化为null，没有默认字段，只能这么判断
+        if (item.isNew === 0 || item.isNew === null) {
           if (store.isPlay.value && res.data.length) {
             proxy.$refs.audioRef.play().then((res) => {
               store.isPlay.value = false
@@ -225,7 +226,7 @@ function play() {
   proxy.$refs.audioRef.play()
 }
 function isNewTask(row) {
-  if (row.isNew === 0) {
+  if (row.isNew === 0 || row.isNew === null) {
     proxy.$axios.changeTaskStatus({ id: row.id }).then((res) => {
       console.log('isNew remove')
     })

@@ -65,11 +65,16 @@ export function week(arr, arr2) {
   let a = parseInt(arr)
   let b = parseInt(arr2)
   let c = []
-  if (arr - b < 0) {
+  if (b - a === 1) {
+    return b - a
+  } else if (arr - b < 0) {
     const number = Math.abs(a - b) + 1
     for (let i = a; i < a + number; i++) {
       c.push(i)
     }
+    const random = Math.floor(Math.random() * c.length-1)
+    c.splice(random,1)
+
   } else if (a - b === 0) {
     c.push(a)
   } else if (a - b > 0) {

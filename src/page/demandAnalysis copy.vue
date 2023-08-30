@@ -1,0 +1,63 @@
+<template>
+  <div class="iframe_wrap" v-loading="loading" element-loading-text="加载中...">
+    <iframe id="iframe" class="iframe" src="http://192.168.162.117:3000/#/da" frameborder="0"></iframe>
+    <!-- <iframe id="iframe" class="iframe" src="http://39.105.98.46:16381/#/da" frameborder="0"></iframe> -->
+    <!-- <iframe id="iframe" class="iframe" src="http://172.20.10.2:3000/#/da" frameborder="0"></iframe> -->
+  </div>
+</template>
+<script setup>
+import Cookies from 'js-cookie'
+
+const router = useRouter()
+const loading = ref(true)
+
+watch(
+  () => router.currentRoute.value,
+  (n) => {
+    if (n.path === '/demandAnalysis') {
+      nextTick(() => {
+        const dom = document.getElementById('iframe')
+        const myWindow = dom.contentWindow
+        dom.onload = function () {
+          loading.value = false
+          myWindow.postMessage(
+            {
+              taskId: Cookies.get('taskId'),
+              status: Cookies.get('status'),
+            },
+            'http://192.168.162.117:3000'
+          )
+        }
+      })
+    }
+  },
+  { immediate: true }
+)
+onMounted(() => {
+  nextTick(() => {
+    const dom = document.getElementById('iframe')
+    const myWindow = dom.contentWindow
+    dom.onload = function () {
+      loading.value = false
+      myWindow.postMessage(
+        {
+          taskId: Cookies.get('taskId'),
+          status: Cookies.get('status'),
+        },
+        'http://192.168.162.117:3000'
+      )
+    }
+  })
+})
+</script>
+<style lang="scss" scoped>
+.iframe_wrap {
+  height: calc(100% - 65px);
+  margin: 8px;
+}
+.iframe {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+}
+</style>

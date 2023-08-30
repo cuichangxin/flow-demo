@@ -443,6 +443,7 @@ const confirmCase = () => {
   let subIndex
   let str
   let weeks = []
+  const cloneCase = JSON.parse(JSON.stringify(useCase.value.useCase))
   console.log(useCase.value.useCase)
   if (useCase.value.useCase) {
     caseRange(useCase).then((res) => {
@@ -472,7 +473,6 @@ const confirmCase = () => {
                   for (let myIndex = 0; myIndex < 2; myIndex++) {
                     const I = myIndex
                     const random = Math.floor(Math.random() * (weeks[I].length - weeks[I][0])) + weeks[I][0]
-                    console.log(random);
                     for (let index = 0; index < weeks[I].length; index++) {
                       if (index < random) {
                         const rowClone = cloneDeep(item)
@@ -490,8 +490,8 @@ const confirmCase = () => {
               }
               INDEX = idx
             })
-            console.log(INDEX, useCase.value.useCase.length - weeks.length - 1)
-            if (INDEX === useCase.value.useCase.length - weeks.length - 1) {
+            console.log(INDEX, cloneCase.length - 1)
+            if (INDEX === cloneCase.length - 1) {
               console.log(rowClone)
               useCase.value.useCase.forEach((item, index) => {
                 if (item.id === rowClone.id) {
@@ -583,7 +583,9 @@ function pushCase(tree) {
 }
 function previewFile() {
   nextTick(() => {
-    fetch('/assets/mock/word/3.docx')
+    fetch('/public/mock/word/3.docx')
+
+    // fetch('/assets/mock/word/3.docx')
       .then((response) => {
         const docData = response.blob()
         const html = document.getElementsByClassName('docx')

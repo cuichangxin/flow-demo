@@ -4263,10 +4263,6 @@
         "label": {
           "fontSize": 14,
           "fill": "#333"
-        },
-        "avatar": {
-          "opacity": 1,
-          "xlink:href": "../../src/assets/image/wranning.png"
         }
       },
       "visible": true,

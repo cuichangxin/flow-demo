@@ -1600,7 +1600,7 @@ tslib@^2.0.0, tslib@^2.0.3, tslib@^2.1.0:
   resolved "https://registry.npmmirror.com/tslib/-/tslib-2.5.0.tgz#42bfed86f5787aeb41d031866c8f402429e0fddf"
   integrity sha512-336iVw3rtn2BUK7ORdIAHTyxHGRIHVReokCR3XjbckJMK7ms8FysBfhLR8IXnAgy7T0PTPNBWKiH514FOW/WSg==
 
-typed.js@^2.0.12, "typed.js@git+https://github.com/mattboldt/typed.js.git":
+typed.js@^2.0.12:
   version "2.0.16"
   resolved "git+https://github.com/mattboldt/typed.js.git#cd02e533c772e35ad60ee48656b33e610eadaca7"
 
@@ -1710,13 +1710,6 @@ vue-router@^4.1.6:
   integrity sha512-DYWYwsG6xNPmLq/FmZn8Ip+qrhFEzA14EI12MsMgVxvHFDYvlr4NXpVF5hrRH1wVcDP8fGi5F4rxuJSl8/r+EQ==
   dependencies:
     "@vue/devtools-api" "^6.4.5"
-
-vue-typed-js@^0.1.2:
-  version "0.1.2"
-  resolved "https://registry.npmmirror.com/vue-typed-js/-/vue-typed-js-0.1.2.tgz#afc38972675314c37df6de91daf870f6860024ca"
-  integrity sha512-9kDGuz17uYJghe/1hepRWiWYssgUFtrKnMGPHlWjVRxdvs/d9xYYWMkgzztjhx1R1B33hXkN8ctmkzCYHQ+caA==
-  dependencies:
-    typed.js "git+https://github.com/mattboldt/typed.js.git"
 
 vue3-sketch-ruler@^1.3.9:
   version "1.3.9"
