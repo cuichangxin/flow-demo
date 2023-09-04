@@ -26,7 +26,7 @@
             <template #title>
               <img
                 src="src/assets/images/menu_file.png"
-                style="height:15px;width:15px;margin-right:8px;"
+                style="height: 15px; width: 15px; margin-right: 8px"
               />文件</template
             >
             <el-menu-item index="1-1">从...打开</el-menu-item>
@@ -36,19 +36,17 @@
             <template #title
               ><img
                 src="src/assets/images/menu_manage.png"
-                style="height:15px;width:15px;margin-right:8px;"
+                style="height: 15px; width: 15px; margin-right: 8px"
               />管理</template
             >
             <el-menu-item index="2-1">推送</el-menu-item>
             <el-menu-item index="2-2">更新</el-menu-item>
-            <el-menu-item
-              index="2-3"
-              style="display:flex;justify-content: space-between;align-items:center"
+            <el-menu-item index="2-3" style="display: flex; justify-content: space-between; align-items: center"
               >批量评审
               <el-switch
                 v-model="showEvalue"
                 class="ml-2"
-                style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949;"
+                style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
               />
             </el-menu-item>
           </el-sub-menu>
@@ -56,7 +54,7 @@
             <template #title
               ><img
                 src="src/assets/images/menu_knowledge.png"
-                style="height:15px;width:15px;margin-right:8px;"
+                style="height: 15px; width: 15px; margin-right: 8px"
               />知识库</template
             >
             <el-menu-item index="3-1">查看</el-menu-item>
@@ -66,48 +64,40 @@
             <template #title
               ><img
                 src="src/assets/images/menu_view.png"
-                style="height:15px;width:15px;margin-right:8px;"
+                style="height: 15px; width: 15px; margin-right: 8px"
               />视图</template
             >
-            <el-menu-item
-              index="4-1"
-              style="display:flex;justify-content: space-between;align-items:center"
+            <el-menu-item index="4-1" style="display: flex; justify-content: space-between; align-items: center"
               >左侧树
               <el-switch
                 v-model="showTree"
                 class="ml-2"
-                style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949;"
+                style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
               />
             </el-menu-item>
-            <el-menu-item
-              index="4-2"
-              style="display:flex;justify-content: space-between;align-items:center"
+            <el-menu-item index="4-2" style="display: flex; justify-content: space-between; align-items: center"
               >审查单
               <el-switch
                 v-model="examine"
                 class="ml-2"
-                style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949;"
+                style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
               />
             </el-menu-item>
 
-            <el-menu-item
-              index="4-4"
-              style="display:flex;justify-content: space-between;align-items:center"
+            <el-menu-item index="4-4" style="display: flex; justify-content: space-between; align-items: center"
               >左右对照视图模式
               <el-switch
                 v-model="showTaskBook"
                 class="ml-2"
-                style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949;"
+                style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
               />
             </el-menu-item>
-            <el-menu-item
-              index="4-5"
-              style="display:flex;justify-content: space-between;align-items:center"
+            <el-menu-item index="4-5" style="display: flex; justify-content: space-between; align-items: center"
               >智能辅助视图模式
               <el-switch
                 v-model="showStretch"
                 class="ml-2"
-                style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949;"
+                style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
               />
             </el-menu-item>
           </el-sub-menu>
@@ -118,7 +108,7 @@
         <!-- <div class="changeView" @click="showRich = !showRich">切换视图</div> -->
         <img
           src="src/assets/images/changeView.png"
-          style="height:20px;width:20px;cursor:pointer;"
+          style="height: 20px; width: 20px; cursor: pointer"
           title="切换视图"
           @click="showRich = !showRich"
         />
@@ -126,18 +116,9 @@
     </div>
     <div class="bottom_contain">
       <div :class="[showTaskBook ? 'leftTask' : 'leftTask2']">
-        <el-affix :offset="60" style="width:100%;">
-          <img
-            src="src/assets/images/amplify.png"
-            class="taskBook"
-            @click="changeSizeTask(0)"
-          />
-          <img
-            src="src/assets/images/shrink.png"
-            class="taskBook"
-            style="right:40px;"
-            @click="changeSizeTask(1)"
-          />
+        <el-affix :offset="60" style="width: 100%">
+          <img src="src/assets/images/amplify.png" class="taskBook" @click="changeSizeTask(0)" />
+          <img src="src/assets/images/shrink.png" class="taskBook" style="right: 40px" @click="changeSizeTask(1)" />
         </el-affix>
         <div class="childRef"></div>
       </div>
@@ -161,20 +142,10 @@
               <a style="margin-left: 8px" @click="remove(node, data)"> × </a> -->
             <!-- </span> -->
             <!-- </span> -->
-            <div
-              class="treeTitle"
-              :title="node.label + '(' + data.params?.id + ')'"
-            >
-              <div
-                class="confirmed"
-                v-if="data.params && !data.params.finishSubmit"
-              >
-                未评审
-              </div>
+            <div class="treeTitle" :title="node.label + '(' + data.params?.id + ')'">
+              <div class="confirmed" v-if="data.params && !data.params.finishSubmit">未评审</div>
               <span class="treeSpan">{{ node.label }}</span>
-              <span v-if="data.params && data.params.id"
-                >&nbsp;({{ data.params.id }})</span
-              >
+              <span v-if="data.params && data.params.id">&nbsp;({{ data.params.id }})</span>
             </div>
           </template>
         </el-tree>
@@ -192,29 +163,18 @@
             : 'calc(100% - 2rem)',
         'margin-left': showTree ? '' : '0',
       }" -->
-        <img
-          src="src/assets/images/ar.png"
-          v-if="!examine && params.id"
-          class="leftArrow"
-          @click="
-            examine = true;
-            changeRichContent(0);
-          "
-        />
+        <img src="src/assets/images/ar.png" v-if="!examine && params.id" class="leftArrow" @click="leftArrow" />
 
         <div v-if="params.id && !showRich">
-          <ul
-            class="ulClass"
-            :style="{ 'padding-left': examine ? '2rem' : '4rem' }"
-          >
+          <ul class="ulClass" :style="{ 'padding-left': examine ? '2rem' : '4rem' }">
             <li>
-              <span style="color:#67aae9;font-size:20px;">需求详情</span>
+              <span style="color: #67aae9; font-size: 20px">需求详情</span>
             </li>
             <li>
               <span>需求名称</span>
               <input
                 type="text"
-                style="height:2.5rem;margin-left:4rem;width:80%;background: #fafafa;;cursor:not-allowed;"
+                style="height: 2.5rem; margin-left: 4rem; width: 80%; background: #fafafa; cursor: not-allowed"
                 disabled
                 v-model="params.name"
                 v-if="!examine"
@@ -222,7 +182,7 @@
               <input
                 v-if="examine"
                 type="text"
-                style="height:2.5rem;margin-left:1rem;width:76%;background: #fafafa;;cursor:not-allowed;"
+                style="height: 2.5rem; margin-left: 1rem; width: 76%; background: #fafafa; cursor: not-allowed"
                 disabled
                 v-model="params.name"
               />
@@ -231,33 +191,29 @@
               <span>需求ID&nbsp;&nbsp;&nbsp;&nbsp;</span>
               <input
                 type="text"
-                style="height:2.5rem;margin-left:4rem;width:32%;background: #fafafa;;cursor:not-allowed;"
+                style="height: 2.5rem; margin-left: 4rem; width: 32%; background: #fafafa; cursor: not-allowed"
                 v-model="params.id"
                 disabled
                 v-if="!examine"
               />
               <input
                 type="text"
-                style="height:2.5rem;margin-left:1rem;width:76%;background: #fafafa;;cursor:not-allowed;"
+                style="height: 2.5rem; margin-left: 1rem; width: 76%; background: #fafafa; cursor: not-allowed"
                 v-model="params.id"
                 disabled
                 v-if="examine"
               />
-              <span
-                :style="{ 'margin-left': showTree ? '4rem' : '8%' }"
-                v-if="!examine"
-                >需求类型</span
-              >
+              <span :style="{ 'margin-left': showTree ? '4rem' : '8%' }" v-if="!examine">需求类型</span>
               <el-select
                 v-if="!examine"
                 v-model="params.type"
                 size="normal"
                 placeholder="请选择"
-                style="height:2.5rem;margin-left:3rem;width:32%;"
+                style="height: 2.5rem; margin-left: 3rem; width: 32%"
                 disabled
               >
                 <el-option
-                  style="padding-left:1rem;"
+                  style="padding-left: 1rem"
                   v-for="gs in typeList"
                   :key="gs.id"
                   :label="gs.label"
@@ -271,11 +227,11 @@
                 v-model="params.type"
                 size="normal"
                 placeholder="请选择"
-                style="height:2.5rem;margin-left:1rem;width:77.5%;"
+                style="height: 2.5rem; margin-left: 1rem; width: 77.5%"
                 disabled
               >
                 <el-option
-                  style="padding-left:1rem;"
+                  style="padding-left: 1rem"
                   v-for="gs in typeList"
                   :key="gs.id"
                   :label="gs.label"
@@ -286,15 +242,8 @@
             <li>
               <span>处理过程</span>
               <div :class="[examine ? 'produceArea2' : 'produceArea']">
-                <div
-                  class="oneProduce"
-                  v-for="(item, index) in params.produce"
-                  :key="index"
-                >
-                  <img
-                    src="src/assets/images/liebiao.png"
-                    style="height:15px;width:15px;margin-left:1rem;"
-                  />
+                <div class="oneProduce" v-for="(item, index) in params.produce" :key="index">
+                  <img src="src/assets/images/liebiao.png" style="height: 15px; width: 15px; margin-left: 1rem" />
                   <span>&nbsp;步骤{{ index + 1 }}</span>
                   <el-select
                     v-model="item.value"
@@ -305,7 +254,7 @@
                     :title="item.value"
                   >
                     <el-option
-                      style="padding-left:1rem;"
+                      style="padding-left: 1rem"
                       v-for="gs in item.content"
                       :key="gs.content"
                       :label="gs.content"
@@ -322,21 +271,12 @@
             /> -->
             </li>
             <li>
-              <el-popover
-                placement="right"
-                :width="400"
-                trigger="click"
-                v-if="showStretch"
-              >
+              <el-popover placement="right" :width="400" trigger="click" v-if="showStretch">
                 <template #reference>
-                  <span style="cursor:pointer;position:relative;"
+                  <span style="cursor: pointer; position: relative"
                     >输入
                     <!-- <div class="strechPoint"> -->
-                    <img
-                      class="strechPoint"
-                      src="src/assets/images/ai.png"
-                      alt=""
-                    />
+                    <img class="strechPoint" src="src/assets/images/ai.png" alt="" />
                     <!-- </div> -->
                   </span>
                 </template>
@@ -345,32 +285,16 @@
                     <div class="strechAdvice">
                       <ul>
                         <li>
-                          <img
-                            src="src/assets/images/flag2.png"
-                            style="width:20px;height:20px;margin-right:1rem"
-                          />
+                          <img src="src/assets/images/flag2.png" style="width: 20px; height: 20px; margin-right: 1rem" />
                           <span>xxx案例</span>
-                          <i style="margin-left:1rem;">程序角初始值:</i>
-                          <input
-                            type="text"
-                            value="1"
-                            disabled
-                            style="margin-left:5px;width:30%;"
-                          />
+                          <i style="margin-left: 1rem">程序角初始值:</i>
+                          <input type="text" value="1" disabled style="margin-left: 5px; width: 30%" />
                         </li>
                         <li>
-                          <img
-                            src="src/assets/images/flag2.png"
-                            style="width:20px;height:20px;margin-right:1rem"
-                          />
+                          <img src="src/assets/images/flag2.png" style="width: 20px; height: 20px; margin-right: 1rem" />
                           <span>xxx案例</span>
-                          <i style="margin-left:1rem;">程序角初始值:</i>
-                          <input
-                            type="text"
-                            value="1"
-                            disabled
-                            style="margin-left:5px;width:30%;"
-                          />
+                          <i style="margin-left: 1rem">程序角初始值:</i>
+                          <input type="text" value="1" disabled style="margin-left: 5px; width: 30%" />
                         </li>
                       </ul>
                     </div>
@@ -378,10 +302,7 @@
                 </el-tabs>
               </el-popover>
               <span v-else>输入</span>
-              <div
-                :class="[examine ? 'inputArea_scale' : 'inputArea']"
-                id="inputArea"
-              >
+              <div :class="[examine ? 'inputArea_scale' : 'inputArea']" id="inputArea">
                 <grid-layout
                   :layout.sync="params.layout"
                   :col-num="3"
@@ -406,26 +327,12 @@
                     <!-- 拖动输入框进来 -->
                     <div class="inputChoose" v-show="item.type == '1'">
                       <ul>
-                        <li
-                          v-for="(area, index) in item.inputParams"
-                          :key="index"
-                        >
-                          <input
-                            type="checkbox"
-                            name=""
-                            id=""
-                            v-model="area.checked"
-                            disabled
-                          />
+                        <li v-for="(area, index) in item.inputParams" :key="index">
+                          <input type="checkbox" name="" id="" v-model="area.checked" disabled />
+                          <input type="text" v-model="area.name" disabled placeholder="输入框标题" />
                           <input
                             type="text"
-                            v-model="area.name"
-                            disabled
-                            placeholder="输入框标题"
-                          />
-                          <input
-                            type="text"
-                            style="margin-left:2rem;"
+                            style="margin-left: 2rem"
                             v-model="area.content"
                             placeholder="输入框内容"
                             disabled
@@ -436,26 +343,15 @@
                     </div>
                     <!-- 拖动tab表格进来 -->
                     <div class="tabTableChoose" v-show="item.type == '2'">
-                      <el-tabs
-                        v-model="item.tabTableParams.activeName"
-                        class="demo-tabs"
-                      >
+                      <el-tabs v-model="item.tabTableParams.activeName" class="demo-tabs">
                         <el-tab-pane
                           :label="area.label"
                           :name="area.name"
                           v-for="area in item.tabTableParams.tabList"
                           :key="area.name"
                         >
-                          <div
-                            class="tabInner"
-                            v-show="area.name == item.tabTableParams.activeName"
-                          >
-                            <el-table
-                              :data="area.tableList"
-                              border
-                              style="width: 100%"
-                              height="93%"
-                            >
+                          <div class="tabInner" v-show="area.name == item.tabTableParams.activeName">
+                            <el-table :data="area.tableList" border style="width: 100%" height="93%">
                               <!-- <el-table-column
                               v-for="(jou, index) in area.columeList"
                               :key="index"
@@ -470,11 +366,7 @@
                                 align="center"
                               >
                                 <template #header>
-                                  <img
-                                    style="width:78px;"
-                                    src="src/assets/images/unit.png"
-                                    v-if="jou.label == 'a'"
-                                  />
+                                  <img style="width: 78px" src="src/assets/images/unit.png" v-if="jou.label == 'a'" />
                                   <span v-else>{{ jou.label }}</span>
                                 </template>
                                 <!-- <template #default="scope">
@@ -490,30 +382,15 @@
                     </div>
                     <!-- 拖动选择框进来 -->
                     <div class="checkboxChoose" v-show="item.type == '3'">
-                      <div
-                        class="onecheckbox"
-                        v-for="(area, index) in item.checkboxParams"
-                        :key="index"
-                      >
-                        <input
-                          type="checkbox"
-                          name=""
-                          id=""
-                          v-model="area.checked"
-                          disabled
-                        />
-                        <input
-                          type="text"
-                          v-model="area.name"
-                          placeholder="请输入单选框名称"
-                          disabled
-                        />
+                      <div class="onecheckbox" v-for="(area, index) in item.checkboxParams" :key="index">
+                        <input type="checkbox" name="" id="" v-model="area.checked" disabled />
+                        <input type="text" v-model="area.name" placeholder="请输入单选框名称" disabled />
                       </div>
                     </div>
                     <!-- 拖动文本框进来 -->
                     <div class="textChoose" v-show="item.type == '4'">
                       <el-input
-                        style="height:100%;font-size:16px;"
+                        style="height: 100%; font-size: 16px"
                         v-model="item.textParams"
                         :autosize="{ minRows: 3, maxRows: 3 }"
                         resize="none"
@@ -527,21 +404,12 @@
               </div>
             </li>
             <li>
-              <el-popover
-                placement="right"
-                :width="400"
-                trigger="click"
-                v-if="showStretch"
-              >
+              <el-popover placement="right" :width="400" trigger="click" v-if="showStretch">
                 <template #reference>
-                  <span style="cursor:pointer;position:relative;"
+                  <span style="cursor: pointer; position: relative"
                     >输出
                     <!-- <div class="strechPoint"></div> -->
-                    <img
-                      class="strechPoint"
-                      src="src/assets/images/ai.png"
-                      alt=""
-                    />
+                    <img class="strechPoint" src="src/assets/images/ai.png" alt="" />
                   </span>
                 </template>
                 <el-tabs v-model="params.activeName2">
@@ -553,10 +421,7 @@
                 </el-tabs>
               </el-popover>
               <span v-else>输出</span>
-              <div
-                :class="[examine ? 'inputArea_scale' : 'inputArea']"
-                id="inputArea2"
-              >
+              <div :class="[examine ? 'inputArea_scale' : 'inputArea']" id="inputArea2">
                 <grid-layout
                   :layout.sync="params.layout2"
                   :col-num="3"
@@ -581,26 +446,12 @@
                     <!-- 拖动输入框进来 -->
                     <div class="inputChoose" v-show="item.type == '1'">
                       <ul>
-                        <li
-                          v-for="(area, index) in item.inputParams"
-                          :key="index"
-                        >
-                          <input
-                            type="checkbox"
-                            name=""
-                            id=""
-                            v-model="area.checked"
-                            disabled
-                          />
+                        <li v-for="(area, index) in item.inputParams" :key="index">
+                          <input type="checkbox" name="" id="" v-model="area.checked" disabled />
+                          <input type="text" v-model="area.name" placeholder="输入框标题" disabled />
                           <input
                             type="text"
-                            v-model="area.name"
-                            placeholder="输入框标题"
-                            disabled
-                          />
-                          <input
-                            type="text"
-                            style="margin-left:2rem;"
+                            style="margin-left: 2rem"
                             v-model="area.content"
                             placeholder="输入框内容"
                             disabled
@@ -611,26 +462,15 @@
                     </div>
                     <!-- 拖动tab表格进来 -->
                     <div class="tabTableChoose" v-show="item.type == '2'">
-                      <el-tabs
-                        v-model="item.tabTableParams.activeName"
-                        class="demo-tabs"
-                      >
+                      <el-tabs v-model="item.tabTableParams.activeName" class="demo-tabs">
                         <el-tab-pane
                           :label="area.label"
                           :name="area.name"
                           v-for="area in item.tabTableParams.tabList"
                           :key="area.name"
                         >
-                          <div
-                            class="tabInner"
-                            v-if="area.name == item.tabTableParams.activeName"
-                          >
-                            <el-table
-                              :data="area.tableList"
-                              border
-                              style="width: 100%"
-                              height="93%"
-                            >
+                          <div class="tabInner" v-if="area.name == item.tabTableParams.activeName">
+                            <el-table :data="area.tableList" border style="width: 100%" height="93%">
                               <!-- <el-table-column
                               v-for="(jou, index) in area.columeList"
                               :key="index"
@@ -645,11 +485,7 @@
                                 align="center"
                               >
                                 <template #header>
-                                  <img
-                                    style="width:78px;"
-                                    src="src/assets/images/unit.png"
-                                    v-if="jou.label == 'a'"
-                                  />
+                                  <img style="width: 78px" src="src/assets/images/unit.png" v-if="jou.label == 'a'" />
                                   <span v-else>{{ jou.label }}</span>
                                 </template>
                                 <!-- <template #default="scope">
@@ -665,30 +501,15 @@
                     </div>
                     <!-- 拖动选择框进来 -->
                     <div class="checkboxChoose" v-show="item.type == '3'">
-                      <div
-                        class="onecheckbox"
-                        v-for="(area, index) in item.checkboxParams"
-                        :key="index"
-                      >
-                        <input
-                          type="checkbox"
-                          name=""
-                          id=""
-                          v-model="area.checked"
-                          disabled
-                        />
-                        <input
-                          type="text"
-                          v-model="area.name"
-                          placeholder="请输入单选框名称"
-                          disabled
-                        />
+                      <div class="onecheckbox" v-for="(area, index) in item.checkboxParams" :key="index">
+                        <input type="checkbox" name="" id="" v-model="area.checked" disabled />
+                        <input type="text" v-model="area.name" placeholder="请输入单选框名称" disabled />
                       </div>
                     </div>
                     <!-- 拖动文本框进来 -->
                     <div class="textChoose" v-show="item.type == '4'">
                       <el-input
-                        style="height:100%;font-size:16px;"
+                        style="height: 100%; font-size: 16px"
                         v-model="item.textParams"
                         :autosize="{ minRows: 3, maxRows: 3 }"
                         resize="none"
@@ -702,21 +523,12 @@
               </div>
             </li>
             <li>
-              <el-popover
-                placement="right"
-                :width="400"
-                trigger="click"
-                v-if="showStretch"
-              >
+              <el-popover placement="right" :width="400" trigger="click" v-if="showStretch">
                 <template #reference>
-                  <span style="cursor:pointer;position:relative;"
+                  <span style="cursor: pointer; position: relative"
                     >异常处理
                     <!-- <div class="strechPoint"> -->
-                    <img
-                      class="strechPoint"
-                      src="src/assets/images/ai.png"
-                      alt=""
-                    />
+                    <img class="strechPoint" src="src/assets/images/ai.png" alt="" />
                     <!-- </div> -->
                   </span>
                 </template>
@@ -729,10 +541,7 @@
                 </el-tabs>
               </el-popover>
               <span v-else>异常处理</span>
-              <div
-                :class="[examine ? 'inputArea_scale' : 'inputArea']"
-                id="inputArea3"
-              >
+              <div :class="[examine ? 'inputArea_scale' : 'inputArea']" id="inputArea3">
                 <grid-layout
                   :layout.sync="params.layout3"
                   :col-num="3"
@@ -763,22 +572,11 @@
                           @mouseenter="area.showDelete = true"
                           @mouseleave="area.showDelete = false"
                         >
-                          <input
-                            type="checkbox"
-                            name=""
-                            id=""
-                            v-model="area.checked"
-                            disabled
-                          />
+                          <input type="checkbox" name="" id="" v-model="area.checked" disabled />
+                          <input type="text" v-model="area.name" placeholder="输入框标题" disabled />
                           <input
                             type="text"
-                            v-model="area.name"
-                            placeholder="输入框标题"
-                            disabled
-                          />
-                          <input
-                            type="text"
-                            style="margin-left:2rem;"
+                            style="margin-left: 2rem"
                             v-model="area.content"
                             placeholder="输入框内容"
                             disabled
@@ -789,26 +587,15 @@
                     </div>
                     <!-- 拖动tab表格进来 -->
                     <div class="tabTableChoose" v-show="item.type == '2'">
-                      <el-tabs
-                        v-model="item.tabTableParams.activeName"
-                        class="demo-tabs"
-                      >
+                      <el-tabs v-model="item.tabTableParams.activeName" class="demo-tabs">
                         <el-tab-pane
                           :label="area.label"
                           :name="area.name"
                           v-for="area in item.tabTableParams.tabList"
                           :key="area.name"
                         >
-                          <div
-                            class="tabInner"
-                            v-if="area.name == item.tabTableParams.activeName"
-                          >
-                            <el-table
-                              :data="area.tableList"
-                              border
-                              style="width: 100%"
-                              height="93%"
-                            >
+                          <div class="tabInner" v-if="area.name == item.tabTableParams.activeName">
+                            <el-table :data="area.tableList" border style="width: 100%" height="93%">
                               <!-- <el-table-column
                               v-for="(jou, index) in area.columeList"
                               :key="index"
@@ -823,11 +610,7 @@
                                 align="center"
                               >
                                 <template #header>
-                                  <img
-                                    style="width:78px;"
-                                    src="src/assets/images/unit.png"
-                                    v-if="jou.label == 'a'"
-                                  />
+                                  <img style="width: 78px" src="src/assets/images/unit.png" v-if="jou.label == 'a'" />
                                   <span v-else>{{ jou.label }}</span>
                                 </template>
                                 <!-- <template #default="scope">
@@ -841,30 +624,15 @@
                     </div>
                     <!-- 拖动选择框进来 -->
                     <div class="checkboxChoose" v-show="item.type == '3'">
-                      <div
-                        class="onecheckbox"
-                        v-for="(area, index) in item.checkboxParams"
-                        :key="index"
-                      >
-                        <input
-                          type="checkbox"
-                          name=""
-                          id=""
-                          v-model="area.checked"
-                          disabled
-                        />
-                        <input
-                          type="text"
-                          v-model="area.name"
-                          placeholder="请输入单选框名称"
-                          disabled
-                        />
+                      <div class="onecheckbox" v-for="(area, index) in item.checkboxParams" :key="index">
+                        <input type="checkbox" name="" id="" v-model="area.checked" disabled />
+                        <input type="text" v-model="area.name" placeholder="请输入单选框名称" disabled />
                       </div>
                     </div>
                     <!-- 拖动文本框进来 -->
                     <div class="textChoose" v-show="item.type == '4'">
                       <el-input
-                        style="height:100%;font-size:16px;"
+                        style="height: 100%; font-size: 16px"
                         v-model="item.textParams"
                         :autosize="{ minRows: 3, maxRows: 3 }"
                         resize="none"
@@ -894,7 +662,14 @@
           @blur="onBlur($event)"
           -->
           <a
-            style="position:absolute;bottom:1rem;left:50%;transform:translate(-50%,50%);color:#6ebef4;cursor:pointer;"
+            style="
+              position: absolute;
+              bottom: 1rem;
+              left: 50%;
+              transform: translate(-50%, 50%);
+              color: #6ebef4;
+              cursor: pointer;
+            "
             @click="downloadFile"
             >下载文档</a
           >
@@ -913,23 +688,15 @@
         <div class="topTitle">审查单</div>
         <div class="exTitle">一般性检查</div>
         <div class="tableArea">
-          <el-table
-            :data="params.examineData.normal"
-            style="width: 100%"
-            max-height="450"
-          >
+          <el-table :data="params.examineData.normal" style="width: 100%" max-height="450">
             <el-table-column prop="id" label="序号" width="60" align="center" />
             <el-table-column prop="name" label="检查名称" width="100" />
             <el-table-column prop="demand" label="考核要求" width="150" />
             <el-table-column prop="result" label="审核结果" width="120">
               <template #default="scope">
-                <el-select
-                  v-model="scope.row.result"
-                  size="small"
-                  placeholder="请选择"
-                >
+                <el-select v-model="scope.row.result" size="small" placeholder="请选择">
                   <el-option
-                    style="padding-left:1rem;"
+                    style="padding-left: 1rem"
                     v-for="gs in option"
                     :key="gs.id"
                     :label="gs.content"
@@ -941,9 +708,7 @@
             <el-table-column prop="suggest" label="审查意见">
               <template #default="scope">
                 <textarea
-                  :class="[
-                    scope.row.appear ? 'textareaClass' : 'textareaClass2',
-                  ]"
+                  :class="[scope.row.appear ? 'textareaClass' : 'textareaClass2']"
                   type="text"
                   placeholder="请输入"
                   v-model="scope.row.suggest"
@@ -952,7 +717,7 @@
                 ></textarea>
                 <img
                   src="src/assets/images/edit.png"
-                  style="height:15px;width:20px;cursor:pointer;"
+                  style="height: 15px; width: 20px; cursor: pointer"
                   @click="scope.row.appear = true"
                 />
               </template>
@@ -960,24 +725,16 @@
           </el-table>
         </div>
         <div class="exTitle">专业性检查</div>
-        <div class="tableArea" style="height:35%;">
-          <el-table
-            :data="params.examineData.profession"
-            style="width: 100%"
-            max-height="350"
-          >
+        <div class="tableArea" style="height: 35%">
+          <el-table :data="params.examineData.profession" style="width: 100%" max-height="350">
             <el-table-column prop="id" label="序号" width="60" align="center" />
             <el-table-column prop="name" label="检查名称" width="100" />
             <el-table-column prop="demand" label="考核要求" width="150" />
             <el-table-column prop="result" label="审核结果" width="120">
               <template #default="scope">
-                <el-select
-                  v-model="scope.row.result"
-                  size="small"
-                  placeholder="请选择"
-                >
+                <el-select v-model="scope.row.result" size="small" placeholder="请选择">
                   <el-option
-                    style="padding-left:1rem;"
+                    style="padding-left: 1rem"
                     v-for="gs in option"
                     :key="gs.id"
                     :label="gs.content"
@@ -989,9 +746,7 @@
             <el-table-column prop="suggest" label="审查意见">
               <template #default="scope">
                 <textarea
-                  :class="[
-                    scope.row.appear ? 'textareaClass' : 'textareaClass2',
-                  ]"
+                  :class="[scope.row.appear ? 'textareaClass' : 'textareaClass2']"
                   type="text"
                   placeholder="请输入"
                   v-model="scope.row.suggest"
@@ -1000,7 +755,7 @@
                 ></textarea>
                 <img
                   src="src/assets/images/edit.png"
-                  style="height:15px;width:20px;cursor:pointer;"
+                  style="height: 15px; width: 20px; cursor: pointer"
                   @click="scope.row.appear = true"
                 />
               </template>
@@ -1011,31 +766,18 @@
       </div>
     </div>
 
-    <el-dialog
-      v-model="openDialog"
-      title="知识库"
-      width="50%"
-      :before-close="handleClose"
-    >
+    <el-dialog v-model="openDialog" title="知识库" width="50%">
       <div class="exTitle">一般性检查</div>
       <div class="tableArea">
-        <el-table
-          :data="examineData.normal"
-          style="width: 100%"
-          max-height="450"
-        >
+        <el-table :data="examineData.normal" style="width: 100%" max-height="450">
           <el-table-column prop="id" label="序号" align="center" />
           <el-table-column prop="name" label="检查名称" />
           <el-table-column prop="demand" label="考核要求" />
         </el-table>
       </div>
       <div class="exTitle">专业性检查</div>
-      <div class="tableArea" style="height:35%;">
-        <el-table
-          :data="examineData.profession"
-          style="width: 100%"
-          max-height="350"
-        >
+      <div class="tableArea" style="height: 35%">
+        <el-table :data="examineData.profession" style="width: 100%" max-height="350">
           <el-table-column prop="id" label="序号" align="center" />
           <el-table-column prop="name" label="检查名称" />
           <el-table-column prop="demand" label="考核要求" />
@@ -1051,206 +793,182 @@
 </template>
 
 <script>
-//TODO 内部也支持自动布局，拖动时的颜色
-import {
-  defineComponent,
-  reactive,
-  ref,
-  toRefs,
-  onMounted,
-  onUnmounted,
-  computed,
-  nextTick,
-  watch,
-} from "vue";
-import { getData } from "@/utils/ajaxUtil";
-import url from "@/utils/urlUtil";
-// import daTree from "@/utils/daTree";
-import { getCurrentInstance } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import draggable from "vuedraggable";
-import { ElNotification } from "element-plus";
-import $ from "jquery";
-import examineData from "@/utils/examine";
-import { renderAsync } from "docx-preview";
-import { QuillEditor, Quill } from "@vueup/vue-quill";
-import "@vueup/vue-quill/dist/vue-quill.snow.css";
-import "quill/dist/quill.core.css";
-import "quill/dist/quill.snow.css";
-import "quill/dist/quill.bubble.css";
+import draggable from 'vuedraggable'
+import { ElNotification } from 'element-plus'
+import $ from 'jquery'
+import examineData from '@/utils/examine'
+import { renderAsync } from 'docx-preview'
+import { QuillEditor, Quill } from '@vueup/vue-quill'
+import '@vueup/vue-quill/dist/vue-quill.snow.css'
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+import { GridLayout, GridItem } from 'vue-grid-layout'
+import Cookies from 'js-cookie'
 
 export default defineComponent({
-  name: "Demand_analysis",
-  components: { draggable, QuillEditor },
+  name: 'Demand_analysis',
+  components: { draggable, QuillEditor, GridLayout, GridItem },
   props: {},
   setup(props, context) {
-    const router = useRouter();
-    const { proxy } = getCurrentInstance();
-    const myQuillEditor = ref(null);
-    const elTree = ref(null);
+    const router = useRouter()
+    const { proxy } = getCurrentInstance()
+    const myQuillEditor = ref(null)
+    const elTree = ref(null)
     const editorOptions = reactive({
       modules: {
         toolbar: [
           // 工具栏配置
-          ["bold", "italic", "underline", "strike"], // 粗体、斜体、下划线、删除线
-          [{ list: "ordered" }, { list: "bullet" }], // 有序列表和无序列表
-          [{ script: "sub" }, { script: "super" }], // 上标和下标
-          [{ indent: "-1" }, { indent: "+1" }], // 缩进
-          [{ direction: "rtl" }], // 文字方向
-          [{ size: ["small", false, "large", "huge"] }], // 字号
+          ['bold', 'italic', 'underline', 'strike'], // 粗体、斜体、下划线、删除线
+          [{ list: 'ordered' }, { list: 'bullet' }], // 有序列表和无序列表
+          [{ script: 'sub' }, { script: 'super' }], // 上标和下标
+          [{ indent: '-1' }, { indent: '+1' }], // 缩进
+          [{ direction: 'rtl' }], // 文字方向
+          [{ size: ['small', false, 'large', 'huge'] }], // 字号
           [{ header: [1, 2, 3, 4, 5, 6, false] }], // 标题等级
           [{ color: [] }, { background: [] }], // 字体颜色和背景色
           [{ font: [] }], // 字体
           [{ align: [] }], // 对齐方式
-          ["clean"], // 清除格式
+          ['clean'], // 清除格式
         ],
       },
-    });
+    })
     const state = reactive({
       defaultProps: {
-        children: "children",
-        label: "label",
+        children: 'children',
+        label: 'label',
       },
-      params: { label: "" },
+      params: { label: '' },
       treeData: [],
       showRich: false,
       freshRich: false,
       Rich: false,
       showArrow: false,
-      content: "",
+      content: '',
       typeList: [],
       option: [
-        { content: "不通过", id: 0 },
-        { content: "通过", id: 1 },
+        { content: '不通过', id: 0 },
+        { content: '通过', id: 1 },
       ],
       examine: false, //是否展示审查单
       openDialog: false,
-      activeIndex: "1",
+      activeIndex: '1',
       showTree: true,
       taskId: 1,
       showEvalue: false,
       showTaskBook: true,
       showStretch: false,
-    });
-    // watch(() => state.content,(newValue) => {
-    //   if(newValue){
-    //     nextTick(() => {
-    //       console.log(newValue)
-    //       // myQuillEditor.value.editor.__quill.enable(false);
-    //     })
-    //   }
-    // })
+    })
     const methods = {
+      leftArrow() {
+        state.examine = true
+        changeRichContent(0)
+      },
       //获取树数据
       async getDaTree(type) {
-        await proxy
-          .$http(proxy.$interface.getDaTreeParams, { taskId: state.taskId })
-          .then((res) => {
-            let data = JSON.parse(res.data.daTree);
-            state.treeData = data;
-            console.log(data, res);
-            state.typeList = [];
-            data.map((val, index) => {
-              let label = val.label.match(/\D+/g)[0];
-              state.typeList.push({ id: index, label });
-            });
-          });
+        await proxy.$axios.getTaskDetail({ taskId: Cookies.get('taskId') }).then((res) => {
+          let data = JSON.parse(res.data.daTree)
+          state.treeData = data
+          console.log(data, res)
+          state.typeList = []
+          data.map((val, index) => {
+            let label = val.label.match(/\D+/g)[0]
+            state.typeList.push({ id: index, label })
+          })
+        })
         if (!type) {
           ElNotification({
-            title: "提示",
-            message: "已更新至最新评审意见",
-          });
+            title: '提示',
+            message: '已更新至最新评审意见',
+          })
         }
       },
       handleNodeClick(data) {
-        state.showRich = false;
-        if (!data.params) return;
-        state.params = JSON.parse(JSON.stringify(data.params));
-        state.params.label = data.label;
-        let regex = /^\d+(\.\d+)*\s*/;
-        state.params.name = data.label.replace(regex, "");
+        state.showRich = false
+        if (!data.params) return
+        state.params = JSON.parse(JSON.stringify(data.params))
+        state.params.label = data.label
+        let regex = /^\d+(\.\d+)*\s*/
+        state.params.name = data.label.replace(regex, '')
         // state.params.name = data.label.match(/\D\W[^≤|≥|＞|＜]+/g)[0];
-        state.produceContent = state.params.produceContent || [];
-        console.log(data, state.params);
-        methods.changeRichContent(1);
+        state.produceContent = state.params.produceContent || []
+        console.log(data, state.params)
+        methods.changeRichContent(1)
         nextTick(() => {
           //解决拖动进来后父节点高度坍塌问题
-          document.getElementById("inputArea").firstChild.style.height =
-            "300px";
-          document.getElementById("inputArea2").firstChild.style.height =
-            "300px";
-          document.getElementById("inputArea3").firstChild.style.height =
-            "300px";
-        });
+          document.getElementById('inputArea').firstChild.style.height = '300px'
+          document.getElementById('inputArea2').firstChild.style.height = '300px'
+          document.getElementById('inputArea3').firstChild.style.height = '300px'
+        })
       },
       downloadFile() {
-        window.open("/src/assets/姿控评审文档.doc");
+        window.open('/public/mock/word/姿控评审文档.doc')
       },
       //保存详情
       saveParams(type) {
-        if (!state.params) return;
+        if (!state.params) return
         // console.log(elTree.value.getCheckedNodes(),'111111111111')
-        let choseNode = elTree.value.getCheckedNodes();
+        let choseNode = elTree.value.getCheckedNodes()
         if (type) {
-          let cur = methods.findCurrent(state.treeData);
-          cur.params = state.params;
-          cur.params.finishSubmit = true;
+          let cur = methods.findCurrent(state.treeData)
+          cur.params = state.params
+          cur.params.finishSubmit = true
           if (choseNode.length) {
             choseNode.map((val) => {
               // let curs = methods.findCurrentSome(state.treeData,val.params.id)
               if (val.params) {
-                val.params.examineData = state.params.examineData;
-                val.params.finishSubmit = true;
+                val.params.examineData = state.params.examineData
+                val.params.finishSubmit = true
               }
-            });
+            })
           }
         }
         if (!type) {
-          methods.getDaTree(1);
+          methods.getDaTree(1)
         }
         // console.log(state.treeData, state.params, cur);
-        proxy
-          .$http(proxy.$interface.saveDaTreeParams, {
-            taskId: state.taskId,
+        proxy.$axios
+          .saveTaskDetail({
+            taskId: Cookies.get('taskId'),
             daTree: JSON.stringify(state.treeData),
           })
           .then((res) => {
             if (res.success) {
               ElNotification({
-                title: "提示",
-                message: type ? "提交审查单成功" : "修改评审意见已推送至平台",
-              });
+                title: '提示',
+                message: type ? '提交审查单成功' : '修改评审意见已推送至平台',
+              })
               //批量完后，复选框置位空
-              elTree.value.setCheckedKeys([], false);
+              elTree.value.setCheckedKeys([], false)
             }
-          });
+          })
       },
       deepclone(obj) {
-        return JSON.parse(JSON.stringify(obj));
+        return JSON.parse(JSON.stringify(obj))
       },
       //递归查询对应树节点
       findCurrent(data) {
         for (let o of data || []) {
           if (o.params) {
-            if (o.params.id == state.params.id) return o;
+            if (o.params.id == state.params.id) return o
           }
-          const o_ = methods.findCurrent(o.children);
-          if (o_) return o_;
+          const o_ = methods.findCurrent(o.children)
+          if (o_) return o_
         }
       },
       async handleSelect(key) {
-        if (key == "2-1") {
-          methods.saveParams(0);
-        } else if (key == "2-2") {
-          await methods.getDaTree(0);
+        if (key == '2-1') {
+          methods.saveParams(0)
+        } else if (key == '2-2') {
+          await methods.getDaTree(0)
           //更新之后重新渲染数据
-          let cur = methods.findCurrent(state.treeData);
-          state.params = methods.deepclone(cur.params);
-        } else if (key == "3-1") {
-          state.openDialog = true;
-        } else if (key == "4-1") {
+          let cur = methods.findCurrent(state.treeData)
+          state.params = methods.deepclone(cur.params)
+        } else if (key == '3-1') {
+          state.openDialog = true
+        } else if (key == '4-1') {
           // state.showTree = true
-        } else if (key == "4-2") {
+        } else if (key == '4-2') {
           // state.showTree = false
         }
       },
@@ -1259,272 +977,215 @@ export default defineComponent({
         // myQuillEditor.value.disabled = true
       },
       numberToChinese(num) {
-        var chineseNum = [
-          "零",
-          "一",
-          "二",
-          "三",
-          "四",
-          "五",
-          "六",
-          "七",
-          "八",
-          "九",
-        ];
-        var chineseUnit = ["", "十", "百", "千", "万", "亿"];
-        var result = "";
-        var unitPos = 0;
-        var needZero = false;
+        var chineseNum = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九']
+        var chineseUnit = ['', '十', '百', '千', '万', '亿']
+        var result = ''
+        var unitPos = 0
+        var needZero = false
 
         if (num == 0) {
-          return chineseNum[0];
+          return chineseNum[0]
         }
 
         while (num > 0) {
-          var digit = num % 10;
+          var digit = num % 10
           if (digit == 0) {
             if (needZero) {
-              result = chineseNum[0] + result;
+              result = chineseNum[0] + result
             }
-            needZero = true;
+            needZero = true
           } else {
-            result = chineseNum[digit] + chineseUnit[unitPos] + result;
-            needZero = false;
+            result = chineseNum[digit] + chineseUnit[unitPos] + result
+            needZero = false
           }
-          unitPos++;
-          num = Math.floor(num / 10);
+          unitPos++
+          num = Math.floor(num / 10)
         }
 
-        return result;
+        return result
       },
       // onBlur(){
       //   console.log(myQuillEditor.value,myQuillEditor.value.editor.__quill)
       //           myQuillEditor.value.editor.__quill.enable(true);
       //   },
       changeRichContent(type) {
-        state.freshRich = false;
+        state.freshRich = false
         setTimeout(() => {
-          state.freshRich = true;
-        }, 300);
-        let params = state.params;
-        let t = [];
+          state.freshRich = true
+        }, 300)
+        let params = state.params
+        let t = []
         params.produce.map((val, index) => {
-          t.push(`第${methods.numberToChinese(++index)}步` + val.value);
-        });
-        let demandType = "";
+          t.push(`第${methods.numberToChinese(++index)}步` + val.value)
+        })
+        let demandType = ''
         state.typeList.map((val) => {
           if (val.id === params.type) {
-            demandType = val.label;
+            demandType = val.label
           }
-        });
+        })
         let input = [],
           output = [],
           notNormal = [],
-          judge = [];
+          judge = []
         for (let i = 0; i < 3; i++) {
-          judge = i == 0 ? input : i == 1 ? output : notNormal;
-          let index = 1;
-          let text = i == 0 ? "输入" : i == 1 ? "输出" : "异常处理";
-          params[i == 0 ? "layout" : i == 1 ? "layout2" : "layout3"].map(
-            (val) => {
-              if (val.inputParams.length) {
-                let itemp = [];
-                val.inputParams.map((data) => {
-                  let check = data.checked ? "已选择" : "未选择";
-                  itemp.push(
-                    check + data.name + "为" + (data.content || "未输入")
-                  );
-                });
-                judge.push(
-                  text + methods.numberToChinese(index) + "为" + itemp.join(",")
-                );
-                ++index;
-              }
-              let t = [];
-              if (val.tabTableParams.tabList.length) {
-                let a = [];
-                val.tabTableParams.tabList.map((data) => {
-                  data.tableList.map((table, indext) => {
-                    indext++;
-                    Object.keys(table).map((key) => {
-                      a.push(`第${indext}行` + key + "为" + table[key]);
-                    });
-                  });
-                  t.push(
-                    "tab" + data.label + "范围内" + "相关对应值为" + a.join(",")
-                  );
-                  a = [];
-                });
-                judge.push(
-                  text + methods.numberToChinese(index) + "为" + t.join(",")
-                );
-                ++index;
-              }
-              if (val.checkboxParams.length) {
-                let ctemp = [];
-                val.checkboxParams.map((val) => {
-                  let check = val.checked ? "已选择参数" : "未选择参数";
-                  ctemp.push(check + val.name);
-                });
-                judge.push(
-                  text + methods.numberToChinese(index) + "为" + ctemp.join(",")
-                );
-                ++index;
-              }
-              if (val.textParams) {
-                judge.push(
-                  text + methods.numberToChinese(index) + "为" + val.textParams
-                );
-                ++index;
-              }
+          judge = i == 0 ? input : i == 1 ? output : notNormal
+          let index = 1
+          let text = i == 0 ? '输入' : i == 1 ? '输出' : '异常处理'
+          params[i == 0 ? 'layout' : i == 1 ? 'layout2' : 'layout3'].map((val) => {
+            if (val.inputParams.length) {
+              let itemp = []
+              val.inputParams.map((data) => {
+                let check = data.checked ? '已选择' : '未选择'
+                itemp.push(check + data.name + '为' + (data.content || '未输入'))
+              })
+              judge.push(text + methods.numberToChinese(index) + '为' + itemp.join(','))
+              ++index
             }
-          );
+            let t = []
+            if (val.tabTableParams.tabList.length) {
+              let a = []
+              val.tabTableParams.tabList.map((data) => {
+                data.tableList.map((table, indext) => {
+                  indext++
+                  Object.keys(table).map((key) => {
+                    a.push(`第${indext}行` + key + '为' + table[key])
+                  })
+                })
+                t.push('tab' + data.label + '范围内' + '相关对应值为' + a.join(','))
+                a = []
+              })
+              judge.push(text + methods.numberToChinese(index) + '为' + t.join(','))
+              ++index
+            }
+            if (val.checkboxParams.length) {
+              let ctemp = []
+              val.checkboxParams.map((val) => {
+                let check = val.checked ? '已选择参数' : '未选择参数'
+                ctemp.push(check + val.name)
+              })
+              judge.push(text + methods.numberToChinese(index) + '为' + ctemp.join(','))
+              ++index
+            }
+            if (val.textParams) {
+              judge.push(text + methods.numberToChinese(index) + '为' + val.textParams)
+              ++index
+            }
+          })
         }
         // console.log(input,output,notNormal)
         state.content = type
           ? `
-        <h1 class='ql-align-center'><span style='color: rgb(102, 163, 224);'>${
-          params.label
-        }</span></h1>
+        <h1 class='ql-align-center'><span style='color: rgb(102, 163, 224);'>${params.label}</span></h1>
         <h2 class="ql-indent-2">需求名称</h2>
-        <p class="ql-indent-3">${params.name || "暂无"}</p>
+        <p class="ql-indent-3">${params.name || '暂无'}</p>
         <h2 class="ql-indent-2">需求ID</h2>
-        <p class="ql-indent-3">${params.id || "暂无"}</p>
+        <p class="ql-indent-3">${params.id || '暂无'}</p>
          <h2 class="ql-indent-2">需求类型</h2>
-        <p class="ql-indent-3">${demandType || "暂无"}</p>
+        <p class="ql-indent-3">${demandType || '暂无'}</p>
         <h2 class="ql-indent-2">处理过程</h2>
         <p class="ql-indent-3">${
-          t.length
-            ? `该需求处理过程总共有${methods.numberToChinese(
-                t.length
-              )}步,${t.join(",")}`
-            : "暂无"
+          t.length ? `该需求处理过程总共有${methods.numberToChinese(t.length)}步,${t.join(',')}` : '暂无'
         }</p>
         <h2 class="ql-indent-2">输入</h2>
         <p class="ql-indent-3">
-        ${
-          input.length
-            ? `该输入要求总共有${methods.numberToChinese(
-                input.length
-              )}个,${input.join("。")}`
-            : "暂无"
-        }</p>
+        ${input.length ? `该输入要求总共有${methods.numberToChinese(input.length)}个,${input.join('。')}` : '暂无'}</p>
         <h2 class="ql-indent-2">输出</h2>
         <p class="ql-indent-3">
         ${
-          output.length
-            ? `该输出要求总共有${methods.numberToChinese(
-                output.length
-              )}个,${output.join("。")}`
-            : "暂无"
+          output.length ? `该输出要求总共有${methods.numberToChinese(output.length)}个,${output.join('。')}` : '暂无'
         }</p>
         <h2 class="ql-indent-2">异常处理</h2>
         <p class="ql-indent-3">
         ${
           notNormal.length
-            ? `该异常处理步骤共有${methods.numberToChinese(
-                notNormal.length
-              )}步,${notNormal.join("。")}`
-            : "暂无"
+            ? `该异常处理步骤共有${methods.numberToChinese(notNormal.length)}步,${notNormal.join('。')}`
+            : '暂无'
         }</p>
         `
           : `
-        <h1 class='ql-align-center'><span style='color: rgb(102, 163, 224);'>${
-          params.label
-        }</span></h1>
+        <h1 class='ql-align-center'><span style='color: rgb(102, 163, 224);'>${params.label}</span></h1>
         <h2 class="ql-indent-1">需求名称</h2>
-        <p class="ql-indent-2">${params.name || "暂无"}</p>
+        <p class="ql-indent-2">${params.name || '暂无'}</p>
         <h2 class="ql-indent-1">需求ID</h2>
-        <p class="ql-indent-2">${params.id || "暂无"}</p>
+        <p class="ql-indent-2">${params.id || '暂无'}</p>
          <h2 class="ql-indent-1">需求类型</h2>
-        <p class="ql-indent-2">${demandType || "暂无"}</p>
+        <p class="ql-indent-2">${demandType || '暂无'}</p>
         <h2 class="ql-indent-1">处理过程</h2>
-        <p class="ql-indent-2">${
-          t.length ? `该需求处理过程总共有${t.length}步,${t.join(",")}` : "暂无"
-        }</p>
+        <p class="ql-indent-2">${t.length ? `该需求处理过程总共有${t.length}步,${t.join(',')}` : '暂无'}</p>
         <h2 class="ql-indent-1">输入</h2>
         <p class="ql-indent-2">${
-          input.length
-            ? `该输入要求总共有${methods.numberToChinese(
-                input.length
-              )}个,${input.join("。")}`
-            : "暂无"
+          input.length ? `该输入要求总共有${methods.numberToChinese(input.length)}个,${input.join('。')}` : '暂无'
         }</p>
          <h2 class="ql-indent-1">输出</h2>
         <p class="ql-indent-2">${
-          output.length
-            ? `该输出要求总共有${methods.numberToChinese(
-                output.length
-              )}个,${output.join("。")}`
-            : "暂无"
+          output.length ? `该输出要求总共有${methods.numberToChinese(output.length)}个,${output.join('。')}` : '暂无'
         }</p>
          <h2 class="ql-indent-1">异常处理</h2>
         <p class="ql-indent-2">${
           notNormal.length
-            ? `该异常处理步骤共有${methods.numberToChinese(
-                notNormal.length
-              )}步,${notNormal.join("。")}`
-            : "暂无"
+            ? `该异常处理步骤共有${methods.numberToChinese(notNormal.length)}步,${notNormal.join('。')}`
+            : '暂无'
         }</p>
-        `;
+        `
       },
       previewfile() {
         nextTick(() => {
-          fetch("src/assets/3.docx")
+          fetch('/public/mock/word/demand_analysis.docx')
             .then((response) => {
               //选择要渲染的元素
-              let docData = response.blob(); //将文件转换成bolb形式
-              let childRef = document.getElementsByClassName("childRef");
+              let docData = response.blob() //将文件转换成bolb形式
+              let childRef = document.getElementsByClassName('childRef')
               //用docx-preview渲染
               renderAsync(docData, childRef[0]).then((res) => {
-                console.log("res---->", res);
-              });
+                console.log('res---->', res)
+              })
             })
             .catch((error) => {
-              console.log(error);
-            });
-        });
+              console.log(error)
+            })
+        })
       },
       //改变任务书大小
       changeSizeTask(type) {
         if (type) {
-          $(".docx-wrapper").css({
-            transform: "scale(0.5)",
-            top: "-3265px",
-            left: " -223px",
-          });
+          $('.docx-wrapper').css({
+            transform: 'scale(0.5)',
+            top: '-3265px',
+            left: ' -223px',
+          })
         } else {
-          $(".docx-wrapper").css({
-            transform: "scale(1)",
+          $('.docx-wrapper').css({
+            transform: 'scale(1)',
             top: 0,
             left: 0,
-          });
+          })
         }
       },
-    };
+    }
     onMounted(() => {
-      methods.previewfile();
+      methods.previewfile()
       window.addEventListener(
-        "message",
+        'message',
         (e) => {
           if (e.data.userId && e.data.taskId) {
-            state.taskId = e.data.taskId;
-            methods.saveParams(1);
-            console.log(e.data, "外层发来的消息提交"); // 父页面发送的消息
+            state.taskId = e.data.taskId
+            methods.saveParams(1)
+            console.log(e.data, '外层发来的消息提交') // 父页面发送的消息
           } else {
             if (e.data.taskId) {
-              state.taskId = e.data.taskId;
-              console.log(e.data, "外层发来的消息查看"); // 父页面发送的消息
+              state.taskId = e.data.taskId
+              console.log(e.data, '外层发来的消息查看') // 父页面发送的消息
             }
           }
         },
         false
-      );
+      )
       setTimeout(() => {
-        methods.getDaTree(1);
-      }, 500);
-    });
-    onUnmounted(() => {});
+        methods.getDaTree(1)
+      }, 500)
+    })
+    onUnmounted(() => {})
     return {
       ...toRefs(state),
       editorOptions,
@@ -1532,9 +1193,9 @@ export default defineComponent({
       myQuillEditor,
       elTree,
       examineData,
-    };
+    }
   },
-});
+})
 </script>
 <style lang="less" scoped>
 .strechPoint {
@@ -1676,7 +1337,7 @@ export default defineComponent({
     .flex_center;
     margin-left: 1rem;
     // margin-top: 1rem;
-    input[type="text"] {
+    input[type='text'] {
       width: 80%;
       height: 100%;
     }
@@ -1699,12 +1360,12 @@ export default defineComponent({
     margin-top: 0 !important;
     .flex_center !important;
     width: 100%;
-    input[type="text"] {
+    input[type='text'] {
       width: 30%;
     }
   }
 }
-@import "../../assets/css/main.less";
+@import '../assets/styles/css/main.less';
 
 :deep(.el-menu-item) {
   font-size: 16px;
@@ -1801,21 +1462,24 @@ export default defineComponent({
   z-index: 9;
   width: auto !important;
 }
+:deep(.el-menu){
+  height: 40px;
+}
 .content_main {
-  // background: #efefef;
+  width: auto;
+  height: calc(100% - 60px);
   background: #f1f5f9;
   padding: 0;
-  // padding: 1rem;
+  margin: 0 8px;
   input {
     border: 1px solid #dfdfdf;
     cursor: not-allowed;
   }
   .topMenu {
-    width: calc(100% - 1rem);
-    // width: calc(100% - 3rem);
-    // height: 5%;
+    width: 100%;
+    height: 40px;
     background: #fff;
-    border-radius: 10px;
+    border-radius: 2px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -1901,7 +1565,7 @@ export default defineComponent({
     background: #fff;
     // height: calc(95% - 60px);
     height: 100%;
-    border-radius: 10px;
+    border-radius: 2px;
     margin-right: 10px;
     float: left;
     overflow: auto;
@@ -1911,7 +1575,7 @@ export default defineComponent({
     // margin-top: 1rem;
     background: #fff;
     height: 100%;
-    border-radius: 10px;
+    border-radius: 2px;
     margin-right: 10px;
     overflow: auto;
     animation: emergeTree2 0.3s forwards;
@@ -2074,10 +1738,9 @@ export default defineComponent({
     // height: calc(95% - 60px);
     height: 100%;
     width: 100%;
-    margin-right: 10px;
     // margin-top: 1rem;
     // margin-left: 1rem;
-    border-radius: 10px;
+    border-radius: 2px;
     background: #fff;
     overflow: auto;
     position: relative;

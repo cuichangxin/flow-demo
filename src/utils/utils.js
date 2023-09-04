@@ -72,8 +72,8 @@ export function week(arr, arr2) {
     for (let i = a; i < a + number; i++) {
       c.push(i)
     }
-    const random = Math.floor(Math.random() * c.length-1)
-    c.splice(random,1)
+    const random = Math.floor(Math.random() * c.length - 1)
+    c.splice(random, 1)
 
   } else if (a - b === 0) {
     c.push(a)
@@ -84,4 +84,8 @@ export function week(arr, arr2) {
     }
   }
   return c
+}
+
+export function getImgUrl(img) {
+  return new URL(`../assets/images/${img}`, import.meta.url).href
 }

@@ -124,7 +124,7 @@ const constantRoutes = [
           {
             path: '/system/eventRoom',
             name: 'eventRoom',
-            component: () => import('../components/business/system/eventRoom.vue'),
+            component: () => import('../page/eventRoom.vue'),
             meta: { title: '活动库管理' }
           },
         ]
@@ -132,7 +132,7 @@ const constantRoutes = [
       {
         path: '/demandAnalysis',
         name: 'demandAnalysis',
-        component: () => import('@/page/demandAnalysis.vue'),
+        component: () => import('../page/demandAnalysis.vue'),
         meta: { title: '需求分析' }
       },
       {

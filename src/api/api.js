@@ -26,5 +26,11 @@ export default {
   // 看板展示
   boardShow:api('/user/getBoardLine','post'),
   // 任务提示状态改变
-  changeTaskStatus:api('/user/finishRead','post')
+  changeTaskStatus:api('/user/finishRead','post'),
+  // 获取活动库数据
+  getActiveLibrary:api('/task/getActive','post'),
+  // 保存活动库数据
+  saveActiveLibrary:api('/task/saveActive','post'),
+  findAllActive:api('/task/findAllActive','post'),
+  deleteActive:api('/task/deleteOneActive','post')
 }

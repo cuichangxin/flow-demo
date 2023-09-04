@@ -99,7 +99,7 @@ onUnmounted(() => {
 <style lang="scss" scoped>
 .broad_info {
   height: 100%;
-  background: url('../assets/image/home_bg.png') no-repeat;
+  background: url('../assets/images/home_bg.png') no-repeat;
   background-size: 100% 100%;
   position: relative;
 }

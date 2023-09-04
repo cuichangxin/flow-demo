@@ -64,7 +64,7 @@
                     borderBottom: item.isBorder ? '' : 'none',
                     background: item.bgTarget ? '#e46a64' : '',
                   }">
-                    <img v-if="item.isArrows" class="img_jiantou" src="../assets/image/jiantou.png"
+                    <img v-if="item.isArrows" class="img_jiantou" src="../assets/images/jiantou.png"
                       :style="{ transform: rowValue == 'software' && columnValue == 'need' ? 'rotate(225deg)' : '' }" />
                   </div>
                 </div>

@@ -730,19 +730,19 @@
     <div class="legend">
       <ul>
         <li>
-          <img src="../../../assets/image/bright_sit.png" />
+          <img src="../../../assets/images/bright_sit.png" />
           <p>人工岗</p>
         </li>
         <li>
-          <img src="../../../assets/image/bright_robot.png" />
+          <img src="../../../assets/images/bright_robot.png" />
           <p>自动岗</p>
         </li>
         <li>
-          <img src="../../../assets/image/bright_stand.png" />
+          <img src="../../../assets/images/bright_stand.png" />
           <p>人工质量</p>
         </li>
         <li>
-          <img src="../../../assets/image/bright_host.png" />
+          <img src="../../../assets/images/bright_host.png" />
           <p>自动质量</p>
         </li>
       </ul>
@@ -763,7 +763,7 @@ let props = defineProps({
 })
 
 function getImgUrl(img) {
-  return new URL(`../../../assets/image/${img}`, import.meta.url).href
+  return new URL(`../../../assets/images/${img}`, import.meta.url).href
 }
 
 /**
@@ -1365,7 +1365,7 @@ onUnmounted(() => {
 
     #alone_bg {
       width: 65px;
-      background: url('../../../assets/image/cloud_2.png') no-repeat;
+      background: url('../../../assets/images/cloud_2.png') no-repeat;
       background-size: 100% 100%;
       img {
         width: 60px;
@@ -1376,7 +1376,7 @@ onUnmounted(() => {
     .item_box_bg {
       width: 55px;
       height: 50px;
-      background: url('../../../assets/image/cloud_1.png') no-repeat;
+      background: url('../../../assets/images/cloud_1.png') no-repeat;
       background-size: 100% 60%;
       background-position: bottom;
 
@@ -1398,7 +1398,7 @@ onUnmounted(() => {
   .top_box {
     height: 100px;
     padding: 8px 0;
-    background: url('../../../assets/image/j2_1.png') no-repeat;
+    background: url('../../../assets/images/j2_1.png') no-repeat;
     background-size: 100% 100%;
     padding-right: 20px;
   }
@@ -1406,7 +1406,7 @@ onUnmounted(() => {
   .center_box {
     height: 220px;
     padding: 10px 0;
-    background: url('../../../assets/image/j1.png') no-repeat;
+    background: url('../../../assets/images/j1.png') no-repeat;
     background-size: 100% 100%;
     margin: 6px 0;
     li {
@@ -1417,7 +1417,7 @@ onUnmounted(() => {
   .bottom_box {
     height: 100px;
     padding: 8px 0;
-    background: url('../../../assets/image/j2_1.png') no-repeat;
+    background: url('../../../assets/images/j2_1.png') no-repeat;
     background-size: 100% 100%;
     padding-right: 30px;
   }

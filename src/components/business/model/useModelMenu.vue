@@ -43,7 +43,7 @@ const moduleTree = ref([
             active: false,
             children: [],
             shape: 'image',
-            img: new URL('../../../assets/image/jia.png', import.meta.url).href,
+            img: new URL('../../../assets/images/jia.png', import.meta.url).href,
           },
           {
             id: '1-1-2',
@@ -52,7 +52,7 @@ const moduleTree = ref([
             active: false,
             children: [],
             shape: 'image',
-            img: new URL('../../../assets/image/jian.png', import.meta.url).href,
+            img: new URL('../../../assets/images/jian.png', import.meta.url).href,
           },
           {
             id: '1-1-3',
@@ -61,7 +61,7 @@ const moduleTree = ref([
             active: false,
             children: [],
             shape: 'image',
-            img: new URL('../../../assets/image/cheng.png', import.meta.url).href,
+            img: new URL('../../../assets/images/cheng.png', import.meta.url).href,
           },
           {
             id: '1-1-4',
@@ -70,7 +70,7 @@ const moduleTree = ref([
             active: false,
             children: [],
             shape: 'image',
-            img: new URL('../../../assets/image/chu.png', import.meta.url).href,
+            img: new URL('../../../assets/images/chu.png', import.meta.url).href,
           },
           {
             id: '1-1-5',
@@ -79,7 +79,7 @@ const moduleTree = ref([
             active: false,
             children: [],
             shape: 'image',
-            img: new URL('../../../assets/image/mo.png', import.meta.url).href,
+            img: new URL('../../../assets/images/mo.png', import.meta.url).href,
           },
           {
             id: '1-1-6',
@@ -88,7 +88,7 @@ const moduleTree = ref([
             active: false,
             children: [],
             shape: 'image',
-            img: new URL('../../../assets/image/qiangzhuan.png', import.meta.url).href,
+            img: new URL('../../../assets/images/qiangzhuan.png', import.meta.url).href,
           },
         ],
       },

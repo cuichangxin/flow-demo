@@ -2,7 +2,7 @@
   <div class="login-info">
     <div class="login-wrapper">
       <header class="header-info">
-        <img class="logo" src="../assets/image/login-logo.png" />
+        <img class="logo" src="../assets/images/login-logo.png" />
         <span class="title">航天软件智能生产线</span>
       </header>
       <section class="main">
@@ -114,7 +114,7 @@ getCookie()
 .login-info {
   width: 100%;
   height: 100%;
-  background: url('../assets/image/login-bg.jpeg') no-repeat;
+  background: url('../assets/images/login-bg.jpeg') no-repeat;
   background-size: 100% 100%;
   position: relative;
 }

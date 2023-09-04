@@ -53,9 +53,9 @@
                         v-if="data.children"
                         class="back-pic"
                         style="margin: 0 5px 0 0"
-                        src="../assets/image/back-wenjianjia.png"
+                        src="../assets/images/back-wenjianjia.png"
                       />
-                      <img v-else class="back-pic" style="margin: 0 5px 0 0" src="../assets/image/back-wenjian.png" />
+                      <img v-else class="back-pic" style="margin: 0 5px 0 0" src="../assets/images/back-wenjian.png" />
                       <span>{{ node.label }}</span>
                     </template>
                     <template v-slot:after-node-label>
@@ -93,8 +93,8 @@
                   >
                     {{ data.length }}
                     <span v-if="data.key.indexOf('-') !== -1" class="element-top-line"></span>
-                    <img v-if="data.children" class="back-pic" src="../assets/image/back-wenjianjia.png" />
-                    <img style="margin: 0 0 5px 0" v-else class="back-pic" src="../assets/image/back-wenjian.png" />
+                    <img v-if="data.children" class="back-pic" src="../assets/images/back-wenjianjia.png" />
+                    <img style="margin: 0 0 5px 0" v-else class="back-pic" src="../assets/images/back-wenjian.png" />
                     <span class="tree-label">{{ node.label }}</span>
                     <span
                       v-if="data.key.indexOf('-') !== -1"
@@ -135,7 +135,7 @@
                 <img
                   v-if="item.isArrows"
                   class="img_jiantou"
-                  src="../assets/image/arrows.png"
+                  src="../assets/images/arrows.png"
                   :style="{ transform: tracking === 0 ? '' : 'rotate(180deg)' }"
                 />
               </div>

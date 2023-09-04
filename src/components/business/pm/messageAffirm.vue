@@ -29,8 +29,8 @@
           <span class="label" v-if="!fullFlag">活动流程:</span>
           <div class="flow_info" :style="{ height: fullFlag ? `${configHeight - 35}px` : '' }">
             <div class="full_box" @click="fullScreen">
-              <img v-if="!fullFlag" class="img" src="../../../assets/image/quanping_o.png" />
-              <img v-else class="img" src="../../../assets/image/quxiaoquanping_o.png" />
+              <img v-if="!fullFlag" class="img" src="../../../assets/images/quanping_o.png" />
+              <img v-else class="img" src="../../../assets/images/quxiaoquanping_o.png" />
             </div>
             <div id="graph" class="graph_box"></div>
           </div>

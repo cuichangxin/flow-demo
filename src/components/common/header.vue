@@ -1,7 +1,7 @@
 <template>
   <el-header class="header" :class="{ fade: isOut }">
     <div v-if="!isOut" class="title_box" @click="backIndex">
-      <img class="logo" src="../../assets/image/login-logo.png" />
+      <img class="logo" src="../../assets/images/login-logo.png" />
       <h2>航天软件智能生产线</h2>
     </div>
     <p v-if="!isOut" class="user_info">
@@ -47,7 +47,7 @@ const hideMenu = (val) => {
 }
 const isOut = ref(false)
 const state = reactive({
-  avatarUrl: new URL('../../assets/image/avator.png', import.meta.url).href,
+  avatarUrl: new URL('../../assets/images/avator.png', import.meta.url).href,
   size: '',
 })
 

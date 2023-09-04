@@ -86,6 +86,7 @@
       </div>
     </section>
     <Dialog
+      :width="'40%'"
       :title="changeFlag ? '测试管理' : '测试报告'"
       :hidden-full-btn="true"
       v-model="visible"

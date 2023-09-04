@@ -4,8 +4,8 @@
     <div class="inBg" :class="[direction == 'right' ? 'ti' : direction === 'left' ? 'left' : direction === 'top' ? 'top' : 'bottom']"
       :style="{ background: color }">
     </div>
-    <img v-if="color === '#545c64'" src="../../../assets/image/zuojiantou.png" :class="{ 'rotate': isOut }" />
-    <img v-else class="black_img" src="../../../assets/image/zuojiantou_black.png" :class="{ 'rotate': isOut, 'top_rotate':isOut && direction === 'top','left_rotate':isOut && direction === 'left' }" />
+    <img v-if="color === '#545c64'" src="../../../assets/images/zuojiantou.png" :class="{ 'rotate': isOut }" />
+    <img v-else class="black_img" src="../../../assets/images/zuojiantou_black.png" :class="{ 'rotate': isOut, 'top_rotate':isOut && direction === 'top','left_rotate':isOut && direction === 'left' }" />
   </div>
 </template>
 <script setup>

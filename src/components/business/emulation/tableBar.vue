@@ -9,7 +9,7 @@
       </template>
     </el-table-column>
     <template #empty>
-      <img class="no-data" src="@/assets/image/no-data.png" />
+      <img class="no-data" src="@/assets/images/no-data.png" />
       <span class="tip">暂无数据</span>
     </template>
   </el-table>

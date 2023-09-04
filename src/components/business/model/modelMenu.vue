@@ -30,7 +30,7 @@ const dragstart = (e, v) => {
       <el-sub-menu v-if="item.children && item.children.length" :index="item.id">
         <template #title>
           <!-- <i class="iconfont icon" :class="[icon]"></i> -->
-          <img src="../../../assets/image/wenjianjia.png" class="sub_img" />
+          <img src="../../../assets/images/wenjianjia.png" class="sub_img" />
           <span class="title">{{ item.label }}</span>
         </template>
         <modelMenu :menus="item.children" :drag="drag" :icon="icon"></modelMenu>
@@ -38,7 +38,7 @@ const dragstart = (e, v) => {
       <el-menu-item v-else :index="item.id" :draggable="drag" :class="{ 'menu-icon': drag }" :data-label="item.label"
         :data-id="item.id" :data-img="item.img" :data-shape="item.shape" :data-fill="item.fill" @dragstart="(e) => dragstart(e, item)">
         <template #title>
-          <img class="model_img" src="../../../assets/image/model.png" />
+          <img class="model_img" src="../../../assets/images/model.png" />
           <span class="title">{{ item.label }}</span>
           <img v-if="item?.img" style="margin-left: 10px" :src="item.img" />
         </template>

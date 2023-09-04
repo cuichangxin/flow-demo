@@ -18,9 +18,9 @@
             <img
               v-if="data.children && data.children.length"
               class="sub_img"
-              src="../../../assets/image/wenjianjia.png"
+              src="../../../assets/images/wenjianjia.png"
             />
-            <img v-else class="item_img" src="../../../assets/image/wenjian.png" />
+            <img v-else class="item_img" src="../../../assets/images/wenjian.png" />
             <span class="node_label">{{ node.label }}</span>
           </span>
         </template>

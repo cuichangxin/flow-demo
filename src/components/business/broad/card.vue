@@ -92,19 +92,19 @@
               <p class="top_title">{{ item.name }}</p>
               <ul class="content">
                 <li>
-                  <img class="img" src="../../../assets/image/icon_1.png" />
+                  <img class="img" src="../../../assets/images/icon_1.png" />
                   <p>{{ item.person }}</p>
                 </li>
                 <li>
-                  <img class="img" src="../../../assets/image/icon_2.png" />
+                  <img class="img" src="../../../assets/images/icon_2.png" />
                   <p>{{ item.tool }}</p>
                 </li>
                 <li>
-                  <img class="img" src="../../../assets/image/icon_3.png" />
+                  <img class="img" src="../../../assets/images/icon_3.png" />
                   <p>{{ item.sDate }}</p>
                 </li>
                 <li>
-                  <img class="img" src="../../../assets/image/icon_4.png" />
+                  <img class="img" src="../../../assets/images/icon_4.png" />
                   <p>{{ item.eDate }}</p>
                 </li>
               </ul>
@@ -113,7 +113,7 @@
               <p class="top_title">{{ item.name }}</p>
               <div class="flex">
                 <div class="left_icon">
-                  <img class="img" src="../../../assets/image/green.png" />
+                  <img class="img" src="../../../assets/images/green.png" />
                   <p>{{ item.tool }}</p>
                 </div>
                 <typed v-if="flag" :strings="item.content"></typed>
@@ -169,7 +169,7 @@ watch(() => props.list, (n,o) => {
     .title_box {
       width: 100%;
       height: 30px;
-      background: url('../../../assets/image/title_bg.png') no-repeat;
+      background: url('../../../assets/images/title_bg.png') no-repeat;
       background-size: 100% 100%;
       color: #fff;
       font-size: 14px;
@@ -221,7 +221,7 @@ watch(() => props.list, (n,o) => {
       border-radius: 0 0 10px 10px;
 
       .level {
-        background: url('../../../assets/image/level_bg.png') no-repeat;
+        background: url('../../../assets/images/level_bg.png') no-repeat;
         background-size: 100% 100%;
         width: 50px;
         height: 60px;
@@ -329,7 +329,7 @@ watch(() => props.list, (n,o) => {
         .img_box {
           width: 50px;
           height: 50px;
-          background: url('../../../assets/image/c_bg.png') no-repeat;
+          background: url('../../../assets/images/c_bg.png') no-repeat;
           background-size: 100% 100%;
           display: flex;
           align-items: center;
@@ -357,7 +357,7 @@ watch(() => props.list, (n,o) => {
       .box_card {
         width: 310px;
         height: 130px;
-        background: url('../../../assets/image/card_1.png') no-repeat;
+        background: url('../../../assets/images/card_1.png') no-repeat;
         background-size: 100% 100%;
         margin-top: 8px;
 
@@ -419,7 +419,7 @@ watch(() => props.list, (n,o) => {
       }
 
       .green_card {
-        background: url('../../../assets/image/card_2.png') no-repeat;
+        background: url('../../../assets/images/card_2.png') no-repeat;
         background-size: 100% 100%;
 
         .top_title {

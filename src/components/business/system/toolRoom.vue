@@ -13,7 +13,7 @@
     <el-scrollbar class="tool_room_wrapper">
       <header>
         <h1>{{ addToolFlag ? '集成工具' : toolDetailTarget ? toolDetailInfo.name : '平台类工具' }}</h1>
-        <img v-if="toolDetailTarget" class="fh" src="../../../assets/image/fh.png" @click="back" />
+        <img v-if="toolDetailTarget" class="fh" src="../../../assets/images/fh.png" @click="back" />
       </header>
       <div v-if="!addToolFlag && !toolDetailTarget" class="tool_room_content">
         <div class="tool_room_content_item" v-for="(item, index) in toolList" :key="index" @click="toolDetail(item)">
@@ -293,32 +293,32 @@ const toolList = ref([
     version: '2021',
     manufacturer: '美国',
     type: '问题管理类工具',
-    imgUrl: new URL('../../../assets/image/item.png', import.meta.url).href,
+    imgUrl: new URL('../../../assets/images/item.png', import.meta.url).href,
     desc: 'Mantis主要用于缺陷跟踪，其具有多种特征，包括：易于安装，易于操作，基于Web，支持任何可运行php的平台(Windows,Linux,Mac,Solaris,AS400/i5等)',
   },
   {
     name: '测试管理ZenTao',
     version: '2021',
     manufacturer: '美国',
-    imgUrl: new URL('../../../assets/image/zen.png', import.meta.url).href,
+    imgUrl: new URL('../../../assets/images/zen.png', import.meta.url).href,
   },
   {
     name: '配置管理库Gitlab',
     version: '2021',
     manufacturer: '美国',
-    imgUrl: new URL('../../../assets/image/lab.png', import.meta.url).href,
+    imgUrl: new URL('../../../assets/images/lab.png', import.meta.url).href,
   },
   {
     name: '自动化测试工具selenium',
     version: '2021',
     manufacturer: '美国',
-    imgUrl: new URL('../../../assets/image/sel.png', import.meta.url).href,
+    imgUrl: new URL('../../../assets/images/sel.png', import.meta.url).href,
   },
   {
     name: '云端编码Theia',
     version: '2021',
     manufacturer: '美国',
-    imgUrl: new URL('../../../assets/image/the.png', import.meta.url).href,
+    imgUrl: new URL('../../../assets/images/the.png', import.meta.url).href,
   },
 ])
 const toolH = ref('')
@@ -374,7 +374,7 @@ const toolEnter = (val) => {
           name: toolForm.toolName,
           version: toolForm.toolVersion,
           manufacturer: toolForm.make,
-          imgUrl: new URL('../../../assets/image/item.png', import.meta.url).href,
+          imgUrl: new URL('../../../assets/images/item.png', import.meta.url).href,
         })
         addToolFlag.value = false
         formRef.value.resetFields()

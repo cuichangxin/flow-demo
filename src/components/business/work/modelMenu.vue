@@ -3,7 +3,7 @@
     <template v-for="(item, index) in moduleTree" :key="index">
       <el-sub-menu v-if="item.children && item.children.length" :index="item.id">
         <template #title>
-          <img class="sub_img" src="../../../assets/image/wenjianjia.png" />
+          <img class="sub_img" src="../../../assets/images/wenjianjia.png" />
           <span>{{ item.label }}</span>
         </template>
         <modelMenu :moduleTree="item.children"></modelMenu>
@@ -11,7 +11,7 @@
 
       <el-menu-item v-else :index="item.id" draggable="true" @dragstart="(e) => dragstart(e, item)" @dragend="dragend">
         <template #title>
-          <img class="item_img" src="../../../assets/image/wenjian.png" />
+          <img class="item_img" src="../../../assets/images/wenjian.png" />
           <span>{{ item.label }}</span>
         </template>
       </el-menu-item>
