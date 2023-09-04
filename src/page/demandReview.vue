@@ -25,7 +25,7 @@
           <el-sub-menu index="1">
             <template #title>
               <img
-                src="src/assets/images/menu_file.png"
+                src="../assets/images/menu_file.png"
                 style="height: 15px; width: 15px; margin-right: 8px"
               />文件</template
             >
@@ -35,7 +35,7 @@
           <el-sub-menu index="2">
             <template #title
               ><img
-                src="src/assets/images/menu_manage.png"
+                src="../assets/images/menu_manage.png"
                 style="height: 15px; width: 15px; margin-right: 8px"
               />管理</template
             >
@@ -53,7 +53,7 @@
           <el-sub-menu index="3">
             <template #title
               ><img
-                src="src/assets/images/menu_knowledge.png"
+                src="../assets/images/menu_knowledge.png"
                 style="height: 15px; width: 15px; margin-right: 8px"
               />知识库</template
             >
@@ -63,7 +63,7 @@
           <el-sub-menu index="4">
             <template #title
               ><img
-                src="src/assets/images/menu_view.png"
+                src="../assets/images/menu_view.png"
                 style="height: 15px; width: 15px; margin-right: 8px"
               />视图</template
             >
@@ -107,7 +107,7 @@
       <div class="rightinner">
         <!-- <div class="changeView" @click="showRich = !showRich">切换视图</div> -->
         <img
-          src="src/assets/images/changeView.png"
+          src="../assets/images/changeView.png"
           style="height: 20px; width: 20px; cursor: pointer"
           title="切换视图"
           @click="showRich = !showRich"
@@ -117,8 +117,8 @@
     <div class="bottom_contain">
       <div :class="[showTaskBook ? 'leftTask' : 'leftTask2']">
         <el-affix :offset="60" style="width: 100%">
-          <img src="src/assets/images/amplify.png" class="taskBook" @click="changeSizeTask(0)" />
-          <img src="src/assets/images/shrink.png" class="taskBook" style="right: 40px" @click="changeSizeTask(1)" />
+          <img src="../assets/images/amplify.png" class="taskBook" @click="changeSizeTask(0)" />
+          <img src="../assets/images/shrink.png" class="taskBook" style="right: 40px" @click="changeSizeTask(1)" />
         </el-affix>
         <div class="childRef"></div>
       </div>
@@ -163,7 +163,7 @@
             : 'calc(100% - 2rem)',
         'margin-left': showTree ? '' : '0',
       }" -->
-        <img src="src/assets/images/ar.png" v-if="!examine && params.id" class="leftArrow" @click="leftArrow" />
+        <img src="../assets/images/ar.png" v-if="!examine && params.id" class="leftArrow" @click="leftArrow" />
 
         <div v-if="params.id && !showRich">
           <ul class="ulClass" :style="{ 'padding-left': examine ? '2rem' : '4rem' }">
@@ -243,7 +243,7 @@
               <span>处理过程</span>
               <div :class="[examine ? 'produceArea2' : 'produceArea']">
                 <div class="oneProduce" v-for="(item, index) in params.produce" :key="index">
-                  <img src="src/assets/images/liebiao.png" style="height: 15px; width: 15px; margin-left: 1rem" />
+                  <img src="../assets/images/liebiao.png" style="height: 15px; width: 15px; margin-left: 1rem" />
                   <span>&nbsp;步骤{{ index + 1 }}</span>
                   <el-select
                     v-model="item.value"
@@ -264,7 +264,7 @@
                 </div>
               </div>
               <!-- <img
-              src="src/assets/images/add2.png"
+              src="../assets/images/add2.png"
               @click="produceDrawer = true"
               style="height:20px;width:20px;margin-left:1rem;cursor: pointer;"
               title="添加步骤可选择项"
@@ -276,7 +276,7 @@
                   <span style="cursor: pointer; position: relative"
                     >输入
                     <!-- <div class="strechPoint"> -->
-                    <img class="strechPoint" src="src/assets/images/ai.png" alt="" />
+                    <img class="strechPoint" src="../assets/images/ai.png" alt="" />
                     <!-- </div> -->
                   </span>
                 </template>
@@ -285,13 +285,13 @@
                     <div class="strechAdvice">
                       <ul>
                         <li>
-                          <img src="src/assets/images/flag2.png" style="width: 20px; height: 20px; margin-right: 1rem" />
+                          <img src="../assets/images/flag2.png" style="width: 20px; height: 20px; margin-right: 1rem" />
                           <span>xxx案例</span>
                           <i style="margin-left: 1rem">程序角初始值:</i>
                           <input type="text" value="1" disabled style="margin-left: 5px; width: 30%" />
                         </li>
                         <li>
-                          <img src="src/assets/images/flag2.png" style="width: 20px; height: 20px; margin-right: 1rem" />
+                          <img src="../assets/images/flag2.png" style="width: 20px; height: 20px; margin-right: 1rem" />
                           <span>xxx案例</span>
                           <i style="margin-left: 1rem">程序角初始值:</i>
                           <input type="text" value="1" disabled style="margin-left: 5px; width: 30%" />
@@ -366,7 +366,7 @@
                                 align="center"
                               >
                                 <template #header>
-                                  <img style="width: 78px" src="src/assets/images/unit.png" v-if="jou.label == 'a'" />
+                                  <img style="width: 78px" src="../assets/images/unit.png" v-if="jou.label == 'a'" />
                                   <span v-else>{{ jou.label }}</span>
                                 </template>
                                 <!-- <template #default="scope">
@@ -409,7 +409,7 @@
                   <span style="cursor: pointer; position: relative"
                     >输出
                     <!-- <div class="strechPoint"></div> -->
-                    <img class="strechPoint" src="src/assets/images/ai.png" alt="" />
+                    <img class="strechPoint" src="../assets/images/ai.png" alt="" />
                   </span>
                 </template>
                 <el-tabs v-model="params.activeName2">
@@ -485,7 +485,7 @@
                                 align="center"
                               >
                                 <template #header>
-                                  <img style="width: 78px" src="src/assets/images/unit.png" v-if="jou.label == 'a'" />
+                                  <img style="width: 78px" src="../assets/images/unit.png" v-if="jou.label == 'a'" />
                                   <span v-else>{{ jou.label }}</span>
                                 </template>
                                 <!-- <template #default="scope">
@@ -528,7 +528,7 @@
                   <span style="cursor: pointer; position: relative"
                     >异常处理
                     <!-- <div class="strechPoint"> -->
-                    <img class="strechPoint" src="src/assets/images/ai.png" alt="" />
+                    <img class="strechPoint" src="../assets/images/ai.png" alt="" />
                     <!-- </div> -->
                   </span>
                 </template>
@@ -610,7 +610,7 @@
                                 align="center"
                               >
                                 <template #header>
-                                  <img style="width: 78px" src="src/assets/images/unit.png" v-if="jou.label == 'a'" />
+                                  <img style="width: 78px" src="../assets/images/unit.png" v-if="jou.label == 'a'" />
                                   <span v-else>{{ jou.label }}</span>
                                 </template>
                                 <!-- <template #default="scope">
@@ -676,7 +676,7 @@
         </div>
       </div>
       <!-- <img
-        src="src/assets/images/ar.png"
+        src="../assets/images/ar.png"
         v-if="examine"
         class="righttArrow"
         @click="
@@ -716,7 +716,7 @@
                   :disabled="scope.row.appear ? false : true"
                 ></textarea>
                 <img
-                  src="src/assets/images/edit.png"
+                  src="../assets/images/edit.png"
                   style="height: 15px; width: 20px; cursor: pointer"
                   @click="scope.row.appear = true"
                 />
@@ -754,7 +754,7 @@
                   :disabled="scope.row.appear ? false : true"
                 ></textarea>
                 <img
-                  src="src/assets/images/edit.png"
+                  src="../assets/images/edit.png"
                   style="height: 15px; width: 20px; cursor: pointer"
                   @click="scope.row.appear = true"
                 />
@@ -902,7 +902,8 @@ export default defineComponent({
         })
       },
       downloadFile() {
-        window.open('/public/mock/word/姿控评审文档.doc')
+        // window.open('/public/mock/word/姿控评审文档.doc')
+        window.open('/assets/mock/word/姿控评审文档.doc')
       },
       //保存详情
       saveParams(type) {
@@ -1131,7 +1132,8 @@ export default defineComponent({
       },
       previewfile() {
         nextTick(() => {
-          fetch('/public/mock/word/demand_analysis.docx')
+          // fetch('/public/mock/word/demand_analysis.docx')
+          fetch('/assets/mock/word/demand_analysis.docx')
             .then((response) => {
               //选择要渲染的元素
               let docData = response.blob() //将文件转换成bolb形式

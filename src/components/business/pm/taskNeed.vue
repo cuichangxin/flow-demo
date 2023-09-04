@@ -104,11 +104,8 @@ function handleUploadError(err) {
   }
 
   .button {
-    width: 100px;
-    height: 40px;
-    font-size: 17px;
     float: right;
-    margin: 20px 30px 0 0;
+    margin: 20px 5px 0 0;
   }
 }
 

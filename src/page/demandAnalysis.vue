@@ -23,7 +23,7 @@
             <el-sub-menu index="1">
               <template #title
                 ><img
-                  src="src/assets/images/menu_file.png"
+                  src="../assets/images/menu_file.png"
                   style="height: 15px; width: 15px; margin-right: 8px"
                 />文件</template
               >
@@ -33,7 +33,7 @@
             <el-sub-menu index="2">
               <template #title
                 ><img
-                  src="src/assets/images/menu_operate.png"
+                  src="../assets/images/menu_operate.png"
                   style="height: 15px; width: 15px; margin-right: 8px"
                 />操作</template
               >
@@ -44,7 +44,7 @@
             <el-sub-menu index="3">
               <template #title
                 ><img
-                  src="src/assets/images/menu_view.png"
+                  src="../assets/images/menu_view.png"
                   style="height: 15px; width: 15px; margin-right: 8px"
                 />视图</template
               >
@@ -86,7 +86,7 @@
             <el-sub-menu index="4">
               <template #title
                 ><img
-                  src="src/assets/images/tool_menu.png"
+                  src="../assets/images/tool_menu.png"
                   style="height: 15px; width: 15px; margin-right: 8px"
                 />工具</template
               >
@@ -100,8 +100,8 @@
       <div class="bottom_contain">
         <div :class="[showTaskBook ? 'leftTask' : 'leftTask2']">
           <el-affix :offset="60" style="width: 100%">
-            <img src="src/assets/images/amplify.png" class="taskBook" @click="changeSizeTask(0)" />
-            <img src="src/assets/images/shrink.png" class="taskBook" style="right: 40px" @click="changeSizeTask(1)" />
+            <img src="../assets/images/amplify.png" class="taskBook" @click="changeSizeTask(0)" />
+            <img src="../assets/images/shrink.png" class="taskBook" style="right: 40px" @click="changeSizeTask(1)" />
           </el-affix>
           <div class="childRef"></div>
         </div>
@@ -144,7 +144,7 @@
         style="height:100%;top:0;"
         v-if="params.id && showRocket"
       >
-        <img src="src/assets/images/rocket2.png" class="goTopAnimation" />
+        <img src="../assets/images/rocket2.png" class="goTopAnimation" />
         <div class="fuel"></div>
       </div> -->
           <div class="width:100%;height:100%;" v-if="params.id && showDetail">
@@ -161,16 +161,16 @@
                 <el-collapse-item name="1">
                   <template #title>
                     <img
-                      src="src/assets/images/icon.png"
+                      src="../assets/images/icon.png"
                       style="height: 50px; width: 50px"
                       :class="[trsnsformImg ? 'transformImg' : 'transformImg2']"
                       @click="trsnsformImg = !trsnsformImg"
                     />
                   </template>
-                  <draggable @end="end" @start="move" v-model="dragList" forceFallback="false" ghostClass="tt">
+                  <draggable @end="end" @start="move" v-model="dragList" item-key="id" forceFallback="false" ghostClass="tt">
                     <template #item="{ element }">
                       <div class="chooseCollapse" :title="element.name">
-                        <img :src="'src/assets/images/' + element.id + '.png'" style="cursor: pointer" />
+                        <img :src="'../assets/images/' + element.id + '.png'" style="cursor: pointer" />
                         <!-- <span>{{ element.name }}</span> -->
                       </div>
                     </template>
@@ -233,7 +233,7 @@
                     >+</span
                   >
                   <div class="oneProduce" v-for="(item, index) in params.produce" :key="index">
-                    <img src="src/assets/images/liebiao.png" style="height: 15px; width: 15px; margin-left: 1rem" />
+                    <img src="../assets/images/liebiao.png" style="height: 15px; width: 15px; margin-left: 1rem" />
                     <span>&nbsp;步骤{{ index + 1 }}</span>
                     <!-- <input type="text" v-model="item.content" /> -->
                     <el-select
@@ -256,7 +256,7 @@
                 </div>
                 <img
                   v-show="!showAffix"
-                  src="src/assets/images/add2.png"
+                  src="../assets/images/add2.png"
                   @click="produceDrawer = true"
                   style="height: 20px; width: 20px; margin-left: 1rem; cursor: pointer"
                   title="添加步骤可选择项"
@@ -286,7 +286,7 @@
                     <span style="cursor: pointer; position: relative"
                       >输入
                       <!-- <div class="strechPoint"></div> -->
-                      <img class="strechPoint" src="src/assets/images/ai.png" alt="" />
+                      <img class="strechPoint" src="../assets/images/ai.png" alt="" />
                     </span>
                   </template>
                   <el-tabs v-model="params.activeName" class="demo-tabs">
@@ -295,7 +295,7 @@
                         <ul>
                           <li>
                             <img
-                              src="src/assets/images/flag.png"
+                              src="../assets/images/flag.png"
                               style="width: 20px; height: 20px; margin-right: 1rem"
                             />
                             <span
@@ -303,7 +303,7 @@
                             >
                           </li>
                           <!-- <li>
-                        <img src="src/assets/images/flag.png" style="width:20px;height:20px;margin-right:1rem">
+                        <img src="../assets/images/flag.png" style="width:20px;height:20px;margin-right:1rem">
                         <span>需求分析中，输入参数有‘起飞信号’</span>
                       </li> -->
                         </ul>
@@ -314,7 +314,7 @@
                         <ul>
                           <li>
                             <img
-                              src="src/assets/images/flag2.png"
+                              src="../assets/images/flag2.png"
                               style="width: 20px; height: 20px; margin-right: 1rem"
                             />
                             <span>xxx案例</span>
@@ -323,7 +323,7 @@
                           </li>
                           <li>
                             <img
-                              src="src/assets/images/flag2.png"
+                              src="../assets/images/flag2.png"
                               style="width: 20px; height: 20px; margin-right: 1rem"
                             />
                             <span>xxx案例</span>
@@ -466,7 +466,7 @@
                           >+</span
                         >
                         <img
-                          src="src/assets/images/add3.png"
+                          src="../assets/images/add3.png"
                           style="
                             z-index: 9;
                             height: 15px;
@@ -496,7 +496,7 @@
                                   align="center"
                                 >
                                   <template #header>
-                                    <img style="width: 78px" src="src/assets/images/unit.png" v-if="jou.label == 'a'" />
+                                    <img style="width: 78px" src="../assets/images/unit.png" v-if="jou.label == 'a'" />
                                     <span v-else>{{ jou.label }}</span>
                                   </template>
                                   <!-- <template #default="scope">
@@ -586,7 +586,7 @@
                     <span style="cursor: pointer; position: relative"
                       >输出
                       <!-- <div class="strechPoint"></div> -->
-                      <img class="strechPoint" src="src/assets/images/ai.png" alt="" />
+                      <img class="strechPoint" src="../assets/images/ai.png" alt="" />
                     </span>
                   </template>
                   <el-tabs v-model="params.activeName2">
@@ -732,7 +732,7 @@
                           >+</span
                         >
                         <img
-                          src="src/assets/images/add3.png"
+                          src="../assets/images/add3.png"
                           style="
                             z-index: 9;
                             height: 15px;
@@ -769,7 +769,7 @@
                                   align="center"
                                 >
                                   <template #header>
-                                    <img style="width: 78px" src="src/assets/images/unit.png" v-if="jou.label == 'a'" />
+                                    <img style="width: 78px" src="../assets/images/unit.png" v-if="jou.label == 'a'" />
                                     <span v-else>{{ jou.label }}</span>
                                   </template>
                                   <!-- <template #default="scope">
@@ -860,7 +860,7 @@
                     <span style="cursor: pointer; position: relative"
                       >异常处理
                       <!-- <div class="strechPoint"></div> -->
-                      <img class="strechPoint" src="src/assets/images/ai.png" alt="" />
+                      <img class="strechPoint" src="../assets/images/ai.png" alt="" />
                     </span>
                   </template>
                   <el-tabs v-model="params.activeName3">
@@ -1006,7 +1006,7 @@
                           >+</span
                         >
                         <img
-                          src="src/assets/images/add3.png"
+                          src="../assets/images/add3.png"
                           style="
                             z-index: 9;
                             height: 15px;
@@ -1043,7 +1043,7 @@
                                   align="center"
                                 >
                                   <template #header>
-                                    <img style="width: 78px" src="src/assets/images/unit.png" v-if="jou.label == 'a'" />
+                                    <img style="width: 78px" src="../assets/images/unit.png" v-if="jou.label == 'a'" />
                                     <span v-else>{{ jou.label }}</span>
                                   </template>
                                   <!-- <template #default="scope">
@@ -1379,7 +1379,6 @@ export default defineComponent({
           })
       },
       handleNodeClick(data) {
-        console.log(data)
         state.showDetail = true
         // state.showRocket = true
         // state.showRocket = false;
@@ -1795,7 +1794,8 @@ export default defineComponent({
       previewfile() {
         // if (item.fileType == '.docx') {
         nextTick(() => {
-          fetch('/public/mock/word/demand_analysis.docx')
+          // fetch('/public/mock/word/demand_analysis.docx')
+          fetch('/assets/mock/word/demand_analysis.docx')
             .then((response) => {
               let docData = response.blob() //将文件转换成bolb形式
               //  console.log(docData,response,'1111111111111')
@@ -1892,6 +1892,9 @@ export default defineComponent({
 })
 </script>
 <style lang="less" scoped>
+:deep(.el-tabs__header){
+  margin: 0;
+}
 .wrapper{
   height: calc(100% - 60px);
   margin: 0 8px;

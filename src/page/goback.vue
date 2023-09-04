@@ -252,18 +252,18 @@ const changeColumn = (val) => {
 }
 const getRowInfo = () => {
   return new Promise((resolve, reject) => {
-    Axios.get(`http://localhost:8080/mock/goBackData/rowel/${rowValue.value}.json`).then((res) => {
+    // Axios.get(`http://localhost:8080/mock/goBackData/rowel/${rowValue.value}.json`).then((res) => {
 
-    // Axios.get(`/assets/mock/goBackData/rowel/${rowValue.value}.json`).then((res) => {
+    Axios.get(`/assets/mock/goBackData/rowel/${rowValue.value}.json`).then((res) => {
       resolve(res.rowTree)
     })
   })
 }
 function getColumnInfo() {
   return new Promise((resolve, reject) => {
-    Axios.get(`http://localhost:8080/mock/goBackData/columnel/${columnValue.value}.json`).then((res) => {
+    // Axios.get(`http://localhost:8080/mock/goBackData/columnel/${columnValue.value}.json`).then((res) => {
 
-    // Axios.get(`/assets/mock/goBackData/columnel/${columnValue.value}.json`).then((res) => {
+    Axios.get(`/assets/mock/goBackData/columnel/${columnValue.value}.json`).then((res) => {
       resolve(res.columnTree)
     })
   })

@@ -85,6 +85,7 @@ import _ from 'lodash'
 import Cookies from 'js-cookie'
 import { formatTime } from '@/utils/utils'
 import { PROJECTMAP, LEVELMAP, CODELANG } from '@/utils/map'
+import { ElMessageBox } from 'element-plus'
 
 const { proxy } = getCurrentInstance()
 const router = useRouter()
@@ -133,15 +134,23 @@ const search = (e) => {
   tableList.value = filterArr
 }
 const removeItem = (row) => {
-  proxy.$axios
-    .removeProject({
-      id: row.id,
-    })
-    .then((res) => {
-      proxy.$modal.msgSuccess('删除成功')
-      getProject()
-      localStorage.removeItem('serial')
-    })
+  ElMessageBox.confirm('确认删除该项目吗？', '提示', {
+    confirmButtonText: '确认',
+    cancelButtonText: '取消',
+    type: 'warning',
+  }).then(() => {
+    proxy.$axios
+      .removeProject({
+        id: row.id,
+      })
+      .then((res) => {
+        proxy.$modal.msgSuccess('删除成功')
+        getProject()
+        localStorage.removeItem('serial')
+      })
+  }).catch(() => {
+    console.log('取消删除');
+  })
 }
 
 function getProject() {
@@ -150,7 +159,7 @@ function getProject() {
       userId: Cookies.get('userId'),
     })
     .then((res) => {
-      console.log(res.data);
+      console.log(res.data)
       res.data.forEach((item) => {
         item.subType = PROJECTMAP[item.type]
         item.subLevel = LEVELMAP[item.level]

@@ -86,9 +86,9 @@ const boardShow = () => {
 }
 
 const getJson = (num) => {
-  Axios.get(`http://localhost:8080/mock/flow/${num}.json`).then((res) => {
+  // Axios.get(`http://localhost:8080/mock/flow/${num}.json`).then((res) => {
 
-  // Axios.get(`/assets/mock/flow/${num}.json`).then((res) => {
+  Axios.get(`/assets/mock/flow/${num}.json`).then((res) => {
     list.value = res
   })
 }

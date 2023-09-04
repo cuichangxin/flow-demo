@@ -583,9 +583,9 @@ function pushCase(tree) {
 }
 function previewFile() {
   nextTick(() => {
-    fetch('/public/mock/word/3.docx')
+    // fetch('/public/mock/word/3.docx')
 
-    // fetch('/assets/mock/word/3.docx')
+    fetch('/assets/mock/word/3.docx')
       .then((response) => {
         const docData = response.blob()
         const html = document.getElementsByClassName('docx')

@@ -13,6 +13,7 @@ import axios from './api/api'
 import './permission'
 import { getElementLabelLine } from 'element-tree-line'
 import modal from './utils/modal'
+import VueGridLayout from 'vue-grid-layout'
 
 const ElementLabelLine = getElementLabelLine(h)
 const app = createApp(App)
@@ -24,8 +25,10 @@ app.use(ElementPlus,{
 app.use(router)
 app.use(pinia)
 app.use(vueTyped)
+app.use(VueGridLayout)
 app.config.globalProperties.$bus = mitt()
 app.config.globalProperties.$axios = axios
 app.config.globalProperties.$modal = modal
+app.component(ElementLabelLine.name,ElementLabelLine)
 app.component(ElementLabelLine.name,ElementLabelLine)
 app.mount('#app')
