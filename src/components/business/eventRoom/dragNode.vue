@@ -30,7 +30,7 @@
       <img
         :src="
           node.nodeSetting.upload
-            ? node.nodeSetting.upload
+            ? getSpecialImgUrl(node.nodeSetting.upload.split('/')[node.nodeSetting.upload.split('/').length-1])
             : getImgUrl(node.ico + '.png')
         "
         :id="node.id + '_img'"
@@ -186,6 +186,9 @@ export default defineComponent({
       }
     );
     const methods = {
+      getSpecialImgUrl(img){
+        return new URL(`../../../assets/images/${img}`,import.meta.url).href
+      },
       getImgUrl(img) {
         return new URL(`../../../assets/images/${img}`, import.meta.url).href
       },
@@ -247,7 +250,10 @@ export default defineComponent({
       nextTick(() => {
         methods.clickNode();
       });
-      console.log(props.node);
+      if (props.node.nodeSetting.upload) {
+        let a = props.node.nodeSetting.upload.split('/')
+        console.log(a[a.length-1]);
+      }
     });
     onUnmounted(() => {});
     return {

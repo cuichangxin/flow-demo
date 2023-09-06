@@ -30,5 +30,4 @@ app.config.globalProperties.$bus = mitt()
 app.config.globalProperties.$axios = axios
 app.config.globalProperties.$modal = modal
 app.component(ElementLabelLine.name,ElementLabelLine)
-app.component(ElementLabelLine.name,ElementLabelLine)
 app.mount('#app')

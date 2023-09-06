@@ -1546,6 +1546,13 @@ function init() {
     (res) => {
       if (res.data !== null) {
         graphData.value = JSON.parse(res.data.daTree)
+        graphData.value.cells.forEach(item=>{
+          if (item.shape === 'image') {
+            let split = item.attrs.image['xlink:href'].split('/'),
+            url = split[split.length-1]
+            item.attrs.image['xlink:href'] = new URL(`../assets/images/${url}`, import.meta.url).href
+          }
+        })
         createGraphic()
         initGraphEvent()
         loading.value = false

@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@antv/g6": "^4.8.9",
-    "@antv/s2": "^1.47.1",
     "@antv/x6": "^2.10.1",
     "@antv/x6-plugin-clipboard": "^2.1.6",
     "@antv/x6-plugin-dnd": "^2.0.5",
@@ -48,6 +47,7 @@
     "typeit": "^8.7.1",
     "v-scale-screen": "2.0.0",
     "v-viewer": "^1.6.4",
+    "vite-plugin-compression": "^0.5.1",
     "vue": "^3.2.41",
     "vue-demi": "^0.14.5",
     "vue-drag-resize": "^2.0.3",

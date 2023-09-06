@@ -125,6 +125,7 @@ previewFile()
       </pane>
     </Splitpanes>
     <Dialog
+      :width="'40%'"
       title="智能辅助"
       :hidden-full-btn="false"
       v-model="visible"

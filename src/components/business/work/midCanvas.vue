@@ -756,9 +756,9 @@ const handleToolMenu = (target, val) => {
 const handleCreate = (val) => {
   console.log(val)
   if (val.model) {
-    taskId.value = 1999
-  } else {
     taskId.value = 2001
+  } else {
+    taskId.value = 1999
   }
   work.taskId = taskId.value
   work.redundant = val.security

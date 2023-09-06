@@ -38,7 +38,7 @@
       </header>
       <div class="minimap" id="minimap"></div>
     </div>
-    <Dialog title="代码验证" confirmText="保存算法" :disabled="disabled" :hidden-full-btn="false" v-model="visible" @confirm="handleConfirm" @close="handleClose">
+    <Dialog title="代码验证" :width="'40%'" confirmText="保存算法" :disabled="disabled" :hidden-full-btn="false" v-model="visible" @confirm="handleConfirm" @close="handleClose">
       <span style="display: inline-block; margin-bottom: 5px;">下面是验证该算法正确性的测试用例</span>
       <el-table :data="tableData">
         <el-table-column prop="input_1" label="输入1" />
