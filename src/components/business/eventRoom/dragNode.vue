@@ -266,9 +266,13 @@ export default defineComponent({
   },
 });
 </script>
-<style lang="less">
+<style lang="less" scoped>
 @import "../../../assets/styles/css/main.less";
-
+.flex_center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .menu {
   position: absolute;
   width: auto;

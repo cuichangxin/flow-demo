@@ -2483,7 +2483,16 @@ export default defineComponent({
   },
 })
 </script>
+<style src="../assets/styles/css/main.less" scoped></style>
 <style scoped lang="less">
+.el-select{
+    height: auto;
+}
+.flex_center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 :deep(.el-tabs) {
   height: 100%;
 }
@@ -2552,8 +2561,6 @@ export default defineComponent({
 :deep(.el-tree--highlight-current .el-tree-node.is-current > .el-tree-node__content) {
   background-color: #f1f1f1;
 }
-
-@import '../assets/styles/css/main.less';
 .dialogOneArea {
   width: 100%;
   .flex_center;
