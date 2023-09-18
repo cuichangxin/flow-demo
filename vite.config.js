@@ -63,17 +63,42 @@ export default defineConfig(({ mode, command }) => {
       emptyOutDir: true, // 打包时先清空上一次的目录
       rollupOptions: {
         output: {
-          manualChunks(id) {
-            if (id.includes('node_modules')) {
-              return id.toString().split('node_modules/')[1].split('/')[0].toString()
+          manualChunks(id, { getModuleInfo }) {
+            const match = /.*.strings.(\w+).js/.exec(id)
+            if (match) {
+              const language = match[1] // e.g. "en"
+              const dependentEntryPoints = []
+              const idsToHandle = new Set(getModuleInfo(id).dynamicImporters)
+
+              for (const moduleId of idsToHandle) {
+                const { isEntry, dynamicImporters, importers } = getModuleInfo(moduleId)
+                if (isEntry || dynamicImporters.length > 0) dependentEntryPoints.push(moduleId)
+                for (const importerId of importers) idsToHandle.add(importerId)
+              }
+              if (dependentEntryPoints.length === 1) {
+                return `${dependentEntryPoints[0].split('/').slice(-1)[0].split('.')[0]}.strings.${language}`
+              }
+              if (dependentEntryPoints.length > 1) {
+                return `shared.strings.${language}`
+              }
             }
           }
         }
       },
+      minify:'terser',
+      terserOptions:{
+        compress:{
+          drop_console:true,
+          drop_debugger:true
+        },
+        format:{
+          comments:false
+        }
+      },
+      chunkSizeWarningLimit:2000,
+      cssCodeSplit:true,
+      sourcemap:false,
+      assetsInlineLimit:5000
     },
-    esbuild: {
-      pure: ['console.log'],
-      drop: ['debugger']
-    }
   }
 })

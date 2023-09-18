@@ -3,40 +3,41 @@ import { ElNotification, ElMessageBox, ElMessage, ElLoading } from 'element-plus
 import { getToken } from "@/utils/auth";
 import errorCode from "@/utils/errCode";
 import router from '../router/index'
+import cache from './cache'
 import { useCancelToken } from "../store/cancelToken";
 
 
 // 请求记录栈
-const requestStack = []
-let cid = 0
-function showLoading() {
-  document.getElementById('el-loading-spin').style.display = 'block'
-}
-function hideLoading() {
-  document.getElementById('el-loading-spin').style.display = 'none'
-}
+// const requestStack = []
+// let cid = 0
+// function showLoading() {
+//   document.getElementById('el-loading-spin').style.display = 'block'
+// }
+// function hideLoading() {
+//   document.getElementById('el-loading-spin').style.display = 'none'
+// }
 
 /**
  * 请求记录入栈
 */
-function pushTarget() {
-  if (!requestStack.length) {
-    showLoading()
-  }
-  requestStack.push(cid++)
-}
+// function pushTarget() {
+//   if (!requestStack.length) {
+//     showLoading()
+//   }
+//   requestStack.push(cid++)
+// }
 /**
  * 请求记录出栈
 */
-function popTarget() {
-  if (requestStack.length) {
-    requestStack.pop()
-  }
-  // 所有请求处理完毕清空
-  if (!requestStack.length) {
-    hideLoading()
-  }
-}
+// function popTarget() {
+//   if (requestStack.length) {
+//     requestStack.pop()
+//   }
+//   // 所有请求处理完毕清空
+//   if (!requestStack.length) {
+//     hideLoading()
+//   }
+// }
 
 // 超时时间
 Axios.defaults.timeout = 100000
@@ -44,8 +45,8 @@ Axios.defaults.timeout = 100000
 Axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
 
 // 默认URL
-Axios.defaults.baseURL = import.meta.env.VITE_APP_BASE_API
-// Axios.defaults.baseURL = 'http://39.105.98.46:16380'
+// Axios.defaults.baseURL = import.meta.env.VITE_APP_BASE_API
+Axios.defaults.baseURL = 'http://39.105.98.46:16380'
 // 通用请求拦截器
 Axios.interceptors.request.use(
   config => {
@@ -60,6 +61,29 @@ Axios.interceptors.request.use(
     // })
     if (getToken()) {
       config.headers['Authorization'] = getToken()
+    }
+    if (config.method === 'post' || config.method === 'put') {
+      const requestObj = {
+        url: config.url,
+        data: typeof config.data === 'object' ? JSON.stringify(config.data) : config.data,
+        time: new Date().getTime()
+      }
+      const sessionObj = cache.session.getJSON('sessionObj')
+      if (sessionObj === undefined || sessionObj === null || sessionObj === '') {
+        cache.session.setJSON('sessionObj', requestObj)
+      } else {
+        const s_url = sessionObj.url;                // 请求地址
+        const s_data = sessionObj.data;              // 请求数据
+        const s_time = sessionObj.time;              // 请求时间
+        const interval = 1000;                       // 间隔时间(ms)，小于此时间视为重复提交
+        if (s_data === requestObj.data && requestObj.time - s_time < interval && s_url === requestObj.url) {
+          const message = '数据正在处理，请勿重复提交';
+          console.warn(`[${s_url}]: ` + message)
+          return Promise.reject(new Error(message))
+        } else {
+          cache.session.setJSON('sessionObj', requestObj)
+        }
+      }
     }
     return config
   },

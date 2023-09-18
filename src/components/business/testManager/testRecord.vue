@@ -590,12 +590,10 @@ header {
       .status_item {
         font-size: 14px;
         color: #afb2b6;
-        font-family: PingFangSC-Heavy;
       }
       .status_item {
         margin-left: 10px;
         color: #000;
-        font-family: PingFangSC;
       }
     }
   }

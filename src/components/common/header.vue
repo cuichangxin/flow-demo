@@ -114,7 +114,6 @@ const handleDrop = (command) => {
   h2 {
     color: #000000;
     margin-left: 16px;
-    font-family: PingFangSC-Bold;
   }
 }
 
@@ -149,7 +148,6 @@ const handleDrop = (command) => {
   flex-direction: column;
   .role--span{
     &:nth-child(2){
-      font-family: PingFangSC-Bold !important;
       display: inline-block;
       font-size: 13px;
       margin-top: 3px;

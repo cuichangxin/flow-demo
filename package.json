@@ -44,6 +44,7 @@
     "sass": "^1.62.0",
     "skeleton-loader": "^2.0.0",
     "splitpanes": "^3.1.5",
+    "terser": "^5.19.4",
     "typeit": "^8.7.1",
     "v-scale-screen": "2.0.0",
     "v-viewer": "^1.6.4",
