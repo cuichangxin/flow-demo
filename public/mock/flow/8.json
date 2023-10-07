@@ -1,8 +1,8 @@
 {
   "projectName": "XXX火箭飞控系统",
   "rank": "A",
-  "sDate": "2023-07-21",
-  "eDate": "2023-07-21",
+  "sDate": "2023-09-27",
+  "eDate": "2023-09-27",
   "isShowRDate": false,
   "rate": 9.0,
   "rateOffset": 10.0,
@@ -21,8 +21,8 @@
       "name": "需求评审",
       "tool": "领域需求评审工具",
       "person": "赵五",
-      "sDate": "2023-07-21",
-      "eDate": "2023-07-21",
+      "sDate": "2023-09-27",
+      "eDate": "2023-09-27",
       "content": ""
     }
   ],

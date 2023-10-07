@@ -20,7 +20,7 @@
             <span class="label">进&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;度:</span>
             <div class="content" style="width: 99%">
               <div class="name_item" style="width: 99%">
-                生产线预计在<em class="time">2023年07月21日</em>完成，比计划完成时间<em class="time">提前0</em>天
+                生产线预计在<em class="time">2023年09月27日</em>完成，比计划完成时间<em class="time">提前0</em>天
               </div>
             </div>
           </div>

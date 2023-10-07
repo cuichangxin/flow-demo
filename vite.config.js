@@ -98,7 +98,7 @@ export default defineConfig(({ mode, command }) => {
       chunkSizeWarningLimit:2000,
       cssCodeSplit:true,
       sourcemap:false,
-      assetsInlineLimit:5000
+      // assetsInlineLimit:5000 // 图片5000转base64格式
     },
   }
 })

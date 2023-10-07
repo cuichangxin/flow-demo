@@ -1,7 +1,7 @@
 <template>
   <div class="test-info">
     <shapeHeader @handleMenu="handleMenu" :canRedo="canRedo" :canUndo="canUndo"></shapeHeader>
-    <el-container v-if="!pageBefore" class="el-container-layout">
+    <el-container v-if="pageBefore" class="el-container-layout">
       <el-aside class="el-aside el-aside-left" :class="{ fade: isOut }">
         <h4 v-if="!isOut" class="title">组件库</h4>
         <el-scrollbar class="el-scrollbar-info" :style="{ padding: isOut ? 0 : '0 10px' }">
@@ -211,7 +211,7 @@ const autoList = reactive({
 })
 const isAuto = ref(false)
 const nextStep = ref(1)
-const pageBefore = ref(true)
+const pageBefore = ref(false)
 const loading = ref(true)
 const radio = ref('控制台')
 let graph = null
@@ -1531,13 +1531,14 @@ const nextAuto = () => {
   if (nextStep.value < 4) {
     nextStep.value++
   } else {
-    pageBefore.value = false
+    pageBefore.value = true
     isAuto.value = false
     nextStep.value = 1
     loading.value = true
     setTimeout(()=>{
       init()
     },800)
+    localStorage.setItem('isEmAuto',pageBefore.value)
   }
 }
 function init() {
@@ -1570,6 +1571,11 @@ onMounted(() => {
   //     graphData.value = JSON.parse(res.data.daTree)
   //   }
   // })
+  const isEmAuto = localStorage.getItem('isEmAuto')
+  if (JSON.parse(isEmAuto)) {
+    pageBefore.value = true
+    init()
+  }
 })
 
 function tableSize() {

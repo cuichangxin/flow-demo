@@ -189,6 +189,19 @@ const cellGroup = ref({})
 const tracking = ref(0)
 const timer = ref(null)
 
+const postTaskId = computed(()=>{
+  if (rowValue.value === 'testCase' && columnValue.value === 'need') {
+    return 1002
+  } else if (rowValue.value === 'software' && columnValue.value === 'need') {
+    return 1003
+  } else if (rowValue.value === 'software' && columnValue.value === 'testCase') {
+    return 1004
+  } else if (rowValue.value === 'testCase' && columnValue.value === 'testCase') {
+    return 1005
+  }
+})
+
+
 const leftCollapseHandler = (data) => {
   const arr = data.children.map((item) => {
     item.isCollapse = true
@@ -206,7 +219,7 @@ const leftExpandHandler = (data) => {
 
 const topCollapseHandler = (data, node) => {
   const arr = data.children.map((item) => {
-    item.isCollapse = true
+    item.isDbCollapse = true
     return item.key
   })
   collapseTree(rowTree.value, arr, 'key', true)
@@ -216,7 +229,7 @@ const topCollapseHandler = (data, node) => {
 
 const topExpandHandler = (data, node) => {
   const arr = data.children.map((item) => {
-    item.isCollapse = false
+    item.isDbCollapse = false
     return item.key
   })
   collapseTree(rowTree.value, arr, 'key', false)
@@ -228,7 +241,11 @@ function collapseTree(tree, includes, key, show) {
   tree.forEach((item) => {
     item.cells.forEach((cell) => {
       if (includes.includes(cell[key])) {
-        cell.isCollapse = show
+        if (key === 'rowKey') {
+          cell.isCollapse = show
+        }else {
+          cell.isDbCollapse = show
+        }
       }
     })
     item.parentNodeCells.forEach((node) => {
@@ -252,8 +269,6 @@ const changeColumn = (val) => {
 }
 const getRowInfo = () => {
   return new Promise((resolve, reject) => {
-    // Axios.get(`http://localhost:8080/mock/goBackData/rowel/${rowValue.value}.json`).then((res) => {
-
     Axios.get(`/assets/mock/goBackData/rowel/${rowValue.value}.json`).then((res) => {
       resolve(res.rowTree)
     })
@@ -261,8 +276,6 @@ const getRowInfo = () => {
 }
 function getColumnInfo() {
   return new Promise((resolve, reject) => {
-    // Axios.get(`http://localhost:8080/mock/goBackData/columnel/${columnValue.value}.json`).then((res) => {
-
     Axios.get(`/assets/mock/goBackData/columnel/${columnValue.value}.json`).then((res) => {
       resolve(res.columnTree)
     })
@@ -270,10 +283,7 @@ function getColumnInfo() {
 }
 function getUnite() {
   return new Promise((resolve, reject) => {
-    // Axios.get(`http://192.168.162.124:8080/mock/goBackData/unite/${rowValue.value + columnValue.value}.json`).then((res) => {
-    //   resolve(res)
-    // })
-    proxy.$axios.getTaskDetail({ taskId: 1002 }).then((res) => {
+    proxy.$axios.getTaskDetail({ taskId: postTaskId.value }).then((res) => {
       resolve(JSON.parse(res.data.daTree))
     })
   })
@@ -298,6 +308,7 @@ function deepCell(tree, data, cellArr, flatCell, rowKeysArr) {
     nextTick(() => {
       subGroup(tree.cells, columnNum.value, item.key)
       cellGroup.value[item.key].forEach((cell) => {
+        // console.log(cellRelation.value[item.key],item.key,'aaaaa');
         cellRelation.value[item.key].forEach((item) => {
           if (cell.key === item) {
             cell.isArrows = true
@@ -437,7 +448,7 @@ const initMatrix = () => {
         isArrows: false,
         isRelation: true,
         isCollapse: false,
-        isDbCollapse:false,
+        isDbCollapse: false,
         rowKey: rowKeys,
       })
       if (numberTarget === keysArr.length - 1) {
@@ -460,23 +471,25 @@ const initMatrix = () => {
 // 轮询获取是否为未追踪状态
 function getLocTracking() {
   const status = localStorage.getItem('trackingStatus')
-  if (Boolean(status)) {
-    if (cellRelation.value['1-1'].length <= 0) {
-      cellRelation.value['1-1'].push('1-1')
-      const data = {
-        cellRelation: cellRelation.value,
-        tracking: 0,
-      }
-      proxy.$axios.saveTaskDetail({ taskId: 1002, daTree: JSON.stringify(data) }).then((res) => {
-        proxy.$axios.getTaskDetail({ taskId: 1002 }).then((res) => {
-          console.log(res)
-          postAll()
-          isShow.value = false
-          cellGroup.value = {}
-          columnNum.value = 0
-          localStorage.removeItem('trackingStatus')
+  if (rowValue.value === 'testCase' && columnValue.value === 'need') {
+    if (Boolean(status)) {
+      if (cellRelation.value['1-1'].length <= 0) {
+        cellRelation.value['1-1'].push('1-1')
+        const data = {
+          cellRelation: cellRelation.value,
+          tracking: 0,
+        }
+        proxy.$axios.saveTaskDetail({ taskId: postTaskId.value, daTree: JSON.stringify(data) }).then((res) => {
+          proxy.$axios.getTaskDetail({ taskId: postTaskId.value }).then((res) => {
+            console.log(res)
+            postAll()
+            isShow.value = false
+            cellGroup.value = {}
+            columnNum.value = 0
+            localStorage.removeItem('trackingStatus')
+          })
         })
-      })
+      }
     }
   }
 }
@@ -498,7 +511,7 @@ onUnmounted(() => {
   background: #fff;
   border-radius: 8px;
   margin: 0 8px;
-  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.07);
+  /* box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.07); */
   text-align: center;
 }
 
@@ -527,6 +540,7 @@ onUnmounted(() => {
     border: 1px solid #333;
     .content {
       display: flex;
+      border-radius: 8px;
       .flex {
         width: calc(100% - 440px);
         display: flex;

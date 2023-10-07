@@ -147,6 +147,11 @@ const removeItem = (row) => {
         proxy.$modal.msgSuccess('删除成功')
         getProject()
         localStorage.removeItem('serial')
+        if (row.level == '1') {
+          localStorage.removeItem('isDaAuto')
+          localStorage.removeItem('isWorkAuto')
+          localStorage.removeItem('isEmAuto')
+        }
       })
   }).catch(() => {
     console.log('取消删除');

@@ -1835,6 +1835,7 @@ export default defineComponent({
           state.isAutoDemand = false
           state.nextStep = 1
           state.isDemand = true
+          localStorage.setItem('isDaAuto',state.isDemand)
         }
       },
       cancel() {
@@ -1850,6 +1851,7 @@ export default defineComponent({
       },
     }
     onMounted(() => {
+      const autoCreateTarget = localStorage.getItem('isDaAuto')
       if (Cookies.get('userId') && Cookies.get('taskId')) {
         state.taskId = Cookies.get('taskId')
         // methods.saveParams()
@@ -1858,6 +1860,11 @@ export default defineComponent({
           state.taskId = Cookies.get('taskId')
         }
       }
+
+      if (JSON.parse(autoCreateTarget)) {
+        state.isDemand = true
+      }
+
       if (Cookies.get('status')) {
         methods.getDaTree()
         ElNotification({

@@ -92,6 +92,7 @@ import useDialog from '../hooks/useDialog'
 import { Splitpanes, Pane } from 'splitpanes'
 import 'splitpanes/dist/splitpanes.css'
 import { renderAsync } from 'docx-preview'
+import { nextTick } from 'vue'
 
 const { visible: visible, openDialog: openDialog, closeDialog: closeDialog } = useDialog()
 
@@ -163,6 +164,10 @@ const nextAuto = () => {
     nextTick(() => {
       childRef.value.handleCreate(autoInfo.value)
     })
+    localStorage.setItem('isWorkAuto',JSON.stringify({
+      isAuto:autoCreate.value,
+      model:autoInfo.value.model
+    }))
   }
 }
 const cancel = () => {
@@ -236,6 +241,15 @@ function previewFile() {
   })
 }
 previewFile()
+onMounted(()=>{
+  const isWorkAuto = localStorage.getItem('isWorkAuto')
+  if (JSON.parse(isWorkAuto) !== null && JSON.parse(isWorkAuto).isAuto) {
+    autoCreate.value = true
+    nextTick(()=>{
+      childRef.value.handleCreate(JSON.parse(isWorkAuto))
+    })
+  }
+})
 </script>
 <style lang="scss" scoped>
 .wrap-split {

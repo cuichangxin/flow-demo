@@ -65,8 +65,8 @@ getBreadCrumb()
 .bread {
   height: 40px;
   background-color: #fff;
-  border-radius: 4px;
-  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.07);
+  border-radius: 8px;
+  /* box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.07); */
   margin: 8px;
   display: flex;
   align-items: center;
