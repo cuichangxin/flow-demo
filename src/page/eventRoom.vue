@@ -2543,10 +2543,8 @@ export default defineComponent({
   font-weight: 700;
 }
 .wrapper {
-  height: calc(100% - 70px);
+  height: 100%;
   background-color: #fff;
-  margin: 15px 8px 0;
-  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.07);
   border: 1px solid #d4d4d4;
 }
 :deep(.el-collapse-item__header) {
@@ -2636,7 +2634,6 @@ export default defineComponent({
 .content_main {
   display: flex;
   color: #000;
-  height: 97.5%;
   .centerArea {
     width: calc(100% - 4px);
     height: 100%;

@@ -1,10 +1,9 @@
 <template>
   <section class="app-main">
-    <router-view v-slot="{ Component, route }" :key="key">
-      <breadCrumbs></breadCrumbs>
+    <router-view v-slot="{ Component, route }">
       <transition name="fade-transform" mode="out-in">
         <keep-alive :include="caches">
-          <component :is="Component" :key="route.path" />
+          <component :is="Component" :key="key" />
         </keep-alive>
       </transition>
     </router-view>
@@ -12,7 +11,6 @@
 </template>
 
 <script setup>
-import breadCrumbs from './common/breadCrumbs.vue'
 import { useKeepAliver } from '../store/keepAlive';
 
 const { caches } = storeToRefs(useKeepAliver())
@@ -24,10 +22,10 @@ const key = computed(()=>{
 
 <style lang="scss" scoped>
 .app-main {
+  min-height: calc(100vh - 60px);
   height: 100%;
   width: 100%;
   position: relative;
   overflow: hidden;
-  padding: 5px;
 }
 </style>

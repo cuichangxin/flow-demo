@@ -20,8 +20,16 @@
       </div> -->
       <div class="record_all">
         <div class="record_all_item" v-for="(item, index) in recordAllList" :key="index">
-          <span class="label" :style="{ color: recordListColor[index] }">{{ item.recordName }}</span>
-          <div class="record_all_item_content">{{ item.value }}</div>
+          <div class="img-info">
+            <img class="icon-img" :src="getImgUrl(item.img)" />
+          </div>
+          <div class="flex">
+            <span class="label">{{ item.recordName }}</span>
+            <div class="record-value">
+              <div class="record_all_item_content">{{ item.value }}</div>
+              <div class="unit">个</div>
+            </div>
+          </div>
         </div>
       </div>
     </header>
@@ -47,7 +55,7 @@
         >
         </el-pagination>
       </div> -->
-      <h3 class="title">测试概览</h3>
+      <h4 class="title">测试概览</h4>
       <div class="record-wrapper">
         <div class="record-item" v-for="(item, index) in recordOverAllList" :key="index">
           <header>
@@ -65,9 +73,9 @@
           <section>
             <div class="status_wrapper">
               <span class="status_title">状态:</span>
-              <span class="status_item" :style="{ color: recordOverallColor[item.status] }">{{
-                RECORDSTATUS[item.status]
-              }}</span>
+              <el-tag :type="RECORDSTATUSTAG[item.status]">
+                {{ RECORDSTATUS[item.status] }}
+              </el-tag>
             </div>
             <div class="status_wrapper">
               <span class="status_title">测试类型:</span>
@@ -139,14 +147,14 @@
 import { Search } from '@element-plus/icons-vue'
 import _ from 'lodash'
 import { allStore } from '@/store'
-import { RECORDSTATUS } from '@/utils/map'
+import { RECORDSTATUS,RECORDSTATUSTAG } from '@/utils/map'
 import Dialog from '../../common/dialog/dialog.vue'
 import useDialog from '../../../hooks/useDialog'
 
 const { visible: visible, openDialog: openDialog, closeDialog: closeDialog } = useDialog()
 
 const store = allStore()
-const recordListColor = ['#4988dd', '#666', '#44b364', '#d64035']
+// const recordListColor = ['#4988dd', '#666', '#44b364', '#d64035']
 const recordOverallColor = {
   0: '#336deb',
   1: '#44b364',
@@ -172,18 +180,22 @@ const recordAllList = ref([
   {
     recordName: '用例总数',
     value: '529',
+    img: 'icon-all.png',
   },
   {
     recordName: '进行中',
     value: '0',
+    img: 'icon-ing.png',
   },
   {
     recordName: '通过',
     value: '436',
+    img: 'icon-success.png',
   },
   {
     recordName: '未通过',
     value: '93',
+    img: 'icon-err.png',
   },
 ])
 const keyword = ref('')
@@ -412,6 +424,10 @@ const handleSelect = (val) => {
   }
 }
 
+function getImgUrl(img) {
+  return new URL(`../../../assets/images/${img}`, import.meta.url).href
+}
+
 onMounted(() => {
   nextTick(() => {
     tableHeight.value = window.innerHeight - 390
@@ -483,12 +499,9 @@ const recordAllList_3 = [
 </script>
 <style lang="scss" scoped>
 .test_record {
-  /* background-color: #fff; */
-  margin: 0 8px;
-  border-radius: 8px;
-  padding: 10px 0;
-  height: calc(100% - 65px);
-  /* box-shadow: 0px 0px 22px rgba(0, 0, 0, 0.1); */
+  background-color: #fff;
+  border-radius: 4px;
+  padding: 15px;
 }
 
 header {
@@ -497,42 +510,66 @@ header {
 }
 .record_body {
   .title {
-    font-weight: 600;
   }
 }
 .record_all {
   width: 100%;
-  /* margin-left: 30px; */
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   margin-bottom: 10px;
-  width: 100%;
-  padding: 20px 0;
-  border-radius: 3px;
+  padding: 15px 0;
+  border-top: 1px solid rgb(242, 243, 245);
+  border-bottom: 1px solid rgb(242, 243, 245);
 }
 
 .record_all_item {
-  width: 280px;
-  height: 100px;
-  border-radius: 10px;
-  box-shadow: 0px 0px 10px rgba(128, 127, 127, 0.2);
+  width: 25%;
+  height: 80px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 0 25px;
-  background-color: #fff;
+  justify-content: flex-start;
+  padding: 0 30px;
+  border-right: 1px solid rgb(242, 243, 245);
+  &:last-child {
+    border-right: none;
+  }
   .label {
     display: inline-block;
-    font-size: 18px;
-    font-weight: 600;
+    font-size: 14px;
+    color: rgb(78, 89, 105);
+    margin-bottom: 8px;
+  }
+  .img-info {
+    width: 60px;
+    height: 60px;
+    background-color: rgb(242, 243, 245);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+    .icon-img {
+      width: 35px;
+      height: 35px;
+    }
+  }
+  .flex {
+    line-height: 1.5715;
   }
 }
-
+.record-value {
+  display: flex;
+  align-items: flex-end;
+}
 .record_all_item_content {
-  font-size: 30px;
-  font-family: din;
-  font-weight: normal;
-  color: #414770;
+  font-size: 26px;
+  color: #1d2129;
+}
+.unit {
+  margin-left: 8px;
+  color: rgb(78, 89, 105);
+  font-size: 12px;
+  margin-bottom: 6px;
 }
 
 .search {
@@ -556,19 +593,18 @@ header {
   .record-item {
     width: 24%;
     height: 200px;
-    background-color: #fff;
-    box-shadow: 0px 0px 10px rgba(128, 127, 127, 0.2);
-    border-radius: 10px;
+    border-radius: 4px;
     padding: 15px;
-    /* margin: 15px 15px 0 0; */
+    border: 1px solid rgb(229, 230, 245);
     header {
       display: flex;
       align-items: center;
       justify-content: space-between;
       .test-name {
         display: inline-block;
-        font-weight: 600;
+        font-weight: 500;
         color: #333;
+        font-size: 14px;
       }
       .status_shape {
         font-size: 24px;
@@ -593,9 +629,12 @@ header {
       }
       .status_item {
         margin-left: 10px;
-        color: #000;
+        color: #4e5969;
       }
     }
   }
+}
+.el-tag{
+  margin-left: 8px;
 }
 </style>

@@ -29,10 +29,24 @@ const constantRoutes = [
         meta: { title: '领域算法工具' }
       },
       {
-        path: '/goback',
-        name: 'goback',
-        component: () => import('@/page/goback.vue'),
-        meta: { title: '需求追踪' }
+        path: '/demand',
+        name: 'demand',
+        redirect:'/demand/goback',
+        meta: { title: '需求' },
+        children:[
+          {
+            path:'/demand/demandManagement',
+            name:'demandManagement',
+            component: () => import('@/page/demandManagement.vue'),
+            meta:{title:'需求管理'}
+          },
+          {
+            path:'/demand/goback',
+            name:'goback',
+            component: () => import('@/page/goback.vue'),
+            meta:{title:'需求追踪'}
+          }
+        ]
       },
       {
         path: '/emulation',

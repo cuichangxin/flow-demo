@@ -1,5 +1,5 @@
 <template>
-  <div class="tool_room" :style="{ height: `${toolH}px` }">
+  <div class="tool_room">
     <el-scrollbar class="tree_box">
       <el-tree
         :data="treeData.list"
@@ -10,9 +10,9 @@
       ></el-tree>
     </el-scrollbar>
 
-    <el-scrollbar class="tool_room_wrapper">
+    <div class="tool_room_wrapper">
       <header>
-        <h1>{{ addToolFlag ? '集成工具' : toolDetailTarget ? toolDetailInfo.name : '平台类工具' }}</h1>
+        <h3>{{ addToolFlag ? '集成工具' : toolDetailTarget ? toolDetailInfo.name : '平台类工具' }}</h3>
         <img v-if="toolDetailTarget" class="fh" src="../../../assets/images/fh.png" @click="back" />
       </header>
       <div v-if="!addToolFlag && !toolDetailTarget" class="tool_room_content">
@@ -102,7 +102,7 @@
           <span class="content introduce">{{ toolDetailInfo.desc }}</span>
         </div>
       </div>
-    </el-scrollbar>
+    </div>
     <el-drawer title="接口定义" v-model="drawer">
       <el-form :model="portForm" label-position="right" label-width="100px" ref="portRef">
         <el-form-item label="功能" prop="feature" :required="true">
@@ -321,7 +321,6 @@ const toolList = ref([
     imgUrl: new URL('../../../assets/images/the.png', import.meta.url).href,
   },
 ])
-const toolH = ref('')
 const addToolFlag = ref(false)
 const toolForm = reactive({
   toolName: '',
@@ -408,30 +407,16 @@ const back = () => {
 const HandleTree = (node) => {
   console.log(node)
 }
-
-onMounted(() => {
-  toolH.value = window.innerHeight - 114
-  window.addEventListener('resize', () => {
-    toolH.value = window.innerHeight - 114
-  })
-})
-onUnmounted(() => {
-  window.removeEventListener('resize', () => {})
-})
 </script>
 <style lang="scss" scoped>
 .tool_room {
-  margin: 0 8px;
-  border-radius: 8px;
   display: flex;
-  padding-bottom: 20px;
 }
 
 .tree_box {
   background: #fff;
-  border-radius: 8px;
+  border-radius: 4px;
   width: 220px;
-  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.07);
 }
 
 .el-tree {
@@ -445,20 +430,19 @@ onUnmounted(() => {
   height: 100%;
   flex: 1;
   margin-left: 10px;
-  border-radius: 8px;
+  border-radius: 4px;
   padding: 20px;
   overflow: hidden;
   background-color: #fff;
-  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.07);
   header {
     display: flex;
     justify-content: center;
     position: relative;
-    h1 {
-      font-size: 27px;
-      color: #4487f9;
+    h3 {
+      font-size: 20px;
+      color: #494a4b;
       text-align: center;
-      margin-top: 10px;
+      margin-top: 5px;
     }
     .fh {
       width: 25px;
@@ -487,43 +471,12 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   margin: 20px 0;
-  border-radius: 10px;
-  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
   cursor: pointer;
-  transition: transform 0.3s ease-in-out;
-  &::before,
-  &::after {
-    content: '';
-    display: block;
-    width: 0;
-    height: 0;
-    border: 1px solid transparent;
-    box-sizing: border-box;
-    position: absolute;
-    border-radius: 10px;
-    transition: height 0.2s ease-out, width 0.2s ease-out 0.2s, border-color 0.4s ease-in;
-  }
-  &::before {
-    top: 0;
-    left: 0;
-  }
-  &::after {
-    right: 0;
-    bottom: 0;
-  }
-  &:hover::before,
-  &:hover::after {
-    width: 100%;
-    height: 100%;
-    transition: border-color 0.4s ease-in, width 0.2s ease-out, height 0.2s ease-out 0.2s;
-  }
-  &:hover::before {
-    border-top-color: #8d4bbb;
-    border-right-color: #8d4bbb;
-  }
-  &:hover::after {
-    border-bottom-color: #8d4bbb;
-    border-left-color: #8d4bbb;
+  transition: transform 0.2s ease-in-out, box-shadow .2s cubic-bezier(0, 0, 1, 1);
+  &:hover{
+    box-shadow: 0 4px 10px rgb(242,243,245);
+    transform: translateY(-4px);
   }
 }
 
@@ -543,7 +496,7 @@ onUnmounted(() => {
 
     &:nth-child(1) {
       margin-right: 6px;
-      font-weight: 600;
+      font-weight: 500;
     }
   }
 }

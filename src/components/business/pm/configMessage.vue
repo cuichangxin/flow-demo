@@ -2,7 +2,6 @@
   <div class="config_message_info">
     <steps :isActive="1"></steps>
     <div class="config">
-      <header class="header">配置信息</header>
       <el-form :model="configForm" label-position="right" label-width="120px" class="form" ref="configFormRef">
         <el-form-item label="配置项名称" required prop="name">
           <el-input v-model="configForm.name"></el-input>
@@ -58,7 +57,6 @@ const configForm = ref({
   eTime: ''
 })
 const configFormRef = ref(null)
-const configHeight = ref(0)
 // 开发语言下拉菜单
 const codeLangList = reactive([
   {
@@ -151,15 +149,6 @@ const stepNext = () => {
 const goBack = () => {
   router.go(-1)
 }
-onMounted(() => {
-  configHeight.value = window.innerHeight - 255
-  window.addEventListener('resize', () => {
-    configHeight.value = window.innerHeight - 255
-  })
-})
-onUnmounted(() => {
-  window.removeEventListener('resize', () => { })
-})
 </script>
 <style lang="scss" scoped>
 .config_message_info{
@@ -167,30 +156,15 @@ onUnmounted(() => {
   height: 100%;
 }
 .config {
-  height: calc(100% - 146px);
   background-color: #fff;
-  margin: 20px 8px 0;
-  border-radius: 6px;
-  overflow: hidden;
+  border-radius: 4px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.07);
+  margin-top: 10px;
 }
-
-.header {
-  height: 40px;
-  width: 100%;
-  background-color: #3572e3;
-  color: #fff;
-  font-size: 15px;
-  font-weight: 700;
-  text-align: center;
-  line-height: 40px;
-}
-
 .form {
-  margin-top: 40px;
+  margin-top: 30px;
   width: 50%;
 }
 

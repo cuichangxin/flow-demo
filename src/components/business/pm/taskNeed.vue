@@ -2,7 +2,7 @@
   <div class="task_need_info">
     <steps :isActive="0"></steps>
     <div class="upload">
-      <h1>导入任务需求</h1>
+      <h4>导入任务需求</h4>
       <el-upload 
         drag
         :action="uploadFileUrl"
@@ -90,37 +90,13 @@ function handleUploadError(err) {
 }
 
 .upload {
-  height: calc(100% - 145px);
   background-color: #fff;
   padding: 0 15px 15px;
-  margin: 20px 8px 0;
-  border-radius: 2px;
-  border: 3px dashed #e6e6e6;
-  box-shadow: 0px 0px 22px rgba(0, 0, 0, 0.1);
-
-  h1 {
-    font-size: 22px;
-    margin-left: 60px;
-  }
-
+  border-radius: 4px;
+  border: 1px dashed #e6e6e6;
+  margin-top: 10px;
   .button {
-    float: right;
     margin: 20px 5px 0 0;
   }
-}
-
-.upload-el {
-  width: 100%;
-}
-
-
-.el-upload__text {
-  font-size: 15px;
-}
-
-.el-upload__tip {
-  font-size: 15px;
-  color: #333;
-  font-weight: bold;
 }
 </style>

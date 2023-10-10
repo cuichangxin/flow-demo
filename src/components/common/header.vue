@@ -91,8 +91,8 @@ const handleDrop = (command) => {
   transition: height 0.2s linear;
 
   .logo {
-    width: 40px;
-    height: 40px;
+    width: 33px;
+    height: 33px;
   }
 
   &.fade {
@@ -114,12 +114,14 @@ const handleDrop = (command) => {
   h2 {
     color: #000000;
     margin-left: 16px;
+    font-size: 19px;
   }
 }
 
 .user_info {
   display: flex;
   align-items: center;
+  margin-right: 20px;
 
   span {
     color: #000;

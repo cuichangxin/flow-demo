@@ -63,23 +63,10 @@ getBreadCrumb()
 </script>
 <style lang="scss" scoped>
 .bread {
-  height: 40px;
-  background-color: #fff;
-  border-radius: 8px;
-  /* box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.07); */
-  margin: 8px;
+  margin: 16px 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 25px 0 10px;
-}
-.font-bold {
-  :deep(.el-breadcrumb__inner) {
-    font-weight: 600 !important;
-  }
-}
-:deep(.el-breadcrumb__inner) {
-  color: #666666 !important;
 }
 .back {
   display: flex;

@@ -44,6 +44,11 @@ export const RECORDSTATUS = {
   '1':'已完成',
   '2':'已下线'
 }
+export const RECORDSTATUSTAG = {
+  '0':'',
+  '1':'success',
+  '2':'info'
+}
 export const RECORDSTATUSMAP = {
   '0':'service',
   '1':'ok',

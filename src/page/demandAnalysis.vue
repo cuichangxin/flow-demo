@@ -6,7 +6,7 @@
  * @Description: 
 -->
 <template>
-  <div class="wrapper">
+  <div class="wrapper" :style="{ height: `${configHeight}px` }">
     <div class="content_main">
       <div class="topMenu">
         <!-- 领域需求结构化定义工具 -->
@@ -106,36 +106,38 @@
           <div class="childRef"></div>
         </div>
         <div v-if="isDemand" :class="[showTree ? 'leftTree' : 'leftTree2']">
-          <el-tree
-            :data="treeData"
-            :props="defaultProps"
-            @node-click="handleNodeClick"
-            :expand-on-click-node="false"
-            :default-expand-all="true"
-            highlight-current
-            node-key="label"
-            :show-checkbox="showEvalue"
-            ref="elTree"
-          >
-            <template #default="{ node, data }">
-              <div
-                class="custom-tree-node"
-                @mouseenter="data.showSign = true"
-                @mouseleave="data.showSign = false"
-                :title="node.label + '(' + data.params?.id + ')'"
-              >
-                <div class="treeTitle">
-                  <div class="confirmed" v-if="data.params && data.params.confirm">待确认</div>
-                  <span class="treeSpan">{{ node.label }}</span>
-                  <span v-if="data.params && data.params.id">&nbsp;({{ data.params.id }})</span>
+          <el-scrollbar>
+            <el-tree
+              :data="treeData"
+              :props="defaultProps"
+              @node-click="handleNodeClick"
+              :expand-on-click-node="false"
+              :default-expand-all="true"
+              highlight-current
+              node-key="label"
+              :show-checkbox="showEvalue"
+              ref="elTree"
+            >
+              <template #default="{ node, data }">
+                <div
+                  class="custom-tree-node"
+                  @mouseenter="data.showSign = true"
+                  @mouseleave="data.showSign = false"
+                  :title="node.label + '(' + data.params?.id + ')'"
+                >
+                  <div class="treeTitle">
+                    <div class="confirmed" v-if="data.params && data.params.confirm">待确认</div>
+                    <span class="treeSpan">{{ node.label }}</span>
+                    <span v-if="data.params && data.params.id">&nbsp;({{ data.params.id }})</span>
+                  </div>
+                  <span v-show="data.showSign">
+                    <a @click="openDialog(data, node)"> + </a>
+                    <a style="margin-left: 8px" @click="remove(node, data)"> × </a>
+                  </span>
                 </div>
-                <span v-show="data.showSign">
-                  <a @click="openDialog(data, node)"> + </a>
-                  <a style="margin-left: 8px" @click="remove(node, data)"> × </a>
-                </span>
-              </div>
-            </template>
-          </el-tree>
+              </template>
+            </el-tree>
+          </el-scrollbar>
         </div>
         <div v-if="isDemand" class="rightContent">
           <!-- :style="{ width: showTree ? 'calc(75% - 1rem)' : '100%' }" -->
@@ -167,10 +169,17 @@
                       @click="trsnsformImg = !trsnsformImg"
                     />
                   </template>
-                  <draggable @end="end" @start="move" v-model="dragList" item-key="id" forceFallback="false" ghostClass="tt">
+                  <draggable
+                    @end="end"
+                    @start="move"
+                    v-model="dragList"
+                    item-key="id"
+                    forceFallback="false"
+                    ghostClass="tt"
+                  >
                     <template #item="{ element }">
                       <div class="chooseCollapse" :title="element.name">
-                        <img :src="'../assets/images/' + element.id + '.png'" style="cursor: pointer" />
+                        <img :src="getImgUrl(element.id + '.png')" style="cursor: pointer" />
                         <!-- <span>{{ element.name }}</span> -->
                       </div>
                     </template>
@@ -1224,6 +1233,7 @@ export default defineComponent({
     const router = useRouter()
     const { proxy } = getCurrentInstance()
     const state = reactive({
+      configHeight: '',
       defaultProps: {
         children: 'children',
         label: 'label',
@@ -1835,7 +1845,7 @@ export default defineComponent({
           state.isAutoDemand = false
           state.nextStep = 1
           state.isDemand = true
-          localStorage.setItem('isDaAuto',state.isDemand)
+          localStorage.setItem('isDaAuto', state.isDemand)
         }
       },
       cancel() {
@@ -1848,6 +1858,9 @@ export default defineComponent({
           fightTime: false,
           fightTarget: false,
         }
+      },
+      getImgUrl(img) {
+        return new URL(`../assets/images/${img}`, import.meta.url).href
       },
     }
     onMounted(() => {
@@ -1889,8 +1902,14 @@ export default defineComponent({
       setTimeout(() => {
         methods.getDaTree()
       }, 500)
+      state.configHeight = window.innerHeight - 140
+      window.addEventListener('resize', () => {
+        state.configHeight = window.innerHeight - 140
+      })
     })
-    onUnmounted(() => {})
+    onUnmounted(() => {
+      window.removeEventListener('resize', {})
+    })
     return {
       ...toRefs(state),
       ...methods,
@@ -1899,12 +1918,8 @@ export default defineComponent({
 })
 </script>
 <style lang="less" scoped>
-:deep(.el-tabs__header){
+:deep(.el-tabs__header) {
   margin: 0;
-}
-.wrapper{
-  height: calc(100% - 60px);
-  margin: 0 8px;
 }
 .no_demand {
   width: 100%;
@@ -2086,11 +2101,11 @@ export default defineComponent({
   border-top: none;
 }
 :deep(.el-collapse-item__wrap) {
-  background-color: #fff !important;
+  background-color: transparent !important;
   border-bottom: none;
 }
 :deep(.el-collapse-item__header) {
-  background-color: #fff !important;
+  background-color: transparent !important;
   // margin-top: -1.5rem;
   border-bottom: none;
 }
@@ -2136,8 +2151,8 @@ export default defineComponent({
 :deep(.el-input) {
   height: 100%;
 }
-:deep(.el-menu){
-  height:40px;
+:deep(.el-menu) {
+  height: 40px;
 }
 .deleteGrid {
   cursor: pointer;
@@ -2201,8 +2216,8 @@ export default defineComponent({
     }
   }
   .bottom_contain {
+    height: calc(100% - 40px);
     width: 100%;
-    height: calc(100% - 45px);
     display: flex;
   }
   @keyframes emergeTree {
@@ -2240,8 +2255,6 @@ export default defineComponent({
   .leftTree {
     // margin-top: 1rem;
     background: #fff;
-    height: 100%;
-    border-radius: 10px;
     margin-right: 10px;
     overflow: auto;
     animation: emergeTree 0.3s forwards;
@@ -2250,8 +2263,6 @@ export default defineComponent({
   .leftTask {
     // margin-top: 1rem;
     background: #fff;
-    height: 100%;
-    border-radius: 10px;
     margin-right: 10px;
     overflow: auto;
     animation: emergeTree2 0.3s forwards;
@@ -2272,7 +2283,6 @@ export default defineComponent({
     margin-right: 10px;
     height: 100%;
     // height: calc(95% - 35px + 1rem);
-    border-radius: 10px;
     overflow: auto;
     animation: fadeTree 0.3s forwards;
   }
@@ -2283,7 +2293,6 @@ export default defineComponent({
     margin-right: 10px;
     height: 100%;
     // height: calc(95% - 35px + 1rem);
-    border-radius: 10px;
     overflow: auto;
     animation: fadeTree2 0.3s forwards;
   }
@@ -2296,7 +2305,6 @@ export default defineComponent({
     // height: calc(95% - 35px + 1rem);
     // margin-top: 1rem;
     // margin-right: 2rem;
-    border-radius: 10px;
     background: #fff;
     overflow-y: auto;
     overflow-x: hidden;
@@ -2471,7 +2479,7 @@ export default defineComponent({
 :deep(.el-form-item__label) {
   color: #333;
 }
-:deep(.el-menu--horizontal){
+:deep(.el-menu--horizontal) {
   border-bottom: none;
 }
 </style>

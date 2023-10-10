@@ -138,24 +138,26 @@ const removeItem = (row) => {
     confirmButtonText: '确认',
     cancelButtonText: '取消',
     type: 'warning',
-  }).then(() => {
-    proxy.$axios
-      .removeProject({
-        id: row.id,
-      })
-      .then((res) => {
-        proxy.$modal.msgSuccess('删除成功')
-        getProject()
-        localStorage.removeItem('serial')
-        if (row.level == '1') {
-          localStorage.removeItem('isDaAuto')
-          localStorage.removeItem('isWorkAuto')
-          localStorage.removeItem('isEmAuto')
-        }
-      })
-  }).catch(() => {
-    console.log('取消删除');
   })
+    .then(() => {
+      proxy.$axios
+        .removeProject({
+          id: row.id,
+        })
+        .then((res) => {
+          proxy.$modal.msgSuccess('删除成功')
+          getProject()
+          localStorage.removeItem('serial')
+          if (row.level == '1') {
+            localStorage.removeItem('isDaAuto')
+            localStorage.removeItem('isWorkAuto')
+            localStorage.removeItem('isEmAuto')
+          }
+        })
+    })
+    .catch(() => {
+      console.log('取消删除')
+    })
 }
 
 function getProject() {
@@ -165,12 +167,14 @@ function getProject() {
     })
     .then((res) => {
       console.log(res.data)
-      res.data.forEach((item) => {
-        item.subType = PROJECTMAP[item.type]
-        item.subLevel = LEVELMAP[item.level]
-        item.codeLang = CODELANG[item.deLanguage]
-      })
-      tableList.value = res.data
+      if (res.data) {
+        res.data.forEach((item) => {
+          item.subType = PROJECTMAP[item.type]
+          item.subLevel = LEVELMAP[item.level]
+          item.codeLang = CODELANG[item.deLanguage]
+        })
+        tableList.value = res.data
+      }
     })
 }
 const handleCommand = (command) => {
@@ -192,12 +196,9 @@ onUnmounted(() => {
 </script>
 <style lang="scss" scoped>
 .list-info {
-  height: calc(100% - 65px);
   background-color: #fff;
-  border-radius: 7px;
+  border-radius: 4px;
   padding: 15px;
-  margin: 0 8px;
-  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.07);
 }
 
 .header {
@@ -221,8 +222,8 @@ onUnmounted(() => {
 }
 
 .pagination {
-  margin-top: 30px;
+  margin: 30px 1px 0;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
 }
 </style>

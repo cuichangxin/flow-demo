@@ -1,4 +1,6 @@
 <script setup>
+import breadCrumbs from '../components/common/breadCrumbs.vue'
+
 import Header from '../components/common/header.vue'
 import Menu from '../components/common/asideMenu.vue'
 import { AppMain } from '../components'
@@ -9,16 +11,37 @@ import { AppMain } from '../components'
     <Header></Header>
     <el-container class="app_container">
       <Menu></Menu>
-      <app-main />
+      <el-scrollbar>
+        <breadCrumbs />
+        <app-main />
+      </el-scrollbar>
     </el-container>
   </el-container>
 </template>
 <style lang="scss" scoped>
+@import "@/assets/styles/mixin.scss";
+@import "@/assets/styles/variables.module.scss";
+.app_container{
+  @include clearfix;
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
 .container {
   height: 100%;
   flex-direction: column;
 }
-.app_container{
-  height: calc(100% - 60px);
+.el-scrollbar {
+  height: 100%;
+  width: 100%;
+  padding: 0 20px 20px;
+}
+
+:deep(.el-scrollbar__bar).is-vertical {
+  z-index: 10;
+}
+
+:deep(.el-scrollbar__wrap) {
+  overflow-x: hidden;
 }
 </style>

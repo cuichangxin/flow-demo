@@ -1,48 +1,46 @@
 <template>
   <div class="results">
-    <el-scrollbar style="padding: 10px 10px 0">
-      <el-radio-group v-model="radio" @change="changeRadio">
-        <el-radio-button v-for="(item, index) in radioList" :key="index" :label="item.label" />
-      </el-radio-group>
-      <el-table
-        class="table"
-        :data="tableData.slice((currentPage - 1) * pagesize, currentPage * pagesize)"
-        border
-        row-key="id"
-        @select="handleSelectionChange"
+    <el-radio-group v-model="radio" @change="changeRadio">
+      <el-radio-button v-for="(item, index) in radioList" :key="index" :label="item.label" />
+    </el-radio-group>
+    <el-table
+      class="table"
+      :data="tableData.slice((currentPage - 1) * pagesize, currentPage * pagesize)"
+      border
+      row-key="id"
+      @select="handleSelectionChange"
+    >
+      <el-table-column v-if="isCheckout" type="selection" width="55" :reserve-selection="true" />
+      <el-table-column label="序号" width="80" type="index" :index="(index) => index + 1"></el-table-column>
+      <el-table-column prop="resultsType" label="成果类型" />
+      <el-table-column prop="resultsName" label="成果名称" />
+      <el-table-column prop="version" label="版本号" />
+      <el-table-column prop="lastChangeTime" label="最后修改时间" />
+      <el-table-column prop="lastChangeUser" label="最后修改人" />
+      <el-table-column prop="firstChangeTime" label="首次创建时间" />
+      <el-table-column prop="firstChangeUser" label="首次创建人" />
+      <el-table-column label="文档下载">
+        <template #default="scope">
+          <el-button type="primary" link @click="downloadWord(scope)">点击下载文档</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+    <div style="margin-top: 20px">
+      <el-button type="primary" @click="checkoutHandle">需求评审</el-button>
+      <el-button type="primary" :disabled="createDis" @click="createDocx">生成文档</el-button>
+    </div>
+    <div class="pagination">
+      <el-pagination
+        background
+        layout="prev, pager, next, jumper"
+        :total="tableData.length"
+        :page-size="pagesize"
+        :current-page="currentPage"
+        @current-change="handlerCurrentChange"
+        @size-change="handleSizeChange"
       >
-        <el-table-column v-if="isCheckout" type="selection" width="55" :reserve-selection="true" />
-        <el-table-column label="序号" width="80" type="index" :index="(index) => index + 1"></el-table-column>
-        <el-table-column prop="resultsType" label="成果类型" />
-        <el-table-column prop="resultsName" label="成果名称" />
-        <el-table-column prop="version" label="版本号" />
-        <el-table-column prop="lastChangeTime" label="最后修改时间" />
-        <el-table-column prop="lastChangeUser" label="最后修改人" />
-        <el-table-column prop="firstChangeTime" label="首次创建时间" />
-        <el-table-column prop="firstChangeUser" label="首次创建人" />
-        <el-table-column label="文档下载">
-          <template #default="scope">
-            <el-button type="primary" link @click="downloadWord(scope)">点击下载文档</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-      <div style="margin-top: 20px">
-        <el-button type="primary" @click="checkoutHandle">需求评审</el-button>
-        <el-button type="primary" :disabled="createDis" @click="createDocx">生成文档</el-button>
-      </div>
-      <div class="pagination">
-        <el-pagination
-          background
-          layout="prev, pager, next, jumper"
-          :total="tableData.length"
-          :page-size="pagesize"
-          :current-page="currentPage"
-          @current-change="handlerCurrentChange"
-          @size-change="handleSizeChange"
-        >
-        </el-pagination>
-      </div>
-    </el-scrollbar>
+      </el-pagination>
+    </div>
     <Dialog
       title="评审报告"
       :hidden-full-btn="false"
@@ -101,7 +99,7 @@ const radioList = reactive([
 ])
 const tableData = ref([
   {
-    id:'1',
+    id: '1',
     resultsType: '软件需求',
     resultsName: '软件需求',
     version: '1',
@@ -111,7 +109,7 @@ const tableData = ref([
     firstChangeUser: 'admin',
   },
   {
-    id:'2',
+    id: '2',
     resultsType: '软件需求',
     resultsName: '软件需求',
     version: '1',
@@ -121,7 +119,7 @@ const tableData = ref([
     firstChangeUser: 'admin',
   },
   {
-    id:'3',
+    id: '3',
     resultsType: '软件需求',
     resultsName: '软件需求',
     version: '1',
@@ -131,7 +129,7 @@ const tableData = ref([
     firstChangeUser: 'admin',
   },
   {
-    id:'4',
+    id: '4',
     resultsType: '软件需求',
     resultsName: '软件需求',
     version: '1',
@@ -141,7 +139,7 @@ const tableData = ref([
     firstChangeUser: 'admin',
   },
   {
-    id:'5',
+    id: '5',
     resultsType: '软件需求',
     resultsName: '软件需求',
     version: '1',
@@ -151,7 +149,7 @@ const tableData = ref([
     firstChangeUser: 'admin',
   },
   {
-    id:'6',
+    id: '6',
     resultsType: '软件需求',
     resultsName: '软件需求',
     version: '1',
@@ -161,7 +159,7 @@ const tableData = ref([
     firstChangeUser: 'admin',
   },
   {
-    id:'7',
+    id: '7',
     resultsType: '软件需求',
     resultsName: '软件需求',
     version: '1',
@@ -171,7 +169,7 @@ const tableData = ref([
     firstChangeUser: 'admin',
   },
   {
-    id:'8',
+    id: '8',
     resultsType: '软件需求',
     resultsName: '软件需求',
     version: '1',
@@ -181,7 +179,7 @@ const tableData = ref([
     firstChangeUser: 'admin',
   },
   {
-    id:'9',
+    id: '9',
     resultsType: '软件需求',
     resultsName: '软件需求',
     version: '1',
@@ -193,7 +191,7 @@ const tableData = ref([
 ])
 const tableDataClone = ref([
   {
-    id:'1',
+    id: '1',
     resultsType: '软件需求',
     resultsName: '软件需求',
     version: '1',
@@ -203,7 +201,7 @@ const tableDataClone = ref([
     firstChangeUser: 'admin',
   },
   {
-    id:'2',
+    id: '2',
     resultsType: '软件需求',
     resultsName: '软件需求',
     version: '1',
@@ -213,7 +211,7 @@ const tableDataClone = ref([
     firstChangeUser: 'admin',
   },
   {
-    id:'3',
+    id: '3',
     resultsType: '软件需求',
     resultsName: '软件需求',
     version: '1',
@@ -223,7 +221,7 @@ const tableDataClone = ref([
     firstChangeUser: 'admin',
   },
   {
-    id:'4',
+    id: '4',
     resultsType: '软件需求',
     resultsName: '软件需求',
     version: '1',
@@ -233,7 +231,7 @@ const tableDataClone = ref([
     firstChangeUser: 'admin',
   },
   {
-    id:'5',
+    id: '5',
     resultsType: '软件需求',
     resultsName: '软件需求',
     version: '1',
@@ -243,7 +241,7 @@ const tableDataClone = ref([
     firstChangeUser: 'admin',
   },
   {
-    id:'6',
+    id: '6',
     resultsType: '软件需求',
     resultsName: '软件需求',
     version: '1',
@@ -253,7 +251,7 @@ const tableDataClone = ref([
     firstChangeUser: 'admin',
   },
   {
-    id:'7',
+    id: '7',
     resultsType: '软件需求',
     resultsName: '软件需求',
     version: '1',
@@ -263,7 +261,7 @@ const tableDataClone = ref([
     firstChangeUser: 'admin',
   },
   {
-    id:'8',
+    id: '8',
     resultsType: '软件需求',
     resultsName: '软件需求',
     version: '1',
@@ -273,7 +271,7 @@ const tableDataClone = ref([
     firstChangeUser: 'admin',
   },
   {
-    id:'9',
+    id: '9',
     resultsType: '软件需求',
     resultsName: '软件需求',
     version: '1',
@@ -285,7 +283,7 @@ const tableDataClone = ref([
 ])
 const tableData_2 = reactive([
   {
-    id:'1',
+    id: '1',
     resultsType: '软件架构',
     resultsName: '软件架构',
     version: '1',
@@ -295,7 +293,7 @@ const tableData_2 = reactive([
     firstChangeUser: 'admin',
   },
   {
-    id:'2',
+    id: '2',
     resultsType: '软件架构',
     resultsName: '软件架构',
     version: '1',
@@ -305,7 +303,7 @@ const tableData_2 = reactive([
     firstChangeUser: 'admin',
   },
   {
-    id:'3',
+    id: '3',
     resultsType: '软件架构',
     resultsName: '软件架构',
     version: '1',
@@ -315,7 +313,7 @@ const tableData_2 = reactive([
     firstChangeUser: 'admin',
   },
   {
-    id:'4',
+    id: '4',
     resultsType: '软件架构',
     resultsName: '软件架构',
     version: '1',
@@ -325,7 +323,7 @@ const tableData_2 = reactive([
     firstChangeUser: 'admin',
   },
   {
-    id:'5',
+    id: '5',
     resultsType: '软件架构',
     resultsName: '软件架构',
     version: '1',
@@ -335,7 +333,7 @@ const tableData_2 = reactive([
     firstChangeUser: 'admin',
   },
   {
-    id:'6',
+    id: '6',
     resultsType: '软件架构',
     resultsName: '软件架构',
     version: '1',
@@ -345,7 +343,7 @@ const tableData_2 = reactive([
     firstChangeUser: 'admin',
   },
   {
-    id:'7',
+    id: '7',
     resultsType: '软件架构',
     resultsName: '软件架构',
     version: '1',
@@ -355,7 +353,7 @@ const tableData_2 = reactive([
     firstChangeUser: 'admin',
   },
   {
-    id:'8',
+    id: '8',
     resultsType: '软件架构',
     resultsName: '软件架构',
     version: '1',
@@ -365,7 +363,7 @@ const tableData_2 = reactive([
     firstChangeUser: 'admin',
   },
   {
-    id:'9',
+    id: '9',
     resultsType: '软件架构',
     resultsName: '软件架构',
     version: '1',
@@ -375,7 +373,7 @@ const tableData_2 = reactive([
     firstChangeUser: 'admin',
   },
   {
-    id:'10',
+    id: '10',
     resultsType: '软件架构',
     resultsName: '软件架构',
     version: '1',
@@ -385,7 +383,7 @@ const tableData_2 = reactive([
     firstChangeUser: 'admin',
   },
   {
-    id:'11',
+    id: '11',
     resultsType: '软件架构',
     resultsName: '软件架构',
     version: '1',
@@ -395,7 +393,7 @@ const tableData_2 = reactive([
     firstChangeUser: 'admin',
   },
   {
-    id:'12',
+    id: '12',
     resultsType: '软件架构',
     resultsName: '软件架构',
     version: '1',
@@ -405,7 +403,7 @@ const tableData_2 = reactive([
     firstChangeUser: 'admin',
   },
   {
-    id:'13',
+    id: '13',
     resultsType: '软件架构',
     resultsName: '软件架构',
     version: '1',
@@ -415,7 +413,7 @@ const tableData_2 = reactive([
     firstChangeUser: 'admin',
   },
   {
-    id:'14',
+    id: '14',
     resultsType: '软件架构',
     resultsName: '软件架构',
     version: '1',
@@ -504,18 +502,16 @@ function previewFile() {
 <style lang="scss" scoped>
 .results {
   background-color: #fff;
-  margin: 9px;
-  height: calc(100% - 65px);
   border-radius: 4px;
+  padding: 15px;
   .table {
-    margin-top: 40px;
+    margin-top: 20px;
   }
 }
 .pagination {
-  margin-top: 30px;
-  margin-bottom: 10px;
+  margin-top: 10px;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
 }
 :deep(.docx-wrapper) {
   background-color: #f4f4f4;

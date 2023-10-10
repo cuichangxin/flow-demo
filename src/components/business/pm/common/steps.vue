@@ -16,12 +16,12 @@ const stepsList = ref([
     desc: ''
   },
   {
-    id: '1',
+    id: '2',
     name: '配置信息',
     desc: ''
   },
   {
-    id: '1',
+    id: '3',
     name: '信息确认',
     desc: ''
   },
@@ -29,15 +29,7 @@ const stepsList = ref([
 
 </script>
 <style lang="scss" scoped>
-:deep(.el-step__icon){
-  width: 30px;
-  height: 30px;
-}
 :deep(.el-step__description){
-  font-size: 15px;
   margin-top: 10px;
-}
-:deep(.el-step.is-horizontal .el-step__line){
-  top: 14px;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="container-wrap" :class="{ transform: isOut, hide_nav: !isNavMenu }">
-    <el-aside class="aside" :class="{ transform: isOut,hide_nav: !isNavMenu }">
+    <el-aside class="aside" :class="{ transform: isOut, hide_nav: !isNavMenu }">
       <el-menu
         background-color="#fff"
         :collapse="isOut"
@@ -36,22 +36,7 @@ const useList = reactive([
     link: '/pm/pmList',
     icon: 'icon-gongchengguanli',
     hide: Cookies.get('roleId') == '7' ? true : false,
-    children: [
-      // {
-      //   id:'2-1',
-      //   name:'项目列表',
-      //   link:'/pm/pmList',
-      //   icon:'icon-wenjianjia',
-      //   hide:Cookies.get('roleId') == '7' ? true:false,
-      // },
-      // {
-      //   id:'2-2',
-      //   name:'任务需求',
-      //   link:'/pm/taskneed',
-      //   icon:'icon-wenjianjia',
-      //   hide:Cookies.get('roleId') == '7' ? true:false,
-      // },
-    ],
+    children: [],
   },
   {
     id: '3',
@@ -64,24 +49,38 @@ const useList = reactive([
         id: '3-1',
         name: '测试用例',
         link: '/testManager/testCase',
-        icon: 'icon-nengyuanguanli',
+        // icon: 'icon-nengyuanguanli',
         hide: Cookies.get('roleId') == '7' ? true : false,
       },
       {
         id: '3-2',
         name: '测试记录',
         link: '/testManager/testRecord',
-        icon: 'icon-zonghebaobiao',
+        // icon: 'icon-zonghebaobiao',
         hide: Cookies.get('roleId') == '7' ? true : false,
       },
     ],
   },
   {
     id: '4',
-    name: '需求追踪',
-    link: '/goback',
+    name: '需求',
+    link: '/demand',
     icon: 'icon-shujuzhongxin',
     hide: Cookies.get('roleId') == '7' ? true : false,
+    children: [
+      {
+        id: '4-1',
+        name: '需求管理',
+        link: '/demand/demandManagement',
+        hide: Cookies.get('roleId') == '7' ? true : false,
+      },
+      {
+        id: '4-2',
+        name: '需求追踪',
+        link: '/demand/goback',
+        hide: Cookies.get('roleId') == '7' ? true : false,
+      },
+    ],
   },
   {
     id: '5',
@@ -91,11 +90,11 @@ const useList = reactive([
     hide: Cookies.get('roleId') !== '7' ? true : false,
   },
   {
-    id:'6',
-    name:'成果管理',
-    link:'/results',
-    icon:'icon-chengguoguanli',
-    hide: Cookies.get('roleId') == '7' ? true :false
+    id: '6',
+    name: '成果管理',
+    link: '/results',
+    icon: 'icon-chengguoguanli',
+    hide: Cookies.get('roleId') == '7' ? true : false,
   },
   {
     id: '7',
@@ -108,14 +107,14 @@ const useList = reactive([
         id: '7-1',
         name: '活动库管理',
         link: '/system/eventRoom',
-        icon: 'icon-wuzishenling',
+        // icon: 'icon-wuzishenling',
         hide: true,
       },
       {
         id: '7-2',
         name: '工具库管理',
         link: '/system/toolRoom',
-        icon: 'icon-xitongshezhi',
+        // icon: 'icon-xitongshezhi',
         hide: true,
       },
     ],
@@ -123,17 +122,18 @@ const useList = reactive([
 ])
 const isOut = ref(false)
 const isNavMenu = ref(true)
-const routerBlack = ['/modeling', '/work', '/testManager/testCase','/demandAnalysis','/demandReview']
+const routerBlack = ['/modeling', '/work', '/testManager/testCase', '/demandAnalysis', '/demandReview']
 
 watch(
   () => router.currentRoute.value,
   (n) => {
     if (routerBlack.includes(n.path)) {
       isNavMenu.value = false
-    }else {
+    } else {
       isNavMenu.value = true
     }
-  },{immediate:true}
+  },
+  { immediate: true }
 )
 
 const hideMenu = (bol) => {
@@ -166,8 +166,7 @@ const activeMenu = computed(() => {
 
 :deep(.el-sub-menu__title) {
   &:hover {
-    background-color: #0069f3 !important;
-    color: #fff !important;
+    background-color: #f2f3f5 !important;
   }
 }
 
@@ -188,27 +187,25 @@ const activeMenu = computed(() => {
   }
 
   :deep(.el-menu-item) {
-    border-radius: 4px;
-    height: 45px;
-    font-weight: 500;
+    border-radius: 2px;
+    height: 40px;
     margin: 2px 0;
     &:hover {
-      background-color: #0069f3 !important;
-      color: #fff !important;
+      background-color: #f2f3f5 !important;
     }
   }
   :deep(.el-sub-menu .el-menu-item) {
     height: 40px;
   }
   :deep(.el-sub-menu__title) {
-    height: 45px;
-    border-radius: 4px;
-    font-weight: 500;
+    height: 40px;
+    border-radius: 2px;
     padding: 0 17px;
   }
   :deep(.el-menu-item.is-active) {
     background-color: #0069f3 !important;
     color: #fff;
+    font-weight: 500;
   }
 }
 :deep(.el-menu-item .el-menu-tooltip__trigger) {

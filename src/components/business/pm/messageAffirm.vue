@@ -1,7 +1,7 @@
 <template>
   <div class="affirm_info">
     <steps :isActive="2"></steps>
-    <el-scrollbar class="scrollbar" :style="{ height: `${configHeight}px` }">
+    <div class="scrollbar">
       <div class="wrapper">
         <div v-if="!fullFlag" class="flex">
           <div class="affirm_item">
@@ -27,7 +27,7 @@
         </div>
         <div class="flow">
           <span class="label" v-if="!fullFlag">活动流程:</span>
-          <div class="flow_info" :style="{ height: fullFlag ? `${configHeight - 35}px` : '' }">
+          <div class="flow_info">
             <div class="full_box" @click="fullScreen">
               <img v-if="!fullFlag" class="img" src="../../../assets/images/quanping_o.png" />
               <img v-else class="img" src="../../../assets/images/quxiaoquanping_o.png" />
@@ -58,7 +58,7 @@
           </el-button>
         </div>
       </div>
-    </el-scrollbar>
+    </div>
   </div>
 </template>
 <script setup>
@@ -76,7 +76,6 @@ const { removeKeepAlive } = useKeepAliver()
 const { proxy } = getCurrentInstance()
 const store = allStore()
 const router = useRouter()
-const configHeight = ref(0)
 // 工具情况
 const tableList = ref([])
 const projectList = ref({})
@@ -148,7 +147,7 @@ const initG6 = () => {
     height: container.clientHeight,
     fitView: true,
     modes: {
-      default: ['drag-canvas', 'zoom-canvas'],
+      default: ['drag-canvas'],
     },
     layout: {
       type: 'dagre',
@@ -194,10 +193,6 @@ const initG6 = () => {
   graph.render()
 }
 onMounted(() => {
-  configHeight.value = window.innerHeight - 195
-  window.addEventListener('resize', () => {
-    configHeight.value = window.innerHeight - 195
-  })
   proxy.$axios
     .projectSubTool({
       type: store.projectInfo.type,
@@ -225,16 +220,10 @@ onUnmounted(() => {
 })
 </script>
 <style lang="scss" scoped>
-.affirm_info {
-  width: 100%;
-  height: 100%;
-}
 .scrollbar {
-  height: 680px;
   background-color: #fff;
-  margin: 10px 8px 0;
-  border-radius: 8px;
-  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.12);
+  border-radius: 4px;
+  margin-top: 10px;
 }
 
 .wrapper {

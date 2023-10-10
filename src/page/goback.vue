@@ -74,7 +74,7 @@
             </div>
           </div>
 
-          <el-scrollbar class="flex">
+          <div class="flex">
             <!-- 顶部列 -->
             <div class="top-column" ref="topColumn">
               <el-tree
@@ -140,7 +140,7 @@
                 />
               </div>
             </div>
-          </el-scrollbar>
+          </div>
         </div>
       </div>
     </div>
@@ -148,7 +148,6 @@
 </template>
 <script setup>
 import { add } from 'lodash'
-import Axios from 'axios'
 
 const { proxy } = getCurrentInstance()
 const treeProps = {
@@ -174,7 +173,7 @@ const columnSelectList = reactive([
     label: '软件需求',
   },
   {
-    value: 'testCase',
+    value: 'columntestCase',
     label: '测试用例',
   },
 ])
@@ -269,15 +268,15 @@ const changeColumn = (val) => {
 }
 const getRowInfo = () => {
   return new Promise((resolve, reject) => {
-    Axios.get(`/assets/mock/goBackData/rowel/${rowValue.value}.json`).then((res) => {
-      resolve(res.rowTree)
+    proxy.$axios.getDemandList({demandId:rowValue.value}).then((res) => {
+      resolve(JSON.parse(res.data.daTree))
     })
   })
 }
 function getColumnInfo() {
   return new Promise((resolve, reject) => {
-    Axios.get(`/assets/mock/goBackData/columnel/${columnValue.value}.json`).then((res) => {
-      resolve(res.columnTree)
+    proxy.$axios.getDemandList({demandId:columnValue.value}).then((res) => {
+      resolve(JSON.parse(res.data.daTree))
     })
   })
 }
@@ -290,8 +289,8 @@ function getUnite() {
 }
 function postAll() {
   Promise.all([getRowInfo(), getColumnInfo(), getUnite()]).then((res) => {
-    rowTree.value = res[0]
-    columnTree.value = res[1]
+    rowTree.value = res[0].rowTree
+    columnTree.value = res[1].columnTree
     cellRelation.value = res[2].cellRelation
     tracking.value = res[2].tracking
     initMatrix()
@@ -506,23 +505,24 @@ onUnmounted(() => {
 </script>
 <style lang="scss" scoped>
 .go_back_wrapper {
-  height: calc(100% - 65px);
-  padding: 0 20px;
+  padding: 0 20px 20px;
   background: #fff;
-  border-radius: 8px;
-  margin: 0 8px;
-  /* box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.07); */
+  border-radius: 4px;
   text-align: center;
 }
 
 .select_wrapper {
   width: 100%;
-  height: 120px;
+  height: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
 
   .element {
+    label{
+      font-size: 15px;
+      font-weight: 500;
+    }
     &:nth-child(1) {
       margin-right: 100px;
     }

@@ -32,5 +32,7 @@ export default {
   // 保存活动库数据
   saveActiveLibrary:api('/task/saveActive','post'),
   findAllActive:api('/task/findAllActive','post'),
-  deleteActive:api('/task/deleteOneActive','post')
+  deleteActive:api('/task/deleteOneActive','post'),
+  // 获取需求追踪数据
+  getDemandList:api('/task/getDemandList','post')
 }
