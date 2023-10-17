@@ -22,10 +22,10 @@ const key = computed(()=>{
 
 <style lang="scss" scoped>
 .app-main {
-  min-height: calc(100vh - 60px);
-  height: 100%;
+  min-height: calc(100vh - 106px);
   width: 100%;
   position: relative;
   overflow: hidden;
+  padding-bottom: 20px;
 }
 </style>

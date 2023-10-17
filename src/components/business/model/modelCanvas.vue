@@ -158,6 +158,7 @@ instance.proxy.$bus.on('*', (name, val) => {
     }
   }
   if (name === 'saveFile') {
+    console.log(graph.toJSON());
     instance.proxy.$axios
       .saveTaskDetail({
         taskId: 2003,

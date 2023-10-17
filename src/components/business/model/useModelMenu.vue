@@ -429,28 +429,25 @@ const hideMenu = (val) => {
 }
 </script>
 <template>
-  <el-aside class="model_menu" :class="{ fade: isOut }">
-    <h5 v-if="!isOut">应用任务模型</h5>
-    <el-scrollbar>
-      <el-menu id="menu" :default-openeds="['2']">
-        <ModelMenu :menus="moduleTree" :drag="true"></ModelMenu>
-      </el-menu>
-    </el-scrollbar>
+  <div class="wrapper_box" :class="{ fade: isOut }">
+    <div class="model_wrapper">
+      <el-aside class="model_menu">
+        <h5 v-if="!isOut">应用任务模型</h5>
+        <el-menu id="menu" :default-openeds="['2']">
+          <ModelMenu :menus="moduleTree" :drag="true"></ModelMenu>
+        </el-menu>
+      </el-aside>
+    </div>
     <markPoint :isOut="isOut" :direction="'left'" :color="'#fff'" @hideMenu="hideMenu"></markPoint>
-  </el-aside>
+  </div>
 </template>
 
 <style lang="scss" scoped>
 .model_menu {
   padding: 0;
-  width: 220px;
+  width: 100%;
   height: 100%;
   background: #fff;
-  border-radius: 3px;
-  margin-left: 10px;
-  position: relative;
-  overflow: visible;
-  transition: width 0.2s linear;
 
   h5 {
     font-size: 15px;
@@ -464,6 +461,20 @@ const hideMenu = (val) => {
     display: flex;
     justify-content: center;
   }
+}
+
+:deep(.el-menu) {
+  border-right: none;
+}
+.model_wrapper {
+  overflow: auto;
+}
+.wrapper_box {
+  width: 200px;
+  background-color: #fff;
+  margin-left: 10px;
+  position: relative;
+  transition: width 0.2s linear;
   &.fade {
     width: 0;
   }
@@ -472,9 +483,5 @@ const hideMenu = (val) => {
       opacity: 1;
     }
   }
-}
-
-:deep(.el-menu) {
-  border-right: none;
 }
 </style>

@@ -86,7 +86,7 @@ defineExpose({
 </script>
 <style lang="scss" scoped>
 :deep(.el-dialog__header) {
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--el-border-color);
   display: flex;
   padding: 12px 16px;
   align-items: center;

@@ -1,14 +1,14 @@
 <template>
-  <div class="test-info">
+  <div class="test-info" :style="{ height: `${mainH}px` }">
     <shapeHeader @handleMenu="handleMenu" :canRedo="canRedo" :canUndo="canUndo"></shapeHeader>
     <el-container v-if="pageBefore" class="el-container-layout">
       <el-aside class="el-aside el-aside-left" :class="{ fade: isOut }">
         <h4 v-if="!isOut" class="title">组件库</h4>
-        <el-scrollbar class="el-scrollbar-info" :style="{ padding: isOut ? 0 : '0 10px' }">
+        <div class="el-scrollbar-info">
           <el-menu @open="open" @close="close" id="elMenu" :collapse="isOut">
             <testElMenu :menus="menuList" :drag="true" :openFlag="openFlag"></testElMenu>
           </el-menu>
-        </el-scrollbar>
+        </div>
         <markPoiner :isOut="isOut" :color="'#fff'" @hideMenu="hideMenu"></markPoiner>
       </el-aside>
       <el-container>
@@ -61,7 +61,7 @@
       </el-container>
     </el-container>
     <div v-else class="page_before">
-      <el-button class="button" color="#626aef" @click="addProject">生成数字化测试环境</el-button>
+      <el-button class="button" type="primary" @click="addProject">生成数字化测试环境</el-button>
     </div>
     <!-- 小地图 -->
     <div
@@ -1407,6 +1407,7 @@ const handleMenu = (val) => {
   }
   if (val === '保存') {
     saveToJson()
+    console.log(graph.toJSON());
     instance.proxy.$axios
       .saveTaskDetail({
         taskId: Cookies.get('taskId'),
@@ -1535,25 +1536,24 @@ const nextAuto = () => {
     isAuto.value = false
     nextStep.value = 1
     loading.value = true
-    setTimeout(()=>{
+    setTimeout(() => {
       init()
-    },800)
-    localStorage.setItem('isEmAuto',pageBefore.value)
+    }, 800)
+    localStorage.setItem('isEmAuto', pageBefore.value)
   }
 }
 function init() {
-  tableSize()
   instance.proxy.$axios.getTaskDetail({ taskId: 2002 }).then(
     (res) => {
       if (res.data !== null) {
         graphData.value = JSON.parse(res.data.daTree)
-        graphData.value.cells.forEach(item=>{
-          if (item.shape === 'image') {
-            let split = item.attrs.image['xlink:href'].split('/'),
-            url = split[split.length-1]
-            item.attrs.image['xlink:href'] = new URL(`../assets/images/${url}`, import.meta.url).href
-          }
-        })
+        // graphData.value.cells.forEach((item) => {
+        //   if (item.shape === 'image') {
+        //     let split = item.attrs.image['xlink:href'].split('/'),
+        //       url = split[split.length - 1]
+        //     item.attrs.image['xlink:href'] = new URL(`../assets/images/${url}`, import.meta.url).href
+        //   }
+        // })
         createGraphic()
         initGraphEvent()
         loading.value = false
@@ -1571,6 +1571,7 @@ onMounted(() => {
   //     graphData.value = JSON.parse(res.data.daTree)
   //   }
   // })
+  tableSize()
   const isEmAuto = localStorage.getItem('isEmAuto')
   if (JSON.parse(isEmAuto)) {
     pageBefore.value = true
@@ -1585,7 +1586,7 @@ function tableSize() {
     } else {
       domH.value = window.innerHeight - 442
     }
-    mainH.value = window.innerHeight - 126
+    mainH.value = window.innerHeight - 140
   })
   window.onresize = () => {
     if (isOutB.value) {
@@ -1594,7 +1595,7 @@ function tableSize() {
       domH.value = window.innerHeight - 442
     }
 
-    mainH.value = window.innerHeight - 126
+    mainH.value = window.innerHeight - 140
   }
 }
 
@@ -1606,12 +1607,10 @@ onUnmounted(() => {
 
 <style lang="scss" scoped>
 .test-info {
-  height: calc(100% - 60px);
-  margin: 0 8px;
+  height: 100%;
   background-color: #f4f4f4;
-  border-radius: 3px;
+  border-radius: 4px;
   transition: height 0.2s linear;
-  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.1);
   position: relative;
 }
 
@@ -1621,7 +1620,7 @@ onUnmounted(() => {
 }
 
 .el-aside {
-  width: 220px;
+  width: 200px;
   margin-bottom: 0;
   border-radius: 3px;
   padding: 0;
@@ -1630,7 +1629,6 @@ onUnmounted(() => {
 
 .el-aside-right {
   margin-left: 10px;
-  border-radius: 3px;
   position: relative;
   z-index: 10;
   width: 260px;
@@ -1684,9 +1682,10 @@ onUnmounted(() => {
 }
 
 .el-scrollbar-info {
-  height: calc(100% - 60px);
+  height: calc(100% - 40px);
   width: 100%;
   padding: 0 10px;
+  overflow: auto;
 }
 
 :deep(.el-sub-menu.is-active .el-sub-menu__title) {
@@ -1713,8 +1712,7 @@ onUnmounted(() => {
 
   .container {
     width: 100%;
-    height: calc(100% - 50px);
-    border-radius: 0 0 3px 3px;
+    height: 100%;
     background-color: #fff;
     position: relative;
     z-index: 1;
@@ -1741,8 +1739,8 @@ onUnmounted(() => {
 
 .el-footer {
   margin-left: 10px;
-  padding: 0;
-  height: 227px;
+  padding: 10px 0 0 0;
+  height: 237px;
   position: relative;
   z-index: 10;
   transition: height 0.2s linear;

@@ -87,3 +87,11 @@
 .el-menu--horizontal>.el-sub-menu.is-active .el-sub-menu__title{
   border-bottom: none;
 }
+.el-button{
+  border-radius: 2px;
+  border: none;
+}
+.el-button--info{
+  --el-button-bg-color: rgb(242,243,245);
+  --el-button-text-color:rgb(78,89,105);
+}

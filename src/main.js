@@ -5,6 +5,7 @@ import '@/assets/styles/elementui-theme.scss'
 import ElementPlus from 'element-plus'
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 import 'element-plus/dist/index.css'
+import 'element-plus/theme-chalk/dark/css-vars.css'
 import '@/assets/styles/index.scss'
 import '@/assets/styles/font-family.scss'
 import { createPinia } from 'pinia'
@@ -15,6 +16,7 @@ import './permission'
 import { getElementLabelLine } from 'element-tree-line'
 import modal from './utils/modal'
 import VueGridLayout from 'vue-grid-layout'
+import directive from './directive'
 
 const ElementLabelLine = getElementLabelLine(h)
 const app = createApp(App)
@@ -31,4 +33,6 @@ app.config.globalProperties.$bus = mitt()
 app.config.globalProperties.$axios = axios
 app.config.globalProperties.$modal = modal
 app.component(ElementLabelLine.name,ElementLabelLine)
+
+directive(app)
 app.mount('#app')

@@ -1,5 +1,5 @@
 <template>
-  <div class="work">
+  <div class="work" :style="{ height: `${configHeight}px` }">
     <shapeHeader
       class="shape_header"
       @handleMenu="handleMenu"
@@ -8,12 +8,10 @@
       :tabIdx="tabIdx"
     ></shapeHeader>
     <Splitpanes class="default-theme" @resize="paneSize">
-      <pane :size="showWord ? 50 : 0">
-        <el-scrollbar>
-          <div class="docx"></div>
-        </el-scrollbar>
+      <pane :size="showWord ? 45 : 0" class="pane">
+        <div class="docx"></div>
       </pane>
-      <pane :size="showWord ? 50 : 100">
+      <pane :size="showWord ? 55 : 100">
         <el-container class="el-container-layout">
           <StepMenu @checkTab="checkTab" :tabIdx="tabIdx" ref="stepMenuRef"></StepMenu>
           <el-container>
@@ -24,7 +22,7 @@
                 </div>
                 <TableControl ref="controlRef"></TableControl>
               </div>
-              <el-button v-else class="button" color="#626aef" @click="addProject">自动生成架构设计</el-button>
+              <el-button v-else class="button" type="primary" @click="addProject">自动生成架构设计</el-button>
             </div>
             <div class="over" v-show="tabIdx == 1">
               <OverAll></OverAll>
@@ -72,10 +70,19 @@
         </span>
       </template>
     </el-dialog>
-    <Dialog title="总体建议" :hidden-full-btn="false" :width="'30%'" v-model="visible" @confirm="handleConfirm" @close="handleClose">
+    <Dialog
+      title="总体建议"
+      :hidden-full-btn="false"
+      :width="'30%'"
+      v-model="visible"
+      @confirm="handleConfirm"
+      @close="handleClose"
+    >
       <p>通过对本文档的分析解读，以及和历史案例的对照，我们有以下建议：</p>
-      <p style="margin-left: 10px;">1.目前各项任务的优先级都是同样的值，通常情况下这是不准确的。请对不同任务指定不同的优先级。</p>
-      <p style="margin-left: 10px;">2.系统缺少对异常情况的处理描述，请补充说明。</p>
+      <p style="margin-left: 10px">
+        1.目前各项任务的优先级都是同样的值，通常情况下这是不准确的。请对不同任务指定不同的优先级。
+      </p>
+      <p style="margin-left: 10px">2.系统缺少对异常情况的处理描述，请补充说明。</p>
     </Dialog>
   </div>
 </template>
@@ -153,6 +160,7 @@ const autoList = reactive({
     },
   ],
 })
+const configHeight = ref('')
 
 const nextAuto = () => {
   if (nextStep.value < 4) {
@@ -164,10 +172,13 @@ const nextAuto = () => {
     nextTick(() => {
       childRef.value.handleCreate(autoInfo.value)
     })
-    localStorage.setItem('isWorkAuto',JSON.stringify({
-      isAuto:autoCreate.value,
-      model:autoInfo.value.model
-    }))
+    localStorage.setItem(
+      'isWorkAuto',
+      JSON.stringify({
+        isAuto: autoCreate.value,
+        model: autoInfo.value.model,
+      })
+    )
   }
 }
 const cancel = () => {
@@ -224,9 +235,9 @@ const addProject = () => {
 }
 function previewFile() {
   nextTick(() => {
-    // fetch('/public/mock/word/1.docx')
+    fetch('/public/mock/word/1.docx')
 
-    fetch('/assets/mock/word/1.docx')
+    // fetch('/assets/mock/word/1.docx')
       .then((response) => {
         const docData = response.blob()
         const html = document.getElementsByClassName('docx')
@@ -241,14 +252,21 @@ function previewFile() {
   })
 }
 previewFile()
-onMounted(()=>{
+onMounted(() => {
   const isWorkAuto = localStorage.getItem('isWorkAuto')
   if (JSON.parse(isWorkAuto) !== null && JSON.parse(isWorkAuto).isAuto) {
     autoCreate.value = true
-    nextTick(()=>{
+    nextTick(() => {
       childRef.value.handleCreate(JSON.parse(isWorkAuto))
     })
   }
+  configHeight.value = window.innerHeight - 140
+  window.addEventListener('resize', () => {
+    configHeight.value = window.innerHeight - 140
+  })
+})
+onUnmounted(() => {
+  window.removeEventListener('resize', () => {})
 })
 </script>
 <style lang="scss" scoped>
@@ -272,15 +290,13 @@ onMounted(()=>{
   border-radius: 5px;
 }
 .work {
-  width: calc(100% - 16px);
   height: calc(100% - 65px);
   margin: 0 auto;
   overflow: hidden;
   flex-wrap: wrap;
   align-content: flex-start;
   background-color: #f4f4f4;
-  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.1);
-  border-radius: 3px;
+  border-radius: 4px;
 }
 .shape_header {
   border-radius: 3px;
@@ -288,7 +304,6 @@ onMounted(()=>{
 .box {
   width: 100%;
   height: 100%;
-  background-color: #fff;
   border-left: 1px solid #d3d3d3;
   .flex-box {
     width: 100%;
@@ -338,5 +353,8 @@ onMounted(()=>{
 }
 .show_word {
   width: 0 !important;
+}
+.pane{
+  overflow: auto;
 }
 </style>

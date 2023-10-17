@@ -19,26 +19,26 @@ proxy.$bus.on('*', (name, val) => {
     canUndo.value = val.canUndo
     canRedo.value = val.canRedo
   }
-  if (name === 'resize') {
-    if (val !== undefined) {
-      if (val) {
-        mainH.value = window.innerHeight - 69
-      } else {
-        mainH.value = window.innerHeight - 124
-      }
-    }
-  }
+  // if (name === 'resize') {
+  //   if (val !== undefined) {
+  //     if (val) {
+  //       mainH.value = window.innerHeight - 69
+  //     } else {
+  //       mainH.value = window.innerHeight - 124
+  //     }
+  //   }
+  // }
 })
 
-const mainH = ref('')
+const configHeight = ref('')
 const canUndo = ref(false) // 是否能撤销
 const canRedo = ref(false) // 是否能重做
 const showWord = ref(true)
 
 onMounted(() => {
-  mainH.value = window.innerHeight - 124
+  configHeight.value = window.innerHeight - 130
   window.addEventListener('resize', () => {
-    mainH.value = window.innerHeight - 124
+    configHeight.value = window.innerHeight - 130
   })
 })
 onUnmounted(() => {
@@ -83,8 +83,7 @@ const handleClose = () => {
 function previewFile() {
   nextTick(() => {
     // fetch('/public/mock/word/2.docx')
-
-    fetch('/assets/mock/word/2.docx')
+      fetch('/assets/mock/word/2.docx')
       .then((response) => {
         const docData = response.blob()
         const html = document.getElementsByClassName('docx')
@@ -101,15 +100,13 @@ function previewFile() {
 previewFile()
 </script>
 <template>
-  <div class="modeling">
+  <div class="modeling" :style="{ height: `${configHeight}px` }">
     <shapeHeader @handleMenu="handleMenu" :canRedo="canRedo" :canUndo="canUndo"></shapeHeader>
     <Splitpanes class="default-theme">
-      <pane :size="showWord ? 50 : 0">
-        <el-scrollbar>
-          <div class="docx"></div>
-        </el-scrollbar>
+      <pane :size="showWord ? 35 : 0" class="pane">
+        <div class="docx"></div>
       </pane>
-      <pane :size="showWord ? 50 : 100">
+      <pane :size="showWord ? 65 : 100">
         <el-container class="container">
           <DesignMenu></DesignMenu>
           <el-container>
@@ -136,10 +133,7 @@ previewFile()
 </template>
 <style lang="scss" scoped>
 .modeling {
-  height: calc(100% - 66px);
-  margin: 0 8px;
   background: #f4f4f4;
-  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.1);
   position: relative;
 }
 .container {
@@ -179,7 +173,10 @@ previewFile()
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   margin-bottom: 10px;
 }
-.show_word{
+.show_word {
   width: 0 !important;
+}
+.pane{
+  overflow: auto;
 }
 </style>

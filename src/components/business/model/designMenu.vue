@@ -1,7 +1,7 @@
 <template>
   <el-aside class="design_menu" :class="{ fade: isOut }">
     <h5 v-if="!isOut">领域算法设计工具</h5>
-    <el-scrollbar class="menu_info">
+    <div class="menu_info">
       <el-tree
         v-if="tag"
         :data="moduleTree"
@@ -25,7 +25,7 @@
           </span>
         </template>
       </el-tree>
-    </el-scrollbar>
+    </div>
     <markPoint :isOut="isOut" :direction="'right'" :color="'#fff'" @hideMenu="hideMenu"></markPoint>
   </el-aside>
 </template>
@@ -236,26 +236,25 @@ const hideMenu = (val) => {
   instance.proxy.$bus.emit('resize')
 }
 function getTask() {
-  console.log(work.taskId)
   instance.proxy.$axios.getTaskDetail({ taskId: 2003 }).then((res) => {
     if (res.success) {
       subGraph.value = JSON.parse(res.data.daTree)
-      subGraph.value.cells.forEach((item) => {
-        if (item.shape === 'image') {
-          let split = item.attrs.image['xlink:href'].split('/'),
-            url = split[split.length - 1]
-          item.attrs.image['xlink:href'] = new URL(`../../../assets/images/${url}`, import.meta.url).href
-        }
-      })
+      // subGraph.value.cells.forEach((item) => {
+      //   if (item.shape === 'image') {
+      //     let split = item.attrs.image['xlink:href'].split('/'),
+      //       url = split[split.length - 1]
+      //     item.attrs.image['xlink:href'] = new URL(`../../../assets/images/${url}`, import.meta.url).href
+      //   }
+      // })
       instance.proxy.$axios.getTaskDetail({ taskId: 2005 }).then((success) => {
         subData.value = JSON.parse(success.data.daTree)
-        subData.value.cells.forEach((item) => {
-        if (item.shape === 'image') {
-          let split = item.attrs.image['xlink:href'].split('/'),
-            url = split[split.length - 1]
-          item.attrs.image['xlink:href'] = new URL(`../../../assets/images/${url}`, import.meta.url).href
-        }
-      })
+        // subData.value.cells.forEach((item) => {
+        //   if (item.shape === 'image') {
+        //     let split = item.attrs.image['xlink:href'].split('/'),
+        //       url = split[split.length - 1]
+        //     item.attrs.image['xlink:href'] = new URL(`../../../assets/images/${url}`, import.meta.url).href
+        //   }
+        // })
         // 单独获取左侧菜单的任务列表
         instance.proxy.$axios.getTaskDetail({ taskId: work.taskId.value }).then((result) => {
           console.log(JSON.parse(result.data.daTree))
@@ -305,7 +304,7 @@ onMounted(() => {
 </script>
 <style lang="scss" scoped>
 .design_menu {
-  width: 220px;
+  width: 200px;
   height: 100%;
   background: #fff;
   border-radius: 3px;
@@ -336,13 +335,15 @@ onMounted(() => {
 }
 
 .menu_info {
+  width: 100%;
   height: calc(100% - 60px);
+  overflow: auto;
   .custom-tree-node {
     display: flex;
     align-items: center;
     .node_label {
       color: #333;
-      font-size: 14px;
+      font-size: 13px;
     }
     .item_img,
     .sub_img {
@@ -372,7 +373,7 @@ onMounted(() => {
   height: 45px;
 
   .el-tree-node__expand-icon {
-    font-size: 16px;
+    font-size: 15px;
     margin-right: 1px;
   }
 }

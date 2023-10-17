@@ -156,7 +156,7 @@ const goBack = () => {
   height: 100%;
 }
 .config {
-  background-color: #fff;
+  background-color: var(--header-bg-color);
   border-radius: 4px;
   display: flex;
   flex-direction: column;

@@ -2,10 +2,8 @@
   <div class="container-wrap" :class="{ transform: isOut, hide_nav: !isNavMenu }">
     <el-aside class="aside" :class="{ transform: isOut, hide_nav: !isNavMenu }">
       <el-menu
-        background-color="#fff"
         :collapse="isOut"
         active-text-color="#0069F3"
-        text-color="#3F4956"
         :default-active="activeMenu"
       >
         <sidebar-menu :menus="useList"></sidebar-menu>
@@ -145,6 +143,9 @@ const activeMenu = computed(() => {
 })
 </script>
 <style lang="scss" scoped>
+.el-menu{
+  background-color: var(--header-bg-color);
+}
 .aside {
   width: 200px;
   height: 100%;
@@ -166,7 +167,7 @@ const activeMenu = computed(() => {
 
 :deep(.el-sub-menu__title) {
   &:hover {
-    background-color: #f2f3f5 !important;
+    background-color: var(--menu-hover-bg-color);
   }
 }
 
@@ -191,7 +192,7 @@ const activeMenu = computed(() => {
     height: 40px;
     margin: 2px 0;
     &:hover {
-      background-color: #f2f3f5 !important;
+      background-color: var(--menu-hover-bg-color) !important;
     }
   }
   :deep(.el-sub-menu .el-menu-item) {
@@ -203,8 +204,8 @@ const activeMenu = computed(() => {
     padding: 0 17px;
   }
   :deep(.el-menu-item.is-active) {
-    background-color: #0069f3 !important;
-    color: #fff;
+    background-color: var(--menu-hover-bg-color);
+    color: var(--sub-active-text-color);
     font-weight: 500;
   }
 }

@@ -90,10 +90,10 @@ function handleUploadError(err) {
 }
 
 .upload {
-  background-color: #fff;
+  background-color: var(--header-bg-color);
   padding: 0 15px 15px;
   border-radius: 4px;
-  border: 1px dashed #e6e6e6;
+  border: 1px dashed var(--el-border-color);
   margin-top: 10px;
   .button {
     margin: 20px 5px 0 0;

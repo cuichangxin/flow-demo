@@ -69,7 +69,7 @@ const dragstart = (e, v) => {
   margin-right: 5px;
 }
 .title{
-  font-size: 14px;
+  font-size: 13px;
 }
 :deep(.el-sub-menu__title){
   height: 48px;

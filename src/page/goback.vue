@@ -193,9 +193,9 @@ const postTaskId = computed(()=>{
     return 1002
   } else if (rowValue.value === 'software' && columnValue.value === 'need') {
     return 1003
-  } else if (rowValue.value === 'software' && columnValue.value === 'testCase') {
+  } else if (rowValue.value === 'software' && columnValue.value === 'columntestCase') {
     return 1004
-  } else if (rowValue.value === 'testCase' && columnValue.value === 'testCase') {
+  } else if (rowValue.value === 'testCase' && columnValue.value === 'columntestCase') {
     return 1005
   }
 })

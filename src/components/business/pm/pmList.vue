@@ -32,7 +32,6 @@
       <el-table
         :data="tableList.slice((currentPage - 1) * pagesize, currentPage * pagesize)"
         border
-        :header-cell-style="tableHeaderCellStyle"
         :max-height="tableHeight"
       >
         <el-table-column align="center" label="序号" width="80">
@@ -108,12 +107,6 @@ const addProject = () => {
   router.push({
     path: '/pm/taskNeed',
   })
-}
-
-function tableHeaderCellStyle() {
-  return {
-    background: '#efefef',
-  }
 }
 const search = (e) => {
   if (e == '') {
@@ -196,7 +189,7 @@ onUnmounted(() => {
 </script>
 <style lang="scss" scoped>
 .list-info {
-  background-color: #fff;
+  background-color: var(--my-bg-color);
   border-radius: 4px;
   padding: 15px;
 }

@@ -67,13 +67,16 @@ getBreadCrumb()
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: relative;
 }
 .back {
   display: flex;
   align-items: center;
   cursor: pointer;
+  position: absolute;
+  right: 0;
   i{
-    font-size: 25px;
+    font-size: 24px;
     color: #666666;
     transition: all .3s;
     &:hover{

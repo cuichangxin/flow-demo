@@ -138,7 +138,7 @@ const constantRoutes = [
           {
             path: '/system/eventRoom',
             name: 'eventRoom',
-            component: () => import('../page/eventRoom.vue'),
+            component: () => import('../components/business/system/eventRoom.vue'),
             meta: { title: '活动库管理' }
           },
         ]

@@ -27,14 +27,6 @@ export default defineConfig(({ mode, command }) => {
           'pinia'
         ]
       }),
-      // viteCompression({
-      //   verbose: true, // 是否在控制台中输出压缩结果
-      //   disable: false,
-      //   threshold: 10240, // 如果体积大于阈值，将被压缩，单位为b，体积过小时请不要压缩，以免适得其反
-      //   algorithm: 'gzip', // 压缩算法，可选['gzip'，' brotliccompress '，'deflate '，'deflateRaw']
-      //   ext: '.gz',
-      //   deleteOriginFile: true // 源文件压缩后是否删除
-      // })
     ],
     resolve: {
       // https://cn.vitejs.dev/config/#resolve-alias
@@ -58,47 +50,6 @@ export default defineConfig(({ mode, command }) => {
           rewrite: (p) => p.replace(/^\/api/, '')
         }
       }
-    },
-    build: {
-      emptyOutDir: true, // 打包时先清空上一次的目录
-      rollupOptions: {
-        output: {
-          manualChunks(id, { getModuleInfo }) {
-            const match = /.*.strings.(\w+).js/.exec(id)
-            if (match) {
-              const language = match[1] // e.g. "en"
-              const dependentEntryPoints = []
-              const idsToHandle = new Set(getModuleInfo(id).dynamicImporters)
-
-              for (const moduleId of idsToHandle) {
-                const { isEntry, dynamicImporters, importers } = getModuleInfo(moduleId)
-                if (isEntry || dynamicImporters.length > 0) dependentEntryPoints.push(moduleId)
-                for (const importerId of importers) idsToHandle.add(importerId)
-              }
-              if (dependentEntryPoints.length === 1) {
-                return `${dependentEntryPoints[0].split('/').slice(-1)[0].split('.')[0]}.strings.${language}`
-              }
-              if (dependentEntryPoints.length > 1) {
-                return `shared.strings.${language}`
-              }
-            }
-          }
-        }
-      },
-      minify:'terser',
-      terserOptions:{
-        compress:{
-          drop_console:true,
-          drop_debugger:true
-        },
-        format:{
-          comments:false
-        }
-      },
-      chunkSizeWarningLimit:2000,
-      cssCodeSplit:true,
-      sourcemap:false,
-      // assetsInlineLimit:5000 // 图片5000转base64格式
-    },
+    }
   }
 })

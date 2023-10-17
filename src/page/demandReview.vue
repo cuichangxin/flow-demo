@@ -6,7 +6,7 @@
  * @Description: 
 -->
 <template>
-  <div class="content_main">
+  <div class="content_main" :style="{ height: `${configHeight}px` }">
     <div class="topMenu">
       <div class="menuArea">
         <!-- <div class="oneMenu">文件</div>
@@ -858,6 +858,7 @@ export default defineComponent({
       showEvalue: false,
       showTaskBook: true,
       showStretch: false,
+      configHeight:''
     })
     const methods = {
       leftArrow() {
@@ -1186,8 +1187,14 @@ export default defineComponent({
       setTimeout(() => {
         methods.getDaTree(1)
       }, 500)
+      state.configHeight = window.innerHeight - 140
+      window.addEventListener('resize', () => {
+        state.configHeight = window.innerHeight - 140
+      })
     })
-    onUnmounted(() => {})
+    onUnmounted(() => {
+      window.removeEventListener('resize', {})
+    })
     return {
       ...toRefs(state),
       editorOptions,
@@ -1469,10 +1476,8 @@ export default defineComponent({
 }
 .content_main {
   width: auto;
-  height: calc(100% - 60px);
   background: #f1f5f9;
   padding: 0;
-  margin: 0 8px;
   input {
     border: 1px solid #dfdfdf;
     cursor: not-allowed;
@@ -1956,5 +1961,8 @@ export default defineComponent({
       }
     }
   }
+}
+:deep(.el-menu--horizontal){
+  border-bottom: 1px solid #e2e2e2;
 }
 </style>

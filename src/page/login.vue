@@ -8,14 +8,21 @@
       <section class="main">
         <el-form ref="loginRef" :model="loginForm" :rules="loginRules" class="login-form">
           <el-form-item prop="username">
-            <el-input v-model="loginForm.username" placeholder="请输入账号" class="input">
+            <el-input v-model="loginForm.username" placeholder="请输入账号" class="input" @keyup.enter="goPwd">
               <template #prefix>
                 <i class="iconfont icon icon-renyuan"></i>
               </template>
             </el-input>
           </el-form-item>
           <el-form-item prop="password">
-            <el-input v-model="loginForm.password" placeholder="请输入密码" show-password class="input">
+            <el-input
+              v-model="loginForm.password"
+              placeholder="请输入密码"
+              show-password
+              class="input"
+              ref="pwdRef"
+              @keyup.enter="login"
+            >
               <template #prefix>
                 <i class="iconfont icon icon-24gf-lock2"></i>
               </template>
@@ -45,6 +52,7 @@ const router = useRouter()
 
 const { proxy } = getCurrentInstance()
 
+const pwdRef = ref(null)
 const loading = ref(false)
 const loginForm = ref({
   username: '',
@@ -109,6 +117,11 @@ function getCookie() {
   loginForm.value.rememberMe = rememberMes === undefined ? loginForm.value.rememberMe : Boolean(rememberMes)
 }
 getCookie()
+const goPwd = () => {
+  if (loginForm.value.username.length && loginForm.value.password === '') {
+    pwdRef.value.focus()
+  }
+}
 </script>
 <style lang="scss" scoped>
 .login-info {

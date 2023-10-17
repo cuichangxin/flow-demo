@@ -26,7 +26,7 @@
           <div class="flex">
             <span class="label">{{ item.recordName }}</span>
             <div class="record-value">
-              <div class="record_all_item_content">{{ item.value }}</div>
+              <div v-increasing="item.value" class="record_all_item_content">{{ item.value }}</div>
               <div class="unit">个</div>
             </div>
           </div>
@@ -499,7 +499,7 @@ const recordAllList_3 = [
 </script>
 <style lang="scss" scoped>
 .test_record {
-  background-color: #fff;
+  background-color: var(--header-bg-color);
   border-radius: 4px;
   padding: 15px;
 }
@@ -518,8 +518,8 @@ header {
   justify-content: flex-start;
   margin-bottom: 10px;
   padding: 15px 0;
-  border-top: 1px solid rgb(242, 243, 245);
-  border-bottom: 1px solid rgb(242, 243, 245);
+  border-top: 1px solid var(--el-border-color);
+  border-bottom: 1px solid var(--el-border-color);
 }
 
 .record_all_item {
@@ -529,20 +529,20 @@ header {
   align-items: center;
   justify-content: flex-start;
   padding: 0 30px;
-  border-right: 1px solid rgb(242, 243, 245);
+  border-right: 1px solid var(--el-border-color);
   &:last-child {
     border-right: none;
   }
   .label {
     display: inline-block;
     font-size: 14px;
-    color: rgb(78, 89, 105);
+    color: var(--my-text-bg-color);
     margin-bottom: 8px;
   }
   .img-info {
     width: 60px;
     height: 60px;
-    background-color: rgb(242, 243, 245);
+    background-color: var(--my-bg-color-2);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -563,11 +563,11 @@ header {
 }
 .record_all_item_content {
   font-size: 26px;
-  color: #1d2129;
+  color: var(--my-text-bg-color-3);
 }
 .unit {
   margin-left: 8px;
-  color: rgb(78, 89, 105);
+  color: var(--my-text-bg-color-2);
   font-size: 12px;
   margin-bottom: 6px;
 }
@@ -593,9 +593,9 @@ header {
   .record-item {
     width: 24%;
     height: 200px;
-    border-radius: 4px;
     padding: 15px;
-    border: 1px solid rgb(229, 230, 245);
+    border: 1px solid var(--el-border-color);
+    border-radius: 4px;
     header {
       display: flex;
       align-items: center;
@@ -603,7 +603,7 @@ header {
       .test-name {
         display: inline-block;
         font-weight: 500;
-        color: #333;
+        color: var(--my-text-bg-color-3);
         font-size: 14px;
       }
       .status_shape {

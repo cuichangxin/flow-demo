@@ -4,6 +4,7 @@
       <img class="logo" src="../../assets/images/login-logo.png" />
       <h2>航天软件智能生产线</h2>
     </div>
+    <dark class="dark-wrapper"></dark>
     <p v-if="!isOut" class="user_info">
       <el-dropdown trigger="click" @command="handleDrop">
         <span class="user">
@@ -31,7 +32,8 @@
   </el-header>
 </template>
 <script setup>
-import markPoiner from '../common/mark/markPoiner.vue'
+import markPoiner from './mark/markPoiner.vue'
+import dark from './dark'
 import Cookies from 'js-cookie'
 import { USERROLE } from '../../utils/map'
 
@@ -85,9 +87,9 @@ const handleDrop = (command) => {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #ffffff;
+  background: var(--header-bg-color);
   position: relative;
-  border-bottom: 1px solid #eaeaea;
+  border-bottom: 1px solid var(--el-border-color);
   transition: height 0.2s linear;
 
   .logo {
@@ -112,7 +114,7 @@ const handleDrop = (command) => {
   cursor: pointer;
 
   h2 {
-    color: #000000;
+    color: var(--header-text-color);
     margin-left: 16px;
     font-size: 19px;
   }
@@ -124,7 +126,7 @@ const handleDrop = (command) => {
   margin-right: 20px;
 
   span {
-    color: #000;
+    color: var(--header-text-color);
     font-size: 15px;
     font-weight: 500;
   }
@@ -156,5 +158,9 @@ const handleDrop = (command) => {
       font-weight: 500;
     }
   }
+}
+.dark-wrapper{
+  position: absolute;
+  right: 125px;
 }
 </style>

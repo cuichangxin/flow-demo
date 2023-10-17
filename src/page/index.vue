@@ -1,18 +1,17 @@
 <script setup>
 import breadCrumbs from '../components/common/breadCrumbs.vue'
-
-import Header from '../components/common/header.vue'
-import Menu from '../components/common/asideMenu.vue'
+import topBar from '../components/common/header.vue'
+import sidebar from '../components/common/asideMenu.vue'
 import { AppMain } from '../components'
 </script>
 
 <template>
   <el-container class="container">
-    <Header></Header>
+    <top-bar></top-bar>
     <el-container class="app_container">
-      <Menu></Menu>
+      <sidebar></sidebar>
       <el-scrollbar>
-        <breadCrumbs />
+        <bread-crumbs />
         <app-main />
       </el-scrollbar>
     </el-container>
@@ -26,6 +25,7 @@ import { AppMain } from '../components'
   position: relative;
   height: 100%;
   width: 100%;
+  overflow: hidden;
 }
 .container {
   height: 100%;
@@ -34,7 +34,7 @@ import { AppMain } from '../components'
 .el-scrollbar {
   height: 100%;
   width: 100%;
-  padding: 0 20px 20px;
+  padding: 0 20px 0;
 }
 
 :deep(.el-scrollbar__bar).is-vertical {

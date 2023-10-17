@@ -32,11 +32,11 @@
       <i class="iconfont icon">&#xe622;</i>
       应用任务模型
     </h4>
-    <el-scrollbar class="scrollbar">
+    <div class="scrollbar">
       <el-menu :default-openeds="['1']" class="menu-info">
         <modelMenu :moduleTree="moduleTree"></modelMenu>
       </el-menu>
-    </el-scrollbar>
+    </div>
     <markPoint :isOut="slideFade" :direction="'left'" :color="'#fff'" @hideMenu="hideMenu"></markPoint>
   </el-aside>
   <div
@@ -807,7 +807,6 @@ onBeforeUnmount(() => {
   width: calc(100% - 200px);
   background: #fff;
   position: relative;
-  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.12);
   overflow: hidden;
   transition: height 0.2s ease-in-out;
 
@@ -893,7 +892,6 @@ onBeforeUnmount(() => {
   background: #fff;
   border-radius: 3px;
   margin-left: 8px;
-  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.12);
   position: relative;
   overflow: visible;
   transition: width 0.3s ease-in-out, height 0.2s ease-in-out;
@@ -918,6 +916,7 @@ onBeforeUnmount(() => {
 
   .scrollbar {
     height: calc(100% - 60px);
+    border-bottom: 1px solid #e4e8ea;
   }
 
   &.fade {
@@ -937,7 +936,9 @@ onBeforeUnmount(() => {
 
 .menu-info {
   width: 100%;
+  height: 100%;
   display: inline-block;
   border-right: none;
+  overflow: auto;
 }
 </style>

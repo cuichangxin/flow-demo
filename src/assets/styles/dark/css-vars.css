@@ -1,0 +1,14 @@
+html.dark {
+  color-scheme: dark;
+  --el-color-primary: #0069f3;
+  --header-bg-color: #232324;
+  --header-text-color: #ffffffe6;
+  --menu-hover-bg-color: #ffffff14;
+  --sub-active-text-color: #3c7eff;
+  --my-bg-color: #262627;
+  --my-bg-color-2: #ffffff14;
+  --my-bg-color-3: rgb(55, 55, 55);
+  --my-text-bg-color: #ffffffe6;
+  --my-text-bg-color-2: #ffffffe6;
+  --my-text-bg-color-3: #ffffffb3;
+}

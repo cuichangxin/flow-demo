@@ -570,21 +570,19 @@ const HandleTree = (node) => {
     height: 35px;
     margin: 20px 0;
     p {
-      width: 80px;
+      width: 70px;
       font-weight: normal;
-      font-size: 15px;
+      font-size: 14px;
       margin: 0;
       line-height: 35px;
-      color: #8a8d99;
+      color: #4e5969;
     }
     .content {
       flex: 1;
       height: 100%;
-      background-color: #f4f4f4;
-      border: 1px solid #d2d1d2;
+      background-color: #f2f3f5;
       font-size: 14px;
       padding: 8px 5px;
-      border-radius: 3px;
     }
     .introduce {
       height: auto;

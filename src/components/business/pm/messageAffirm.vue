@@ -18,9 +18,9 @@
           </div>
           <div class="affirm_item">
             <span class="label">进&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;度:</span>
-            <div class="content" style="width: 99%">
-              <div class="name_item" style="width: 99%">
-                生产线预计在<em class="time">2023年09月27日</em>完成，比计划完成时间<em class="time">提前0</em>天
+            <div class="content">
+              <div class="name_item">
+                生产线预计在<em class="time">2023年10月16日</em>完成，比计划完成时间<em class="time">提前0</em>天
               </div>
             </div>
           </div>
@@ -29,8 +29,7 @@
           <span class="label" v-if="!fullFlag">活动流程:</span>
           <div class="flow_info">
             <div class="full_box" @click="fullScreen">
-              <img v-if="!fullFlag" class="img" src="../../../assets/images/quanping_o.png" />
-              <img v-else class="img" src="../../../assets/images/quxiaoquanping_o.png" />
+              <el-icon><FullScreen /></el-icon>
             </div>
             <div id="graph" class="graph_box"></div>
           </div>
@@ -38,7 +37,7 @@
         <div v-if="!fullFlag" class="tool">
           <span class="label">工具情况:</span>
           <div class="tool_info">
-            <el-table :data="tableList" border :header-cell-style="tableHeaderCellStyle">
+            <el-table :data="tableList" border>
               <el-table-column align="center" label="序号" width="80">
                 <template #default="scope">
                   {{ scope.$index + 1 }}
@@ -70,6 +69,7 @@ import Cookies from 'js-cookie'
 import NProgress from 'nprogress'
 import { LEVELMAP } from '@/utils/map'
 import { useKeepAliver } from '@/store/keepAlive'
+import { FullScreen } from '@element-plus/icons-vue'
 
 const { removeKeepAlive } = useKeepAliver()
 
@@ -89,12 +89,6 @@ let graph = null
 const createBtnFlag = ref(false)
 
 const loading = ref(false)
-
-function tableHeaderCellStyle() {
-  return {
-    background: '#efefef',
-  }
-}
 
 const fullScreen = () => {
   fullFlag.value = !fullFlag.value
@@ -221,7 +215,7 @@ onUnmounted(() => {
 </script>
 <style lang="scss" scoped>
 .scrollbar {
-  background-color: #fff;
+  background-color: var(--header-bg-color);
   border-radius: 4px;
   margin-top: 10px;
 }
@@ -247,6 +241,7 @@ onUnmounted(() => {
 
 .label {
   font-size: 14px;
+  color: var(--my-text-bg-color);
 }
 
 .flex {
@@ -258,13 +253,11 @@ onUnmounted(() => {
   min-width: 280px;
   padding: 0 20px;
   height: 30px;
-  background-color: #f4f3f3;
-  border: 1px solid #b0afaf;
+  background-color: var(--my-bg-color-2);
   margin-left: 10px;
   font-size: 14px;
-  line-height: 30px;
-  border-radius: 3px;
-
+  display: flex;
+  align-items: center;
   .time {
     font-style: normal;
     color: #0561f7;
@@ -280,17 +273,17 @@ onUnmounted(() => {
     margin-top: 10px;
     width: 100%;
     height: 500px;
-    border: 1px solid #b0afaf;
     position: relative;
 
-    .img {
-      width: 30px;
-      height: 30px;
+    .full_box {
       position: absolute;
       right: 10px;
       top: 5px;
       cursor: pointer;
     }
+  }
+  .flow_info{
+    border: 1px solid var(--el-border-color);
   }
 
   .tool_info {

@@ -1,6 +1,6 @@
 <template>
   <el-steps :active="isActive" align-center finish-status="success">
-    <el-step v-for="(step, index) in stepsList" :key="index" :description="step.name"></el-step>
+    <el-step v-for="(step, index) in stepsList" :key="index" :title="step.name"></el-step>
   </el-steps>
 </template>
 <script setup>
@@ -28,8 +28,3 @@ const stepsList = ref([
 ])
 
 </script>
-<style lang="scss" scoped>
-:deep(.el-step__description){
-  margin-top: 10px;
-}
-</style>
