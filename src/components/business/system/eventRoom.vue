@@ -6,36 +6,40 @@
  * @Description: 
 -->
 <template>
-  <div class="wrapper" :style="{height:`${configHeight}px`}">
+  <div class="wrapper" :style="{ height: `${configHeight}px` }">
     <div class="content_main" v-show="!activeManage">
       <div class="leftMenu">
         <div
           class="oneMenu"
           @click="areaSide.activeArea = !areaSide.activeArea"
-          :style="{ background: areaSide.activeArea ? '#f1f1f1' : '' }"
+          :style="{ background: areaSide.activeArea ? 'var(--my-bg-color-5)' : '' }"
         >
-          <img src="@/assets/images/liebiao.png" />活动库
+          <i class="iconfont icon-liebiao" />活动库
         </div>
         <div
           class="oneMenu"
           @click="areaSide.activeModel = !areaSide.activeModel"
-          :style="{ background: areaSide.activeModel ? '#f1f1f1' : '' }"
+          :style="{ background: areaSide.activeModel ? 'var(--my-bg-color-5)' : '' }"
         >
-          <img src="@/assets/images/moxing.png" />活动模型
+          <i class="iconfont icon-moxingguanli" />活动模型
         </div>
         <div
           class="oneMenu"
           @click="areaSide.attr = !areaSide.attr"
-          :style="{ background: areaSide.attr ? '#f1f1f1' : '' }"
+          :style="{ background: areaSide.attr ? 'var(--my-bg-color-5)' : '' }"
         >
-          <img src="@/assets/images/shuxing.png" style="height: 25px; width: 25px" />属性
+          <i class="iconfont icon-xinxi" />属性
         </div>
       </div>
       <div :class="[areaSide.activeArea ? 'sideArea' : 'sideAreaFade']">
         <div class="topText2" v-show="areaSide.activeArea">
           <div class="inner">活动库</div>
-          <img src="@/assets/images/add.png" title="添加活动" @click="state.activeVisible = true,
-        state.dialogInputActive = ''" />
+          <i
+            class="iconfont icon-tianjiawenjian"
+            style="font-size: 20px; margin-right: 5px"
+            title="添加活动"
+            @click=";(state.activeVisible = true), (state.dialogInputActive = '')"
+          />
         </div>
         <div class="Content" v-show="areaSide.activeArea">
           <el-tree
@@ -76,8 +80,12 @@
       <div class="sideArea2" :class="[areaSide.activeModel ? 'sideArea2' : 'sideAreaFade2']">
         <div class="topText2" style="display: flex" v-if="areaSide.activeModel">
           <div class="inner" style="margin-right: 1rem">活动模型</div>
-          <img src="@/assets/images/add.png" title="添加类型" @click="state.dialogVisible = true,
-        state.dialogInput = ''" />
+          <i
+            class="iconfont icon-tianjiawenjian"
+            style="font-size: 20px; margin-right: 5px"
+            title="添加类型"
+            @click=";(state.dialogVisible = true), (state.dialogInput = '')"
+          />
         </div>
         <div class="Content" v-if="areaSide.activeModel">
           <el-collapse v-model="activeNames">
@@ -196,33 +204,25 @@
                     <div class="Content2" v-show="areaSide.attr">
                       <div class="oneInput">
                         <span>ID:</span>
-                        <input type="text" disabled v-model="attrInfo.id" />
+                        <el-input type="text" size="small" disabled v-model="attrInfo.id" />
                       </div>
                       <div class="oneInput">
                         <span>类型:</span>
-                        <input type="text" disabled v-model="attrInfo.type" />
+                        <el-input type="text" size="small" disabled v-model="attrInfo.type" />
                       </div>
                       <div class="oneInput">
                         <span>名称:</span>
-                        <input type="text" class="specil" placeholder="请输入" v-model="attrInfo.name" />
-                      </div>
-                      <div class="oneInput" style="height: 37%; margin-top: 0rem">
-                        <span class="specail">描述:</span>
                         <el-input
-                          style="height: 100%; width: 73%; font-size: 16px; padding-top: 1.3rem"
-                          v-model="attrInfo.des"
-                          :rows="2"
-                          type="textarea"
+                          type="text"
+                          size="small"
+                          class="specil"
                           placeholder="请输入"
+                          v-model="attrInfo.name"
                         />
-
-                        <!-- <el-button
-                plain
-                size="small"
-                style="position:absolute;left:55%;"
-                @click="saveAttr"
-                >保存</el-button
-              > -->
+                      </div>
+                      <div class="oneInput">
+                        <span class="specail">描述:</span>
+                        <el-input size="small" v-model="attrInfo.des" :rows="2" type="textarea" placeholder="请输入" />
                       </div>
                     </div>
                   </el-tab-pane>
@@ -338,25 +338,26 @@
       <div class="rightMenu">
         <div class="oneMenu">
           <img src="@/assets/images/chat.png" style="height: 20px; width: 20px" />
+          <i class="iconfont icon-xiaoxi1"></i>
           交流
         </div>
         <div class="oneMenu">
-          <img src="@/assets/images/change.png" />
+          <i class="iconfont icon-bianji1"></i>
           变化
         </div>
         <div class="oneMenu">
-          <img src="@/assets/images/team.png" />
+          <i class="iconfont icon-a-tuandui4"></i>
           团队
         </div>
         <div class="oneMenu" @click="activeManage = true">
-          <img src="@/assets/images/active.png" />
+          <i class="iconfont icon-cangkuzidian"></i>
           活动库
         </div>
         <div class="oneMenuS" @click="saveParams">保存</div>
       </div>
     </div>
     <div class="content_bottom" v-show="!activeManage">
-      <img src="@/assets/images/file2.png" />
+      <i class="iconfont icon-24gf-folderMinus" style="margin-right: 7px"></i>
       {{ acticeList.length }}个文件已添加
     </div>
     <el-dialog v-model="dialogVisible" title="添加类型" width="30%">
@@ -436,14 +437,14 @@
     </el-dialog>
     <el-dialog v-model="activeManage" title="活动库管理" width="50%" :close-on-click-modal="false">
       <div class="oneButton" @click="showActiveAdd = true" v-show="!showActiveAdd">新增</div>
-      <div class="dialogOneArea" style="height: 20rem; border: 2px solid #eee" v-show="!showActiveAdd">
+      <div class="dialogOneArea" style="height: 20rem" v-show="!showActiveAdd">
         <el-table :data="tableData" style="width: 100%; height: 100%" @row-click="rowClick" highlight-current-row>
           <el-table-column fixed prop="typeValue" label="软件类型" />
           <el-table-column prop="levelValue" label="安全等级" />
           <el-table-column prop="lanValue" label="语言" />
           <el-table-column fixed="right" label="操作">
             <template #default="scope">
-              <span style="color: #409eff; cursor: pointer" @click="getDaTree(1, scope.row), activeManage = false"
+              <span style="color: #409eff; cursor: pointer" @click="getDaTree(1, scope.row), (activeManage = false)"
                 >编辑</span
               >
               <span style="color: red; cursor: pointer; margin-left: 1rem" @click="deleteActive(scope.row)">删除</span>
@@ -501,8 +502,7 @@
       </div>
       <template #footer>
         <span class="dialog-footer" v-show="showActiveAdd">
-          <el-button type="primary" @click="getDaTree(0),
-        activeManage = false"> 确认 </el-button>
+          <el-button type="primary" @click="getDaTree(0), (activeManage = false)"> 确认 </el-button>
         </span>
       </template>
     </el-dialog>
@@ -522,7 +522,7 @@ export default defineComponent({
   components: { Draggable, flowNode },
   setup(props, context) {
     const state = reactive({
-      configHeight:'',
+      configHeight: '',
       index: 13,
       activeManage: true,
       showActiveAdd: false,
@@ -1001,7 +1001,7 @@ export default defineComponent({
         let current = state.editableTabs.filter((fil) => {
           return fil.name == state.editableTabsValue
         })
-        console.log(current);
+        console.log(current)
         // state.jsPlumb.setContainer(
         //       // document.getElementById("efContainer" + current[0].name)
         //       document.getElementById("modelWrap")
@@ -1353,7 +1353,7 @@ export default defineComponent({
       },
       //拖动开始时
       move(evt, a, b, c) {
-        console.log(evt);
+        console.log(evt)
         var id = evt.item._underlying_vm_.id
         state.nodeMenu = methods.getMenuByType(id)
       },
@@ -2058,7 +2058,7 @@ export default defineComponent({
                   endpoint: [
                     'Image',
                     {
-                      src:  new URL(`../../../assets/images/spoint.png`, import.meta.url).href,
+                      src: new URL(`../../../assets/images/spoint.png`, import.meta.url).href,
                       cssClass: 'ef-img',
                       hoverClass: 'ef-img-hover',
                     },
@@ -2140,7 +2140,7 @@ export default defineComponent({
           })
           if (!has.length) {
             state.editableTabs.push(data.param)
-            console.log(state.editableTabs,'0-0-0-0--0-0--');
+            console.log(state.editableTabs, '0-0-0-0--0-0--')
           }
           state.editableTabsValue = data.tabId
           methods.rePainter()
@@ -2491,8 +2491,8 @@ export default defineComponent({
 </script>
 <style src="@/assets/styles/css/main.less" scoped></style>
 <style scoped lang="less">
-.el-select{
-    height: auto;
+.el-select {
+  height: auto;
 }
 .flex_center {
   display: flex;
@@ -2508,50 +2508,49 @@ export default defineComponent({
 :deep(.el-tab-pane) {
   height: 100%;
 }
-:deep(.el-tabs--card>.el-tabs__header .el-tabs__item.is-active){
-  background-color: #fff;
+:deep(.el-tabs--card > .el-tabs__header .el-tabs__item.is-active) {
+  background-color: var(--my-bg-color);
   display: flex;
 }
-:deep(.el-tabs__header){
+:deep(.el-tabs__header) {
   height: 32px;
   margin-bottom: 0;
-  background-color: #f1f1f1;
+  background-color: var(--my-bg-color-5);
 }
-:deep(.el-tabs__nav-wrap){
+:deep(.el-tabs__nav-wrap) {
   height: 32px;
 }
-:deep(.el-tabs__nav-scroll){
+:deep(.el-tabs__nav-scroll) {
   height: 32px;
 }
-:deep(.el-tabs__nav){
+:deep(.el-tabs__nav) {
   height: 32px;
   align-items: center;
 }
-:deep(.el-tabs__item){
+:deep(.el-tabs__item) {
   height: 32px;
 }
-.el-select{
+.el-select {
   flex: 1;
 }
-.Content2{
+.Content2 {
   width: auto !important;
-  margin: 0 10px;
 }
-.oneInput2{
+.oneInput2 {
   margin-top: 26px !important;
-  span{
+  span {
     // font-size: 14px !important;
     white-space: nowrap;
   }
 }
-.custom-tabs-label{
+.custom-tabs-label {
   display: flex;
   font-weight: 700;
 }
 .wrapper {
   height: 100%;
-  background-color: #fff;
-  border: 1px solid #d4d4d4;
+  background-color: var(--my-bg-color);
+  border: 1px solid var(--el-border-color);
 }
 :deep(.el-collapse-item__header) {
   padding-left: 2rem;
@@ -2563,15 +2562,14 @@ export default defineComponent({
   padding-left: 1rem;
 }
 :deep(.el-tree--highlight-current .el-tree-node.is-current > .el-tree-node__content) {
-  background-color: #f1f1f1;
+  background-color: var(--my-bg-color-2);
 }
 .dialogOneArea {
   width: 100%;
   .flex_center;
   flex-wrap: wrap;
   height: 10rem;
-  background: #efefef;
-  border-radius: 15px;
+  border: 1px solid var(--el-border-color);
   .activeInner {
     width: 100%;
     .flex_center;
@@ -2593,10 +2591,10 @@ export default defineComponent({
   width: 100%;
   height: auto;
   padding: 1rem 0 1rem 1rem;
-  background: #efefef;
-  border-radius: 15px;
+  background: var(--my-bg-color-3);
+  border-radius: 4px;
   margin-top: 1rem;
-  color: #000;
+  color: var(--my-text-bg-color);
   text-align: left;
 }
 .specil::-webkit-input-placeholder {
@@ -2605,7 +2603,7 @@ export default defineComponent({
 .addActive {
   width: 100%;
   height: 1.5rem;
-  background: #c5e1ff;
+  background: var(--my-bg-color-3);
   opacity: 0.3;
   font-size: 18px;
   margin-top: 0.5rem;
@@ -2615,7 +2613,7 @@ export default defineComponent({
 .activeImg {
   width: 10rem;
   height: 10rem;
-  border: 1px solid #dcdfe6;
+  border: 1px solid var(--el-border-color);
   border-radius: 3px;
   color: #767676;
   font-size: 30px;
@@ -2626,11 +2624,12 @@ export default defineComponent({
 .content_bottom {
   height: 2.5%;
   width: 100%;
-  background: #f1f1f1;
-  color: #858d9c;
+  background: var(--my-bg-color-5);
+  color: var(--my-text-bg-color);
   display: flex;
   align-items: center;
-  padding-left: 3rem;
+  padding-left: 0.8rem;
+  font-size: 15px;
   img {
     width: 15px;
     height: 15px;
@@ -2639,7 +2638,7 @@ export default defineComponent({
 }
 .content_main {
   display: flex;
-  color: #000;
+  color: var(--my-text-bg-color);
   height: 97.5%;
   .centerArea {
     width: calc(100% - 4px);
@@ -2648,9 +2647,9 @@ export default defineComponent({
   .rightMenu {
     width: 2%;
     height: 100%;
-    border-left: 1px solid #d8d8d8;
-    font-size: 18px;
-    background: #f1f1f1;
+    border-left: 1px solid var(--el-border-color);
+    font-size: 16px;
+    background: var(--my-bg-color-5);
 
     .oneMenu {
       width: 100%;
@@ -2684,17 +2683,18 @@ export default defineComponent({
     }
   }
   .leftMenu {
-    width: 1.8%;
+    width: 2.2%;
     height: 100%;
-    border-right: 1px solid #dadada;
-    border-bottom: 1px solid #dadada;
-    font-size: 18px;
+    border-right: 1px solid var(--el-border-color);
+    border-bottom: 1px solid var(--el-border-color);
+    font-size: 14px;
     .oneMenu {
       width: 100%;
       height: 9rem;
-      border-bottom: 1px solid #dadada;
+      border-bottom: 1px solid var(--el-border-color);
       writing-mode: vertical-lr;
       letter-spacing: 5px;
+      color: var(--my-text-bg-color);
       cursor: pointer;
       .flex_center;
       img {
@@ -2739,9 +2739,8 @@ export default defineComponent({
   .sideArea {
     width: 18.2%;
     height: 100%;
-    border-right: 1px solid #dbdbdb;
-    border-bottom: 1px solid #dbdbdb;
-    box-shadow: 0 0 5px 3px #f5f7fa inset;
+    border-right: 1px solid var(--el-border-color);
+    border-bottom: 1px solid var(--el-border-color);
     animation: fadein 0.5s;
   }
   .sideAreaFade {
@@ -2752,12 +2751,11 @@ export default defineComponent({
   .sideArea2 {
     width: 15%;
     height: 100%;
-    border-right: 1px solid #dbdbdb;
-    border-bottom: 1px solid #dbdbdb;
-    box-shadow: 0 0 5px 3px #f5f7fa inset;
+    border-right: 1px solid var(--el-border-color);
+    border-bottom: 1px solid var(--el-border-color);
     // animation: fadein2 0.8s;
     transition: width 0.5s;
-    background: #f1f1f1;
+    background: var(--my-bg-color-5);
   }
   .sideAreaFade2 {
     width: 0;
@@ -2768,13 +2766,13 @@ export default defineComponent({
   .topText2 {
     width: 100%;
     height: 2rem;
-    color: #000;
+    color: var(--my-text-bg-color);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #f1f1f1;
-    border-bottom: 1px solid #e4e7ed;
-    font-size: 18px;
+    background: var(--my-bg-color);
+    border-bottom: 1px solid var(--el-border-color);
+    font-size: 16px;
     .inner {
       width: 8rem;
       height: 100%;
@@ -2817,15 +2815,12 @@ export default defineComponent({
     // flex-wrap: wrap;
     overflow: auto;
     .oneInput {
-      width: 100%;
-      height: calc(19% - 1rem);
-      margin-top: 0.5rem;
-      min-height: 1rem;
       .flex_center;
+      margin: 8px;
       span {
         width: 10%;
         text-align: center;
-        font-size: 16px;
+        font-size: 14px;
       }
       input {
         width: 72%;
@@ -2909,11 +2904,11 @@ export default defineComponent({
     .attrbute {
       height: 25%;
       width: 100%;
-      border-top: 1px solid #e4e7ed;
+      border-top: 1px solid var(--el-border-color);
       animation: fadein3 0.8s;
       position: absolute;
       bottom: 0;
-      background: #fff;
+      background: var(--my-bg-color);
     }
     .attrbuteFade {
       height: 25%;
@@ -2966,6 +2961,8 @@ export default defineComponent({
   display: flex;
   justify-content: center;
   height: 100%;
-  padding-top: 1.3rem;
+}
+.el-collapse{
+  background-color: var(--my-bg-color);
 }
 </style>

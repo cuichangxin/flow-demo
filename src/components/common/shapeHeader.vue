@@ -1,6 +1,6 @@
 <template>
   <div class="menu-wrap">
-    <el-menu mode="horizontal" background-color="#fff" @select="itemClick">
+    <el-menu mode="horizontal" @select="itemClick">
       <shapeElMenu :menus="list" :tabIdx="tabIdx"></shapeElMenu>
       <div v-if="tabIdx === 2" class="change-over-btn">
         <el-button type="primary" text @click="changeView">切换视图</el-button>

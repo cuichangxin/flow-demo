@@ -132,12 +132,11 @@
                 }"
                 v-show="!item.isCollapse && !item.isDbCollapse"
               >
-                <img
+                <i
                   v-if="item.isArrows"
-                  class="img_jiantou"
-                  src="../assets/images/arrows.png"
+                  class="iconfont icon-svg-right-top"
                   :style="{ transform: tracking === 0 ? '' : 'rotate(180deg)' }"
-                />
+                ></i>
               </div>
             </div>
           </div>
@@ -188,7 +187,7 @@ const cellGroup = ref({})
 const tracking = ref(0)
 const timer = ref(null)
 
-const postTaskId = computed(()=>{
+const postTaskId = computed(() => {
   if (rowValue.value === 'testCase' && columnValue.value === 'need') {
     return 1002
   } else if (rowValue.value === 'software' && columnValue.value === 'need') {
@@ -199,7 +198,6 @@ const postTaskId = computed(()=>{
     return 1005
   }
 })
-
 
 const leftCollapseHandler = (data) => {
   const arr = data.children.map((item) => {
@@ -242,7 +240,7 @@ function collapseTree(tree, includes, key, show) {
       if (includes.includes(cell[key])) {
         if (key === 'rowKey') {
           cell.isCollapse = show
-        }else {
+        } else {
           cell.isDbCollapse = show
         }
       }
@@ -268,14 +266,14 @@ const changeColumn = (val) => {
 }
 const getRowInfo = () => {
   return new Promise((resolve, reject) => {
-    proxy.$axios.getDemandList({demandId:rowValue.value}).then((res) => {
+    proxy.$axios.getDemandList({ demandId: rowValue.value }).then((res) => {
       resolve(JSON.parse(res.data.daTree))
     })
   })
 }
 function getColumnInfo() {
   return new Promise((resolve, reject) => {
-    proxy.$axios.getDemandList({demandId:columnValue.value}).then((res) => {
+    proxy.$axios.getDemandList({ demandId: columnValue.value }).then((res) => {
       resolve(JSON.parse(res.data.daTree))
     })
   })
@@ -506,7 +504,7 @@ onUnmounted(() => {
 <style lang="scss" scoped>
 .go_back_wrapper {
   padding: 0 20px 20px;
-  background: #fff;
+  background: var(--my-bg-color);
   border-radius: 4px;
   text-align: center;
 }
@@ -519,7 +517,7 @@ onUnmounted(() => {
   justify-content: center;
 
   .element {
-    label{
+    label {
       font-size: 15px;
       font-weight: 500;
     }
@@ -537,7 +535,7 @@ onUnmounted(() => {
   overflow-y: auto;
 
   .table_info {
-    border: 1px solid #333;
+    border: 1px solid var(--my-border-color);
     .content {
       display: flex;
       border-radius: 8px;
@@ -593,7 +591,7 @@ onUnmounted(() => {
             position: absolute;
             left: 50%;
             top: 11px;
-            border-left: 1px dashed #dcdfe6;
+            border-left: 1px dashed var(--el-border-color);
           }
           .element-land-line {
             display: block;
@@ -601,7 +599,7 @@ onUnmounted(() => {
             position: absolute;
             top: 11px;
             left: 0;
-            border-top: 1px dashed #dcdfe6;
+            border-top: 1px dashed var(--el-border-color);
           }
         }
       }
@@ -621,18 +619,19 @@ onUnmounted(() => {
             width: 40px;
             height: 41px;
             min-width: 40px;
-            border: 1px solid #333;
+            border: 1px solid var(--my-border-color);
             border-right: none;
-            background: rgb(213, 213, 213);
+            background: #ababac;
             font-size: 14px;
+            color: var(--my-text-bg-color-4);
           }
         }
 
         .cell {
           width: 40px;
           height: 40px;
-          border-left: 1px solid #bbc8d1;
-          border-bottom: 1px solid #bbc8d1;
+          border-left: 1px solid var(--my-border-color-2);
+          border-bottom: 1px solid var(--my-border-color-2);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -650,14 +649,14 @@ onUnmounted(() => {
 .w {
   .top-left-box {
     width: 440px;
-    border-bottom: 1px solid #333;
+    border-bottom: 1px solid var(--my-border-color);
     display: flex;
     justify-content: flex-end;
 
     .blank {
       width: 40px;
-      border-right: 1px solid;
-      border-left: 1px solid;
+      border-right: 1px solid var(--my-border-color);
+      border-left: 1px solid var(--my-border-color);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -676,9 +675,9 @@ onUnmounted(() => {
       .cell-item {
         width: 100%;
         height: 40px;
-        border: 1px solid #333;
-        background: rgb(213, 213, 213);
-        color: #000;
+        border: 1px solid var(--my-border-color);
+        background: #ababac;
+        color: var(--my-text-bg-color-4);
         font-size: 14px;
         display: flex;
         align-items: center;
@@ -703,11 +702,25 @@ onUnmounted(() => {
 }
 .element-after-line {
   flex: 1;
-  border-left: 1px dashed #dcdfe6;
+  border-left: 1px dashed var(--el-border-color);
   margin: 10px 0;
 }
 :deep(.el-collapse-transition-enter-active),
 :deep(.el-collapse-transition-leave-active) {
   transition: none;
+}
+:deep(.element-tree-node-label-wrapper) {
+  .element-tree-node-label-line {
+    border-top: 1px dashed var(--el-border-color);
+  }
+  .element-tree-node-line-ver {
+    border-left: 1px dashed var(--el-border-color);
+  }
+  .element-tree-node-line-hor {
+    border: 1px dashed var(--el-border-color);
+  }
+}
+.icon-svg-right-top{
+  font-size: 20px;
 }
 </style>

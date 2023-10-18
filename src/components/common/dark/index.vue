@@ -38,32 +38,44 @@ const isDark = ref(true)
 const match = matchMedia('(prefers-color-scheme:dark)')
 const html = document.querySelector('html')
 
+// 默认模式
 const followOs = () => {
-  if (match.matches) {
+  const model = localStorage.getItem('dark-theme')
+  if (model === 'auto') {
+    if (match.matches) {
+      html.classList.remove('light')
+      html.classList.add('dark')
+      isDark.value = false
+      localStorage.setItem('dark-theme', 'dark')
+    } else {
+      html.classList.remove('dark')
+      html.classList.add('light')
+      isDark.value = true
+      localStorage.setItem('dark-theme', 'auto')
+    }
+  } else {
     html.classList.remove('light')
     html.classList.add('dark')
     isDark.value = false
-  } else {
-    html.classList.remove('dark')
-    html.classList.add('light')
-    isDark.value = true
   }
 }
 
-match.addEventListener('change', followOs)
 const toggleDark = () => {
   isDark.value = !isDark.value
   if (html) {
     if (isDark.value) {
       html.classList.remove('dark')
       html.classList.add('light')
+      localStorage.setItem('dark-theme', 'auto')
     } else {
       html.classList.remove('light')
       html.classList.add('dark')
+      localStorage.setItem('dark-theme', 'dark')
     }
   }
 }
-watchEffect(()=>{
+match.addEventListener('change', followOs)
+watchEffect(() => {
   followOs()
 })
 </script>

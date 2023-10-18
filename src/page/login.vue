@@ -29,7 +29,7 @@
             </el-input>
           </el-form-item>
           <el-form-item>
-            <el-button color="#0069f3" :loading="loading" class="button" type="primary" @click="login">
+            <el-button :loading="loading" class="button" type="primary" @click="login">
               <span v-if="!loading">登 录</span>
               <span v-else>登录中...</span>
             </el-button>
@@ -135,7 +135,7 @@ const goPwd = () => {
 .login-wrapper {
   width: 400px;
   height: 440px;
-  background-color: #fff;
+  background-color: var(--my-bg-color);
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
   position: absolute;
   right: 160px;
@@ -157,7 +157,7 @@ const goPwd = () => {
   .title {
     font-size: 27px;
     font-weight: bold;
-    color: #67686a;
+    color: var(--el-text-color-regular);
     margin-left: 20px;
   }
 }
@@ -180,7 +180,7 @@ const goPwd = () => {
 
 .icon {
   font-size: 18px;
-  color: #666;
+  color: var(--el-text-color-regular);
 }
 .other {
   width: 100%;
@@ -190,7 +190,7 @@ const goPwd = () => {
   .register,
   .forget {
     font-size: 14px;
-    color: #666;
+    color: var(--el-text-color-regular);
     font-weight: 500;
     height: 32px;
     margin: 0 0 25px;

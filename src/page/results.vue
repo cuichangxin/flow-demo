@@ -501,7 +501,7 @@ function previewFile() {
 </script>
 <style lang="scss" scoped>
 .results {
-  background-color: #fff;
+  background-color: var(--my-bg-color);
   border-radius: 4px;
   padding: 15px;
   .table {

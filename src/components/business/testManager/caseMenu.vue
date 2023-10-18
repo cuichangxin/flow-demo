@@ -1,7 +1,6 @@
 <template>
   <el-menu
     mode="horizontal"
-    background-color="#fff"
     @select="itemClick"
   >
     <shapeElMenu :menus="list"></shapeElMenu>
@@ -62,15 +61,11 @@ const itemClick = (index, indexPath, item) => {
   width: 100%;
   border-radius: 2px;
   margin-bottom: 10px;
+  background-color: var(--header-bg-color);
 }
 
 .el-menu--horizontal {
-  border-bottom: 1px solid #d2d2d2;
+  border-bottom: 1px solid var(--el-border-color);
   margin-bottom: 0;
-}
-
-:deep(.el-sub-menu__title),
-:deep(.el-menu-item) {
-  border-radius: 3px !important;
 }
 </style>

@@ -5,10 +5,15 @@ html.dark {
   --header-text-color: #ffffffe6;
   --menu-hover-bg-color: #ffffff14;
   --sub-active-text-color: #3c7eff;
-  --my-bg-color: #262627;
+  --my-bg-color: #141414;
   --my-bg-color-2: #ffffff14;
   --my-bg-color-3: rgb(55, 55, 55);
+  --my-bg-color-4: #828181b3;
+  --my-bg-color-5: #2e2e2e;
   --my-text-bg-color: #ffffffe6;
   --my-text-bg-color-2: #ffffffe6;
   --my-text-bg-color-3: #ffffffb3;
+  --my-text-bg-color-4: #ffffff;
+  --my-border-color: #4c4d4f;
+  --my-border-color-2: rgb(149, 153, 156);
 }

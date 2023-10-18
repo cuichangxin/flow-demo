@@ -18,7 +18,6 @@
             </el-tree>
           </div>
           <div class="test_case_wrapper">
-            <header class="header">测试用例</header>
             <div class="content">
               <div class="flex">
                 <div class="item">
@@ -621,18 +620,17 @@ onUnmounted(() => {
 }
 
 .tree-box {
-  width: 200px;
+  min-width: 200px;
   height: 100%;
-  background-color: #fff;
+  /* background-color: #fff; */
   overflow: auto;
 }
 
 .el-tree {
   min-width: 100%;
-  height: 100%;
-  color: #0e0e0e;
-  display: flex;
-  flex-wrap: wrap;
+  min-height: 100%;
+  display: inline-block;
+  background-color: var(--my-bg-color);
 }
 
 :deep(.el-tree-node) {
@@ -648,23 +646,13 @@ onUnmounted(() => {
   margin-left: 8px;
   border-radius: 3px;
   height: 100%;
-}
-
-.header {
-  height: 40px;
-  width: 100%;
-  background-color: #b9ccff;
-  color: #fff;
-  font-size: 15px;
-  font-weight: 700;
-  text-align: center;
-  line-height: 40px;
+  overflow: auto;
 }
 
 .content {
-  height: calc(100% - 14px);
+  height: 100%;
   padding: 10px 20px;
-  background-color: #fff;
+  background-color: var(--my-bg-color);
   position: relative;
   overflow: auto;
 
@@ -722,7 +710,7 @@ onUnmounted(() => {
 
   .handle_content {
     flex: 1;
-    border: 1px solid #dddcdc;
+    border: 1px solid var(--el-border-color);
     padding: 10px;
     min-width: 0;
   }
@@ -765,7 +753,12 @@ onUnmounted(() => {
   }
 }
 :deep(.splitpanes__splitter) {
-  background-color: #e9f1f6 !important;
+  background-color: var(--my-bg-color-2) !important;
+  border-left:1px solid var(--el-border-color) !important;
+}
+:deep(.splitpanes.default-theme .splitpanes__splitter:before),
+:deep(.splitpanes.default-theme .splitpanes__splitter:after){
+  background-color: var(--my-text-bg-color);
 }
 .splitpanes {
   height: calc(100% - 25px);
@@ -774,11 +767,12 @@ onUnmounted(() => {
   border-radius: 3px;
 }
 :deep(.docx-wrapper) {
-  background-color: #f4f4f4;
+  background-color: var(--my-bg-color-4);
 }
 :deep(.docx-wrapper > section.docx) {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   margin-bottom: 10px;
+  background-color: var(--my-bg-color);
 }
 .show_word {
   width: 0 !important;
@@ -808,5 +802,11 @@ onUnmounted(() => {
 }
 .pane {
   overflow: auto;
+}
+:deep(.splitpanes.default-theme .splitpanes__pane){
+  background-color: var(--my-bg-color-4);
+}
+:deep(.docx) {
+    color: var(--my-text-bg-color-3);
 }
 </style>

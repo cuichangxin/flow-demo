@@ -24,9 +24,10 @@ const useList = reactive([
   {
     id: '1',
     name: '软件生产看板',
-    link: '/broad',
+    link: '/board',
     icon: 'icon-zixiangmukanban',
-    hide: false,
+    hide: Cookies.get('roleId') == '7' ? true : false,
+    target:'_blank'
   },
   {
     id: '2',
@@ -168,6 +169,7 @@ const activeMenu = computed(() => {
 :deep(.el-sub-menu__title) {
   &:hover {
     background-color: var(--menu-hover-bg-color);
+    color: var(--sub-active-text-color);
   }
 }
 
@@ -193,6 +195,7 @@ const activeMenu = computed(() => {
     margin: 2px 0;
     &:hover {
       background-color: var(--menu-hover-bg-color) !important;
+      color: var(--sub-active-text-color);
     }
   }
   :deep(.el-sub-menu .el-menu-item) {

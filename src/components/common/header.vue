@@ -4,8 +4,8 @@
       <img class="logo" src="../../assets/images/login-logo.png" />
       <h2>航天软件智能生产线</h2>
     </div>
-    <dark class="dark-wrapper"></dark>
     <p v-if="!isOut" class="user_info">
+      <dark class="dark-wrapper"></dark>
       <el-dropdown trigger="click" @command="handleDrop">
         <span class="user">
           <el-avatar class="avatar" :src="state.avatarUrl" :size="32" />
@@ -55,7 +55,7 @@ const state = reactive({
 
 const backIndex = () => {
   router.replace({
-    path:'/'
+    path: '/',
   })
 }
 const handleDrop = (command) => {
@@ -147,20 +147,16 @@ const handleDrop = (command) => {
 .avatar {
   margin-right: 8px;
 }
-.user_role{
+.user_role {
   display: flex;
   flex-direction: column;
-  .role--span{
-    &:nth-child(2){
+  .role--span {
+    &:nth-child(2) {
       display: inline-block;
       font-size: 13px;
       margin-top: 3px;
       font-weight: 500;
     }
   }
-}
-.dark-wrapper{
-  position: absolute;
-  right: 125px;
 }
 </style>

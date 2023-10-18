@@ -32,7 +32,7 @@
       <el-table
         :data="tableList.slice((currentPage - 1) * pagesize, currentPage * pagesize)"
         border
-        :max-height="tableHeight"
+        :header-cell-style="tableHeaderCellStyle"
       >
         <el-table-column align="center" label="序号" width="80">
           <template #default="scope">
@@ -94,13 +94,17 @@ const pagesize = ref(10)
 const tableList = ref([])
 const cloneSearchData = ref([])
 const searchId = ref(1)
-const tableHeight = ref(0)
 
 const handlerCurrentChange = (val) => {
   currentPage.value = val
 }
 const handleSizeChange = () => {
   currentPage.value = 1
+}
+function tableHeaderCellStyle() {
+  return {
+    background: 'var(--my-bg-color-2)',
+  }
 }
 // 新建项目
 const addProject = () => {
@@ -177,14 +181,7 @@ const handleCommand = (command) => {
   })
 }
 onMounted(() => {
-  tableHeight.value = window.innerHeight - 300
-  window.addEventListener('resize', () => {
-    tableHeight.value = window.innerHeight - 300
-  })
   getProject()
-})
-onUnmounted(() => {
-  window.removeEventListener('resize', () => {})
 })
 </script>
 <style lang="scss" scoped>

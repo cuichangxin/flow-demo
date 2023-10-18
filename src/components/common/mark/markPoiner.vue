@@ -1,8 +1,7 @@
 <template>
   <div class="click" @click="out" :style="{ opacity: isOut ? '1' : '' }"
     :class="[direction === 'right' ? 'right' : direction === 'left' ? 'left' : direction === 'top' ? 'top' : 'bottom']">
-    <div class="inBg" :class="[direction == 'right' ? 'ti' : direction === 'left' ? 'left' : direction === 'top' ? 'top' : 'bottom']"
-      :style="{ background: color }">
+    <div class="inBg" :class="[direction == 'right' ? 'ti' : direction === 'left' ? 'left' : direction === 'top' ? 'top' : 'bottom']">
     </div>
     <img v-if="color === '#545c64'" src="../../../assets/images/zuojiantou.png" :class="{ 'rotate': isOut }" />
     <img v-else class="black_img" src="../../../assets/images/zuojiantou_black.png" :class="{ 'rotate': isOut, 'top_rotate':isOut && direction === 'top','left_rotate':isOut && direction === 'left' }" />
@@ -40,7 +39,7 @@ const out = () => {
   .ti {
     width: 18px;
     height: 60px;
-    background-color: #545c64;
+    background-color: var(--my-bg-color-2);
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
     transform: perspective(30px) rotateX(0deg) rotateY(15deg) translateZ(0);
@@ -49,7 +48,7 @@ const out = () => {
   .top {
     width: 60px;
     height: 18px;
-    background-color: #545c64;
+    background-color: var(--my-bg-color-2);
     border-top-right-radius: 10px;
     border-top-left-radius: 10px;
     transform: perspective(251px) rotateX(0deg) rotateY(12deg) translateZ(0);
@@ -58,7 +57,7 @@ const out = () => {
   .left {
     width: 18px;
     height: 60px;
-    background-color: #545c64;
+    background-color: var(--my-bg-color-2);
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
     transform: perspective(351px) rotateX(0deg) rotateY(15deg) translateZ(0);
@@ -67,7 +66,7 @@ const out = () => {
   .bottom {
     width: 60px;
     height: 18px;
-    background-color: #545c64;
+    background-color: var(--my-bg-color-2);
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
     transform: perspective(251px) rotateX(0deg) rotateY(12deg) translateZ(0);
@@ -165,6 +164,6 @@ const out = () => {
   }
 }
 .inBg{
-  border: 1px solid #ebe9e9;
+  border: 1px solid var(--el-border-color);
 }
 </style>

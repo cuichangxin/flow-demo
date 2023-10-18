@@ -4,8 +4,6 @@
       :data="tableList.slice((currentPage - 1) * pagesize, currentPage * pagesize)"
       border
       :header-cell-style="tableHeaderCellStyle"
-      :cell-style="cellStyle"
-      :max-height="tableHeight"
     >
       <el-table-column align="center" label="序号" width="80">
         <template #default="scope">
@@ -82,7 +80,6 @@ const router = useRouter()
 const { proxy } = getCurrentInstance()
 const currentPage = ref(1)
 const pagesize = ref(10)
-const tableHeight = ref(0)
 const tableList = ref([])
 const taskStatus = TASKSTATUS
 const beingTask = ref([])
@@ -99,16 +96,7 @@ const handleSizeChange = () => {
 
 function tableHeaderCellStyle() {
   return {
-    background: '#efefef',
-  }
-}
-function cellStyle({ row, column, rowIndex, columnIndex }) {
-  if (row.status === 1 && columnIndex === 5) {
-    return { color: '#81B337' }
-  } else if (row.status === 2 && columnIndex === 5) {
-    return { color: '#BD3124' }
-  } else if (row.status === 3 && columnIndex === 5) {
-    return { color: '#E99D42' }
+    background: 'var(--my-bg-color-2)',
   }
 }
 onMounted(() => {
@@ -124,15 +112,8 @@ onMounted(() => {
       getTask()
     }, 2000)
   }
-  nextTick(() => {
-    tableHeight.value = window.innerHeight - 238
-  })
-  window.addEventListener('resize', () => {
-    tableHeight.value = window.innerHeight - 238
-  })
 })
 onUnmounted(() => {
-  window.removeEventListener('resize', () => {})
   window.removeEventListener('click', () => {})
 })
 
@@ -243,12 +224,11 @@ onBeforeUnmount(() => {
 </script>
 <style lang="scss" scoped>
 .task_info {
-  background-color: #fff;
+  background-color: var(--my-bg-color);
   padding: 10px;
-  border-radius: 8px;
+  border-radius: 4px;
   margin: 8px 8px 0;
   height: calc(100% - 65px);
-  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.07);
   overflow: hidden;
 }
 
@@ -256,16 +236,7 @@ onBeforeUnmount(() => {
   margin-top: 30px;
   display: flex;
   justify-content: center;
-  :deep(.el-pagination.is-background .el-pager li.is-active) {
-    background-color: #0069f3;
-  }
 }
-/* :deep(.el-table .cell) {
-  min-height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-} */
 :deep(.el-table td.el-table__cell) {
   padding: 0;
   height: 43px;

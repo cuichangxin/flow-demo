@@ -414,7 +414,7 @@ const HandleTree = (node) => {
 }
 
 .tree_box {
-  background: #fff;
+  background: var(--my-bg-color);
   border-radius: 4px;
   width: 220px;
 }
@@ -422,7 +422,6 @@ const HandleTree = (node) => {
 .el-tree {
   :deep(.el-tree-node__content) {
     height: 40px;
-    color: #030303;
   }
 }
 
@@ -433,14 +432,14 @@ const HandleTree = (node) => {
   border-radius: 4px;
   padding: 20px;
   overflow: hidden;
-  background-color: #fff;
+  background-color: var(--my-bg-color);
   header {
     display: flex;
     justify-content: center;
     position: relative;
     h3 {
       font-size: 20px;
-      color: #494a4b;
+      color: var(--my-text-bg-color);
       text-align: center;
       margin-top: 5px;
     }
@@ -465,7 +464,7 @@ const HandleTree = (node) => {
 .tool_room_content_item {
   position: relative;
   width: 350px;
-  border: 1px solid #ebebeb;
+  border: 1px solid var(--el-border-color);
   padding: 20px 10px;
   font-size: 14px;
   display: flex;
@@ -475,7 +474,7 @@ const HandleTree = (node) => {
   cursor: pointer;
   transition: transform 0.2s ease-in-out, box-shadow .2s cubic-bezier(0, 0, 1, 1);
   &:hover{
-    box-shadow: 0 4px 10px rgb(242,243,245);
+    box-shadow: 0 4px 10px var(--el-fill-color);
     transform: translateY(-4px);
   }
 }
@@ -511,12 +510,12 @@ const HandleTree = (node) => {
   align-items: center;
   justify-content: center;
   font-size: 32px;
-  color: #bdbdbd;
+  color: var(--my-text-bg-color);
   cursor: pointer;
 }
 
 .add_tool {
-  border: 1px solid #bdbdbd;
+  border: 1px solid var(--el-border-color);
   padding: 20px;
   height: 100%;
 }
@@ -560,7 +559,7 @@ const HandleTree = (node) => {
 .tool-detail {
   width: 100%;
   height: calc(100% - 10px);
-  border: 1px solid #ededed;
+  border: 1px solid var(--el-border-color);
   padding: 6px 30px;
   display: flex;
   flex-wrap: wrap;
@@ -573,14 +572,14 @@ const HandleTree = (node) => {
       width: 70px;
       font-weight: normal;
       font-size: 14px;
-      margin: 0;
+      margin: 0 0 0 5px;
       line-height: 35px;
-      color: #4e5969;
+      color: var(--my-text-bg-color);
     }
     .content {
       flex: 1;
       height: 100%;
-      background-color: #f2f3f5;
+      background-color: var(--my-bg-color-3);
       font-size: 14px;
       padding: 8px 5px;
     }

@@ -10,7 +10,7 @@
           <sidebarMenu :menus="item.children"></sidebarMenu>
         </el-sub-menu>
 
-        <app-link v-else :to="item.link">
+        <app-link v-else :to="item.link" :target="item.target">
           <el-menu-item :index="item.link">
             <i class="iconfont icon" :class="[item.icon]"></i>
             <template #title>

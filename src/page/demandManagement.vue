@@ -301,7 +301,7 @@ onUnmounted(() => {
   }
   :deep(.el-tree) {
     border-radius: 4px;
-    background-color: #fff;
+    background-color: var(--my-bg-color);
     width: 400px;
     min-height: 400px;
     .el-tree-node__content {
