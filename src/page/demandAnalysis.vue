@@ -22,7 +22,7 @@
         </pane>
         <pane :size="showWord ? 55 : 100">
           <div style="display: flex; justify-content: space-between; height: 100%">
-            <div v-if="isDemand" :class="[showTree ? 'leftTree' : 'leftTree2']">
+            <div v-if="showTree" class="leftTree">
               <el-tree
                 :data="treeData"
                 :props="defaultProps"
@@ -55,24 +55,15 @@
               </el-tree>
             </div>
             <div v-if="isDemand" class="rightContent">
-              <div class="width:100%;height:100%;" v-if="params.id && showDetail">
-                <div
-                  v-if="showRocket2"
-                  :style="{ right: showAffix ? '-2%' : '-4.5%' }"
-                  class="rightChoose"
-                  @mouseenter="showAffix = true"
-                  @mouseleave="showAffix = false"
-                >
-                  <el-collapse accordion>
-                    <el-collapse-item name="1">
-                      <template #title>
-                        <img
-                          src="../assets/images/icon.png"
-                          style="height: 50px; width: 50px"
-                          :class="[trsnsformImg ? 'transformImg' : 'transformImg2']"
-                          @click="trsnsformImg = !trsnsformImg"
-                        />
-                      </template>
+              <div v-if="params.id && showDetail">
+                <div v-if="showRocket2" class="rightChoose">
+                  <el-popover placement="left" popper-style="min-width:80px;width:80px;" :visible="popoverVisible">
+                    <template #reference>
+                      <div class="float_menu">
+                        <i class="iconfont icon-xuanfucaidan" @click="popoverVisible = !popoverVisible" />
+                      </div>
+                    </template>
+                    <div class="float-menu_content">
                       <draggable
                         @end="end"
                         @start="move"
@@ -83,12 +74,12 @@
                       >
                         <template #item="{ element }">
                           <div class="chooseCollapse" :title="element.name">
-                            <img :src="getImgUrl(element.id + '.png')" style="cursor: pointer" />
+                            <i :class="['iconfont', element.icon]"></i>
                           </div>
                         </template>
                       </draggable>
-                    </el-collapse-item>
-                  </el-collapse>
+                    </div>
+                  </el-popover>
                 </div>
                 <h4 style="color: #1b89f0; font-size: 18px">需求详情</h4>
                 <ul class="ulClass">
@@ -118,7 +109,7 @@
                         >
                         <div class="oneProduce" v-for="(item, index) in params.produce" :key="index">
                           <i class="iconfont icon-liebiao"></i>
-                          <span>步骤{{ index + 1 }}</span>
+                          <span style="min-width: 0; margin-left: 10px">步骤{{ index + 1 }}</span>
                           <el-select
                             v-model="item.value"
                             size="small"
@@ -133,20 +124,18 @@
                               :value="gs.content"
                             />
                           </el-select>
-                          <span @click="deleteProduce(params, index)" style="cursor: pointer;">×</span
-                          >
+                          <span @click="deleteProduce(params, index)" style="cursor: pointer">×</span>
                         </div>
                       </div>
                       <img
-                        v-show="!showAffix"
                         src="../assets/images/add2.png"
                         @click="produceDrawer = true"
                         style="height: 20px; width: 20px; margin-left: 1rem; cursor: pointer"
                         title="添加步骤可选择项"
                       />
                       <teleport to="#teleport-produce">
-                        <el-drawer size="20%" v-model="produceDrawer" direction="rtl">
-                          <span>添加该步骤可选择内容</span>
+                        <el-drawer size="30%" v-model="produceDrawer" direction="rtl">
+                          <span style="display: inline-block; margin-bottom: 10px">添加该步骤可选择内容</span>
                           <span style="margin-left: 1rem; cursor: pointer" @click="addProduceContent">+</span>
                           <div
                             style="height: 5%"
@@ -161,7 +150,7 @@
                               >×</span
                             >
                           </div>
-                          <div style="position: absolute; bottom: 0; width: 90%" class="drawerContent">
+                          <div class="drawerContent" style="float: right; margin: 15px 26px 0">
                             <el-button type="primary" @click="saveProduce">确认</el-button>
                           </div>
                         </el-drawer>
@@ -262,7 +251,7 @@
                                   @mouseenter="area.showDelete = true"
                                   @mouseleave="area.showDelete = false"
                                 >
-                                  <el-checkbox  type="checkbox" name="" id="" v-model="area.checked" />
+                                  <el-checkbox type="checkbox" name="" id="" v-model="area.checked" />
                                   <el-input
                                     type="text"
                                     @blur="area.showBorder = false"
@@ -288,13 +277,12 @@
                                 </li>
                                 <li></li>
                               </ul>
-                              <span @click="deleteGrid(item, item.i)" style="min-width: 0;" class="deleteGrid">×</span>
+                              <span @click="deleteGrid(item, item.i)" style="min-width: 0" class="deleteGrid">×</span>
                             </div>
                             <!-- 拖动tab表格进来 -->
                             <div class="tabTableChoose" v-show="item.type == '2'">
                               <teleport to="#teleport-target" v-if="teleportCurrent == item.i">
                                 <el-drawer size="20%" v-model="drawer" direction="rtl">
-                                  
                                   <div class="drawerContent">
                                     <label>添加tab页名称</label>
                                     <el-input type="text" v-model="tabNameInput" />
@@ -303,7 +291,7 @@
                                     <label>添加对应列名称(、符号隔开)</label>
                                     <el-input type="text" v-model="tabColumeInput" />
                                   </div>
-                                  <div style="position: absolute; bottom: 0; right: 25px;" class="drawerContent">
+                                  <div style="position: absolute; bottom: 0; right: 25px" class="drawerContent">
                                     <el-button @click="drawer = fasle">取消</el-button>
                                     <el-button type="primary" @click="addtabArea(item)">确认</el-button>
                                   </div>
@@ -318,12 +306,12 @@
                                     :key="index"
                                     style="flex-direction: column"
                                   >
-                                    <div style="width: 100%; font-size: 14px;">
+                                    <div style="width: 100%; font-size: 14px">
                                       {{ jou.label }}
                                     </div>
                                     <el-input type="text" v-model="jou.content" />
                                   </div>
-                                  <div style="position: absolute; bottom: 0; right:25px;" class="drawerContent">
+                                  <div style="position: absolute; bottom: 0; right: 25px" class="drawerContent">
                                     <el-button @click="drawer2 = fasle">取消</el-button>
                                     <el-button type="primary" @click="addColumnList(item)">确认</el-button>
                                   </div>
@@ -331,12 +319,7 @@
                                 </el-drawer>
                               </teleport>
                               <span
-                                style="
-                                  z-index: 9;
-                                  cursor: pointer;
-                                  position: absolute;
-                                  right: 30px; top: 5px;
-                                "
+                                style="z-index: 9; cursor: pointer; position: absolute; right: 30px; top: 5px"
                                 @click="addTab(item.i)"
                                 title="添加tab页"
                                 >+</span
@@ -407,7 +390,7 @@
                                 <!-- <el-tab-pane label="Role" name="third">Role</el-tab-pane>
                     <el-tab-pane label="Task" name="fourth">Task</el-tab-pane> -->
                               </el-tabs>
-                              <span @click="deleteGrid(item, item.i)" style="min-width: 0;" class="deleteGrid">×</span>
+                              <span @click="deleteGrid(item, item.i)" style="min-width: 0" class="deleteGrid">×</span>
                             </div>
                             <!-- 拖动选择框进来 -->
                             <div class="checkboxChoose" v-show="item.type == '3'">
@@ -442,7 +425,7 @@
                                   >×</span
                                 >
                               </div>
-                              <span @click="deleteGrid(item, item.i)" style="min-width: 0;" class="deleteGrid">×</span>
+                              <span @click="deleteGrid(item, item.i)" style="min-width: 0" class="deleteGrid">×</span>
                             </div>
                             <!-- 拖动文本框进来 -->
                             <div class="textChoose" v-show="item.type == '4'">
@@ -454,7 +437,7 @@
                                 type="textarea"
                                 placeholder="请输入"
                               />
-                              <span @click="deleteGrid(item, item.i)" style="min-width: 0;" class="deleteGrid">×</span>
+                              <span @click="deleteGrid(item, item.i)" style="min-width: 0" class="deleteGrid">×</span>
                             </div>
                           </grid-item>
                         </grid-layout>
@@ -545,7 +528,7 @@
                                 </li>
                                 <li></li>
                               </ul>
-                              <span @click="deleteGrid2(item, item.i)" style="min-width: 0;" class="deleteGrid">×</span>
+                              <span @click="deleteGrid2(item, item.i)" style="min-width: 0" class="deleteGrid">×</span>
                             </div>
                             <!-- 拖动tab表格进来 -->
                             <div class="tabTableChoose" v-show="item.type == '2'">
@@ -559,7 +542,7 @@
                                     <label>添加对应列名称(、符号隔开)</label>
                                     <el-input type="text" v-model="tabColumeInput" />
                                   </div>
-                                  <div style="position: absolute; bottom: 0; right: 25px;" class="drawerContent">
+                                  <div style="position: absolute; bottom: 0; right: 25px" class="drawerContent">
                                     <el-button @click="drawer3 = fasle">取消</el-button>
                                     <el-button type="primary" @click="addtabArea(item)">确认</el-button>
                                   </div>
@@ -579,7 +562,7 @@
                                     </div>
                                     <el-input type="text" v-model="jou.content" />
                                   </div>
-                                  <div style="position: absolute; bottom: 0; right: 25px;" class="drawerContent">
+                                  <div style="position: absolute; bottom: 0; right: 25px" class="drawerContent">
                                     <el-button @click="drawer4 = fasle">取消</el-button>
                                     <el-button type="primary" @click="addColumnList(item)">确认</el-button>
                                   </div>
@@ -672,7 +655,7 @@
                                 <!-- <el-tab-pane label="Role" name="third">Role</el-tab-pane>
                     <el-tab-pane label="Task" name="fourth">Task</el-tab-pane> -->
                               </el-tabs>
-                              <span @click="deleteGrid2(item, item.i)" style="min-width: 0;" class="deleteGrid">×</span>
+                              <span @click="deleteGrid2(item, item.i)" style="min-width: 0" class="deleteGrid">×</span>
                             </div>
                             <!-- 拖动选择框进来 -->
                             <div class="checkboxChoose" v-show="item.type == '3'">
@@ -707,7 +690,7 @@
                                   >×</span
                                 >
                               </div>
-                              <span @click="deleteGrid2(item, item.i)" style="min-width: 0;" class="deleteGrid">×</span>
+                              <span @click="deleteGrid2(item, item.i)" style="min-width: 0" class="deleteGrid">×</span>
                             </div>
                             <!-- 拖动文本框进来 -->
                             <div class="textChoose" v-show="item.type == '4'">
@@ -718,7 +701,7 @@
                                 type="textarea"
                                 placeholder="请输入"
                               />
-                              <span @click="deleteGrid2(item, item.i)" style="min-width: 0;" class="deleteGrid">×</span>
+                              <span @click="deleteGrid2(item, item.i)" style="min-width: 0" class="deleteGrid">×</span>
                             </div>
                           </grid-item>
                         </grid-layout>
@@ -809,7 +792,7 @@
                                 </li>
                                 <li></li>
                               </ul>
-                              <span @click="deleteGrid3(item, item.i)" style="min-width: 0;" class="deleteGrid">×</span>
+                              <span @click="deleteGrid3(item, item.i)" style="min-width: 0" class="deleteGrid">×</span>
                             </div>
                             <!-- 拖动tab表格进来 -->
                             <div class="tabTableChoose" v-show="item.type == '2'">
@@ -916,7 +899,7 @@
                                   </div>
                                 </el-tab-pane>
                               </el-tabs>
-                              <span @click="deleteGrid3(item, item.i)" style="min-width: 0;" class="deleteGrid">×</span>
+                              <span @click="deleteGrid3(item, item.i)" style="min-width: 0" class="deleteGrid">×</span>
                             </div>
                             <!-- 拖动选择框进来 -->
                             <div class="checkboxChoose" v-show="item.type == '3'">
@@ -951,7 +934,7 @@
                                   >×</span
                                 >
                               </div>
-                              <span @click="deleteGrid3(item, item.i)" style="min-width: 0;" class="deleteGrid">×</span>
+                              <span @click="deleteGrid3(item, item.i)" style="min-width: 0" class="deleteGrid">×</span>
                             </div>
                             <!-- 拖动文本框进来 -->
                             <div class="textChoose" v-show="item.type == '4'">
@@ -963,7 +946,7 @@
                                 type="textarea"
                                 placeholder="请输入"
                               />
-                              <span @click="deleteGrid3(item, item.i)" style="min-width: 0;" class="deleteGrid">×</span>
+                              <span @click="deleteGrid3(item, item.i)" style="min-width: 0" class="deleteGrid">×</span>
                             </div>
                           </grid-item>
                         </grid-layout>
@@ -1090,6 +1073,7 @@ const autoList = reactive({
     },
   ],
 })
+const popoverVisible = ref(false)
 const index = ref(-1)
 const index2 = ref(-1)
 const index3 = ref(-1)
@@ -1099,7 +1083,6 @@ const dialogVisible = ref(false)
 const addTreeNode = ref('') //添加树节点的输入框
 const params = ref({ label: '' })
 const treeData = ref([])
-const trsnsformImg = ref(false)
 const drawer = ref(false)
 const drawer2 = ref(false)
 const drawer3 = ref(false)
@@ -1113,18 +1096,22 @@ const dragList = ref([
   {
     id: '1',
     name: '输入框',
+    icon: 'icon-danhangshurukuang',
   },
   {
     id: '2',
     name: 'tab表格页',
+    icon: 'icon-biaoge',
   },
   {
     id: '3',
     name: '选择框',
+    icon: 'icon-duoxuankuang',
   },
   {
     id: '4',
     name: '文本框',
+    icon: 'icon-wenbenkuang',
   },
 ])
 const typeList = ref([])
@@ -1135,13 +1122,10 @@ const showDetail = ref(false)
 const teleportColume = ref('')
 const teleportCurrent = ref('') //定义当前的teleport
 const taskId = ref(1)
-const activeIndex = ref('1')
-const showTree = ref(true)
-const showAffix = ref(false)
 const showEvalue = ref(false)
-const showTaskBook = ref(false)
 const showStretch = ref(false)
 const isDemand = ref(false)
+const showTree = ref(true)
 const menuList = ref([
   {
     title: '文件',
@@ -1179,6 +1163,10 @@ const menuList = ref([
     title: '视图',
     icon: 'icon-chakan',
     children: [
+      {
+        title: '左侧树',
+        icon: '',
+      },
       {
         title: '左右对照模式',
         icon: '',
@@ -1273,7 +1261,6 @@ async function getDaTree() {
 }
 function handleNodeClick(data) {
   showDetail.value = true
-  trsnsformImg.value = false
   showRocket2.value = false
   setTimeout(() => {
     showRocket2.value = true
@@ -1306,12 +1293,13 @@ function handleSelect(key) {
       message: '已重新生成需求文档',
     })
   } else if (key == '左侧树') {
+    showTree.value = !showTree.value
   } else if (key === '智能验证') {
     isAdvice.value = true
     showStretch.value = true
   } else if (key === '左右对照模式') {
     showWord.value = !showWord.value
-  }else if (key === '智能辅助视图模式') {
+  } else if (key === '智能辅助视图模式') {
     showStretch.value = !showStretch.value
   }
 }
@@ -1678,7 +1666,7 @@ function end(evt) {
 function previewfile() {
   nextTick(() => {
     // fetch('/public/mock/word/demand_analysis.docx')
-      fetch('/assets/mock/word/demand_analysis.docx')
+    fetch('/assets/mock/word/demand_analysis.docx')
       .then((response) => {
         let docData = response.blob() //将文件转换成bolb形式
         //选择要渲染的元素
@@ -1845,12 +1833,12 @@ onUnmounted(() => {
   margin-top: 1rem;
 }
 .drawerContent {
-  height: 10%;
-  label{
+  display: flex;
+  align-items: center;
+  label {
     font-weight: normal;
     font-size: 14px;
     white-space: nowrap;
-    margin-right: 5px;
   }
 }
 .gridItem {
@@ -1984,13 +1972,6 @@ onUnmounted(() => {
     animation: emergeTree 0.3s forwards;
     position: relative;
   }
-  .leftTree2 {
-    background: #fff;
-    margin-right: 10px;
-    height: 100%;
-    overflow: auto;
-    animation: fadeTree 0.3s forwards;
-  }
   .rightContent {
     width: 100%;
     height: 100%;
@@ -2002,82 +1983,12 @@ onUnmounted(() => {
     transition: 0.3s width;
     .rightChoose {
       position: fixed;
-      right: 0%;
-      top: 30%;
-      width: 6rem;
-      height: 10rem;
+      right: 10px;
+      bottom: 100px;
       transition: 0.3s;
       z-index: 99;
-      @keyframes gotoTop {
-        from {
-          bottom: 0;
-        }
-        to {
-          bottom: 60%;
-        }
-      }
-      @keyframes fadeaway {
-        from {
-          opacity: 1;
-        }
-        to {
-          opacity: 0;
-        }
-      }
-      @keyframes changeHeight {
-        from {
-          height: 0;
-        }
-        to {
-          height: 60%;
-        }
-      }
-      @keyframes changeHeight2 {
-        from {
-          height: 60%;
-          bottom: 0;
-        }
-        to {
-          height: 0;
-          bottom: 60%;
-        }
-      }
-      @keyframes imgRorate {
-        from {
-          transform: rotate(0);
-        }
-        to {
-          transform: rotate(90deg);
-        }
-      }
-      @keyframes imgRorate2 {
-        from {
-          transform: rotate(90deg);
-        }
-        to {
-          transform: rotate(0);
-        }
-      }
-      .transformImg {
-        animation: imgRorate 1s forwards;
-      }
-      .transformImg2 {
-        animation: imgRorate2 1s forwards;
-      }
       span {
         font-weight: 500 !important;
-      }
-      .chooseCollapse {
-        .flex_center;
-        background: #0000000d;
-        border-radius: 50px;
-        margin-top: 0.5rem;
-        width: 5rem;
-        height: 5rem;
-        img {
-          height: 20px;
-          width: 20px;
-        }
       }
     }
     .ulClass {
@@ -2131,7 +2042,7 @@ onUnmounted(() => {
 :deep(.el-menu--horizontal) {
   border-bottom: none;
 }
-:deep(.splitpanes.default-theme .splitpanes__pane){
+:deep(.splitpanes.default-theme .splitpanes__pane) {
   background-color: var(--my-bg-color-4);
 }
 :deep(.splitpanes__splitter) {
@@ -2150,16 +2061,16 @@ onUnmounted(() => {
 }
 :deep(.splitpanes__splitter) {
   background-color: var(--my-bg-color-2) !important;
-  border-left:1px solid var(--el-border-color) !important;
+  border-left: 1px solid var(--el-border-color) !important;
 }
 :deep(.splitpanes.default-theme .splitpanes__splitter:before),
-:deep(.splitpanes.default-theme .splitpanes__splitter:after){
-  background-color: var(--my-text-bg-color);
+:deep(.splitpanes.default-theme .splitpanes__splitter:after) {
+  background-color: var(--my-text-bg-color-5);
 }
 :deep(.docx) {
   color: var(--my-text-bg-color-3);
 }
-:deep(.docx span){
+:deep(.docx span) {
   color: var(--my-text-bg-color-3) !important;
 }
 :deep(.docx-wrapper > section.docx) {
@@ -2177,13 +2088,53 @@ h4 {
   display: flex;
   flex-wrap: wrap;
 }
-.el-checkbox{
+.el-checkbox {
   margin-right: 10px;
 }
-h5{
+h5 {
   margin-top: 0;
 }
-.el-select{
-  width:100%;
+.el-select {
+  width: 100%;
+}
+.float_menu {
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: var(--my-bg-color);
+  box-shadow: 0 4px 10px 0 hsla(220, 4%, 56%, 0.3);
+}
+.icon-xuanfucaidan {
+  color: #0987ee;
+  font-size: 30px;
+  display: inline-block;
+  cursor: pointer;
+}
+.float-menu_content {
+  width: 60px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+}
+.chooseCollapse {
+  display: flex;
+  justify-content: center;
+  i {
+    font-size: 25px;
+    display: inline-block;
+    margin: 4px 0;
+    color: var(--my-text-bg-color-3);
+    cursor: pointer;
+    position: relative;
+    z-index: 2001;
+  }
+  &:nth-child(1) {
+    i{
+      font-size: 28px;
+    }
+  }
 }
 </style>

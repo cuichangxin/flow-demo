@@ -155,7 +155,44 @@ instance.proxy.$bus.on('*', (name, val) => {
   if (name === 'dragStart') {
     dragStart(val)
   }
+  if (name === 'isDark') {
+    console.log(val)
+    if (val) {
+      // 重绘网格
+      graph.drawGrid({
+        type: 'doubleMesh',
+        args: [
+          {
+            color: '#58585B',
+            thickness: 1,
+          },
+          {
+            color: '#58585A',
+            thickness: 1,
+            factor: 4,
+          },
+        ],
+      })
+      console.log(graph.getNodes());
+    } else {
+      graph.drawGrid({
+        type: 'doubleMesh',
+        args: [
+          {
+            color: '#eee',
+            thickness: 1,
+          },
+          {
+            color: '#ddd',
+            thickness: 1,
+            factor: 4,
+          },
+        ],
+      })
+    }
+  }
 })
+const darkGrid = ref(false)
 const autoInfo = ref({
   template: '',
   model: '',
@@ -1407,7 +1444,7 @@ const handleMenu = (val) => {
   }
   if (val === '保存') {
     saveToJson()
-    console.log(graph.toJSON());
+    console.log(graph.toJSON())
     instance.proxy.$axios
       .saveTaskDetail({
         taskId: Cookies.get('taskId'),
@@ -1565,12 +1602,6 @@ function init() {
   )
 }
 onMounted(() => {
-  // instance.proxy.$axios.getTaskDetail({ taskId: Cookies.get('taskId') }).then((res) => {
-  //   // console.log(res);
-  //   if (res.data !== null) {
-  //     graphData.value = JSON.parse(res.data.daTree)
-  //   }
-  // })
   tableSize()
   const isEmAuto = localStorage.getItem('isEmAuto')
   if (JSON.parse(isEmAuto)) {
@@ -1608,7 +1639,7 @@ onUnmounted(() => {
 <style lang="scss" scoped>
 .test-info {
   height: 100%;
-  background-color: #f4f4f4;
+  background-color: var(--el-bg-color-page);
   border-radius: 4px;
   transition: height 0.2s linear;
   position: relative;
@@ -1624,7 +1655,7 @@ onUnmounted(() => {
   margin-bottom: 0;
   border-radius: 3px;
   padding: 0;
-  background-color: #fff;
+  background-color: var(--my-bg-color);
 }
 
 .el-aside-right {
@@ -1656,9 +1687,11 @@ onUnmounted(() => {
     padding: 11px 0;
     margin-bottom: 0;
     margin-top: 0;
-    border-bottom: 1px solid rgb(222, 219, 219);
-    background: #d0d7d8;
-    /* border-radius: 3px 3px 0 0; */
+    border-bottom: 1px solid var(--el-border-color);
+    border-left: 1px solid var(--el-border-color);
+    border-right: 1px solid var(--el-border-color);
+    background: var(--el-border-color-lighter);
+    color: var(--el-text-color-regular);
   }
 
   .icons {
@@ -1706,14 +1739,17 @@ onUnmounted(() => {
     margin: 0;
     width: 100%;
     padding: 11px 0;
-    background: #d0d7d8;
-    border-radius: 3px 3px 0 0;
+    border-bottom: 1px solid var(--el-border-color);
+    border-left: 1px solid var(--el-border-color);
+    border-right: 1px solid var(--el-border-color);
+    background: var(--el-border-color-lighter);
+    color: var(--el-text-color-regular);
   }
 
   .container {
     width: 100%;
-    height: 100%;
-    background-color: #fff;
+    height: calc(100% - 40px);
+    background-color: var(--my-bg-color);
     position: relative;
     z-index: 1;
     overflow: hidden;
@@ -1733,8 +1769,11 @@ onUnmounted(() => {
   padding: 11px 0;
   margin-bottom: 0;
   margin-top: 0;
-  border-bottom: 1px solid rgb(222, 219, 219);
-  background: #d0d7d8;
+  border-bottom: 1px solid var(--el-border-color);
+  border-left: 1px solid var(--el-border-color);
+  border-right: 1px solid var(--el-border-color);
+  background: var(--el-border-color-lighter);
+  color: var(--el-text-color-regular);
 }
 
 .el-footer {
@@ -1854,7 +1893,7 @@ onUnmounted(() => {
 .page_before {
   width: 100%;
   height: calc(100% - 40px);
-  background-color: #fff;
+  background-color: var(--my-bg-color);
   display: flex;
   justify-content: center;
   align-items: center;

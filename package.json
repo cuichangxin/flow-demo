@@ -51,7 +51,7 @@
     "v-scale-screen": "2.0.0",
     "v-viewer": "^1.6.4",
     "vite-plugin-compression": "^0.5.1",
-    "vue": "^3.2.41",
+    "vue": "^3.2.45",
     "vue-demi": "^0.14.5",
     "vue-drag-resize": "^2.0.3",
     "vue-fragment": "^1.6.0",

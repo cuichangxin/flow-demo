@@ -227,9 +227,7 @@ onBeforeUnmount(() => {
   background-color: var(--my-bg-color);
   padding: 10px;
   border-radius: 4px;
-  margin: 8px 8px 0;
-  height: calc(100% - 65px);
-  overflow: hidden;
+  margin: 8px 0 0;
 }
 
 .pagination {

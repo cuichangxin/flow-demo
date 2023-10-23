@@ -38,7 +38,7 @@
             class="iconfont icon-tianjiawenjian"
             style="font-size: 20px; margin-right: 5px"
             title="添加活动"
-            @click=";(state.activeVisible = true), (state.dialogInputActive = '')"
+            @click=";(activeVisible = true), (dialogInputActive = '')"
           />
         </div>
         <div class="Content" v-show="areaSide.activeArea">
@@ -84,7 +84,7 @@
             class="iconfont icon-tianjiawenjian"
             style="font-size: 20px; margin-right: 5px"
             title="添加类型"
-            @click=";(state.dialogVisible = true), (state.dialogInput = '')"
+            @click=";(dialogVisible = true), (dialogInput = '')"
           />
         </div>
         <div class="Content" v-if="areaSide.activeModel">
@@ -337,7 +337,6 @@
       </div>
       <div class="rightMenu">
         <div class="oneMenu">
-          <img src="@/assets/images/chat.png" style="height: 20px; width: 20px" />
           <i class="iconfont icon-xiaoxi1"></i>
           交流
         </div>

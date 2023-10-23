@@ -1,7 +1,7 @@
 <template>
   <div class="dark-box">
-    <el-button text circle class="switch" :class="isDark ? 'isDark-switch' : 'noDark-switch'" @click="toggleDark">
-      <el-icon v-if="isDark">
+    <el-button text circle class="switch" :class="!isDark ? 'isDark-switch' : 'noDark-switch'" @click="toggleDark">
+      <el-icon v-if="!isDark">
         <svg
           viewBox="0 0 48 48"
           fill="none"
@@ -34,44 +34,73 @@
 </template>
 
 <script setup>
-const isDark = ref(true)
+
+const isDark = ref(false)
 const match = matchMedia('(prefers-color-scheme:dark)')
 const html = document.querySelector('html')
+const { proxy } = getCurrentInstance()
 
 // 默认模式
 const followOs = () => {
   const model = localStorage.getItem('dark-theme')
-  if (model === 'auto') {
+  if (model !== null) {
+    if (model === 'auto') {
+      if (match.matches) {
+        html.classList.remove('light')
+        html.classList.add('dark')
+        isDark.value = true
+      } else {
+        html.classList.remove('dark')
+        html.classList.add('light')
+        isDark.value = false
+      }
+    } else if (model === 'light') {
+      html.classList.remove('dark')
+      html.classList.add('light')
+      isDark.value = false
+    } else if (model === 'dark') {
+      html.classList.remove('light')
+      html.classList.add('dark')
+      isDark.value = true
+    }
+  }else {
+    localStorage.setItem('dark-theme', 'auto')
     if (match.matches) {
       html.classList.remove('light')
       html.classList.add('dark')
-      isDark.value = false
-      localStorage.setItem('dark-theme', 'dark')
-    } else {
+      isDark.value = true
+    }else {
       html.classList.remove('dark')
       html.classList.add('light')
-      isDark.value = true
-      localStorage.setItem('dark-theme', 'auto')
+      isDark.value = false
     }
-  } else {
-    html.classList.remove('light')
-    html.classList.add('dark')
-    isDark.value = false
   }
 }
 
 const toggleDark = () => {
   isDark.value = !isDark.value
   if (html) {
+    // 切换到黑暗模式
     if (isDark.value) {
-      html.classList.remove('dark')
-      html.classList.add('light')
-      localStorage.setItem('dark-theme', 'auto')
-    } else {
       html.classList.remove('light')
       html.classList.add('dark')
-      localStorage.setItem('dark-theme', 'dark')
+      // 如果当前系统主题是暗黑模式
+      if (match.matches) {
+        localStorage.setItem('dark-theme', 'auto')
+      }else {
+        localStorage.setItem('dark-theme', 'dark')
+      }
+    } else { // 切换到正常模式
+      html.classList.remove('dark')
+      html.classList.add('light')
+      // 如果当前系统主题是正常模式
+      if (!match.matches) {
+        localStorage.setItem('dark-theme', 'auto')
+      }else {
+        localStorage.setItem('dark-theme', 'light')
+      }
     }
+    proxy.$bus.emit('isDark',isDark.value)
   }
 }
 match.addEventListener('change', followOs)

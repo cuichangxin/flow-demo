@@ -140,7 +140,7 @@ watchEffect(() => {
 }
 
 .el-menu--horizontal {
-  border-bottom: 1px solid #d2d2d2;
+  border-bottom: 1px solid var(--el-border-color);
   margin-bottom: 0;
 }
 

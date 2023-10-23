@@ -87,5 +87,8 @@ export function week(arr, arr2) {
 }
 
 export function getImgUrl(img) {
-  return new URL(`../assets/images/${img}`, import.meta.url).href
+  return new URL(`@/assets/images/${img}`, import.meta.url).href
+}
+export function getSvgImgUrl(img) {
+  return new URL(`@/assets/svg/${img}`, import.meta.url).href
 }
