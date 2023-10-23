@@ -197,6 +197,7 @@ import useDialog from '@/hooks/useDialog'
 import { Splitpanes, Pane } from 'splitpanes'
 import 'splitpanes/dist/splitpanes.css'
 import { renderAsync } from 'docx-preview'
+import Axios from 'axios'
 
 const { visible: visible, openDialog: openDialog, closeDialog: closeDialog } = useDialog()
 const { proxy } = getCurrentInstance()
@@ -576,13 +577,9 @@ function pushCase(tree) {
 }
 function previewFile() {
   nextTick(() => {
-    // fetch('/public/mock/word/3.docx')
-      fetch('/assets/mock/word/3.docx')
-      .then((response) => {
-        const docData = response.blob()
+      Axios.get('/mock/word/3.docx',{responseType:'blob'}).then((response) => {
         const html = document.getElementsByClassName('docx')
-
-        renderAsync(docData, html[0]).then((res) => {
+        renderAsync(response, html[0]).then((res) => {
           console.log('res---->', res)
         })
       })

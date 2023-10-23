@@ -1,0 +1,116 @@
+{
+  "projectName": "XXX火箭飞控系统",
+  "rank": "A",
+  "sDate": "2023-10-16",
+  "eDate": "2023-10-16",
+  "isShowRDate": false,
+  "rate": 15.0,
+  "rateOffset": 15.0,
+  "isPositive": false,
+  "showStatus": 0,
+  "activityInfoList": [
+    {
+      "isAuto": false,
+      "name": "仿真测试环境构建",
+      "tool": "SZVLAB",
+      "person": "张三",
+      "sDate": "2023-10-16",
+      "eDate": "2023-10-16",
+      "content": ""
+    },
+    {
+      "isAuto": false,
+      "name": "应用架构设计",
+      "tool": "领域应用架构设计工具",
+      "person": "李四",
+      "sDate": "2023-10-16",
+      "eDate": "2023-10-16",
+      "content": ""
+    }
+  ],
+  "postList": [
+    {
+      "serial": 21,
+      "status": 3
+    },
+    {
+      "serial": 44,
+      "status": 3
+    },
+    {
+      "serial": 5,
+      "status": 2
+    },
+    {
+      "serial": 6,
+      "status": 2
+    },
+    {
+      "serial": 4,
+      "status": 3
+    }
+  ],
+  "postLineList": [
+    {
+      "start": 4,
+      "end": 5,
+      "isActive": false
+    },
+    {
+      "start": 44,
+      "end": 6,
+      "isActive": false
+    }
+  ],
+  "isShowFlow": true,
+  "flowList": [
+    {
+      "serial": 9,
+      "status": 3
+    },
+    {
+      "serial": 13,
+      "status": 2
+    },
+    {
+      "serial": 14,
+      "status": 2
+    }
+  ],
+  "flowLineList": [
+    {
+      "start": 9,
+      "end": 13,
+      "isActive": false
+    },
+    {
+      "start": 9,
+      "end": 14,
+      "isActive": false
+    }
+  ],
+  "rateInfoList": [
+    {
+      "name": "姿控需求分析",
+      "cValue": 35.0,
+      "rValue": 58.8,
+      "delay": 68.0
+    },
+    {
+      "name": "制导需求分析",
+      "cValue": 20.0,
+      "rValue": 27.0,
+      "delay": 35.0
+    }
+  ],
+  "quailityInfoList": [
+    {
+      "name": "姿控需求分析不通过",
+      "num": 1
+    },
+    {
+      "name": "制导需求分析不通过",
+      "num": 3
+    }
+  ]
+}

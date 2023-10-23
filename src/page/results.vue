@@ -460,7 +460,6 @@ const checkoutHandle = () => {
 }
 
 const downloadWord = (scope) => {
-  // Axios.get('../../public/mock/word/4.docx', { responseType: 'blob' }).then((res) => {
   Axios.get('/assets/mock/word/4.docx', { responseType: 'blob' }).then((res) => {
     const url = window.URL.createObjectURL(new Blob([res.data]))
     const link = document.createElement('a')
@@ -482,14 +481,9 @@ const createDocx = () => {
 }
 function previewFile() {
   nextTick(() => {
-    // fetch('/public/mock/word/4.docx')
-
-    fetch('/assets/mock/word/4.docx')
-      .then((response) => {
-        const docData = response.blob()
+    Axios.get('/assets/mock/word/4.docx',{ responseType: 'blob' }).then((response) => {
         const html = document.getElementsByClassName('docx')
-
-        renderAsync(docData, html[0]).then((res) => {
+        renderAsync(response, html[0]).then((res) => {
           console.log('res---->', res)
         })
       })

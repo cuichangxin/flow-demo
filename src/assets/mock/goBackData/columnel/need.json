@@ -1,0 +1,121 @@
+{
+  "columnTree": [
+    {
+      "key": "1",
+      "name": "need",
+      "label": "综合控制功能",
+      "children": [
+        {
+          "key": "1-1",
+          "label": "RQ_ZTZHKZ 姿态自毁控制"
+        },
+        {
+          "key": "1-2",
+          "label": "RQ_CXYZSKZ 程序运行指示控制"
+        },
+        {
+          "key": "1-3",
+          "label": "RQ_ZTHJJGKZ 助推耗尽关机控制"
+        },
+        {
+          "key": "1-4",
+          "label": "RQ_ADZHKZ AD转换控制"
+        },
+        {
+          "key": "1-5",
+          "label": "RQ_JSJYCZCL 计算机遥测字处理"
+        },
+        {
+          "key": "1-6",
+          "label": "RQ_ZHYCKL 综合遥测控制"
+        },
+        {
+          "key": "1-7",
+          "label": "RQ_IMZZCL 点名自检处理"
+        },
+        {
+          "key": "1-8",
+          "label": "RQ_XHCL 信号处理"
+        },
+        {
+          "key": "1-9",
+          "label": "RQ_QDDQGZDZ 确定当前工作的总线"
+        }
+      ]
+    },
+    {
+      "key": "2",
+      "name": "need",
+      "label": "姿态控制功能",
+      "children": [
+        {
+          "key": "2-1",
+          "label": "RQ_SQZBD 射前准备段"
+        },
+        {
+          "key": "2-2",
+          "label": "RQ_ZTFXD 助推FX段"
+        },
+        {
+          "key": "2-3",
+          "label": "RQ_XYJFXDGN 芯一级FX段"
+        },
+        {
+          "key": "2-4",
+          "label": "RQ_CJFLJHXF 舱箭分离及后续FX段"
+        },
+        {
+          "key": "2-5",
+          "label": "RQ_ZDXTZYCS 制导系统诸元参数表"
+        },
+        {
+          "key": "2-6",
+          "label": "RQ_ZDXTYCSJ 制导系统遥测数据处理"
+        },
+        {
+          "key": "2-7",
+          "label": "RQ_ZDXTZYZB 制导系统诸元准备要求"
+        },
+        {
+          "key": "2-8",
+          "label": "RQ_ZKXTZYCS 姿控系统诸元参数表"
+        },
+        {
+          "key": "2-9",
+          "label": "RQ_ZJXTYCSS 姿控系统遥测数据表"
+        },
+        {
+          "key": "2-10",
+          "label": "RQ_ZJGRJJSJ 综合FX软件诸元参数"
+        }
+      ]
+    },
+    {
+      "key": "3",
+      "name": "need",
+      "label": "性能需求",
+      "children": [
+        {
+          "key": "3-1",
+          "label": "RQ_CRCXHZJ CRC循环校验"
+        },
+        {
+          "key": "3-2",
+          "label": "RQ_KSZDCL 开算信号处理需求"
+        },
+        {
+          "key": "3-3",
+          "label": "RQ_QFXDCL 起飞信号处理要求"
+        },
+        {
+          "key": "3-4",
+          "label": "RQ_WBMSZDCL 1ms中断处理要求"
+        },
+        {
+          "key": "3-5",
+          "label": "RQ_2OMSZDCL 20ms中断处理要求"
+        }
+      ]
+    }
+  ]
+}

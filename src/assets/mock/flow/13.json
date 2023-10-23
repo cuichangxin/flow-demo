@@ -1,0 +1,127 @@
+{
+  "projectName": "XXX火箭飞控系统",
+  "rank": "A",
+  "sDate": "2023-10-16",
+  "eDate": "2023-10-16",
+  "isShowRDate": false,
+  "rate": 35.0,
+  "rateOffset": 20.0,
+  "isPositive": false,
+  "showStatus": 0,
+  "activityInfoList": [
+    {
+      "isAuto": true,
+      "name": "可调度性分析",
+      "tool": "AADL Inspector",
+      "person": "",
+      "content": "开始执行...\n加载输入...\n处理中...\n成功，耗时76秒"
+    },
+    {
+      "isAuto": false,
+      "name": "应用架构评审",
+      "tool": "领域架构评审工具",
+      "person": "赵五",
+      "sDate": "2023-10-16",
+      "eDate": "2023-10-16",
+      "content": ""
+    }
+  ],
+  "postList": [
+    {
+      "serial": 5,
+      "status": 3
+    },
+    {
+      "serial": 26,
+      "status": 2
+    },
+    {
+      "serial": 45,
+      "status": 2
+    },
+    {
+      "serial": 7,
+      "status": 3
+    },
+    {
+      "serial": 26,
+      "status": 3
+    },
+    {
+      "serial": 27,
+      "status": 3
+    },
+    {
+      "serial": 28,
+      "status": 3
+    },
+    {
+      "serial": 29,
+      "status": 3
+    }
+  ],
+  "postLineList": [
+    {
+      "start": 5,
+      "end": 26,
+      "isActive": false
+    },
+    {
+      "start": 26,
+      "end": 45,
+      "isActive": false
+    }
+  ],
+  "isShowFlow": true,
+  "flowList": [
+    {
+      "serial": 14,
+      "status": 3
+    },
+    {
+      "serial": 16,
+      "status": 2
+    }
+  ],
+  "flowLineList": [
+    {
+      "start": 14,
+      "end": 16,
+      "isActive": false
+    }
+  ],
+  "rateInfoList": [
+    {
+      "name": "姿控需求分析",
+      "cValue": 35.0,
+      "rValue": 58.8,
+      "delay": 68.0
+    },
+    {
+      "name": "制导需求分析",
+      "cValue": 20.0,
+      "rValue": 27.0,
+      "delay": 35.0
+    },
+    {
+      "name": "功能测试用例设计",
+      "cValue": 50.0,
+      "rValue": 56.0,
+      "delay": 12.0
+    }
+  ],
+  "quailityInfoList": [
+    {
+      "name": "姿控需求分析不通过",
+      "num": 1
+    },
+    {
+      "name": "制导需求分析不通过",
+      "num": 3
+    },
+    {
+      "name": "功能测试用例设计不通过",
+      "num": 3
+    }
+  ]
+}

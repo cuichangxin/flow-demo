@@ -1,0 +1,5287 @@
+{
+  "cells": [
+    {
+      "shape": "edge",
+      "attrs": {
+        "line": {
+          "stroke": "#A2B1C3",
+          "strokeWidth": 1,
+          "targetMarker": {
+            "name": "block",
+            "width": 12,
+            "height": 8
+          }
+        }
+      },
+      "id": "62e6f062-89c0-418b-9654-c428df3554e2",
+      "zIndex": 0,
+      "source": {
+        "cell": "96735e1a-d4ba-4110-bba3-442c2d086437",
+        "port": "b6c63c0e-2377-4088-9924-9b319b46fc3b"
+      },
+      "target": {
+        "cell": "10885db9-51cf-4e4c-89f0-3b1aa39a406f",
+        "port": "0fbbc6b1-d58d-4635-a59f-3bb5602c0aed"
+      }
+    },
+    {
+      "shape": "edge",
+      "attrs": {
+        "line": {
+          "stroke": "#A2B1C3",
+          "strokeWidth": 1,
+          "targetMarker": {
+            "name": "block",
+            "width": 12,
+            "height": 8
+          }
+        }
+      },
+      "id": "a967b78a-4baa-4e2f-bf8c-8a7719a0601e",
+      "zIndex": 0,
+      "source": {
+        "cell": "10885db9-51cf-4e4c-89f0-3b1aa39a406f",
+        "port": "b6c63c0e-2377-4088-9924-9b319b46fc3b"
+      },
+      "target": {
+        "cell": "969b5213-819f-4ff6-bbb8-9c53594c37e9",
+        "port": "0fbbc6b1-d58d-4635-a59f-3bb5602c0aed"
+      }
+    },
+    {
+      "shape": "edge",
+      "attrs": {
+        "line": {
+          "stroke": "#A2B1C3",
+          "strokeWidth": 1,
+          "targetMarker": {
+            "name": "block",
+            "width": 12,
+            "height": 8
+          }
+        }
+      },
+      "id": "b9447246-5570-41ca-a7c6-ed6ce8bf121a",
+      "zIndex": 0,
+      "source": {
+        "cell": "10885db9-51cf-4e4c-89f0-3b1aa39a406f",
+        "port": "b6c63c0e-2377-4088-9924-9b319b46fc3b"
+      },
+      "target": {
+        "cell": "af1eedc3-5f62-45bc-89ff-df59cddfdf6a",
+        "port": "0fbbc6b1-d58d-4635-a59f-3bb5602c0aed"
+      }
+    },
+    {
+      "shape": "edge",
+      "attrs": {
+        "line": {
+          "stroke": "#A2B1C3",
+          "strokeWidth": 1,
+          "targetMarker": {
+            "name": "block",
+            "width": 12,
+            "height": 8
+          }
+        }
+      },
+      "id": "d67e80fb-66b8-4e98-a34c-3ffe943f2f83",
+      "zIndex": 0,
+      "source": {
+        "cell": "10885db9-51cf-4e4c-89f0-3b1aa39a406f",
+        "port": "b6c63c0e-2377-4088-9924-9b319b46fc3b"
+      },
+      "target": {
+        "cell": "a2738ce7-6580-4106-bfad-dbf7706c3106",
+        "port": "0fbbc6b1-d58d-4635-a59f-3bb5602c0aed"
+      }
+    },
+    {
+      "shape": "edge",
+      "attrs": {
+        "line": {
+          "stroke": "#A2B1C3",
+          "strokeWidth": 1,
+          "targetMarker": {
+            "name": "block",
+            "width": 12,
+            "height": 8
+          }
+        }
+      },
+      "id": "570a5661-739c-4025-a894-75287e71d4e2",
+      "zIndex": 0,
+      "source": {
+        "cell": "10885db9-51cf-4e4c-89f0-3b1aa39a406f",
+        "port": "b6c63c0e-2377-4088-9924-9b319b46fc3b"
+      },
+      "target": {
+        "cell": "8722ac82-7676-4fce-b9d6-f67ad1870a3e",
+        "port": "0fbbc6b1-d58d-4635-a59f-3bb5602c0aed"
+      }
+    },
+    {
+      "shape": "edge",
+      "attrs": {
+        "line": {
+          "stroke": "#A2B1C3",
+          "strokeWidth": 1,
+          "targetMarker": {
+            "name": "block",
+            "width": 12,
+            "height": 8
+          }
+        }
+      },
+      "id": "94aab6d6-def1-4db9-b35c-1ebb73d72759",
+      "zIndex": 0,
+      "source": {
+        "cell": "969b5213-819f-4ff6-bbb8-9c53594c37e9",
+        "port": "b6c63c0e-2377-4088-9924-9b319b46fc3b"
+      },
+      "target": {
+        "cell": "eeda770d-db8a-4065-93d7-00b708490f4a",
+        "port": "14c96027-69e3-4b2a-8629-01808fe76ffc"
+      }
+    },
+    {
+      "shape": "edge",
+      "attrs": {
+        "line": {
+          "stroke": "#A2B1C3",
+          "strokeWidth": 1,
+          "targetMarker": {
+            "name": "block",
+            "width": 12,
+            "height": 8
+          }
+        }
+      },
+      "id": "aa46bbbd-f103-4aaf-ba3f-2c339ad68a5f",
+      "zIndex": 0,
+      "source": {
+        "cell": "af1eedc3-5f62-45bc-89ff-df59cddfdf6a",
+        "port": "b6c63c0e-2377-4088-9924-9b319b46fc3b"
+      },
+      "target": {
+        "cell": "5759fac1-993f-4761-977b-56413b1ec259",
+        "port": "14c96027-69e3-4b2a-8629-01808fe76ffc"
+      }
+    },
+    {
+      "shape": "edge",
+      "attrs": {
+        "line": {
+          "stroke": "#A2B1C3",
+          "strokeWidth": 1,
+          "targetMarker": {
+            "name": "block",
+            "width": 12,
+            "height": 8
+          }
+        }
+      },
+      "id": "c9a06357-7d67-4687-bcb4-0b407b3bbbb1",
+      "zIndex": 0,
+      "source": {
+        "cell": "a2738ce7-6580-4106-bfad-dbf7706c3106",
+        "port": "b6c63c0e-2377-4088-9924-9b319b46fc3b"
+      },
+      "target": {
+        "cell": "60fed615-a8c6-4a75-a71b-4f96a40ff75d",
+        "port": "14c96027-69e3-4b2a-8629-01808fe76ffc"
+      }
+    },
+    {
+      "shape": "edge",
+      "attrs": {
+        "line": {
+          "stroke": "#A2B1C3",
+          "strokeWidth": 1,
+          "targetMarker": {
+            "name": "block",
+            "width": 12,
+            "height": 8
+          }
+        }
+      },
+      "id": "6c3b75b2-df21-41de-a681-3117ebf6fcf6",
+      "zIndex": 0,
+      "source": {
+        "cell": "8722ac82-7676-4fce-b9d6-f67ad1870a3e",
+        "port": "b6c63c0e-2377-4088-9924-9b319b46fc3b"
+      },
+      "target": {
+        "cell": "6ffcf410-9e2c-48e7-9364-15b0f3872bb7",
+        "port": "14c96027-69e3-4b2a-8629-01808fe76ffc"
+      }
+    },
+    {
+      "shape": "edge",
+      "attrs": {
+        "line": {
+          "stroke": "#A2B1C3",
+          "strokeWidth": 1,
+          "targetMarker": {
+            "name": "block",
+            "width": 12,
+            "height": 8
+          }
+        }
+      },
+      "id": "6f96d30f-3122-41ba-b526-52606b754d1c",
+      "zIndex": 0,
+      "source": {
+        "cell": "eeda770d-db8a-4065-93d7-00b708490f4a",
+        "port": "83e53b94-0980-4b34-9e04-c76525729b0c"
+      },
+      "target": {
+        "cell": "532a4f0d-d450-445b-95b3-6ef6d6148037",
+        "port": "0fbbc6b1-d58d-4635-a59f-3bb5602c0aed"
+      }
+    },
+    {
+      "shape": "edge",
+      "attrs": {
+        "line": {
+          "stroke": "#A2B1C3",
+          "strokeWidth": 1,
+          "targetMarker": {
+            "name": "block",
+            "width": 12,
+            "height": 8
+          }
+        }
+      },
+      "id": "635934ce-7f65-4c80-a3d4-3f204f6bd00a",
+      "zIndex": 0,
+      "source": {
+        "cell": "5759fac1-993f-4761-977b-56413b1ec259",
+        "port": "83e53b94-0980-4b34-9e04-c76525729b0c"
+      },
+      "target": {
+        "cell": "532a4f0d-d450-445b-95b3-6ef6d6148037",
+        "port": "0fbbc6b1-d58d-4635-a59f-3bb5602c0aed"
+      }
+    },
+    {
+      "shape": "edge",
+      "attrs": {
+        "line": {
+          "stroke": "#A2B1C3",
+          "strokeWidth": 1,
+          "targetMarker": {
+            "name": "block",
+            "width": 12,
+            "height": 8
+          }
+        }
+      },
+      "id": "57681cda-777f-426c-b3e5-8450df2ed8a0",
+      "zIndex": 0,
+      "source": {
+        "cell": "60fed615-a8c6-4a75-a71b-4f96a40ff75d",
+        "port": "83e53b94-0980-4b34-9e04-c76525729b0c"
+      },
+      "target": {
+        "cell": "7566bcc9-593c-4ea6-91ea-c4c844719da5",
+        "port": "0fbbc6b1-d58d-4635-a59f-3bb5602c0aed"
+      }
+    },
+    {
+      "shape": "edge",
+      "attrs": {
+        "line": {
+          "stroke": "#A2B1C3",
+          "strokeWidth": 1,
+          "targetMarker": {
+            "name": "block",
+            "width": 12,
+            "height": 8
+          }
+        }
+      },
+      "id": "9a55a20d-ac21-43e6-b016-1b3f6107a76d",
+      "zIndex": 0,
+      "source": {
+        "cell": "6ffcf410-9e2c-48e7-9364-15b0f3872bb7",
+        "port": "83e53b94-0980-4b34-9e04-c76525729b0c"
+      },
+      "target": {
+        "cell": "7566bcc9-593c-4ea6-91ea-c4c844719da5",
+        "port": "0fbbc6b1-d58d-4635-a59f-3bb5602c0aed"
+      }
+    },
+    {
+      "shape": "edge",
+      "attrs": {
+        "line": {
+          "stroke": "#A2B1C3",
+          "strokeWidth": 1,
+          "targetMarker": {
+            "name": "block",
+            "width": 12,
+            "height": 8
+          }
+        }
+      },
+      "id": "85baa8ea-085d-4456-a1d5-96a6e26ad6b4",
+      "zIndex": 0,
+      "source": {
+        "cell": "6ffcf410-9e2c-48e7-9364-15b0f3872bb7",
+        "port": "83e53b94-0980-4b34-9e04-c76525729b0c"
+      },
+      "target": {
+        "cell": "532a4f0d-d450-445b-95b3-6ef6d6148037",
+        "port": "0fbbc6b1-d58d-4635-a59f-3bb5602c0aed"
+      }
+    },
+    {
+      "shape": "edge",
+      "attrs": {
+        "line": {
+          "stroke": "#A2B1C3",
+          "strokeWidth": 1,
+          "targetMarker": {
+            "name": "block",
+            "width": 12,
+            "height": 8
+          }
+        }
+      },
+      "id": "08b519c3-ae61-4778-83b8-bf8da48be2c2",
+      "zIndex": 0,
+      "source": {
+        "cell": "60fed615-a8c6-4a75-a71b-4f96a40ff75d",
+        "port": "83e53b94-0980-4b34-9e04-c76525729b0c"
+      },
+      "target": {
+        "cell": "532a4f0d-d450-445b-95b3-6ef6d6148037",
+        "port": "0fbbc6b1-d58d-4635-a59f-3bb5602c0aed"
+      }
+    },
+    {
+      "shape": "edge",
+      "attrs": {
+        "line": {
+          "stroke": "#A2B1C3",
+          "strokeWidth": 1,
+          "targetMarker": {
+            "name": "block",
+            "width": 12,
+            "height": 8
+          }
+        }
+      },
+      "id": "0a2aa4ff-654a-409c-8058-fd23c92c51a0",
+      "zIndex": 0,
+      "source": {
+        "cell": "5759fac1-993f-4761-977b-56413b1ec259",
+        "port": "83e53b94-0980-4b34-9e04-c76525729b0c"
+      },
+      "target": {
+        "cell": "532a4f0d-d450-445b-95b3-6ef6d6148037",
+        "port": "0fbbc6b1-d58d-4635-a59f-3bb5602c0aed"
+      }
+    },
+    {
+      "shape": "edge",
+      "attrs": {
+        "line": {
+          "stroke": "#A2B1C3",
+          "strokeWidth": 1,
+          "targetMarker": {
+            "name": "block",
+            "width": 12,
+            "height": 8
+          }
+        }
+      },
+      "id": "0595d8e1-37d8-4705-a9a6-8c8dcbb63fee",
+      "zIndex": 0,
+      "source": {
+        "cell": "eeda770d-db8a-4065-93d7-00b708490f4a",
+        "port": "83e53b94-0980-4b34-9e04-c76525729b0c"
+      },
+      "target": {
+        "cell": "532a4f0d-d450-445b-95b3-6ef6d6148037",
+        "port": "0fbbc6b1-d58d-4635-a59f-3bb5602c0aed"
+      }
+    },
+    {
+      "shape": "edge",
+      "attrs": {
+        "line": {
+          "stroke": "#A2B1C3",
+          "strokeWidth": 1,
+          "targetMarker": {
+            "name": "block",
+            "width": 12,
+            "height": 8
+          }
+        }
+      },
+      "id": "1e900414-3f42-4e02-b925-1477adcf2723",
+      "zIndex": 0,
+      "source": {
+        "cell": "532a4f0d-d450-445b-95b3-6ef6d6148037",
+        "port": "b6c63c0e-2377-4088-9924-9b319b46fc3b"
+      },
+      "target": {
+        "cell": "28a3cca3-dd46-482c-8a15-0a74e2de0246",
+        "port": "14c96027-69e3-4b2a-8629-01808fe76ffc"
+      }
+    },
+    {
+      "shape": "edge",
+      "attrs": {
+        "line": {
+          "stroke": "#A2B1C3",
+          "strokeWidth": 1,
+          "targetMarker": {
+            "name": "block",
+            "width": 12,
+            "height": 8
+          }
+        }
+      },
+      "id": "4009c533-8d26-4e86-9c0c-61f902929a9b",
+      "zIndex": 0,
+      "source": {
+        "cell": "7566bcc9-593c-4ea6-91ea-c4c844719da5",
+        "port": "b6c63c0e-2377-4088-9924-9b319b46fc3b"
+      },
+      "target": {
+        "cell": "ffb7dd50-d655-44db-b016-39b6f6ab4eab",
+        "port": "14c96027-69e3-4b2a-8629-01808fe76ffc"
+      }
+    },
+    {
+      "shape": "edge",
+      "attrs": {
+        "line": {
+          "stroke": "#A2B1C3",
+          "strokeWidth": 1,
+          "targetMarker": {
+            "name": "block",
+            "width": 12,
+            "height": 8
+          }
+        }
+      },
+      "id": "700faa8b-b4ab-4104-bed5-3ebbe47a3dca",
+      "zIndex": 0,
+      "source": {
+        "cell": "28a3cca3-dd46-482c-8a15-0a74e2de0246",
+        "port": "83e53b94-0980-4b34-9e04-c76525729b0c"
+      },
+      "target": {
+        "cell": "b24bf353-32ab-4211-95b1-f1ad7ac406fb",
+        "port": "0fbbc6b1-d58d-4635-a59f-3bb5602c0aed"
+      }
+    },
+    {
+      "shape": "edge",
+      "attrs": {
+        "line": {
+          "stroke": "#A2B1C3",
+          "strokeWidth": 1,
+          "targetMarker": {
+            "name": "block",
+            "width": 12,
+            "height": 8
+          }
+        }
+      },
+      "id": "9cce2db5-8ec7-4b6e-b47e-6454250fc65f",
+      "zIndex": 0,
+      "source": {
+        "cell": "28a3cca3-dd46-482c-8a15-0a74e2de0246",
+        "port": "83e53b94-0980-4b34-9e04-c76525729b0c"
+      },
+      "target": {
+        "cell": "97933a48-4c8d-46ff-a12b-ad093fb872f6",
+        "port": "0fbbc6b1-d58d-4635-a59f-3bb5602c0aed"
+      }
+    },
+    {
+      "shape": "edge",
+      "attrs": {
+        "line": {
+          "stroke": "#A2B1C3",
+          "strokeWidth": 1,
+          "targetMarker": {
+            "name": "block",
+            "width": 12,
+            "height": 8
+          }
+        }
+      },
+      "id": "097d377e-ce50-4071-b9b8-b8380530a8b5",
+      "zIndex": 0,
+      "source": {
+        "cell": "b24bf353-32ab-4211-95b1-f1ad7ac406fb",
+        "port": "b6c63c0e-2377-4088-9924-9b319b46fc3b"
+      },
+      "target": {
+        "cell": "8c9353e1-b1e8-4487-a7b2-283f2ef9ecb8",
+        "port": "14c96027-69e3-4b2a-8629-01808fe76ffc"
+      }
+    },
+    {
+      "shape": "edge",
+      "attrs": {
+        "line": {
+          "stroke": "#A2B1C3",
+          "strokeWidth": 1,
+          "targetMarker": {
+            "name": "block",
+            "width": 12,
+            "height": 8
+          }
+        }
+      },
+      "id": "9a702f6e-3789-4867-903b-53493fbb20dc",
+      "zIndex": 0,
+      "source": {
+        "cell": "8c9353e1-b1e8-4487-a7b2-283f2ef9ecb8",
+        "port": "7fda3141-278f-473b-bd41-bfa9b09dfc90"
+      },
+      "target": {
+        "cell": "b24bf353-32ab-4211-95b1-f1ad7ac406fb",
+        "port": "b1f2351e-cacb-4f26-ac44-1169a7049d22"
+      }
+    },
+    {
+      "shape": "edge",
+      "attrs": {
+        "line": {
+          "stroke": "#A2B1C3",
+          "strokeWidth": 1,
+          "targetMarker": {
+            "name": "block",
+            "width": 12,
+            "height": 8
+          }
+        }
+      },
+      "id": "89de4c2d-de8c-49ef-94d1-08bb5184f062",
+      "zIndex": 0,
+      "source": {
+        "cell": "97933a48-4c8d-46ff-a12b-ad093fb872f6",
+        "port": "b6c63c0e-2377-4088-9924-9b319b46fc3b"
+      },
+      "target": {
+        "cell": "f617e08b-6ae5-40ff-be5c-3b60736e0be1",
+        "port": "14c96027-69e3-4b2a-8629-01808fe76ffc"
+      }
+    },
+    {
+      "shape": "edge",
+      "attrs": {
+        "line": {
+          "stroke": "#A2B1C3",
+          "strokeWidth": 1,
+          "targetMarker": {
+            "name": "block",
+            "width": 12,
+            "height": 8
+          }
+        }
+      },
+      "id": "76d4a412-582c-47be-b765-fa0353d6d936",
+      "zIndex": 0,
+      "source": {
+        "cell": "f617e08b-6ae5-40ff-be5c-3b60736e0be1",
+        "port": "7fda3141-278f-473b-bd41-bfa9b09dfc90"
+      },
+      "target": {
+        "cell": "97933a48-4c8d-46ff-a12b-ad093fb872f6",
+        "port": "b1f2351e-cacb-4f26-ac44-1169a7049d22"
+      }
+    },
+    {
+      "shape": "edge",
+      "attrs": {
+        "line": {
+          "stroke": "#A2B1C3",
+          "strokeWidth": 1,
+          "targetMarker": {
+            "name": "block",
+            "width": 12,
+            "height": 8
+          }
+        }
+      },
+      "id": "48810436-d620-446a-aa12-2986aa40d314",
+      "zIndex": 0,
+      "source": {
+        "cell": "ffb7dd50-d655-44db-b016-39b6f6ab4eab",
+        "port": "83e53b94-0980-4b34-9e04-c76525729b0c"
+      },
+      "target": {
+        "cell": "16b4e2e4-5754-4a00-800a-84111eb541f8",
+        "port": "0fbbc6b1-d58d-4635-a59f-3bb5602c0aed"
+      }
+    },
+    {
+      "shape": "edge",
+      "attrs": {
+        "line": {
+          "stroke": "#A2B1C3",
+          "strokeWidth": 1,
+          "targetMarker": {
+            "name": "block",
+            "width": 12,
+            "height": 8
+          }
+        }
+      },
+      "id": "41661042-4c7d-4916-b715-5f0b6ab2061c",
+      "zIndex": 0,
+      "source": {
+        "cell": "16b4e2e4-5754-4a00-800a-84111eb541f8",
+        "port": "b6c63c0e-2377-4088-9924-9b319b46fc3b"
+      },
+      "target": {
+        "cell": "40abf7e4-58e3-411e-a1d7-b6e0c6c10bf4",
+        "port": "14c96027-69e3-4b2a-8629-01808fe76ffc"
+      }
+    },
+    {
+      "shape": "edge",
+      "attrs": {
+        "line": {
+          "stroke": "#A2B1C3",
+          "strokeWidth": 1,
+          "targetMarker": {
+            "name": "block",
+            "width": 12,
+            "height": 8
+          }
+        }
+      },
+      "id": "7df43a6f-973b-4c78-b535-8095651cb5e3",
+      "zIndex": 0,
+      "source": {
+        "cell": "40abf7e4-58e3-411e-a1d7-b6e0c6c10bf4",
+        "port": "83e53b94-0980-4b34-9e04-c76525729b0c"
+      },
+      "target": {
+        "cell": "f52de11f-4f69-4109-a7ce-f2a9e4c21077",
+        "port": "0fbbc6b1-d58d-4635-a59f-3bb5602c0aed"
+      }
+    },
+    {
+      "shape": "edge",
+      "attrs": {
+        "line": {
+          "stroke": "#A2B1C3",
+          "strokeWidth": 1,
+          "targetMarker": {
+            "name": "block",
+            "width": 12,
+            "height": 8
+          }
+        }
+      },
+      "id": "52702ba7-6be9-405e-a19d-05ce48cb5299",
+      "zIndex": 0,
+      "source": {
+        "cell": "f52de11f-4f69-4109-a7ce-f2a9e4c21077",
+        "port": "b6c63c0e-2377-4088-9924-9b319b46fc3b"
+      },
+      "target": {
+        "cell": "c4cac3c1-5b92-41e4-93bf-1304011fbbb2",
+        "port": "14c96027-69e3-4b2a-8629-01808fe76ffc"
+      }
+    },
+    {
+      "shape": "edge",
+      "attrs": {
+        "line": {
+          "stroke": "#A2B1C3",
+          "strokeWidth": 1,
+          "targetMarker": {
+            "name": "block",
+            "width": 12,
+            "height": 8
+          }
+        }
+      },
+      "id": "825153b5-c2df-4fa5-9252-6755dc39c1a4",
+      "zIndex": 0,
+      "source": {
+        "cell": "50280816-eb70-4b9a-938c-06e91050c847",
+        "port": "b6c63c0e-2377-4088-9924-9b319b46fc3b"
+      },
+      "target": {
+        "cell": "40fbd301-ccd1-49fe-afaa-e3f4bc052443",
+        "port": "14c96027-69e3-4b2a-8629-01808fe76ffc"
+      }
+    },
+    {
+      "shape": "edge",
+      "attrs": {
+        "line": {
+          "stroke": "#A2B1C3",
+          "strokeWidth": 1,
+          "targetMarker": {
+            "name": "block",
+            "width": 12,
+            "height": 8
+          }
+        }
+      },
+      "id": "12a9263e-1424-455d-b6d7-fd1d3adcacea",
+      "zIndex": 0,
+      "source": {
+        "cell": "28a3cca3-dd46-482c-8a15-0a74e2de0246",
+        "port": "83e53b94-0980-4b34-9e04-c76525729b0c"
+      },
+      "target": {
+        "cell": "50280816-eb70-4b9a-938c-06e91050c847",
+        "port": "0fbbc6b1-d58d-4635-a59f-3bb5602c0aed"
+      }
+    },
+    {
+      "shape": "edge",
+      "attrs": {
+        "line": {
+          "stroke": "#A2B1C3",
+          "strokeWidth": 1,
+          "targetMarker": {
+            "name": "block",
+            "width": 12,
+            "height": 8
+          }
+        }
+      },
+      "id": "141a4c33-edf3-445d-b182-0b5a54826c3f",
+      "zIndex": 0,
+      "source": {
+        "cell": "40fbd301-ccd1-49fe-afaa-e3f4bc052443",
+        "port": "7fda3141-278f-473b-bd41-bfa9b09dfc90"
+      },
+      "target": {
+        "cell": "50280816-eb70-4b9a-938c-06e91050c847",
+        "port": "b1f2351e-cacb-4f26-ac44-1169a7049d22"
+      }
+    },
+    {
+      "shape": "edge",
+      "attrs": {
+        "line": {
+          "stroke": "#A2B1C3",
+          "strokeWidth": 1,
+          "targetMarker": {
+            "name": "block",
+            "width": 12,
+            "height": 8
+          }
+        }
+      },
+      "id": "ab7d6fcb-3ce1-4b55-9141-a9df0f4d6b81",
+      "zIndex": 0,
+      "source": {
+        "cell": "c4cac3c1-5b92-41e4-93bf-1304011fbbb2",
+        "port": "83e53b94-0980-4b34-9e04-c76525729b0c"
+      },
+      "target": {
+        "cell": "5308b2df-fd82-423d-bc37-f3b2399cb828",
+        "port": "0fbbc6b1-d58d-4635-a59f-3bb5602c0aed"
+      }
+    },
+    {
+      "shape": "edge",
+      "attrs": {
+        "line": {
+          "stroke": "#A2B1C3",
+          "strokeWidth": 1,
+          "targetMarker": {
+            "name": "block",
+            "width": 12,
+            "height": 8
+          }
+        }
+      },
+      "id": "d3c3b9dd-5480-4d74-b3b4-7bf5eede214e",
+      "zIndex": 0,
+      "source": {
+        "cell": "5308b2df-fd82-423d-bc37-f3b2399cb828",
+        "port": "b6c63c0e-2377-4088-9924-9b319b46fc3b"
+      },
+      "target": {
+        "cell": "398083ad-5c48-4d35-9a86-bf2d9e2bc25f",
+        "port": "14c96027-69e3-4b2a-8629-01808fe76ffc"
+      }
+    },
+    {
+      "shape": "edge",
+      "attrs": {
+        "line": {
+          "stroke": "#A2B1C3",
+          "strokeWidth": 1,
+          "targetMarker": {
+            "name": "block",
+            "width": 12,
+            "height": 8
+          }
+        }
+      },
+      "id": "97298d01-2cbd-44bf-b01f-2828a1ee19d5",
+      "zIndex": 0,
+      "source": {
+        "cell": "7cc62bde-13f7-43d0-b669-6f9bb2e4d9f3",
+        "port": "b6c63c0e-2377-4088-9924-9b319b46fc3b"
+      },
+      "target": {
+        "cell": "6c756e98-422b-46a7-aa32-bf455e824304",
+        "port": "14c96027-69e3-4b2a-8629-01808fe76ffc"
+      }
+    },
+    {
+      "shape": "edge",
+      "attrs": {
+        "line": {
+          "stroke": "#A2B1C3",
+          "strokeWidth": 1,
+          "targetMarker": {
+            "name": "block",
+            "width": 12,
+            "height": 8
+          }
+        }
+      },
+      "id": "723e5eb3-18bd-42e8-b166-ca1184da5153",
+      "zIndex": 0,
+      "source": {
+        "cell": "b4e3ecaf-1f43-43d9-817e-de2f763cae75",
+        "port": "b6c63c0e-2377-4088-9924-9b319b46fc3b"
+      },
+      "target": {
+        "cell": "8f7eba4d-c008-4b65-93cd-fe5027418671",
+        "port": "14c96027-69e3-4b2a-8629-01808fe76ffc"
+      }
+    },
+    {
+      "shape": "edge",
+      "attrs": {
+        "line": {
+          "stroke": "#A2B1C3",
+          "strokeWidth": 1,
+          "targetMarker": {
+            "name": "block",
+            "width": 12,
+            "height": 8
+          }
+        }
+      },
+      "id": "a5db5cb1-787f-4489-971e-23a0e6c446dc",
+      "zIndex": 0,
+      "source": {
+        "cell": "655431de-4a44-4203-a283-9204dd754f96",
+        "port": "b6c63c0e-2377-4088-9924-9b319b46fc3b"
+      },
+      "target": {
+        "cell": "8349a463-a765-45dc-b448-ff821853e111",
+        "port": "14c96027-69e3-4b2a-8629-01808fe76ffc"
+      }
+    },
+    {
+      "shape": "edge",
+      "attrs": {
+        "line": {
+          "stroke": "#A2B1C3",
+          "strokeWidth": 1,
+          "targetMarker": {
+            "name": "block",
+            "width": 12,
+            "height": 8
+          }
+        }
+      },
+      "id": "e641143e-2df7-4951-bc48-4e5c96967e9b",
+      "zIndex": 0,
+      "source": {
+        "cell": "398083ad-5c48-4d35-9a86-bf2d9e2bc25f",
+        "port": "83e53b94-0980-4b34-9e04-c76525729b0c"
+      },
+      "target": {
+        "cell": "7cc62bde-13f7-43d0-b669-6f9bb2e4d9f3",
+        "port": "0fbbc6b1-d58d-4635-a59f-3bb5602c0aed"
+      }
+    },
+    {
+      "shape": "edge",
+      "attrs": {
+        "line": {
+          "stroke": "#A2B1C3",
+          "strokeWidth": 1,
+          "targetMarker": {
+            "name": "block",
+            "width": 12,
+            "height": 8
+          }
+        }
+      },
+      "id": "2bc19014-a8f3-416d-8aee-670257179964",
+      "zIndex": 0,
+      "source": {
+        "cell": "40fbd301-ccd1-49fe-afaa-e3f4bc052443",
+        "port": "83e53b94-0980-4b34-9e04-c76525729b0c"
+      },
+      "target": {
+        "cell": "b4e3ecaf-1f43-43d9-817e-de2f763cae75",
+        "port": "0fbbc6b1-d58d-4635-a59f-3bb5602c0aed"
+      }
+    },
+    {
+      "shape": "edge",
+      "attrs": {
+        "line": {
+          "stroke": "#A2B1C3",
+          "strokeWidth": 1,
+          "targetMarker": {
+            "name": "block",
+            "width": 12,
+            "height": 8
+          }
+        }
+      },
+      "id": "68a00930-2af9-4e68-8876-8253c67f3b6d",
+      "zIndex": 0,
+      "source": {
+        "cell": "8c9353e1-b1e8-4487-a7b2-283f2ef9ecb8",
+        "port": "83e53b94-0980-4b34-9e04-c76525729b0c"
+      },
+      "target": {
+        "cell": "7cc62bde-13f7-43d0-b669-6f9bb2e4d9f3",
+        "port": "0fbbc6b1-d58d-4635-a59f-3bb5602c0aed"
+      }
+    },
+    {
+      "shape": "edge",
+      "attrs": {
+        "line": {
+          "stroke": "#A2B1C3",
+          "strokeWidth": 1,
+          "targetMarker": {
+            "name": "block",
+            "width": 12,
+            "height": 8
+          }
+        }
+      },
+      "id": "16bd4841-10d2-4255-b5e5-36ac6492b059",
+      "zIndex": 0,
+      "source": {
+        "cell": "f617e08b-6ae5-40ff-be5c-3b60736e0be1",
+        "port": "83e53b94-0980-4b34-9e04-c76525729b0c"
+      },
+      "target": {
+        "cell": "655431de-4a44-4203-a283-9204dd754f96",
+        "port": "0fbbc6b1-d58d-4635-a59f-3bb5602c0aed"
+      }
+    },
+    {
+      "shape": "edge",
+      "attrs": {
+        "line": {
+          "stroke": "#A2B1C3",
+          "strokeWidth": 1,
+          "targetMarker": {
+            "name": "block",
+            "width": 12,
+            "height": 8
+          }
+        }
+      },
+      "id": "f6940e03-4713-421d-a33e-764d0eb0deaf",
+      "zIndex": 0,
+      "source": {
+        "cell": "398083ad-5c48-4d35-9a86-bf2d9e2bc25f",
+        "port": "06223a36-de62-4138-9647-620d5c249b16"
+      },
+      "target": {
+        "cell": "16b4e2e4-5754-4a00-800a-84111eb541f8",
+        "port": "a6ce8319-5d16-4017-be1d-93ac3f164fc1"
+      }
+    },
+    {
+      "shape": "edge",
+      "attrs": {
+        "line": {
+          "stroke": "#A2B1C3",
+          "strokeWidth": 1,
+          "targetMarker": {
+            "name": "block",
+            "width": 12,
+            "height": 8
+          }
+        }
+      },
+      "id": "957672f2-b7b5-4139-a727-8847b759fa76",
+      "zIndex": 0,
+      "source": {
+        "cell": "6c756e98-422b-46a7-aa32-bf455e824304",
+        "port": "83e53b94-0980-4b34-9e04-c76525729b0c"
+      },
+      "target": {
+        "cell": "bfb7ea59-bea6-43d2-893d-86d19192e87d",
+        "port": "0fbbc6b1-d58d-4635-a59f-3bb5602c0aed"
+      }
+    },
+    {
+      "shape": "edge",
+      "attrs": {
+        "line": {
+          "stroke": "#A2B1C3",
+          "strokeWidth": 1,
+          "targetMarker": {
+            "name": "block",
+            "width": 12,
+            "height": 8
+          }
+        }
+      },
+      "id": "7bd1a9a5-b05f-4186-9de3-dcc1621d4bf1",
+      "zIndex": 0,
+      "source": {
+        "cell": "8f7eba4d-c008-4b65-93cd-fe5027418671",
+        "port": "83e53b94-0980-4b34-9e04-c76525729b0c"
+      },
+      "target": {
+        "cell": "bfb7ea59-bea6-43d2-893d-86d19192e87d",
+        "port": "0fbbc6b1-d58d-4635-a59f-3bb5602c0aed"
+      }
+    },
+    {
+      "shape": "edge",
+      "attrs": {
+        "line": {
+          "stroke": "#A2B1C3",
+          "strokeWidth": 1,
+          "targetMarker": {
+            "name": "block",
+            "width": 12,
+            "height": 8
+          }
+        }
+      },
+      "id": "75fdee6d-039a-4c57-ae98-699dd8b7c3fd",
+      "zIndex": 0,
+      "source": {
+        "cell": "8349a463-a765-45dc-b448-ff821853e111",
+        "port": "83e53b94-0980-4b34-9e04-c76525729b0c"
+      },
+      "target": {
+        "cell": "bfb7ea59-bea6-43d2-893d-86d19192e87d",
+        "port": "0fbbc6b1-d58d-4635-a59f-3bb5602c0aed"
+      }
+    },
+    {
+      "shape": "edge",
+      "attrs": {
+        "line": {
+          "stroke": "#A2B1C3",
+          "strokeWidth": 1,
+          "targetMarker": {
+            "name": "block",
+            "width": 12,
+            "height": 8
+          }
+        }
+      },
+      "id": "0c6e4db5-cb1a-4393-ad2f-88a1ecc67f33",
+      "zIndex": 0,
+      "source": {
+        "cell": "8349a463-a765-45dc-b448-ff821853e111",
+        "port": "83e53b94-0980-4b34-9e04-c76525729b0c"
+      },
+      "target": {
+        "cell": "22d264ad-2bbb-4678-a0de-98aa0640e5d9",
+        "port": "b6c63c0e-2377-4088-9924-9b319b46fc3b"
+      }
+    },
+    {
+      "shape": "edge",
+      "attrs": {
+        "line": {
+          "stroke": "#A2B1C3",
+          "strokeWidth": 1,
+          "targetMarker": {
+            "name": "block",
+            "width": 12,
+            "height": 8
+          }
+        }
+      },
+      "id": "73097cdf-c452-4259-818d-5fbef9f806f3",
+      "zIndex": 0,
+      "source": {
+        "cell": "8f7eba4d-c008-4b65-93cd-fe5027418671",
+        "port": "83e53b94-0980-4b34-9e04-c76525729b0c"
+      },
+      "target": {
+        "cell": "22d264ad-2bbb-4678-a0de-98aa0640e5d9",
+        "port": "b6c63c0e-2377-4088-9924-9b319b46fc3b"
+      }
+    },
+    {
+      "shape": "edge",
+      "attrs": {
+        "line": {
+          "stroke": "#A2B1C3",
+          "strokeWidth": 1,
+          "targetMarker": {
+            "name": "block",
+            "width": 12,
+            "height": 8
+          }
+        }
+      },
+      "id": "74a88c95-df03-4852-a1a9-8340d7bcc7d9",
+      "zIndex": 0,
+      "source": {
+        "cell": "6c756e98-422b-46a7-aa32-bf455e824304",
+        "port": "83e53b94-0980-4b34-9e04-c76525729b0c"
+      },
+      "target": {
+        "cell": "22d264ad-2bbb-4678-a0de-98aa0640e5d9",
+        "port": "b6c63c0e-2377-4088-9924-9b319b46fc3b"
+      }
+    },
+    {
+      "shape": "edge",
+      "attrs": {
+        "line": {
+          "stroke": "#A2B1C3",
+          "strokeWidth": 1,
+          "targetMarker": {
+            "name": "block",
+            "width": 12,
+            "height": 8
+          }
+        }
+      },
+      "id": "c8b83504-8e9b-42c0-902f-2645959f9c84",
+      "zIndex": 0,
+      "source": {
+        "cell": "22d264ad-2bbb-4678-a0de-98aa0640e5d9",
+        "port": "0fbbc6b1-d58d-4635-a59f-3bb5602c0aed"
+      },
+      "target": {
+        "cell": "a3c4f4eb-499c-4aad-b178-f8da99a6edb7",
+        "port": "b6c63c0e-2377-4088-9924-9b319b46fc3b"
+      }
+    },
+    {
+      "shape": "edge",
+      "attrs": {
+        "line": {
+          "stroke": "#A2B1C3",
+          "strokeWidth": 1,
+          "targetMarker": {
+            "name": "block",
+            "width": 12,
+            "height": 8
+          }
+        }
+      },
+      "id": "0d13bfce-4c03-40fb-a282-c4c5421b318c",
+      "zIndex": 0,
+      "source": {
+        "cell": "a3c4f4eb-499c-4aad-b178-f8da99a6edb7",
+        "port": "0fbbc6b1-d58d-4635-a59f-3bb5602c0aed"
+      },
+      "target": {
+        "cell": "16b4e2e4-5754-4a00-800a-84111eb541f8",
+        "port": "a6ce8319-5d16-4017-be1d-93ac3f164fc1"
+      }
+    },
+    {
+      "position": {
+        "x": -430,
+        "y": 180
+      },
+      "size": {
+        "width": 60,
+        "height": 30
+      },
+      "attrs": {
+        "text": {
+          "text": "开始"
+        },
+        "body": {
+          "rx": 10,
+          "ry": 10
+        },
+        "label": {
+          "fontSize": 12,
+          "fill": "#333"
+        }
+      },
+      "visible": true,
+      "shape": "custom-rect",
+      "ports": {
+        "groups": {
+          "top": {
+            "position": "top",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "right": {
+            "position": "right",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "bottom": {
+            "position": "bottom",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "left": {
+            "position": "left",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          }
+        },
+        "items": [
+          {
+            "group": "top",
+            "id": "b1f2351e-cacb-4f26-ac44-1169a7049d22"
+          },
+          {
+            "group": "right",
+            "id": "b6c63c0e-2377-4088-9924-9b319b46fc3b"
+          },
+          {
+            "group": "bottom",
+            "id": "a6ce8319-5d16-4017-be1d-93ac3f164fc1"
+          },
+          {
+            "group": "left",
+            "id": "0fbbc6b1-d58d-4635-a59f-3bb5602c0aed"
+          }
+        ]
+      },
+      "id": "96735e1a-d4ba-4110-bba3-442c2d086437",
+      "desc": "",
+      "input": "",
+      "output": "",
+      "node": {},
+      "children": [],
+      "trackList": [],
+      "zIndex": 1,
+      "label": "开始",
+      "oldLabel": "开始"
+    },
+    {
+      "position": {
+        "x": -318,
+        "y": 180
+      },
+      "size": {
+        "width": 60,
+        "height": 30
+      },
+      "attrs": {
+        "text": {
+          "text": "创建项目"
+        },
+        "body": {
+          "rx": 10,
+          "ry": 10
+        },
+        "label": {
+          "fontSize": 12,
+          "fill": "#333"
+        }
+      },
+      "visible": true,
+      "shape": "custom-rect",
+      "ports": {
+        "groups": {
+          "top": {
+            "position": "top",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "right": {
+            "position": "right",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "bottom": {
+            "position": "bottom",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "left": {
+            "position": "left",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          }
+        },
+        "items": [
+          {
+            "group": "top",
+            "id": "b1f2351e-cacb-4f26-ac44-1169a7049d22"
+          },
+          {
+            "group": "right",
+            "id": "b6c63c0e-2377-4088-9924-9b319b46fc3b"
+          },
+          {
+            "group": "bottom",
+            "id": "a6ce8319-5d16-4017-be1d-93ac3f164fc1"
+          },
+          {
+            "group": "left",
+            "id": "0fbbc6b1-d58d-4635-a59f-3bb5602c0aed"
+          }
+        ]
+      },
+      "id": "10885db9-51cf-4e4c-89f0-3b1aa39a406f",
+      "desc": "",
+      "input": "",
+      "output": "",
+      "node": {},
+      "trackList": [],
+      "oldLabel": "创建项目",
+      "zIndex": 2,
+      "label": "创建项目"
+    },
+    {
+      "position": {
+        "x": -220,
+        "y": 50
+      },
+      "size": {
+        "width": 90,
+        "height": 40
+      },
+      "attrs": {
+        "text": {
+          "text": "运行环境分析"
+        },
+        "body": {
+          "rx": 10,
+          "ry": 10
+        },
+        "label": {
+          "fontSize": 12,
+          "fill": "#333"
+        }
+      },
+      "visible": true,
+      "shape": "custom-rect",
+      "ports": {
+        "groups": {
+          "top": {
+            "position": "top",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "right": {
+            "position": "right",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "bottom": {
+            "position": "bottom",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "left": {
+            "position": "left",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          }
+        },
+        "items": [
+          {
+            "group": "top",
+            "id": "b1f2351e-cacb-4f26-ac44-1169a7049d22"
+          },
+          {
+            "group": "right",
+            "id": "b6c63c0e-2377-4088-9924-9b319b46fc3b"
+          },
+          {
+            "group": "bottom",
+            "id": "a6ce8319-5d16-4017-be1d-93ac3f164fc1"
+          },
+          {
+            "group": "left",
+            "id": "0fbbc6b1-d58d-4635-a59f-3bb5602c0aed"
+          }
+        ]
+      },
+      "id": "969b5213-819f-4ff6-bbb8-9c53594c37e9",
+      "desc": "",
+      "input": "",
+      "output": "",
+      "node": {},
+      "trackList": [],
+      "oldLabel": "运行环境分析",
+      "zIndex": 3,
+      "label": "运行环境分析"
+    },
+    {
+      "position": {
+        "x": -220,
+        "y": 122
+      },
+      "size": {
+        "width": 90,
+        "height": 40
+      },
+      "attrs": {
+        "text": {
+          "text": "功能需求分析"
+        },
+        "body": {
+          "rx": 10,
+          "ry": 10
+        },
+        "label": {
+          "fontSize": 12,
+          "fill": "#333"
+        }
+      },
+      "visible": true,
+      "shape": "custom-rect",
+      "ports": {
+        "groups": {
+          "top": {
+            "position": "top",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "right": {
+            "position": "right",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "bottom": {
+            "position": "bottom",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "left": {
+            "position": "left",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          }
+        },
+        "items": [
+          {
+            "group": "top",
+            "id": "b1f2351e-cacb-4f26-ac44-1169a7049d22"
+          },
+          {
+            "group": "right",
+            "id": "b6c63c0e-2377-4088-9924-9b319b46fc3b"
+          },
+          {
+            "group": "bottom",
+            "id": "a6ce8319-5d16-4017-be1d-93ac3f164fc1"
+          },
+          {
+            "group": "left",
+            "id": "0fbbc6b1-d58d-4635-a59f-3bb5602c0aed"
+          }
+        ]
+      },
+      "id": "af1eedc3-5f62-45bc-89ff-df59cddfdf6a",
+      "desc": "",
+      "input": "",
+      "output": "",
+      "node": {},
+      "trackList": [],
+      "oldLabel": "功能需求分析",
+      "zIndex": 4,
+      "label": "功能需求分析"
+    },
+    {
+      "position": {
+        "x": -220,
+        "y": 194
+      },
+      "size": {
+        "width": 90,
+        "height": 40
+      },
+      "attrs": {
+        "text": {
+          "text": "性能需求分析"
+        },
+        "body": {
+          "rx": 10,
+          "ry": 10
+        },
+        "label": {
+          "fontSize": 12,
+          "fill": "#333"
+        }
+      },
+      "visible": true,
+      "shape": "custom-rect",
+      "ports": {
+        "groups": {
+          "top": {
+            "position": "top",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "right": {
+            "position": "right",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "bottom": {
+            "position": "bottom",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "left": {
+            "position": "left",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          }
+        },
+        "items": [
+          {
+            "group": "top",
+            "id": "b1f2351e-cacb-4f26-ac44-1169a7049d22"
+          },
+          {
+            "group": "right",
+            "id": "b6c63c0e-2377-4088-9924-9b319b46fc3b"
+          },
+          {
+            "group": "bottom",
+            "id": "a6ce8319-5d16-4017-be1d-93ac3f164fc1"
+          },
+          {
+            "group": "left",
+            "id": "0fbbc6b1-d58d-4635-a59f-3bb5602c0aed"
+          }
+        ]
+      },
+      "id": "a2738ce7-6580-4106-bfad-dbf7706c3106",
+      "desc": "",
+      "input": "",
+      "output": "",
+      "node": {},
+      "trackList": [],
+      "oldLabel": "性能需求分析",
+      "zIndex": 5,
+      "label": "性能需求分析"
+    },
+    {
+      "position": {
+        "x": -220,
+        "y": 276
+      },
+      "size": {
+        "width": 90,
+        "height": 40
+      },
+      "attrs": {
+        "text": {
+          "text": "可靠性需求分析"
+        },
+        "body": {
+          "rx": 10,
+          "ry": 10
+        },
+        "label": {
+          "fontSize": 12,
+          "fill": "#333"
+        }
+      },
+      "visible": true,
+      "shape": "custom-rect",
+      "ports": {
+        "groups": {
+          "top": {
+            "position": "top",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "right": {
+            "position": "right",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "bottom": {
+            "position": "bottom",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "left": {
+            "position": "left",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          }
+        },
+        "items": [
+          {
+            "group": "top",
+            "id": "b1f2351e-cacb-4f26-ac44-1169a7049d22"
+          },
+          {
+            "group": "right",
+            "id": "b6c63c0e-2377-4088-9924-9b319b46fc3b"
+          },
+          {
+            "group": "bottom",
+            "id": "a6ce8319-5d16-4017-be1d-93ac3f164fc1"
+          },
+          {
+            "group": "left",
+            "id": "0fbbc6b1-d58d-4635-a59f-3bb5602c0aed"
+          }
+        ]
+      },
+      "id": "8722ac82-7676-4fce-b9d6-f67ad1870a3e",
+      "desc": "",
+      "input": "",
+      "output": "",
+      "node": {},
+      "trackList": [],
+      "oldLabel": "可靠性需求分析",
+      "zIndex": 6,
+      "label": "可靠性需求分析"
+    },
+    {
+      "position": {
+        "x": -80,
+        "y": 50
+      },
+      "size": {
+        "width": 60,
+        "height": 40
+      },
+      "attrs": {
+        "text": {
+          "text": "质量门"
+        },
+        "body": {
+          "rx": 10,
+          "ry": 10
+        },
+        "label": {
+          "fontSize": 12,
+          "fill": "#333"
+        }
+      },
+      "visible": true,
+      "shape": "custom-polygon-rhombus",
+      "ports": {
+        "groups": {
+          "top": {
+            "position": "top",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "right": {
+            "position": "right",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "bottom": {
+            "position": "bottom",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "left": {
+            "position": "left",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          }
+        },
+        "items": [
+          {
+            "group": "top",
+            "id": "7fda3141-278f-473b-bd41-bfa9b09dfc90"
+          },
+          {
+            "group": "right",
+            "id": "83e53b94-0980-4b34-9e04-c76525729b0c"
+          },
+          {
+            "group": "bottom",
+            "id": "06223a36-de62-4138-9647-620d5c249b16"
+          },
+          {
+            "group": "left",
+            "id": "14c96027-69e3-4b2a-8629-01808fe76ffc"
+          }
+        ]
+      },
+      "id": "eeda770d-db8a-4065-93d7-00b708490f4a",
+      "desc": "",
+      "input": "",
+      "output": "",
+      "node": {},
+      "children": [],
+      "trackList": [],
+      "zIndex": 7,
+      "label": "质量门",
+      "oldLabel": "质量门"
+    },
+    {
+      "position": {
+        "x": -80,
+        "y": 122
+      },
+      "size": {
+        "width": 60,
+        "height": 40
+      },
+      "attrs": {
+        "text": {
+          "text": "质量门"
+        },
+        "body": {
+          "rx": 10,
+          "ry": 10
+        },
+        "label": {
+          "fontSize": 12,
+          "fill": "#333"
+        }
+      },
+      "visible": true,
+      "shape": "custom-polygon-rhombus",
+      "ports": {
+        "groups": {
+          "top": {
+            "position": "top",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "right": {
+            "position": "right",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "bottom": {
+            "position": "bottom",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "left": {
+            "position": "left",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          }
+        },
+        "items": [
+          {
+            "group": "top",
+            "id": "7fda3141-278f-473b-bd41-bfa9b09dfc90"
+          },
+          {
+            "group": "right",
+            "id": "83e53b94-0980-4b34-9e04-c76525729b0c"
+          },
+          {
+            "group": "bottom",
+            "id": "06223a36-de62-4138-9647-620d5c249b16"
+          },
+          {
+            "group": "left",
+            "id": "14c96027-69e3-4b2a-8629-01808fe76ffc"
+          }
+        ]
+      },
+      "id": "5759fac1-993f-4761-977b-56413b1ec259",
+      "desc": "",
+      "input": "",
+      "output": "",
+      "node": {},
+      "trackList": [],
+      "oldLabel": "质量门",
+      "zIndex": 8,
+      "label": "质量门"
+    },
+    {
+      "position": {
+        "x": -80,
+        "y": 194
+      },
+      "size": {
+        "width": 60,
+        "height": 40
+      },
+      "attrs": {
+        "text": {
+          "text": "质量门"
+        },
+        "body": {
+          "rx": 10,
+          "ry": 10
+        },
+        "label": {
+          "fontSize": 12,
+          "fill": "#333"
+        }
+      },
+      "visible": true,
+      "shape": "custom-polygon-rhombus",
+      "ports": {
+        "groups": {
+          "top": {
+            "position": "top",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "right": {
+            "position": "right",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "bottom": {
+            "position": "bottom",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "left": {
+            "position": "left",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          }
+        },
+        "items": [
+          {
+            "group": "top",
+            "id": "7fda3141-278f-473b-bd41-bfa9b09dfc90"
+          },
+          {
+            "group": "right",
+            "id": "83e53b94-0980-4b34-9e04-c76525729b0c"
+          },
+          {
+            "group": "bottom",
+            "id": "06223a36-de62-4138-9647-620d5c249b16"
+          },
+          {
+            "group": "left",
+            "id": "14c96027-69e3-4b2a-8629-01808fe76ffc"
+          }
+        ]
+      },
+      "id": "60fed615-a8c6-4a75-a71b-4f96a40ff75d",
+      "desc": "",
+      "input": "",
+      "output": "",
+      "node": {},
+      "trackList": [],
+      "oldLabel": "质量门",
+      "zIndex": 9,
+      "label": "质量门"
+    },
+    {
+      "position": {
+        "x": -80,
+        "y": 276
+      },
+      "size": {
+        "width": 60,
+        "height": 40
+      },
+      "attrs": {
+        "text": {
+          "text": "质量门"
+        },
+        "body": {
+          "rx": 10,
+          "ry": 10
+        },
+        "label": {
+          "fontSize": 12,
+          "fill": "#333"
+        }
+      },
+      "visible": true,
+      "shape": "custom-polygon-rhombus",
+      "ports": {
+        "groups": {
+          "top": {
+            "position": "top",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "right": {
+            "position": "right",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "bottom": {
+            "position": "bottom",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "left": {
+            "position": "left",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          }
+        },
+        "items": [
+          {
+            "group": "top",
+            "id": "7fda3141-278f-473b-bd41-bfa9b09dfc90"
+          },
+          {
+            "group": "right",
+            "id": "83e53b94-0980-4b34-9e04-c76525729b0c"
+          },
+          {
+            "group": "bottom",
+            "id": "06223a36-de62-4138-9647-620d5c249b16"
+          },
+          {
+            "group": "left",
+            "id": "14c96027-69e3-4b2a-8629-01808fe76ffc"
+          }
+        ]
+      },
+      "id": "6ffcf410-9e2c-48e7-9364-15b0f3872bb7",
+      "desc": "",
+      "input": "",
+      "output": "",
+      "node": {},
+      "trackList": [],
+      "oldLabel": "质量门",
+      "zIndex": 10,
+      "label": "质量门"
+    },
+    {
+      "position": {
+        "x": 22,
+        "y": 90
+      },
+      "size": {
+        "width": 100,
+        "height": 40
+      },
+      "attrs": {
+        "text": {
+          "text": "仿真测试环境构建"
+        },
+        "body": {
+          "rx": 10,
+          "ry": 10
+        },
+        "label": {
+          "fontSize": 12,
+          "fill": "#333"
+        }
+      },
+      "visible": true,
+      "shape": "custom-rect",
+      "ports": {
+        "groups": {
+          "top": {
+            "position": "top",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "right": {
+            "position": "right",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "bottom": {
+            "position": "bottom",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "left": {
+            "position": "left",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          }
+        },
+        "items": [
+          {
+            "group": "top",
+            "id": "b1f2351e-cacb-4f26-ac44-1169a7049d22"
+          },
+          {
+            "group": "right",
+            "id": "b6c63c0e-2377-4088-9924-9b319b46fc3b"
+          },
+          {
+            "group": "bottom",
+            "id": "a6ce8319-5d16-4017-be1d-93ac3f164fc1"
+          },
+          {
+            "group": "left",
+            "id": "0fbbc6b1-d58d-4635-a59f-3bb5602c0aed"
+          }
+        ]
+      },
+      "id": "532a4f0d-d450-445b-95b3-6ef6d6148037",
+      "desc": "",
+      "input": "",
+      "output": "",
+      "node": {},
+      "trackList": [],
+      "oldLabel": "仿真测试环境构建",
+      "zIndex": 11,
+      "label": "仿真测试环境构建"
+    },
+    {
+      "position": {
+        "x": 22,
+        "y": 210
+      },
+      "size": {
+        "width": 100,
+        "height": 40
+      },
+      "attrs": {
+        "text": {
+          "text": "应用架构设计"
+        },
+        "body": {
+          "rx": 10,
+          "ry": 10
+        },
+        "label": {
+          "fontSize": 12,
+          "fill": "#333"
+        }
+      },
+      "visible": true,
+      "shape": "custom-rect",
+      "ports": {
+        "groups": {
+          "top": {
+            "position": "top",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "right": {
+            "position": "right",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "bottom": {
+            "position": "bottom",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "left": {
+            "position": "left",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          }
+        },
+        "items": [
+          {
+            "group": "top",
+            "id": "b1f2351e-cacb-4f26-ac44-1169a7049d22"
+          },
+          {
+            "group": "right",
+            "id": "b6c63c0e-2377-4088-9924-9b319b46fc3b"
+          },
+          {
+            "group": "bottom",
+            "id": "a6ce8319-5d16-4017-be1d-93ac3f164fc1"
+          },
+          {
+            "group": "left",
+            "id": "0fbbc6b1-d58d-4635-a59f-3bb5602c0aed"
+          }
+        ]
+      },
+      "id": "7566bcc9-593c-4ea6-91ea-c4c844719da5",
+      "desc": "",
+      "input": "",
+      "output": "",
+      "node": {},
+      "trackList": [],
+      "oldLabel": "应用架构设计",
+      "zIndex": 12,
+      "label": "应用架构设计"
+    },
+    {
+      "position": {
+        "x": 172,
+        "y": 90
+      },
+      "size": {
+        "width": 60,
+        "height": 40
+      },
+      "attrs": {
+        "text": {
+          "text": "质量门"
+        },
+        "body": {
+          "rx": 10,
+          "ry": 10
+        },
+        "label": {
+          "fontSize": 12,
+          "fill": "#333"
+        }
+      },
+      "visible": true,
+      "shape": "custom-polygon-rhombus",
+      "ports": {
+        "groups": {
+          "top": {
+            "position": "top",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "right": {
+            "position": "right",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "bottom": {
+            "position": "bottom",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "left": {
+            "position": "left",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          }
+        },
+        "items": [
+          {
+            "group": "top",
+            "id": "7fda3141-278f-473b-bd41-bfa9b09dfc90"
+          },
+          {
+            "group": "right",
+            "id": "83e53b94-0980-4b34-9e04-c76525729b0c"
+          },
+          {
+            "group": "bottom",
+            "id": "06223a36-de62-4138-9647-620d5c249b16"
+          },
+          {
+            "group": "left",
+            "id": "14c96027-69e3-4b2a-8629-01808fe76ffc"
+          }
+        ]
+      },
+      "id": "28a3cca3-dd46-482c-8a15-0a74e2de0246",
+      "desc": "",
+      "input": "",
+      "output": "",
+      "node": {},
+      "trackList": [],
+      "oldLabel": "质量门",
+      "zIndex": 13,
+      "label": "质量门"
+    },
+    {
+      "position": {
+        "x": 172,
+        "y": 210
+      },
+      "size": {
+        "width": 60,
+        "height": 40
+      },
+      "attrs": {
+        "text": {
+          "text": "质量门"
+        },
+        "body": {
+          "rx": 10,
+          "ry": 10
+        },
+        "label": {
+          "fontSize": 12,
+          "fill": "#333"
+        }
+      },
+      "visible": true,
+      "shape": "custom-polygon-rhombus",
+      "ports": {
+        "groups": {
+          "top": {
+            "position": "top",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "right": {
+            "position": "right",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "bottom": {
+            "position": "bottom",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "left": {
+            "position": "left",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          }
+        },
+        "items": [
+          {
+            "group": "top",
+            "id": "7fda3141-278f-473b-bd41-bfa9b09dfc90"
+          },
+          {
+            "group": "right",
+            "id": "83e53b94-0980-4b34-9e04-c76525729b0c"
+          },
+          {
+            "group": "bottom",
+            "id": "06223a36-de62-4138-9647-620d5c249b16"
+          },
+          {
+            "group": "left",
+            "id": "14c96027-69e3-4b2a-8629-01808fe76ffc"
+          }
+        ]
+      },
+      "id": "ffb7dd50-d655-44db-b016-39b6f6ab4eab",
+      "desc": "",
+      "input": "",
+      "output": "",
+      "node": {},
+      "trackList": [],
+      "oldLabel": "质量门",
+      "zIndex": 14,
+      "label": "质量门"
+    },
+    {
+      "position": {
+        "x": 270,
+        "y": 30
+      },
+      "size": {
+        "width": 110,
+        "height": 40
+      },
+      "attrs": {
+        "text": {
+          "text": "功能测试用例设计"
+        },
+        "body": {
+          "rx": 10,
+          "ry": 10
+        },
+        "label": {
+          "fontSize": 12,
+          "fill": "#333"
+        }
+      },
+      "visible": true,
+      "shape": "custom-rect",
+      "ports": {
+        "groups": {
+          "top": {
+            "position": "top",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "right": {
+            "position": "right",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "bottom": {
+            "position": "bottom",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "left": {
+            "position": "left",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          }
+        },
+        "items": [
+          {
+            "group": "top",
+            "id": "b1f2351e-cacb-4f26-ac44-1169a7049d22"
+          },
+          {
+            "group": "right",
+            "id": "b6c63c0e-2377-4088-9924-9b319b46fc3b"
+          },
+          {
+            "group": "bottom",
+            "id": "a6ce8319-5d16-4017-be1d-93ac3f164fc1"
+          },
+          {
+            "group": "left",
+            "id": "0fbbc6b1-d58d-4635-a59f-3bb5602c0aed"
+          }
+        ]
+      },
+      "id": "b24bf353-32ab-4211-95b1-f1ad7ac406fb",
+      "desc": "",
+      "input": "",
+      "output": "",
+      "node": {},
+      "trackList": [],
+      "oldLabel": "功能测试用例设计",
+      "zIndex": 15,
+      "label": "功能测试用例设计"
+    },
+    {
+      "position": {
+        "x": 270,
+        "y": 194
+      },
+      "size": {
+        "width": 110,
+        "height": 40
+      },
+      "attrs": {
+        "text": {
+          "text": "可靠性测试用例设计"
+        },
+        "body": {
+          "rx": 10,
+          "ry": 10
+        },
+        "label": {
+          "fontSize": 12,
+          "fill": "#333"
+        }
+      },
+      "visible": true,
+      "shape": "custom-rect",
+      "ports": {
+        "groups": {
+          "top": {
+            "position": "top",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "right": {
+            "position": "right",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "bottom": {
+            "position": "bottom",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "left": {
+            "position": "left",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          }
+        },
+        "items": [
+          {
+            "group": "top",
+            "id": "b1f2351e-cacb-4f26-ac44-1169a7049d22"
+          },
+          {
+            "group": "right",
+            "id": "b6c63c0e-2377-4088-9924-9b319b46fc3b"
+          },
+          {
+            "group": "bottom",
+            "id": "a6ce8319-5d16-4017-be1d-93ac3f164fc1"
+          },
+          {
+            "group": "left",
+            "id": "0fbbc6b1-d58d-4635-a59f-3bb5602c0aed"
+          }
+        ]
+      },
+      "id": "97933a48-4c8d-46ff-a12b-ad093fb872f6",
+      "desc": "",
+      "input": "",
+      "output": "",
+      "node": {},
+      "trackList": [],
+      "oldLabel": "可靠性测试用例设计",
+      "zIndex": 16,
+      "label": "可靠性测试用例设计"
+    },
+    {
+      "position": {
+        "x": 280,
+        "y": 276
+      },
+      "size": {
+        "width": 70,
+        "height": 40
+      },
+      "attrs": {
+        "text": {
+          "text": "详细设计"
+        },
+        "body": {
+          "rx": 10,
+          "ry": 10
+        },
+        "label": {
+          "fontSize": 12,
+          "fill": "#333"
+        }
+      },
+      "visible": true,
+      "shape": "custom-rect",
+      "ports": {
+        "groups": {
+          "top": {
+            "position": "top",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "right": {
+            "position": "right",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "bottom": {
+            "position": "bottom",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "left": {
+            "position": "left",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          }
+        },
+        "items": [
+          {
+            "group": "top",
+            "id": "b1f2351e-cacb-4f26-ac44-1169a7049d22"
+          },
+          {
+            "group": "right",
+            "id": "b6c63c0e-2377-4088-9924-9b319b46fc3b"
+          },
+          {
+            "group": "bottom",
+            "id": "a6ce8319-5d16-4017-be1d-93ac3f164fc1"
+          },
+          {
+            "group": "left",
+            "id": "0fbbc6b1-d58d-4635-a59f-3bb5602c0aed"
+          }
+        ]
+      },
+      "id": "16b4e2e4-5754-4a00-800a-84111eb541f8",
+      "desc": "",
+      "input": "",
+      "output": "",
+      "node": {},
+      "trackList": [],
+      "oldLabel": "详细设计",
+      "zIndex": 17,
+      "label": "详细设计"
+    },
+    {
+      "position": {
+        "x": 434,
+        "y": 30
+      },
+      "size": {
+        "width": 60,
+        "height": 40
+      },
+      "attrs": {
+        "text": {
+          "text": "质量门"
+        },
+        "body": {
+          "rx": 10,
+          "ry": 10
+        },
+        "label": {
+          "fontSize": 12,
+          "fill": "#333"
+        }
+      },
+      "visible": true,
+      "shape": "custom-polygon-rhombus",
+      "ports": {
+        "groups": {
+          "top": {
+            "position": "top",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "right": {
+            "position": "right",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "bottom": {
+            "position": "bottom",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "left": {
+            "position": "left",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          }
+        },
+        "items": [
+          {
+            "group": "top",
+            "id": "7fda3141-278f-473b-bd41-bfa9b09dfc90"
+          },
+          {
+            "group": "right",
+            "id": "83e53b94-0980-4b34-9e04-c76525729b0c"
+          },
+          {
+            "group": "bottom",
+            "id": "06223a36-de62-4138-9647-620d5c249b16"
+          },
+          {
+            "group": "left",
+            "id": "14c96027-69e3-4b2a-8629-01808fe76ffc"
+          }
+        ]
+      },
+      "id": "8c9353e1-b1e8-4487-a7b2-283f2ef9ecb8",
+      "desc": "",
+      "input": "",
+      "output": "",
+      "node": {},
+      "trackList": [],
+      "oldLabel": "质量门",
+      "zIndex": 18,
+      "label": "质量门"
+    },
+    {
+      "position": {
+        "x": 434,
+        "y": 194
+      },
+      "size": {
+        "width": 60,
+        "height": 40
+      },
+      "attrs": {
+        "text": {
+          "text": "质量门"
+        },
+        "body": {
+          "rx": 10,
+          "ry": 10
+        },
+        "label": {
+          "fontSize": 12,
+          "fill": "#333"
+        }
+      },
+      "visible": true,
+      "shape": "custom-polygon-rhombus",
+      "ports": {
+        "groups": {
+          "top": {
+            "position": "top",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "right": {
+            "position": "right",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "bottom": {
+            "position": "bottom",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "left": {
+            "position": "left",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          }
+        },
+        "items": [
+          {
+            "group": "top",
+            "id": "7fda3141-278f-473b-bd41-bfa9b09dfc90"
+          },
+          {
+            "group": "right",
+            "id": "83e53b94-0980-4b34-9e04-c76525729b0c"
+          },
+          {
+            "group": "bottom",
+            "id": "06223a36-de62-4138-9647-620d5c249b16"
+          },
+          {
+            "group": "left",
+            "id": "14c96027-69e3-4b2a-8629-01808fe76ffc"
+          }
+        ]
+      },
+      "id": "f617e08b-6ae5-40ff-be5c-3b60736e0be1",
+      "desc": "",
+      "input": "",
+      "output": "",
+      "node": {},
+      "trackList": [],
+      "oldLabel": "质量门",
+      "zIndex": 19,
+      "label": "质量门"
+    },
+    {
+      "position": {
+        "x": 404,
+        "y": 276
+      },
+      "size": {
+        "width": 60,
+        "height": 40
+      },
+      "attrs": {
+        "text": {
+          "text": "质量门"
+        },
+        "body": {
+          "rx": 10,
+          "ry": 10
+        },
+        "label": {
+          "fontSize": 12,
+          "fill": "#333"
+        }
+      },
+      "visible": true,
+      "shape": "custom-polygon-rhombus",
+      "ports": {
+        "groups": {
+          "top": {
+            "position": "top",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "right": {
+            "position": "right",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "bottom": {
+            "position": "bottom",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "left": {
+            "position": "left",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          }
+        },
+        "items": [
+          {
+            "group": "top",
+            "id": "7fda3141-278f-473b-bd41-bfa9b09dfc90"
+          },
+          {
+            "group": "right",
+            "id": "83e53b94-0980-4b34-9e04-c76525729b0c"
+          },
+          {
+            "group": "bottom",
+            "id": "06223a36-de62-4138-9647-620d5c249b16"
+          },
+          {
+            "group": "left",
+            "id": "14c96027-69e3-4b2a-8629-01808fe76ffc"
+          }
+        ]
+      },
+      "id": "40abf7e4-58e3-411e-a1d7-b6e0c6c10bf4",
+      "desc": "",
+      "input": "",
+      "output": "",
+      "node": {},
+      "trackList": [],
+      "oldLabel": "质量门",
+      "zIndex": 20
+    },
+    {
+      "position": {
+        "x": 534,
+        "y": 70
+      },
+      "size": {
+        "width": 110,
+        "height": 40
+      },
+      "attrs": {
+        "text": {
+          "text": "性能测试用例设计"
+        },
+        "body": {
+          "rx": 10,
+          "ry": 10
+        },
+        "label": {
+          "fontSize": 12,
+          "fill": "#333"
+        }
+      },
+      "visible": true,
+      "shape": "custom-rect",
+      "ports": {
+        "groups": {
+          "top": {
+            "position": "top",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "right": {
+            "position": "right",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "bottom": {
+            "position": "bottom",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "left": {
+            "position": "left",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          }
+        },
+        "items": [
+          {
+            "group": "top",
+            "id": "b1f2351e-cacb-4f26-ac44-1169a7049d22"
+          },
+          {
+            "group": "right",
+            "id": "b6c63c0e-2377-4088-9924-9b319b46fc3b"
+          },
+          {
+            "group": "bottom",
+            "id": "a6ce8319-5d16-4017-be1d-93ac3f164fc1"
+          },
+          {
+            "group": "left",
+            "id": "0fbbc6b1-d58d-4635-a59f-3bb5602c0aed"
+          }
+        ]
+      },
+      "id": "50280816-eb70-4b9a-938c-06e91050c847",
+      "desc": "",
+      "input": "",
+      "output": "",
+      "node": {},
+      "trackList": [],
+      "oldLabel": "性能测试用例设计",
+      "zIndex": 21,
+      "label": "性能测试用例设计"
+    },
+    {
+      "position": {
+        "x": 516,
+        "y": 276
+      },
+      "size": {
+        "width": 60,
+        "height": 40
+      },
+      "attrs": {
+        "text": {
+          "text": "编码调试"
+        },
+        "body": {
+          "rx": 10,
+          "ry": 10
+        },
+        "label": {
+          "fontSize": 12,
+          "fill": "#333"
+        }
+      },
+      "visible": true,
+      "shape": "custom-rect",
+      "ports": {
+        "groups": {
+          "top": {
+            "position": "top",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "right": {
+            "position": "right",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "bottom": {
+            "position": "bottom",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "left": {
+            "position": "left",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          }
+        },
+        "items": [
+          {
+            "group": "top",
+            "id": "b1f2351e-cacb-4f26-ac44-1169a7049d22"
+          },
+          {
+            "group": "right",
+            "id": "b6c63c0e-2377-4088-9924-9b319b46fc3b"
+          },
+          {
+            "group": "bottom",
+            "id": "a6ce8319-5d16-4017-be1d-93ac3f164fc1"
+          },
+          {
+            "group": "left",
+            "id": "0fbbc6b1-d58d-4635-a59f-3bb5602c0aed"
+          }
+        ]
+      },
+      "id": "f52de11f-4f69-4109-a7ce-f2a9e4c21077",
+      "desc": "",
+      "input": "",
+      "output": "",
+      "node": {},
+      "trackList": [],
+      "oldLabel": "编码调试",
+      "zIndex": 22,
+      "label": "编码调试"
+    },
+    {
+      "position": {
+        "x": 696,
+        "y": 70
+      },
+      "size": {
+        "width": 60,
+        "height": 40
+      },
+      "attrs": {
+        "text": {
+          "text": "质量门"
+        },
+        "body": {
+          "rx": 10,
+          "ry": 10
+        },
+        "label": {
+          "fontSize": 12,
+          "fill": "#333"
+        }
+      },
+      "visible": true,
+      "shape": "custom-polygon-rhombus",
+      "ports": {
+        "groups": {
+          "top": {
+            "position": "top",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "right": {
+            "position": "right",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "bottom": {
+            "position": "bottom",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "left": {
+            "position": "left",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          }
+        },
+        "items": [
+          {
+            "group": "top",
+            "id": "7fda3141-278f-473b-bd41-bfa9b09dfc90"
+          },
+          {
+            "group": "right",
+            "id": "83e53b94-0980-4b34-9e04-c76525729b0c"
+          },
+          {
+            "group": "bottom",
+            "id": "06223a36-de62-4138-9647-620d5c249b16"
+          },
+          {
+            "group": "left",
+            "id": "14c96027-69e3-4b2a-8629-01808fe76ffc"
+          }
+        ]
+      },
+      "id": "40fbd301-ccd1-49fe-afaa-e3f4bc052443",
+      "desc": "",
+      "input": "",
+      "output": "",
+      "node": {},
+      "trackList": [],
+      "oldLabel": "质量门",
+      "zIndex": 23,
+      "label": "质量门"
+    },
+    {
+      "position": {
+        "x": 626,
+        "y": 276
+      },
+      "size": {
+        "width": 60,
+        "height": 40
+      },
+      "attrs": {
+        "text": {
+          "text": "质量门"
+        },
+        "body": {
+          "rx": 10,
+          "ry": 10
+        },
+        "label": {
+          "fontSize": 12,
+          "fill": "#333"
+        }
+      },
+      "visible": true,
+      "shape": "custom-polygon-rhombus",
+      "ports": {
+        "groups": {
+          "top": {
+            "position": "top",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "right": {
+            "position": "right",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "bottom": {
+            "position": "bottom",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "left": {
+            "position": "left",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          }
+        },
+        "items": [
+          {
+            "group": "top",
+            "id": "7fda3141-278f-473b-bd41-bfa9b09dfc90"
+          },
+          {
+            "group": "right",
+            "id": "83e53b94-0980-4b34-9e04-c76525729b0c"
+          },
+          {
+            "group": "bottom",
+            "id": "06223a36-de62-4138-9647-620d5c249b16"
+          },
+          {
+            "group": "left",
+            "id": "14c96027-69e3-4b2a-8629-01808fe76ffc"
+          }
+        ]
+      },
+      "id": "c4cac3c1-5b92-41e4-93bf-1304011fbbb2",
+      "desc": "",
+      "input": "",
+      "output": "",
+      "node": {},
+      "trackList": [],
+      "oldLabel": "质量门",
+      "zIndex": 24,
+      "label": "质量门"
+    },
+    {
+      "position": {
+        "x": 736,
+        "y": 276
+      },
+      "size": {
+        "width": 60,
+        "height": 40
+      },
+      "attrs": {
+        "text": {
+          "text": "编译链接"
+        },
+        "body": {
+          "rx": 10,
+          "ry": 10
+        },
+        "label": {
+          "fontSize": 12,
+          "fill": "#333"
+        }
+      },
+      "visible": true,
+      "shape": "custom-rect",
+      "ports": {
+        "groups": {
+          "top": {
+            "position": "top",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "right": {
+            "position": "right",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "bottom": {
+            "position": "bottom",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "left": {
+            "position": "left",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          }
+        },
+        "items": [
+          {
+            "group": "top",
+            "id": "b1f2351e-cacb-4f26-ac44-1169a7049d22"
+          },
+          {
+            "group": "right",
+            "id": "b6c63c0e-2377-4088-9924-9b319b46fc3b"
+          },
+          {
+            "group": "bottom",
+            "id": "a6ce8319-5d16-4017-be1d-93ac3f164fc1"
+          },
+          {
+            "group": "left",
+            "id": "0fbbc6b1-d58d-4635-a59f-3bb5602c0aed"
+          }
+        ]
+      },
+      "id": "5308b2df-fd82-423d-bc37-f3b2399cb828",
+      "desc": "",
+      "input": "",
+      "output": "",
+      "node": {},
+      "trackList": [],
+      "oldLabel": "编译链接",
+      "zIndex": 25,
+      "label": "编译链接"
+    },
+    {
+      "position": {
+        "x": 848,
+        "y": 276
+      },
+      "size": {
+        "width": 60,
+        "height": 40
+      },
+      "attrs": {
+        "text": {
+          "text": "质量门"
+        },
+        "body": {
+          "rx": 10,
+          "ry": 10
+        },
+        "label": {
+          "fontSize": 12,
+          "fill": "#333"
+        }
+      },
+      "visible": true,
+      "shape": "custom-polygon-rhombus",
+      "ports": {
+        "groups": {
+          "top": {
+            "position": "top",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "right": {
+            "position": "right",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "bottom": {
+            "position": "bottom",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "left": {
+            "position": "left",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          }
+        },
+        "items": [
+          {
+            "group": "top",
+            "id": "7fda3141-278f-473b-bd41-bfa9b09dfc90"
+          },
+          {
+            "group": "right",
+            "id": "83e53b94-0980-4b34-9e04-c76525729b0c"
+          },
+          {
+            "group": "bottom",
+            "id": "06223a36-de62-4138-9647-620d5c249b16"
+          },
+          {
+            "group": "left",
+            "id": "14c96027-69e3-4b2a-8629-01808fe76ffc"
+          }
+        ]
+      },
+      "id": "398083ad-5c48-4d35-9a86-bf2d9e2bc25f",
+      "desc": "",
+      "input": "",
+      "output": "",
+      "node": {},
+      "trackList": [],
+      "oldLabel": "质量门",
+      "zIndex": 26,
+      "label": "质量门"
+    },
+    {
+      "position": {
+        "x": 908,
+        "y": 30
+      },
+      "size": {
+        "width": 60,
+        "height": 40
+      },
+      "attrs": {
+        "text": {
+          "text": "功能测试"
+        },
+        "body": {
+          "rx": 10,
+          "ry": 10
+        },
+        "label": {
+          "fontSize": 12,
+          "fill": "#333"
+        }
+      },
+      "visible": true,
+      "shape": "custom-rect",
+      "ports": {
+        "groups": {
+          "top": {
+            "position": "top",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "right": {
+            "position": "right",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "bottom": {
+            "position": "bottom",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "left": {
+            "position": "left",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          }
+        },
+        "items": [
+          {
+            "group": "top",
+            "id": "b1f2351e-cacb-4f26-ac44-1169a7049d22"
+          },
+          {
+            "group": "right",
+            "id": "b6c63c0e-2377-4088-9924-9b319b46fc3b"
+          },
+          {
+            "group": "bottom",
+            "id": "a6ce8319-5d16-4017-be1d-93ac3f164fc1"
+          },
+          {
+            "group": "left",
+            "id": "0fbbc6b1-d58d-4635-a59f-3bb5602c0aed"
+          }
+        ]
+      },
+      "id": "7cc62bde-13f7-43d0-b669-6f9bb2e4d9f3",
+      "desc": "",
+      "input": "",
+      "output": "",
+      "node": {},
+      "trackList": [],
+      "oldLabel": "功能测试",
+      "zIndex": 27,
+      "label": "功能测试"
+    },
+    {
+      "position": {
+        "x": 908,
+        "y": 110
+      },
+      "size": {
+        "width": 60,
+        "height": 40
+      },
+      "attrs": {
+        "text": {
+          "text": "性能测试"
+        },
+        "body": {
+          "rx": 10,
+          "ry": 10
+        },
+        "label": {
+          "fontSize": 12,
+          "fill": "#333"
+        }
+      },
+      "visible": true,
+      "shape": "custom-rect",
+      "ports": {
+        "groups": {
+          "top": {
+            "position": "top",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "right": {
+            "position": "right",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "bottom": {
+            "position": "bottom",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "left": {
+            "position": "left",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          }
+        },
+        "items": [
+          {
+            "group": "top",
+            "id": "b1f2351e-cacb-4f26-ac44-1169a7049d22"
+          },
+          {
+            "group": "right",
+            "id": "b6c63c0e-2377-4088-9924-9b319b46fc3b"
+          },
+          {
+            "group": "bottom",
+            "id": "a6ce8319-5d16-4017-be1d-93ac3f164fc1"
+          },
+          {
+            "group": "left",
+            "id": "0fbbc6b1-d58d-4635-a59f-3bb5602c0aed"
+          }
+        ]
+      },
+      "id": "b4e3ecaf-1f43-43d9-817e-de2f763cae75",
+      "desc": "",
+      "input": "",
+      "output": "",
+      "node": {},
+      "trackList": [],
+      "oldLabel": "功能测试",
+      "zIndex": 28,
+      "label": "性能测试"
+    },
+    {
+      "position": {
+        "x": 908,
+        "y": 194
+      },
+      "size": {
+        "width": 70,
+        "height": 40
+      },
+      "attrs": {
+        "text": {
+          "text": "可靠性测试"
+        },
+        "body": {
+          "rx": 10,
+          "ry": 10
+        },
+        "label": {
+          "fontSize": 12,
+          "fill": "#333"
+        }
+      },
+      "visible": true,
+      "shape": "custom-rect",
+      "ports": {
+        "groups": {
+          "top": {
+            "position": "top",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "right": {
+            "position": "right",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "bottom": {
+            "position": "bottom",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "left": {
+            "position": "left",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          }
+        },
+        "items": [
+          {
+            "group": "top",
+            "id": "b1f2351e-cacb-4f26-ac44-1169a7049d22"
+          },
+          {
+            "group": "right",
+            "id": "b6c63c0e-2377-4088-9924-9b319b46fc3b"
+          },
+          {
+            "group": "bottom",
+            "id": "a6ce8319-5d16-4017-be1d-93ac3f164fc1"
+          },
+          {
+            "group": "left",
+            "id": "0fbbc6b1-d58d-4635-a59f-3bb5602c0aed"
+          }
+        ]
+      },
+      "id": "655431de-4a44-4203-a283-9204dd754f96",
+      "desc": "",
+      "input": "",
+      "output": "",
+      "node": {},
+      "trackList": [],
+      "oldLabel": "可靠性测试",
+      "zIndex": 29,
+      "label": "可靠性测试"
+    },
+    {
+      "position": {
+        "x": 1014,
+        "y": 30
+      },
+      "size": {
+        "width": 60,
+        "height": 40
+      },
+      "attrs": {
+        "text": {
+          "text": "质量门"
+        },
+        "body": {
+          "rx": 10,
+          "ry": 10
+        },
+        "label": {
+          "fontSize": 12,
+          "fill": "#333"
+        }
+      },
+      "visible": true,
+      "shape": "custom-polygon-rhombus",
+      "ports": {
+        "groups": {
+          "top": {
+            "position": "top",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "right": {
+            "position": "right",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "bottom": {
+            "position": "bottom",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "left": {
+            "position": "left",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          }
+        },
+        "items": [
+          {
+            "group": "top",
+            "id": "7fda3141-278f-473b-bd41-bfa9b09dfc90"
+          },
+          {
+            "group": "right",
+            "id": "83e53b94-0980-4b34-9e04-c76525729b0c"
+          },
+          {
+            "group": "bottom",
+            "id": "06223a36-de62-4138-9647-620d5c249b16"
+          },
+          {
+            "group": "left",
+            "id": "14c96027-69e3-4b2a-8629-01808fe76ffc"
+          }
+        ]
+      },
+      "id": "6c756e98-422b-46a7-aa32-bf455e824304",
+      "desc": "",
+      "input": "",
+      "output": "",
+      "node": {},
+      "trackList": [],
+      "oldLabel": "质量门",
+      "zIndex": 30,
+      "label": "质量门"
+    },
+    {
+      "position": {
+        "x": 1014,
+        "y": 110
+      },
+      "size": {
+        "width": 60,
+        "height": 40
+      },
+      "attrs": {
+        "text": {
+          "text": "质量门"
+        },
+        "body": {
+          "rx": 10,
+          "ry": 10
+        },
+        "label": {
+          "fontSize": 12,
+          "fill": "#333"
+        }
+      },
+      "visible": true,
+      "shape": "custom-polygon-rhombus",
+      "ports": {
+        "groups": {
+          "top": {
+            "position": "top",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "right": {
+            "position": "right",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "bottom": {
+            "position": "bottom",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "left": {
+            "position": "left",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          }
+        },
+        "items": [
+          {
+            "group": "top",
+            "id": "7fda3141-278f-473b-bd41-bfa9b09dfc90"
+          },
+          {
+            "group": "right",
+            "id": "83e53b94-0980-4b34-9e04-c76525729b0c"
+          },
+          {
+            "group": "bottom",
+            "id": "06223a36-de62-4138-9647-620d5c249b16"
+          },
+          {
+            "group": "left",
+            "id": "14c96027-69e3-4b2a-8629-01808fe76ffc"
+          }
+        ]
+      },
+      "id": "8f7eba4d-c008-4b65-93cd-fe5027418671",
+      "desc": "",
+      "input": "",
+      "output": "",
+      "node": {},
+      "trackList": [],
+      "oldLabel": "质量门",
+      "zIndex": 31
+    },
+    {
+      "position": {
+        "x": 1024,
+        "y": 194
+      },
+      "size": {
+        "width": 60,
+        "height": 40
+      },
+      "attrs": {
+        "text": {
+          "text": "质量门"
+        },
+        "body": {
+          "rx": 10,
+          "ry": 10
+        },
+        "label": {
+          "fontSize": 12,
+          "fill": "#333"
+        }
+      },
+      "visible": true,
+      "shape": "custom-polygon-rhombus",
+      "ports": {
+        "groups": {
+          "top": {
+            "position": "top",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "right": {
+            "position": "right",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "bottom": {
+            "position": "bottom",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "left": {
+            "position": "left",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          }
+        },
+        "items": [
+          {
+            "group": "top",
+            "id": "7fda3141-278f-473b-bd41-bfa9b09dfc90"
+          },
+          {
+            "group": "right",
+            "id": "83e53b94-0980-4b34-9e04-c76525729b0c"
+          },
+          {
+            "group": "bottom",
+            "id": "06223a36-de62-4138-9647-620d5c249b16"
+          },
+          {
+            "group": "left",
+            "id": "14c96027-69e3-4b2a-8629-01808fe76ffc"
+          }
+        ]
+      },
+      "id": "8349a463-a765-45dc-b448-ff821853e111",
+      "desc": "",
+      "input": "",
+      "output": "",
+      "node": {},
+      "trackList": [],
+      "oldLabel": "质量门",
+      "zIndex": 32
+    },
+    {
+      "position": {
+        "x": 1140,
+        "y": 162
+      },
+      "size": {
+        "width": 60,
+        "height": 30
+      },
+      "attrs": {
+        "text": {
+          "text": "结束"
+        },
+        "body": {
+          "rx": 10,
+          "ry": 10
+        },
+        "label": {
+          "fontSize": 12,
+          "fill": "#333"
+        }
+      },
+      "visible": true,
+      "shape": "custom-rect",
+      "ports": {
+        "groups": {
+          "top": {
+            "position": "top",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "right": {
+            "position": "right",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "bottom": {
+            "position": "bottom",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "left": {
+            "position": "left",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          }
+        },
+        "items": [
+          {
+            "group": "top",
+            "id": "b1f2351e-cacb-4f26-ac44-1169a7049d22"
+          },
+          {
+            "group": "right",
+            "id": "b6c63c0e-2377-4088-9924-9b319b46fc3b"
+          },
+          {
+            "group": "bottom",
+            "id": "a6ce8319-5d16-4017-be1d-93ac3f164fc1"
+          },
+          {
+            "group": "left",
+            "id": "0fbbc6b1-d58d-4635-a59f-3bb5602c0aed"
+          }
+        ]
+      },
+      "id": "bfb7ea59-bea6-43d2-893d-86d19192e87d",
+      "desc": "",
+      "input": "",
+      "output": "",
+      "node": {},
+      "trackList": [],
+      "oldLabel": "开始",
+      "zIndex": 33,
+      "label": "结束"
+    },
+    {
+      "position": {
+        "x": 1009,
+        "y": 368
+      },
+      "size": {
+        "width": 70,
+        "height": 40
+      },
+      "attrs": {
+        "text": {
+          "text": "分析问题"
+        },
+        "body": {
+          "rx": 10,
+          "ry": 10
+        },
+        "label": {
+          "fontSize": 12,
+          "fill": "#333"
+        }
+      },
+      "visible": true,
+      "shape": "custom-rect",
+      "ports": {
+        "groups": {
+          "top": {
+            "position": "top",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "right": {
+            "position": "right",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "bottom": {
+            "position": "bottom",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "left": {
+            "position": "left",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          }
+        },
+        "items": [
+          {
+            "group": "top",
+            "id": "b1f2351e-cacb-4f26-ac44-1169a7049d22"
+          },
+          {
+            "group": "right",
+            "id": "b6c63c0e-2377-4088-9924-9b319b46fc3b"
+          },
+          {
+            "group": "bottom",
+            "id": "a6ce8319-5d16-4017-be1d-93ac3f164fc1"
+          },
+          {
+            "group": "left",
+            "id": "0fbbc6b1-d58d-4635-a59f-3bb5602c0aed"
+          }
+        ]
+      },
+      "id": "22d264ad-2bbb-4678-a0de-98aa0640e5d9",
+      "desc": "",
+      "input": "",
+      "output": "",
+      "node": {},
+      "trackList": [],
+      "oldLabel": "分析问题",
+      "zIndex": 34,
+      "label": "分析问题"
+    },
+    {
+      "position": {
+        "x": 621,
+        "y": 368
+      },
+      "size": {
+        "width": 70,
+        "height": 40
+      },
+      "attrs": {
+        "text": {
+          "text": "问题类型"
+        },
+        "body": {
+          "rx": 10,
+          "ry": 10
+        },
+        "label": {
+          "fontSize": 12,
+          "fill": "#333"
+        }
+      },
+      "visible": true,
+      "shape": "custom-rect",
+      "ports": {
+        "groups": {
+          "top": {
+            "position": "top",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "right": {
+            "position": "right",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "bottom": {
+            "position": "bottom",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          },
+          "left": {
+            "position": "left",
+            "attrs": {
+              "circle": {
+                "r": 4,
+                "magnet": true,
+                "stroke": "#5F95FF",
+                "strokeWidth": 1,
+                "fill": "#fff",
+                "style": {
+                  "visibility": "hidden"
+                }
+              }
+            }
+          }
+        },
+        "items": [
+          {
+            "group": "top",
+            "id": "b1f2351e-cacb-4f26-ac44-1169a7049d22"
+          },
+          {
+            "group": "right",
+            "id": "b6c63c0e-2377-4088-9924-9b319b46fc3b"
+          },
+          {
+            "group": "bottom",
+            "id": "a6ce8319-5d16-4017-be1d-93ac3f164fc1"
+          },
+          {
+            "group": "left",
+            "id": "0fbbc6b1-d58d-4635-a59f-3bb5602c0aed"
+          }
+        ]
+      },
+      "id": "a3c4f4eb-499c-4aad-b178-f8da99a6edb7",
+      "desc": "",
+      "input": "",
+      "output": "",
+      "node": {},
+      "trackList": [],
+      "oldLabel": "分析问题",
+      "zIndex": 35,
+      "label": "问题类型"
+    },
+    {
+      "shape": "edge",
+      "attrs": {
+        "line": {
+          "stroke": "#A2B1C3",
+          "strokeWidth": 1,
+          "targetMarker": {
+            "name": "block",
+            "width": 12,
+            "height": 8
+          }
+        }
+      },
+      "id": "24c46d2e-ae47-4aa6-bd50-bb34406af465",
+      "zIndex": 36,
+      "source": {
+        "cell": "a3c4f4eb-499c-4aad-b178-f8da99a6edb7",
+        "port": "0fbbc6b1-d58d-4635-a59f-3bb5602c0aed"
+      },
+      "target": {
+        "cell": "7566bcc9-593c-4ea6-91ea-c4c844719da5",
+        "port": "a6ce8319-5d16-4017-be1d-93ac3f164fc1"
+      }
+    }
+  ]
+}

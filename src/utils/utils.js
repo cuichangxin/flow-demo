@@ -11,6 +11,14 @@ export function randomRbg(index) {
     return colorArr[1]
   }
 }
+export function randomDarkRbg(index) {
+  const colorArr = ['#134D00', '#00414D']
+  if (index % 2 == 0) {
+    return colorArr[0]
+  } else {
+    return colorArr[1]
+  }
+}
 export function fittingString(str, maxWidth, fontSize) {
   let currentWidth = 0;
   let res = str;

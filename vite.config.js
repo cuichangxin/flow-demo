@@ -37,7 +37,11 @@ export default defineConfig(({ mode, command }) => {
         '@': path.resolve(__dirname, './src')
       },
       // https://cn.vitejs.dev/config/#resolve-extensions
-      extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue']
+      extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue'],
+      // https://github.com/vuejs/core/issues/4344
+      dedupe: [
+        'vue'
+      ]
     },
     server: {
       port: 8080,
@@ -57,8 +61,9 @@ export default defineConfig(({ mode, command }) => {
           entryFileNames: 'assets/js/[name].[hash].js',
           chunkFileNames: 'assets/js/[name].[hash].js',
           assetFileNames: (file) => {
+            console.log(file);
             const filename = file.name.split('/')[file.name.split('/').length - 1].split('.')[1]
-            return `${file.name.indexOf('images') !== -1 ? `assets/images/[name].${filename}` : file.name.indexOf('svg') !== -1 ? `assets/svg/[name].${filename}` : 'assets/[ext]/[name].[hash].[ext]'}`
+            return `${file.name.indexOf('images') !== -1 ? `assets/img/[name].${filename}` : file.name.indexOf('svg') !== -1 ? `assets/svg/[name].${filename}` : 'assets/[ext]/[name].[hash].[ext]'}`
           }
         }
       },

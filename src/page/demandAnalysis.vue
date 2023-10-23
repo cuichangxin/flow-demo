@@ -1042,6 +1042,7 @@ import Cookies from 'js-cookie'
 import shapeElMenu from '../components/common/shape/shapeElMenu.vue'
 import { Splitpanes, Pane } from 'splitpanes'
 import 'splitpanes/dist/splitpanes.css'
+import axios from 'axios'
 
 const { proxy } = getCurrentInstance()
 
@@ -1665,15 +1666,11 @@ function end(evt) {
 }
 function previewfile() {
   nextTick(() => {
-    // fetch('/public/mock/word/demand_analysis.docx')
-    fetch('/assets/mock/word/demand_analysis.docx')
-      .then((response) => {
-        let docData = response.blob() //将文件转换成bolb形式
+    axios.get('/mock/word/demand_analysis.docx',{responseType:'blob'}).then((response) => {
         //选择要渲染的元素
         let childRef = document.getElementsByClassName('docx')
-
         //用docx-preview渲染
-        renderAsync(docData, childRef[0]).then((res) => {
+        renderAsync(response, childRef[0]).then((res) => {
           console.log('res---->', res)
         })
       })

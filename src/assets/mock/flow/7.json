@@ -1,0 +1,93 @@
+{
+  "projectName": "XXX火箭飞控系统",
+  "rank": "A",
+  "sDate": "2023-03-23",
+  "eDate": "2023-04-20",
+  "isShowRDate": false,
+  "rate": 9.0,
+  "rateOffset": 10.0,
+  "isPositive": false,
+  "showStatus": 0,
+  "activityInfoList": [
+    {
+      "isAuto": false,
+      "name": "姿控需求分析",
+      "tool": "领域需求结构化定义工具",
+      "person": "张三",
+      "sDate": "2023-10-16",
+      "eDate": "2023-10-16",
+      "content": ""
+    }
+  ],
+  "postList": [
+    {
+      "serial": 2,
+      "status": 4
+    },
+    {
+      "serial": 21,
+      "status": 3
+    }
+  ],
+  "postLineList": [
+    {
+      "start": 21,
+      "end": 2,
+      "isActive": false
+    }
+  ],
+  "isShowFlow": true,
+  "flowList": [
+    {
+      "serial": 4,
+      "status": 4
+    },
+    {
+      "serial": 8,
+      "status": 3
+    },
+    {
+      "serial": 9,
+      "status": 3
+    },
+    {
+      "serial": 10,
+      "status": 3
+    },
+    {
+      "serial": 11,
+      "status": 3
+    },
+    {
+      "serial": 12,
+      "status": 3
+    }
+  ],
+  "flowLineList": [
+    {
+      "start": 9,
+      "end": 4,
+      "isActive": true
+    }
+  ],
+  "rateInfoList": [
+    {
+      "name": "姿控需求分析",
+      "cValue": 20.0,
+      "rValue": 27.0,
+      "delay": 35.0
+    },
+    {
+      "name": "制导需求分析",
+      "cValue": 35.0,
+      "rValue": 36.05,
+      "delay": 3.0
+    }
+  ],
+  "quailityInfoList": [
+    {
+      "name": "姿控需求分析不通过",
+      "num": 1
+    }
+  ]
+}

@@ -410,7 +410,7 @@ const changeConfig = () => {
   right: 0;
   bottom: 0;
   z-index: 1;
-  background-color: #fff;
+  background-color: var(--my-bg-color);
   color: rgba(0, 0, 0, 0.85);
   font-size: 12px;
   transition: right 0.5s;
@@ -422,7 +422,7 @@ const changeConfig = () => {
   right: 0;
   bottom: 0;
   transition: left 0.5s;
-  border-left: 1px solid #d9d9d9;
+  border-left: 1px solid var(--el-border-color);
 }
 .flow-json-schema-form-body {
   position: absolute;
@@ -440,8 +440,8 @@ const changeConfig = () => {
   z-index: 10;
   display: flex;
   justify-content: space-evenly;
-  background: #fff;
-  border-top: 1px solid #d9d9d9;
+  background: var(--my-bg-color);
+  border-top: 1px solid var(--el-border-color);
 }
 .flow-editor-icon {
   position: absolute;
@@ -450,7 +450,7 @@ const changeConfig = () => {
   background-color: #fff;
   width: 20px;
   height: 20px;
-  border: 1px solid #d9d9d9;
+  border: 1px solid var(--el-border-color);
   border-radius: 50%;
   text-align: center;
   line-height: 20px;
@@ -463,7 +463,7 @@ const changeConfig = () => {
 }
 .tabs {
   height: 40px;
-  border-bottom: 1px solid #d9d9d9;
+  border-bottom: 1px solid var(--el-border-color);
   text-align: center;
   line-height: 40px;
   box-shadow: 0 0 16px -5px rgba(0, 0, 0, 0.2);
@@ -481,11 +481,11 @@ const changeConfig = () => {
   margin-bottom: 4px;
   font-size: 13px;
   font-weight: 600;
-  color: #333;
+  color: var(--el-menu-text-color);
 }
 :deep(.form-item) {
   .el-form-item__label {
-    color: rgba(0, 0, 0, 0.45);
+    color: var(--el-menu-text-color);
     font-size: 12px;
     font-weight: normal;
   }
@@ -505,7 +505,7 @@ const changeConfig = () => {
   }
 }
 .border {
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid var(--el-border-color);
   padding-bottom: 14px;
 }
 .not-select {

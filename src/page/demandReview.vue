@@ -561,6 +561,7 @@ import { Splitpanes, Pane } from 'splitpanes'
 import 'splitpanes/dist/splitpanes.css'
 import shapeElMenu from '../components/common/shape/shapeElMenu.vue'
 import { Edit, ArrowLeftBold, View } from '@element-plus/icons-vue'
+import axios from 'axios'
 
 const { proxy } = getCurrentInstance()
 const myQuillEditor = ref(null)
@@ -720,7 +721,6 @@ function handleNodeClick(data) {
   })
 }
 function downloadFile() {
-  // window.open('/public/mock/word/姿控评审文档.doc')
   window.open('/assets/mock/word/姿控评审文档.doc')
 }
 //保存详情
@@ -793,6 +793,8 @@ async function handleSelect(key) {
     showWord.value = !showWord.value
   } else if (key === '批量评审') {
     showEvalue.value = !showEvalue.value
+  } else if (key === '智能辅助视图模式') {
+    showStretch.value = !showStretch.value
   }
 }
 function numberToChinese(num) {
@@ -941,14 +943,11 @@ function changeRichContent(type) {
 }
 function previewfile() {
   nextTick(() => {
-    // fetch('/public/mock/word/demand_analysis.docx')
-      fetch('/assets/mock/word/demand_analysis.docx')
-      .then((response) => {
+      axios.get('/mock/word/demand_analysis.docx',{responseType:'blob'}).then((response) => {
         //选择要渲染的元素
-        let docData = response.blob() //将文件转换成bolb形式
         let childRef = document.getElementsByClassName('docx')
         //用docx-preview渲染
-        renderAsync(docData, childRef[0]).then((res) => {
+        renderAsync(response, childRef[0]).then((res) => {
           console.log('res---->', res)
         })
       })
@@ -992,8 +991,8 @@ onUnmounted(() => {
   height: 20px;
   width: 20px;
   position: absolute;
-  left: -21px;
-  top: -8px;
+  left: 20px;
+  top: -17px;
   border-radius: 50%;
 }
 .strechAdvice {

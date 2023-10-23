@@ -161,7 +161,6 @@
           :data="needList"
           height="160"
           border
-          :cell-style="tableCellStyle"
           :header-cell-style="tableHeaderCellStyle"
         >
           <el-table-column prop="id" label="需求ID"> </el-table-column>
@@ -189,7 +188,6 @@
           :data="flyList"
           height="160"
           border
-          :cell-style="tableCellStyle"
           :header-cell-style="tableHeaderCellStyle"
         >
           <el-table-column prop="title" label="飞行段名称" />
@@ -440,14 +438,9 @@ const changeData = (val, code) => {
   hideInput.value = null
   formatData(val, code)
 }
-const tableCellStyle = () => {
+function tableHeaderCellStyle() {
   return {
-    'border-color': '#ececec',
-  }
-}
-const tableHeaderCellStyle = () => {
-  return {
-    'border-color': '#ececec',
+    background: 'var(--my-bg-color-2)',
   }
 }
 const addFly = () => {
@@ -598,7 +591,7 @@ defineExpose({ handleToolMenu })
   .table_box {
     width: 100%;
     height: 187px;
-    background: #fff;
+    background: var(--my-bg-color);
     border-radius: 3px;
     display: flex;
     padding: 10px;
@@ -615,13 +608,13 @@ defineExpose({ handleToolMenu })
         font-size: 13px;
 
         span {
-          color: #606266;
+          color: var(--my-text-bg-color-2);
         }
       }
 
       .th {
         font-weight: 600;
-        background-color: #f5f7fa;
+        background-color: var(--my-bg-color-3);
         height: 32px;
         font-size: 13px;
       }
@@ -629,11 +622,11 @@ defineExpose({ handleToolMenu })
       table,
       th,
       td {
-        border: 1px solid #dddcdc;
+        border: 1px solid var(--el-border-color);
       }
 
       .label {
-        background-color: #ecedef;
+        background-color: var(--my-bg-color-7);
       }
     }
     .scroll {
@@ -643,10 +636,9 @@ defineExpose({ handleToolMenu })
 
   .need_box {
     height: 187px;
-    background: #fff;
+    background: var(--my-bg-color);
     border-radius: 3px;
     padding: 0 5px;
-    box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.12);
 
     .top_add {
       float: right;
@@ -659,23 +651,6 @@ defineExpose({ handleToolMenu })
         cursor: pointer;
       }
     }
-
-    :deep(thead) {
-      color: #333;
-    }
-
-    :deep(.el-table--border) {
-      border-color: #ececec;
-    }
-
-    :deep(.el-table::before) {
-      background-color: #ececec;
-    }
-
-    :deep(.el-table--border::after) {
-      background-color: #ececec;
-    }
-
     .butn {
       .el-button {
         span {
@@ -693,8 +668,7 @@ defineExpose({ handleToolMenu })
     width: 100%;
     height: 187px;
     min-height: 204px;
-    box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.12);
-    background: #fff;
+    background: var(--my-bg-color);
     border-radius: 3px;
     padding: 0 5px;
 
@@ -709,11 +683,6 @@ defineExpose({ handleToolMenu })
         cursor: pointer;
       }
     }
-
-    :deep(thead) {
-      color: #333;
-    }
-
     .butn {
       .el-button {
         span {
@@ -746,14 +715,8 @@ defineExpose({ handleToolMenu })
     }
   }
 }
-.tabs-box{
-  /* background-color: #ededed; */
-}
 :deep(.el-tabs__header){
   margin: 0;
-}
-:deep(.el-tabs--card>.el-tabs__header .el-tabs__item.is-active){
-  background-color: #fff;
 }
 :deep(.el-tabs){
   --el-tabs-header-height:33px; 

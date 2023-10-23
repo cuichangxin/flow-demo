@@ -425,9 +425,6 @@ const handleClose = () => {
 :deep(.el-tabs__header){
   margin: 0;
 }
-:deep(.el-tabs--card>.el-tabs__header .el-tabs__item.is-active){
-  background-color: #fff;
-}
 :deep(.el-tabs){
   --el-tabs-header-height:33px; 
 }

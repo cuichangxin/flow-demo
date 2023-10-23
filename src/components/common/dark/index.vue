@@ -75,6 +75,9 @@ const followOs = () => {
       isDark.value = false
     }
   }
+  setTimeout(()=>{
+    proxy.$bus.emit('isDark',isDark.value)
+  },300)
 }
 
 const toggleDark = () => {

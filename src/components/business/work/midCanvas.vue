@@ -59,7 +59,7 @@ import _ from 'lodash'
 import { workStore } from '@/store/index'
 import { storeToRefs } from 'pinia'
 import Cookies from 'js-cookie'
-import { randomRbg } from '@/utils/utils'
+import { randomRbg, randomDarkRbg } from '@/utils/utils'
 
 import { Graph, Shape, Color } from '@antv/x6'
 import { Transform } from '@antv/x6-plugin-transform'
@@ -98,6 +98,7 @@ instance.proxy.$bus.on('*', (name, val) => {
           sTime: flight.sTime,
           eTime: flight.eTime,
           color: randomRbg(rbgIndex.value),
+          myIndex: rbgIndex.value,
         },
       })
       node.prop('size', { width: flight.width, height: node.store.data.size.height })
@@ -152,7 +153,87 @@ instance.proxy.$bus.on('*', (name, val) => {
   if (name == 'resize' || name == 'hideMenu') {
     parentSize()
   }
+  if (name === 'isDark') {
+    if (val) {
+      contrstColorFlag.value = true
+      if (!loading.value) {
+        changeDarkModeX6({ mainColor: '#58585B', subColor: '#58585A' }, '#fff', darkColorList.value)
+      }
+    } else {
+      contrstColorFlag.value = false
+      if (!loading.value) {
+        changeDarkModeX6({ mainColor: '#eee', subColor: '#ddd' }, '#000', noDarkColorList.value)
+      }
+    }
+  }
 })
+const darkColorList = ref([
+  {
+    name: '综合控制功能 integrateTask',
+    color: '#77431A',
+  },
+  {
+    name: '遥测功能 telemetryTask',
+    color: '#3C771B',
+  },
+  {
+    name: '遥控功能 remoteControlTask',
+    color: '#1B6977',
+  },
+  {
+    name: '姿控功能 attitudeControlTask',
+    color: '#A14985',
+  },
+  {
+    name: '制导功能 quidanceTask',
+    color: '#4D779D',
+  },
+  {
+    name: '数据采集功能 dataCollectionTask',
+    color: '#4D000A',
+  },
+  {
+    name: '通用功能 generalTask',
+    color: '#4D000A',
+  },
+])
+const noDarkColorList = ref([
+  {
+    name: '综合控制功能 integrateTask',
+    color: '#f8ebdc',
+  },
+  {
+    name: '遥测功能 telemetryTask',
+    color: '#e8f6dc',
+  },
+  {
+    name: '遥控功能 remoteControlTask',
+    color: '#e0f4f5',
+  },
+  {
+    name: '姿控功能 attitudeControlTask',
+    color: '#f5deec',
+  },
+  {
+    name: '制导功能 quidanceTask',
+    color: '#e8ebed',
+  },
+  {
+    name: '数据采集功能 dataCollectionTask',
+    color: '#fff',
+  },
+  {
+    name: '通用功能 generalTask',
+    color: '#fff',
+  },
+  {
+    color: '#a7de84',
+  },
+  {
+    color: '#89dcdd',
+  },
+])
+const contrstColorFlag = ref(false)
 
 const moduleTree = ref([
   {
@@ -221,6 +302,7 @@ const moduleTree = ref([
         id: '2-1',
         label: '通用功能 generalTask',
         isDrag: true,
+        bgColor: '#fff',
         shape: 'custom-html',
       },
     ],
@@ -566,12 +648,12 @@ const createGraphic = () => {
     .tool-tip{
       width: 70px;
       height: 23px;
-      background: #fff;
+      background: var(--my-bg-color-4);
       border-radius: 7px;
       position: absolute;
       bottom: -33px;
       z-index: 99;
-      border: 1px solid #ccc;
+      border: 1px solid var(--el-border-color);
       display: flex;
       justify-content: center;
       font-size: 13px;
@@ -683,7 +765,6 @@ const getDetail = () => {
         const flight = graphData.value.cells.filter((item) => {
           return item.shape === 'custom-flight-html'
         })
-        console.log(flight)
         instance.proxy.$bus.emit('sendFlight', flight)
         resolve('success')
       }
@@ -775,6 +856,13 @@ const handleCreate = (val) => {
           instance.proxy.$bus.emit('taskRelationship', graph.getNodes())
           instance.proxy.$bus.emit('sendMessage', graph.getNodes())
         }, 1000)
+        setTimeout(() => {
+          if (contrstColorFlag.value) {
+            changeDarkModeX6({  mainColor: '#58585B', subColor: '#58585A' }, '#fff', darkColorList.value)
+          } else {
+            changeDarkModeX6({ mainColor: '#eee', subColor: '#ddd' }, '#000',noDarkColorList.value)
+          }
+        },700)
       }
     },
     (err) => {
@@ -790,9 +878,52 @@ const handleCreate = (val) => {
     parentSize()
   })
 }
+// 适配暗黑模式
+const changeDarkModeX6 = (grid, textColor, nodeColorList) => {
+  const nodes = graph.getNodes()
+  let flightNodes = []
+  // console.log(nodes)
+  graph.drawGrid({
+    type: 'doubleMesh',
+    args: [
+      {
+        color: grid.mainColor,
+        thickness: 1,
+      },
+      {
+        color: grid.subColor,
+        thickness: 1,
+        factor: 4,
+      },
+    ],
+  })
+  nodes.forEach((cell, cellIndex) => {
+    if (cell.store.data.myTarget === 'flight') {
+      flightNodes.push(cell)
+    }
+    nodeColorList.forEach((node, index) => {
+      if (cell.store.data.data.label === node.name) {
+        cell.updateData({
+          color: node.color,
+        })
+      }
+    })
+    cell.attr('label/fill', textColor)
+  })
+  flightNodes.forEach((flight) => {
+    if (contrstColorFlag.value) {
+      flight.updateData({
+        color: randomDarkRbg(flight.store.data.data.myIndex),
+      })
+    } else {
+      flight.updateData({
+        color: randomRbg(flight.store.data.data.myIndex),
+      })
+    }
+  })
+}
 defineExpose({ saveTaskDetail, handleToolMenu, handleCreate })
 
-onMounted(() => {})
 onBeforeUnmount(() => {
   window.removeEventListener('resize', () => {
     parentSize()
@@ -805,7 +936,7 @@ onBeforeUnmount(() => {
   flex: 1;
   height: 100%;
   width: calc(100% - 200px);
-  background: #fff;
+  background: var(--my-bg-color);
   position: relative;
   overflow: hidden;
   transition: height 0.2s ease-in-out;
@@ -889,19 +1020,19 @@ onBeforeUnmount(() => {
   max-width: 200px;
   margin-bottom: 0;
   padding: 0;
-  background: #fff;
-  border-radius: 3px;
-  margin-left: 8px;
+  background: var(--my-bg-color);
+  margin-left: 10px;
   position: relative;
   overflow: visible;
   transition: width 0.3s ease-in-out, height 0.2s ease-in-out;
 
   h4 {
     padding-bottom: 20px;
-    border-bottom: 1px solid #e4e8ea;
+    border-bottom: 1px solid var(--el-border-color);
     text-align: center;
     margin-bottom: 0;
     white-space: nowrap;
+    color: var(--my-text-bg-color);
 
     .icon {
       margin-right: 8px;
@@ -916,7 +1047,7 @@ onBeforeUnmount(() => {
 
   .scrollbar {
     height: calc(100% - 60px);
-    border-bottom: 1px solid #e4e8ea;
+    border-bottom: 1px solid var(--el-border-color);
   }
 
   &.fade {

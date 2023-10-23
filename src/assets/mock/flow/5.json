@@ -1,0 +1,171 @@
+{
+  "projectName": "XXX火箭飞控系统",
+  "rank": "A",
+  "sDate": "2023-10-16",
+  "eDate": "2023-10-16",
+  "isShowRDate": false,
+  "rate": 3.0,
+  "rateOffset": 0.0,
+  "isPositive": false,
+  "showStatus": 0,
+  "activityInfoList": [
+    {
+      "isAuto": false,
+      "name": "姿控需求分析",
+      "tool": "领域需求结构化定义工具",
+      "person": "张三",
+      "sDate": "2023-10-16",
+      "eDate": "2023-10-16",
+      "content": ""
+    },
+    {
+      "isAuto": false,
+      "name": "安全性需求分析",
+      "tool": "领域需求结构化定义工具",
+      "person": "李四",
+      "sDate": "2023-10-16",
+      "eDate": "2023-10-16",
+      "content": ""
+    },
+    {
+      "isAuto": false,
+      "name": "制导需求分析",
+      "tool": "领域需求结构化定义工具",
+      "person": "王五",
+      "sDate": "2023-10-16",
+      "eDate": "2023-10-16",
+      "content": ""
+    },
+    {
+      "isAuto": false,
+      "name": "性能需求分析",
+      "tool": "领域需求结构化定义工具",
+      "person": "张四",
+      "sDate": "2023-10-16",
+      "eDate": "2023-10-16",
+      "content": ""
+    },
+    {
+      "isAuto": false,
+      "name": "可靠性需求分析",
+      "tool": "领域需求结构化定义工具",
+      "person": "张五",
+      "sDate": "2023-10-16",
+      "eDate": "2023-10-16",
+      "content": ""
+    }
+  ],
+  "postList": [
+    {
+      "serial": 4,
+      "status": 3
+    },
+    {
+      "serial": 2,
+      "status": 2
+    },
+    {
+      "serial": 40,
+      "status": 2
+    },
+    {
+      "serial": 42,
+      "status": 2
+    },
+    {
+      "serial": 43,
+      "status": 2
+    },
+    {
+      "serial": 47,
+      "status": 2
+    }
+  ],
+  "postLineList": [
+    {
+      "start": 4,
+      "end": 2,
+      "isActive": false
+    },
+    {
+      "start": 4,
+      "end": 40,
+      "isActive": false
+    },
+    {
+      "start": 4,
+      "end": 42,
+      "isActive": false
+    },
+    {
+      "start": 4,
+      "end": 43,
+      "isActive": false
+    },
+    {
+      "start": 4,
+      "end": 47,
+      "isActive": false
+    }
+  ],
+  "isShowFlow": true,
+  "flowList": [
+    {
+      "serial": 1,
+      "status": 3
+    },
+    {
+      "serial": 2,
+      "status": 3
+    },
+    {
+      "serial": 3,
+      "status": 2
+    },
+    {
+      "serial": 4,
+      "status": 2
+    },
+    {
+      "serial": 5,
+      "status": 2
+    },
+    {
+      "serial": 6,
+      "status": 2
+    },
+    {
+      "serial": 7,
+      "status": 2
+    }
+  ],
+  "flowLineList": [
+    {
+      "start": 2,
+      "end": 3,
+      "isActive": true
+    },
+    {
+      "start": 2,
+      "end": 4,
+      "isActive": true
+    },
+    {
+      "start": 2,
+      "end": 5,
+      "isActive": true
+    },
+    {
+      "start": 2,
+      "end": 6,
+      "isActive": true
+    },
+    {
+      "start": 2,
+      "end": 7,
+      "isActive": true
+    }
+  ],
+  "rateInfoList": [],
+  "quailityInfoList": []
+}

@@ -1,0 +1,131 @@
+{
+  "projectName": "XXX火箭飞控系统",
+  "rank": "A",
+  "sDate": "2023-10-16",
+  "eDate": "2023-10-16",
+  "isShowRDate": false,
+  "rate": 75.0,
+  "rateOffset": 13.0,
+  "isPositive": false,
+  "showStatus": 0,
+  "activityInfoList": [
+    {
+      "isAuto": true,
+      "name": "算法仿真",
+      "tool": "SCARD Suite",
+      "person": "",
+      "content": "开始执行...\n加载输入...\n处理中...\n成功，耗时76秒"
+    },
+    {
+      "isAuto": false,
+      "name": "算法评审",
+      "tool": "算法设计评审工具",
+      "person": "赵五",
+      "sDate": "2023-10-16",
+      "eDate": "2023-10-16",
+      "content": ""
+    }
+  ],
+  "postList": [
+    {
+      "serial": 21,
+      "status": 2
+    },
+    {
+      "serial": 23,
+      "status": 2
+    },
+    {
+      "serial": 44,
+      "status": 2
+    },
+    {
+      "serial": 2,
+      "status": 3
+    },
+    {
+      "serial": 41,
+      "status": 3
+    }
+  ],
+  "postLineList": [
+    {
+      "start": 2,
+      "end": 21,
+      "isActive": false
+    },
+    {
+      "start": 2,
+      "end": 23,
+      "isActive": false
+    },
+    {
+      "start": 21,
+      "end": 44,
+      "isActive": false
+    },
+    {
+      "start": 23,
+      "end": 44,
+      "isActive": false
+    }
+  ],
+  "isShowFlow": true,
+  "flowList": [
+    {
+      "serial": 25,
+      "status": 3
+    },
+    {
+      "serial": 28,
+      "status": 2
+    }
+  ],
+  "flowLineList": [
+    {
+      "start": 25,
+      "end": 28,
+      "isActive": false
+    }
+  ],
+  "rateInfoList": [
+    {
+      "name": "姿控需求分析",
+      "cValue": 35.0,
+      "rValue": 58.8,
+      "delay": 68.0
+    },
+    {
+      "name": "制导需求分析",
+      "cValue": 20.0,
+      "rValue": 27.0,
+      "delay": 35.0
+    },
+    {
+      "name": "应用架构设计",
+      "cValue": 70.0,
+      "rValue": 84.0,
+      "delay": 20.0
+    },
+    {
+      "name": "功能测试用例设计",
+      "cValue": 50.0,
+      "rValue": 56.0,
+      "delay": 12.0
+    }
+  ],
+  "quailityInfoList": [
+    {
+      "name": "姿控需求分析不通过",
+      "num": 1
+    },
+    {
+      "name": "制导需求分析不通过",
+      "num": 3
+    },
+    {
+      "name": "功能测试用例设计不通过",
+      "num": 3
+    }
+  ]
+}

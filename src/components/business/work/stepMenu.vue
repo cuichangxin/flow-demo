@@ -83,8 +83,7 @@ onMounted(() => {
 .aside {
   width: 210px;
   height: 100%;
-  background: #fff;
-  border-radius: 3px;
+  background: var(--my-bg-color);
   padding: 0;
   position: relative;
   overflow: visible;
@@ -106,10 +105,10 @@ onMounted(() => {
 h5 {
   font-size: 15px;
   padding: 15px 0;
-  border-bottom: 1px solid #e4e8ea;
+  border-bottom: 1px solid var(--el-border-color);
   text-align: center;
   margin: 0;
-  box-shadow: 0 0 16px -5px rgba(0, 0, 0, 0.2);
+  color: var(--my-text-bg-color);
 }
 .sub-title {
   display: inline-block;
@@ -135,7 +134,7 @@ ul {
     margin: 1px 0;
     cursor: pointer;
     white-space: nowrap;
-    color: #626262;
+    color: var(--my-text-bg-color-3);
 
     &:hover {
       background-color: #3a75f9;

@@ -156,43 +156,20 @@ instance.proxy.$bus.on('*', (name, val) => {
     dragStart(val)
   }
   if (name === 'isDark') {
-    console.log(val)
     if (val) {
-      // 重绘网格
-      graph.drawGrid({
-        type: 'doubleMesh',
-        args: [
-          {
-            color: '#58585B',
-            thickness: 1,
-          },
-          {
-            color: '#58585A',
-            thickness: 1,
-            factor: 4,
-          },
-        ],
-      })
-      console.log(graph.getNodes());
+      darkMode.value = true
+      if (!loading.value) {
+        changeDarkModeX6({ mainColor: '#58585B', subColor: '#58585A' }, '#fff')
+      }
     } else {
-      graph.drawGrid({
-        type: 'doubleMesh',
-        args: [
-          {
-            color: '#eee',
-            thickness: 1,
-          },
-          {
-            color: '#ddd',
-            thickness: 1,
-            factor: 4,
-          },
-        ],
-      })
+      darkMode.value = false
+      if (!loading.value) {
+        changeDarkModeX6({ mainColor: '#eee', subColor: '#ddd' }, '#000')
+      }
     }
   }
 })
-const darkGrid = ref(false)
+const darkMode = ref(false)
 const autoInfo = ref({
   template: '',
   model: '',
@@ -1594,12 +1571,40 @@ function init() {
         createGraphic()
         initGraphEvent()
         loading.value = false
+        setTimeout(() => {
+          if (darkMode.value) {
+            changeDarkModeX6({ mainColor: '#58585B', subColor: '#58585A' }, '#fff')
+          } else {
+            changeDarkModeX6({ mainColor: '#eee', subColor: '#ddd' }, '#000')
+          }
+        })
       }
     },
     (err) => {
       loading.value = false
     }
   )
+}
+// 适配暗黑模式
+const changeDarkModeX6 = (grid, textColor) => {
+  const nodes = graph.getNodes()
+  graph.drawGrid({
+    type: 'doubleMesh',
+    args: [
+      {
+        color: grid.mainColor,
+        thickness: 1,
+      },
+      {
+        color: grid.subColor,
+        thickness: 1,
+        factor: 4,
+      },
+    ],
+  })
+  nodes.forEach((cell) => {
+    cell.attr('label/fill', textColor)
+  })
 }
 onMounted(() => {
   tableSize()
@@ -1639,7 +1644,7 @@ onUnmounted(() => {
 <style lang="scss" scoped>
 .test-info {
   height: 100%;
-  background-color: var(--el-bg-color-page);
+  background-color: var(--my-bg-color-7);
   border-radius: 4px;
   transition: height 0.2s linear;
   position: relative;
@@ -1663,6 +1668,7 @@ onUnmounted(() => {
   position: relative;
   z-index: 10;
   width: 260px;
+  background-color: var(--my-bg-color);
   transition: width 0.2s linear;
 
   &:hover {
@@ -1812,7 +1818,7 @@ onUnmounted(() => {
   .terminal {
     width: 100%;
     height: 197px;
-    background-color: #fff;
+    background-color: var(--my-bg-color);
     border-radius: 0 0 3px 3px;
     margin-top: 8px;
   }

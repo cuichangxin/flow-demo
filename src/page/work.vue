@@ -100,6 +100,7 @@ import { Splitpanes, Pane } from 'splitpanes'
 import 'splitpanes/dist/splitpanes.css'
 import { renderAsync } from 'docx-preview'
 import { nextTick } from 'vue'
+import Axios from 'axios'
 
 const { visible: visible, openDialog: openDialog, closeDialog: closeDialog } = useDialog()
 
@@ -235,14 +236,9 @@ const addProject = () => {
 }
 function previewFile() {
   nextTick(() => {
-    fetch('/public/mock/word/1.docx')
-
-    // fetch('/assets/mock/word/1.docx')
-      .then((response) => {
-        const docData = response.blob()
+    Axios.get('/mock/word/1.docx',{ responseType: 'blob' }).then((response) => {
         const html = document.getElementsByClassName('docx')
-
-        renderAsync(docData, html[0]).then((res) => {
+        renderAsync(response, html[0]).then((res) => {
           console.log('res---->', res)
         })
       })
@@ -290,12 +286,12 @@ onUnmounted(() => {
   border-radius: 5px;
 }
 .work {
-  height: calc(100% - 65px);
+  /* height: calc(100% - 65px); */
   margin: 0 auto;
   overflow: hidden;
   flex-wrap: wrap;
   align-content: flex-start;
-  background-color: #f4f4f4;
+  /* background-color: #f4f4f4; */
   border-radius: 4px;
 }
 .shape_header {
@@ -304,13 +300,14 @@ onUnmounted(() => {
 .box {
   width: 100%;
   height: 100%;
-  border-left: 1px solid #d3d3d3;
+  border-left: 1px solid var(--el-border-color);
   .flex-box {
     width: 100%;
     height: 100%;
-    padding-left: 8px;
+    padding-left: 10px;
     display: flex;
     flex-direction: column;
+    background-color: var(--my-bg-color-3);
   }
   &.center {
     display: flex;
@@ -333,19 +330,10 @@ onUnmounted(() => {
 }
 .el-container-layout {
   width: 100%;
-  height: calc(100% - 41px);
+  height: calc(100% - 40px);
 }
 :deep(.splitpanes__splitter) {
   background-color: #e9f1f6 !important;
-}
-.splitpanes {
-  height: 100%;
-}
-.splitpanes__pane {
-  border-radius: 3px;
-}
-:deep(.docx-wrapper) {
-  background-color: #f4f4f4;
 }
 :deep(.docx-wrapper > section.docx) {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -354,7 +342,43 @@ onUnmounted(() => {
 .show_word {
   width: 0 !important;
 }
-.pane{
+:deep(.splitpanes.default-theme .splitpanes__pane) {
+  /* background-color: var(--my-bg-color-4); */
+}
+:deep(.splitpanes__splitter) {
+  background-color: #e9f1f6 !important;
+}
+.splitpanes {
+  height: 100%;
+}
+:deep(.docx-wrapper) {
+  background-color: var(--my-bg-color-4);
+}
+:deep(.docx-wrapper > section.docx) {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+  background-color: var(--my-bg-color);
+}
+:deep(.splitpanes__splitter) {
+  background-color: var(--my-bg-color-2) !important;
+  border-left: 1px solid var(--el-border-color) !important;
+}
+:deep(.splitpanes.default-theme .splitpanes__splitter:before),
+:deep(.splitpanes.default-theme .splitpanes__splitter:after) {
+  background-color: var(--my-text-bg-color-5);
+}
+:deep(.docx) {
+  color: var(--my-text-bg-color-3);
+}
+:deep(.docx span) {
+  color: var(--my-text-bg-color-3) !important;
+  background-color: transparent !important;
+}
+:deep(.docx-wrapper > section.docx) {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+}
+.pane {
   overflow: auto;
 }
 </style>

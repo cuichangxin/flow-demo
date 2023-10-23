@@ -131,6 +131,7 @@ watchEffect(() => {
 <style lang="scss" scoped>
 .menu-wrap {
   display: flex;
+  background-color: var(--my-bg-color);
 }
 .el-menu {
   height: 40px;
