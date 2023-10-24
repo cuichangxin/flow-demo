@@ -83,7 +83,7 @@ const handleClose = () => {
 }
 function previewFile() {
   nextTick(() => {
-      axios.get('/assets/mock/word/2.docx',{responseType:'blob'}).then((response) => {
+      axios.get('/mock/word/2.docx',{responseType:'blob'}).then((response) => {
         const html = document.getElementsByClassName('docx')
         renderAsync(response, html[0]).then((res) => {
           console.log('res---->', res)

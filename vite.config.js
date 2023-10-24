@@ -61,7 +61,6 @@ export default defineConfig(({ mode, command }) => {
           entryFileNames: 'assets/js/[name].[hash].js',
           chunkFileNames: 'assets/js/[name].[hash].js',
           assetFileNames: (file) => {
-            console.log(file);
             const filename = file.name.split('/')[file.name.split('/').length - 1].split('.')[1]
             return `${file.name.indexOf('images') !== -1 ? `assets/img/[name].${filename}` : file.name.indexOf('svg') !== -1 ? `assets/svg/[name].${filename}` : 'assets/[ext]/[name].[hash].[ext]'}`
           }

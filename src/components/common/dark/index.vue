@@ -34,7 +34,6 @@
 </template>
 
 <script setup>
-
 const isDark = ref(false)
 const match = matchMedia('(prefers-color-scheme:dark)')
 const html = document.querySelector('html')
@@ -63,21 +62,18 @@ const followOs = () => {
       html.classList.add('dark')
       isDark.value = true
     }
-  }else {
+  } else {
     localStorage.setItem('dark-theme', 'auto')
     if (match.matches) {
       html.classList.remove('light')
       html.classList.add('dark')
       isDark.value = true
-    }else {
+    } else {
       html.classList.remove('dark')
       html.classList.add('light')
       isDark.value = false
     }
   }
-  setTimeout(()=>{
-    proxy.$bus.emit('isDark',isDark.value)
-  },300)
 }
 
 const toggleDark = () => {
@@ -90,20 +86,21 @@ const toggleDark = () => {
       // 如果当前系统主题是暗黑模式
       if (match.matches) {
         localStorage.setItem('dark-theme', 'auto')
-      }else {
+      } else {
         localStorage.setItem('dark-theme', 'dark')
       }
-    } else { // 切换到正常模式
+    } else {
+      // 切换到正常模式
       html.classList.remove('dark')
       html.classList.add('light')
       // 如果当前系统主题是正常模式
       if (!match.matches) {
         localStorage.setItem('dark-theme', 'auto')
-      }else {
+      } else {
         localStorage.setItem('dark-theme', 'light')
       }
     }
-    proxy.$bus.emit('isDark',isDark.value)
+    proxy.$bus.emit('isDark', isDark.value)
   }
 }
 match.addEventListener('change', followOs)

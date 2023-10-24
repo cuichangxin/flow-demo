@@ -956,7 +956,7 @@
                 </ul>
               </div>
             </div>
-            <div v-if="!isDemand" class="no_demand">
+            <div v-else class="no_demand">
               <el-button type="primary" @click="isAutoDemand = true">自动生成需求分析</el-button>
             </div>
           </div>
@@ -1666,7 +1666,9 @@ function end(evt) {
 }
 function previewfile() {
   nextTick(() => {
-    axios.get('/mock/word/demand_analysis.docx',{responseType:'blob'}).then((response) => {
+    axios
+      .get('/mock/word/demand_analysis.docx', { responseType: 'blob' })
+      .then((response) => {
         //选择要渲染的元素
         let childRef = document.getElementsByClassName('docx')
         //用docx-preview渲染
@@ -1714,11 +1716,11 @@ onMounted(() => {
     }
   }
 
-  if (JSON.parse(autoCreateTarget)) {
+  if (autoCreateTarget !== null && JSON.parse(autoCreateTarget)) {
     isDemand.value = true
   }
 
-  if (Cookies.get('status')) {
+  if (Cookies.get('status') && JSON.parse(autoCreateTarget)) {
     getDaTree()
     ElNotification({
       title: '提示',
@@ -1727,16 +1729,18 @@ onMounted(() => {
       duration: 0,
     })
     let cur = findCal(treeData.value)
-    cur.params.confirm = true
+    if (cur !== undefined) {
+      cur.params.confirm = true
+    }
     // console.log(treeData, params, cur);
-    proxy.$axios
-      .saveTaskDetail({
-        daTree: JSON.stringify(treeData.value),
-        taskId: Cookies.get('taskId'),
-      })
-      .then((res) => {
-        console.log('保存成功')
-      })
+    // proxy.$axios
+    //   .saveTaskDetail({
+    //     daTree: JSON.stringify(treeData.value),
+    //     taskId: Cookies.get('taskId'),
+    //   })
+    //   .then((res) => {
+    //     console.log('保存成功')
+    //   })
   }
   previewfile()
   setTimeout(() => {
@@ -2129,7 +2133,7 @@ h5 {
     z-index: 2001;
   }
   &:nth-child(1) {
-    i{
+    i {
       font-size: 28px;
     }
   }

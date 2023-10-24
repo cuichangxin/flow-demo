@@ -54,7 +54,7 @@ const props = withDefaults(defineProps<PropType>(), {
   confirmText:'确认',
   cancelText:'取消',
   disabled:false,
-  width:'80%'
+  width:'50%'
 })
 const emits = defineEmits<{
   (e: 'update:modelValue'): void

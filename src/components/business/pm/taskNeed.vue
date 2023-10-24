@@ -41,7 +41,7 @@ const fileInfo = reactive({
   fileType: ['word', 'pdf', 'SysML']
 })
 // const uploadFileUrl = ref(import.meta.env.VITE_APP_BASE_API + '123') // 上传文件的地址
-const uploadFileUrl = ref('https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15')
+const uploadFileUrl = ref('https://run.mocky.io/v3/11f33d91-a9c1-4baf-b709-bb72188d732a')
 
 function handleBeforeUpload(file) {
   // 校检文件类型

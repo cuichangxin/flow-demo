@@ -1,8 +1,8 @@
 {
   "projectName": "XX综控器监控软件",
   "rank": "C",
-  "sDate": "2023-03-23",
-  "eDate": "2023-05-30",
+  "sDate": "2023-10-24",
+  "eDate": "2023-10-24",
   "isShowRDate": false,
   "rate": 1.0,
   "rateOffset": 0.0,
@@ -14,8 +14,8 @@
       "name": "创建项目",
       "tool": "需求导入工具",
       "person": "张三",
-      "sDate": "2023-10-16",
-      "eDate": "2023-10-16",
+      "sDate": "2023-10-24",
+      "eDate": "2023-10-24",
       "content": ""
     }
   ],

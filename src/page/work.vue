@@ -73,7 +73,7 @@
     <Dialog
       title="总体建议"
       :hidden-full-btn="false"
-      :width="'30%'"
+      :width="600"
       v-model="visible"
       @confirm="handleConfirm"
       @close="handleClose"
@@ -301,6 +301,7 @@ onUnmounted(() => {
   width: 100%;
   height: 100%;
   border-left: 1px solid var(--el-border-color);
+  background-color: var(--my-bg-color);
   .flex-box {
     width: 100%;
     height: 100%;

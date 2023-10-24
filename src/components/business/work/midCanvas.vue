@@ -76,6 +76,7 @@ import 'vue3-sketch-ruler/lib/style.css'
 import { CloseBold } from '@element-plus/icons-vue'
 import modelMenu from './modelMenu.vue'
 import markPoint from '../../common/mark/markPoiner.vue'
+import useDark from '../../../hooks/useDark'
 
 const emit = defineEmits(['handleHistory'])
 const instance = getCurrentInstance()
@@ -154,6 +155,7 @@ instance.proxy.$bus.on('*', (name, val) => {
     parentSize()
   }
   if (name === 'isDark') {
+    console.log(val,contrstColorFlag.value,'---------------');
     if (val) {
       contrstColorFlag.value = true
       if (!loading.value) {
@@ -167,6 +169,8 @@ instance.proxy.$bus.on('*', (name, val) => {
     }
   }
 })
+
+const {match} = useDark()
 const darkColorList = ref([
   {
     name: '综合控制功能 integrateTask',
@@ -857,12 +861,12 @@ const handleCreate = (val) => {
           instance.proxy.$bus.emit('sendMessage', graph.getNodes())
         }, 1000)
         setTimeout(() => {
-          if (contrstColorFlag.value) {
+          if (match) {
             changeDarkModeX6({  mainColor: '#58585B', subColor: '#58585A' }, '#fff', darkColorList.value)
           } else {
             changeDarkModeX6({ mainColor: '#eee', subColor: '#ddd' }, '#000',noDarkColorList.value)
           }
-        },700)
+        },600)
       }
     },
     (err) => {
@@ -882,7 +886,7 @@ const handleCreate = (val) => {
 const changeDarkModeX6 = (grid, textColor, nodeColorList) => {
   const nodes = graph.getNodes()
   let flightNodes = []
-  // console.log(nodes)
+  console.log(nodes)
   graph.drawGrid({
     type: 'doubleMesh',
     args: [
