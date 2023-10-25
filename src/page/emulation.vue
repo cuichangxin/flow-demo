@@ -142,8 +142,10 @@ import insertCss from 'insert-css'
 import Cookies from 'js-cookie'
 import { CloseBold } from '@element-plus/icons-vue'
 import flowEditor from '../components/common/flowEditor/index.vue'
+import useDark from '../hooks/useDark'
 
 const instance = getCurrentInstance()
+const { match, localMatch } = useDark()
 instance.proxy.$bus.on('*', (name, val) => {
   if (name === 'resize') {
     if (val !== undefined && !val) {
@@ -1571,13 +1573,12 @@ function init() {
         createGraphic()
         initGraphEvent()
         loading.value = false
-        setTimeout(() => {
-          if (darkMode.value) {
+        console.log(localMatch)
+        if (match || localMatch === 'dark') {
+          setTimeout(() => {
             changeDarkModeX6({ mainColor: '#58585B', subColor: '#58585A' }, '#fff')
-          } else {
-            changeDarkModeX6({ mainColor: '#eee', subColor: '#ddd' }, '#000')
-          }
-        })
+          })
+        }
       }
     },
     (err) => {

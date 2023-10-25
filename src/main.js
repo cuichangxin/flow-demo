@@ -21,7 +21,7 @@ const ElementLabelLine = getElementLabelLine(h)
 const app = createApp(App)
 const pinia = createPinia()
 
-console.log(import.meta.env)
+// console.log(import.meta.env)
 app.use(ElementPlus,{
   locale:zhCn
 })

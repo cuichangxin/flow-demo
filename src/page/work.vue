@@ -325,9 +325,9 @@ onUnmounted(() => {
 }
 .over,
 .relation {
-  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.12);
   width: 100%;
   height: 100%;
+  background-color: var(--my-bg-color-5);
 }
 .el-container-layout {
   width: 100%;
@@ -381,5 +381,8 @@ onUnmounted(() => {
 }
 .pane {
   overflow: auto;
+}
+aside{
+  border-radius: 0;
 }
 </style>

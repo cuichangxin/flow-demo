@@ -281,7 +281,6 @@ function getTask() {
                   items.label = items.attrs.text.text
                   if (items.label === '控制方程') {
                     items.node = subData.value
-                    console.log(items)
                   }
                   item.children.push(items)
                 }
@@ -306,7 +305,7 @@ onMounted(() => {
 .design_menu {
   width: 200px;
   height: 100%;
-  background: #fff;
+  background: var(--my-bg-color);
   border-radius: 3px;
   padding: 0;
   box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.12);
@@ -318,9 +317,10 @@ onMounted(() => {
   h5 {
     font-size: 15px;
     padding: 15px 0;
-    border-bottom: 1px solid #e4e8ea;
+    border-bottom: 1px solid var(--el-border-color);
     text-align: center;
     margin: 0;
+    color: var(--my-text-bg-color-3);
   }
 
   &.fade {
@@ -342,7 +342,6 @@ onMounted(() => {
     display: flex;
     align-items: center;
     .node_label {
-      color: #333;
       font-size: 13px;
     }
     .item_img,

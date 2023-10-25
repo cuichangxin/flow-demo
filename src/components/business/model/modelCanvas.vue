@@ -38,8 +38,17 @@
       </header>
       <div class="minimap" id="minimap"></div>
     </div>
-    <Dialog title="代码验证" :width="'40%'" confirmText="保存算法" :disabled="disabled" :hidden-full-btn="false" v-model="visible" @confirm="handleConfirm" @close="handleClose">
-      <span style="display: inline-block; margin-bottom: 5px;">下面是验证该算法正确性的测试用例</span>
+    <Dialog
+      title="代码验证"
+      :width="'40%'"
+      confirmText="保存算法"
+      :disabled="disabled"
+      :hidden-full-btn="false"
+      v-model="visible"
+      @confirm="handleConfirm"
+      @close="handleClose"
+    >
+      <span style="display: inline-block; margin-bottom: 5px">下面是验证该算法正确性的测试用例</span>
       <el-table :data="tableData">
         <el-table-column prop="input_1" label="输入1" />
         <el-table-column prop="input_2" label="输入2" />
@@ -50,7 +59,9 @@
           </template>
         </el-table-column>
       </el-table>
-      <span v-if="!disabled" style="display: inline-block; margin-top: 5px;">该算法通过验证，可以保存到算法库，供复用</span>
+      <span v-if="!disabled" style="display: inline-block; margin-top: 5px"
+        >该算法通过验证，可以保存到算法库，供复用</span
+      >
     </Dialog>
   </div>
 </template>
@@ -70,7 +81,9 @@ import insertCss from 'insert-css'
 import { CloseBold } from '@element-plus/icons-vue'
 import Dialog from '../../common/dialog/dialog.vue'
 import useDialog from '../../../hooks/useDialog'
+import useDark from '../../../hooks/useDark'
 
+const { match, localMatch } = useDark()
 import flowEditor from '@/components/common/flowEditor/index.vue'
 
 const { visible: visible, openDialog: openDialog, closeDialog: closeDialog } = useDialog()
@@ -102,6 +115,14 @@ instance.proxy.$bus.on('*', (name, val) => {
     graph.dispose()
     createGraphic()
     initGraphEvent()
+    if (match || localMatch === 'dark') {
+      setTimeout(() => {
+        changeDarkModeX6({ mainColor: '#58585B', subColor: '#58585A' }, '#fff', {
+          yellowColor: '#776203',
+          whiteColor: '#791E27',
+        })
+      })
+    }
   }
   if (name == 'resize') {
     if (val !== undefined) {
@@ -158,7 +179,7 @@ instance.proxy.$bus.on('*', (name, val) => {
     }
   }
   if (name === 'saveFile') {
-    console.log(graph.toJSON());
+    console.log(graph.toJSON())
     instance.proxy.$axios
       .saveTaskDetail({
         taskId: 2003,
@@ -176,60 +197,70 @@ instance.proxy.$bus.on('*', (name, val) => {
     initGraphEvent()
     loading.value = false
   }
+  if (name === 'isDark') {
+    if (val) {
+      changeDarkModeX6({ mainColor: '#58585B', subColor: '#58585A' }, '#fff', {
+        yellowColor: '#776203',
+        whiteColor: '#791E27',
+      })
+    } else {
+      changeDarkModeX6({ mainColor: '#eee', subColor: '#ddd' }, '#000', { yellowColor: '#F8E71C', whiteColor: '#fff' })
+    }
+  }
 })
 const isOut = ref(false)
 const nodeConfig = ref({})
 const tableData = ref([
   {
-    input_1:0,
-    input_2:0,
-    input_3:0,
-    output:''
+    input_1: 0,
+    input_2: 0,
+    input_3: 0,
+    output: '',
   },
   {
-    input_1:0,
-    input_2:0,
-    input_3:1,
-    output:''
+    input_1: 0,
+    input_2: 0,
+    input_3: 1,
+    output: '',
   },
   {
-    input_1:0,
-    input_2:1,
-    input_3:0,
-    output:''
+    input_1: 0,
+    input_2: 1,
+    input_3: 0,
+    output: '',
   },
   {
-    input_1:0,
-    input_2:1,
-    input_3:1,
-    output:''
+    input_1: 0,
+    input_2: 1,
+    input_3: 1,
+    output: '',
   },
   {
-    input_1:1,
-    input_2:0,
-    input_3:0,
-    output:''
+    input_1: 1,
+    input_2: 0,
+    input_3: 0,
+    output: '',
   },
   {
-    input_1:1,
-    input_2:0,
-    input_3:1,
-    output:''
+    input_1: 1,
+    input_2: 0,
+    input_3: 1,
+    output: '',
   },
   {
-    input_1:1,
-    input_2:1,
-    input_3:0,
-    output:''
+    input_1: 1,
+    input_2: 1,
+    input_3: 0,
+    output: '',
   },
   {
-    input_1:1,
-    input_2:1,
-    input_3:1,
-    output:''
+    input_1: 1,
+    input_2: 1,
+    input_3: 1,
+    output: '',
   },
 ])
-const outputList = ref([1,1,1,0,1,0,0,0])
+const outputList = ref([1, 1, 1, 0, 1, 0, 0, 0])
 const disabled = ref(true)
 // 绝对定位连接桩
 const absolutePorts = {
@@ -490,19 +521,22 @@ const isSelect = ref(false)
 const edge = ref({})
 const codeValid = ref(false)
 
-
-watch(tableData,(n)=>{
-  console.log(n);
-  const result = n.every((item,index)=>{
-    return parseInt(item.output) == outputList.value[index]
-  })
-  console.log(result);
-  if (result) {
-    disabled.value = false
-  }else {
-    disabled.value = true
-  }
-},{deep:true})
+watch(
+  tableData,
+  (n) => {
+    console.log(n)
+    const result = n.every((item, index) => {
+      return parseInt(item.output) == outputList.value[index]
+    })
+    console.log(result)
+    if (result) {
+      disabled.value = false
+    } else {
+      disabled.value = true
+    }
+  },
+  { deep: true }
+)
 
 // 开始拖动
 const dragStart = (item) => {
@@ -1048,7 +1082,7 @@ const initGraphEvent = () => {
     nodeConfig.value = {}
   })
   graph.on('edge:click', (e) => {
-    console.log(e);
+    console.log(e)
     edge.value = e.edge
     isSelect.value = true
     nodeConfig.value = e.edge.store.data
@@ -1076,7 +1110,7 @@ const changeNode = (e) => {
               : data.direction === 'reverse'
               ? ''
               : '',
-          rx: data.arrowType === 'ellipse' ? 7 : ''
+          rx: data.arrowType === 'ellipse' ? 7 : '',
         },
         sourceMarker: {
           name:
@@ -1085,11 +1119,11 @@ const changeNode = (e) => {
               : data.direction === 'reverse' || data.direction === 'bothway'
               ? data.arrowType
               : '',
-          rx: data.arrowType === 'ellipse' ? 7 : ''
+          rx: data.arrowType === 'ellipse' ? 7 : '',
         },
         strokeDasharray: data.lineShape === 'solid' ? 0 : 5,
-        stroke:data.lineColor,
-        strokeWidth:data.lineSize
+        stroke: data.lineColor,
+        strokeWidth: data.lineSize,
       },
     })
     edge.value.setLabels([
@@ -1137,7 +1171,7 @@ const changeNode = (e) => {
                 opacity: 0,
               },
             },
-        strokeWidth:data.nodeStrokeWidth
+        strokeWidth: data.nodeStrokeWidth,
       },
     })
     nodeItem.value.prop(('position', { x: data.x, y: data.y }))
@@ -1201,7 +1235,7 @@ const closeMap = () => {
   minimapPoint.x = 1017
   minimapPoint.y = 50
 }
-const codeValidBtn = ()=>{
+const codeValidBtn = () => {
   openSuggest()
 }
 const openSuggest = (scope) => {
@@ -1209,10 +1243,54 @@ const openSuggest = (scope) => {
 }
 const handleConfirm = () => {
   closeDialog()
-  instance.proxy.$bus.emit('saveAlg',true)
+  instance.proxy.$bus.emit('saveAlg', true)
 }
 const handleClose = () => {
   closeDialog()
+}
+// 适配暗黑模式
+const changeDarkModeX6 = (grid, textColor, nodeColor) => {
+  const nodes = graph.getNodes() || []
+  graph.drawGrid({
+    type: 'doubleMesh',
+    args: [
+      {
+        color: grid.mainColor,
+        thickness: 1,
+      },
+      {
+        color: grid.subColor,
+        thickness: 1,
+        factor: 4,
+      },
+    ],
+  })
+  if (nodes.length) {
+    nodes.forEach((cell, cellIndex) => {
+      if (cell.store.data.shape !== 'image') {
+        const activeColor = cell.store.data.attrs.body.fill
+        if (activeColor === 'rgba(248, 231, 28, 1)' || activeColor === '#F8E71C' || activeColor === '#776203') {
+          cell.attr({
+            label: {
+              fill: textColor,
+            },
+            body: {
+              fill: nodeColor.yellowColor,
+            },
+          })
+        } else if (activeColor === '#fff' || activeColor === '#791E27') {
+          cell.attr({
+            label: {
+              fill: textColor,
+            },
+            body: {
+              fill: nodeColor.whiteColor,
+            },
+          })
+        }
+      }
+    })
+  }
 }
 
 onMounted(() => {
@@ -1220,6 +1298,11 @@ onMounted(() => {
     createGraphic()
     initGraphEvent()
     loading.value = false
+    if (match || localMatch === 'dark') {
+      setTimeout(() => {
+        changeDarkModeX6({ mainColor: '#58585B', subColor: '#58585A' })
+      })
+    }
   }, 800)
 })
 onUnmounted(() => {
@@ -1240,8 +1323,7 @@ onUnmounted(() => {
 .canvas {
   width: 100%;
   height: 100%;
-  background: #fff;
-  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.12);
+  background: var(--my-bg-color);
   position: relative;
   z-index: 1;
   border-radius: 3px;
@@ -1262,10 +1344,6 @@ onUnmounted(() => {
 
   .el-tabs__content {
     padding: 0;
-  }
-
-  .is-active {
-    background-color: #fff;
   }
 }
 .minimap_dialog {
@@ -1303,7 +1381,7 @@ onUnmounted(() => {
     height: 158px;
   }
 }
-.button{
+.button {
   position: absolute;
   bottom: 2%;
   right: 10px;

@@ -71,7 +71,7 @@ const constantRoutes = [
             path: '/pm/taskneed',
             name: 'taskneed',
             component: () => import('../components/business/pm/taskNeed.vue'),
-            meta: { title: '导入任务需求' }
+            meta: { title: '导入任务需求',keepAlive:true }
           },
           {
             path: '/pm/configMessage',
@@ -83,7 +83,7 @@ const constantRoutes = [
             path: '/pm/messageAffirm',
             name: 'messageAffirm',
             component: () => import('../components/business/pm/messageAffirm.vue'),
-            meta: { title: '信息确认' }
+            meta: { title: '信息确认',keepAlive:true }
           },
         ]
       },

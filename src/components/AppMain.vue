@@ -3,7 +3,7 @@
     <router-view v-slot="{ Component, route }">
       <transition name="fade-transform" mode="out-in">
         <keep-alive :include="caches">
-          <component :is="Component" :key="key" />
+          <component :is="Component" :key="route.path" />
         </keep-alive>
       </transition>
     </router-view>
@@ -12,12 +12,7 @@
 
 <script setup>
 import { useKeepAliver } from '../store/keepAlive';
-
-const { caches } = storeToRefs(useKeepAliver())
-const route = useRoute()
-const key = computed(()=>{
-  return route.path + Math.random()
-})
+const { caches } = useKeepAliver()
 </script>
 
 <style lang="scss" scoped>

@@ -11,7 +11,6 @@ import { Splitpanes, Pane } from 'splitpanes'
 import 'splitpanes/dist/splitpanes.css'
 import { renderAsync } from 'docx-preview'
 import axios from 'axios'
-
 const { visible: visible, openDialog: openDialog, closeDialog: closeDialog } = useDialog()
 const { proxy } = getCurrentInstance()
 
@@ -20,15 +19,6 @@ proxy.$bus.on('*', (name, val) => {
     canUndo.value = val.canUndo
     canRedo.value = val.canRedo
   }
-  // if (name === 'resize') {
-  //   if (val !== undefined) {
-  //     if (val) {
-  //       mainH.value = window.innerHeight - 69
-  //     } else {
-  //       mainH.value = window.innerHeight - 124
-  //     }
-  //   }
-  // }
 })
 
 const configHeight = ref('')
@@ -83,10 +73,12 @@ const handleClose = () => {
 }
 function previewFile() {
   nextTick(() => {
-      axios.get('/mock/word/2.docx',{responseType:'blob'}).then((response) => {
+    axios
+      .get('/mock/word/2.docx', { responseType: 'blob' })
+      .then((response) => {
         const html = document.getElementsByClassName('docx')
         renderAsync(response, html[0]).then((res) => {
-          console.log('res---->', res)
+          // console.log('res---->', res)
         })
       })
       .catch((error) => {
@@ -154,26 +146,46 @@ previewFile()
     min-width: 0;
   }
 }
-:deep(.splitpanes__splitter) {
-  background-color: #e9f1f6 !important;
-}
 .splitpanes {
   height: calc(100% - 40px);
 }
 .splitpanes__pane {
   border-radius: 3px;
 }
+.show_word {
+  width: 0 !important;
+}
 :deep(.docx-wrapper) {
-  background-color: #f4f4f4;
+  background-color: var(--my-bg-color-4);
+}
+:deep(.docx-wrapper > section.docx) {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+  background-color: var(--my-bg-color);
+}
+:deep(.splitpanes__splitter) {
+  background-color: var(--my-bg-color-4) !important;
+  border-left: 1px solid var(--el-border-color) !important;
+}
+:deep(.splitpanes.default-theme .splitpanes__pane) {
+  background-color: var(--my-bg-color-5);
+}
+:deep(.splitpanes.default-theme .splitpanes__splitter:before),
+:deep(.splitpanes.default-theme .splitpanes__splitter:after) {
+  background-color: var(--my-text-bg-color-5);
+}
+:deep(.docx) {
+  color: var(--my-text-bg-color-3);
+}
+:deep(.docx span) {
+  color: var(--my-text-bg-color-3) !important;
+  background-color: transparent !important;
 }
 :deep(.docx-wrapper > section.docx) {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   margin-bottom: 10px;
 }
-.show_word {
-  width: 0 !important;
-}
-.pane{
+.pane {
   overflow: auto;
 }
 </style>

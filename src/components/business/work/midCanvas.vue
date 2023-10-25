@@ -155,7 +155,6 @@ instance.proxy.$bus.on('*', (name, val) => {
     parentSize()
   }
   if (name === 'isDark') {
-    console.log(val,contrstColorFlag.value,'---------------');
     if (val) {
       contrstColorFlag.value = true
       if (!loading.value) {
@@ -170,7 +169,7 @@ instance.proxy.$bus.on('*', (name, val) => {
   }
 })
 
-const {match} = useDark()
+const {match,localMatch} = useDark()
 const darkColorList = ref([
   {
     name: '综合控制功能 integrateTask',
@@ -861,7 +860,7 @@ const handleCreate = (val) => {
           instance.proxy.$bus.emit('sendMessage', graph.getNodes())
         }, 1000)
         setTimeout(() => {
-          if (match) {
+          if (match || localMatch === 'dark') {
             changeDarkModeX6({  mainColor: '#58585B', subColor: '#58585A' }, '#fff', darkColorList.value)
           } else {
             changeDarkModeX6({ mainColor: '#eee', subColor: '#ddd' }, '#000',noDarkColorList.value)

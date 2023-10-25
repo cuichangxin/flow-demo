@@ -7,7 +7,7 @@
           <li
             v-for="(item, index) in taskList"
             :key="index"
-            :style="{ background: tabIndex == index ? '#daedff' : '' }"
+            :style="{ background: tabIndex == index ? 'var(--color-active)' : '' }"
             @click="checkTask(index)"
           >
             <i class="iconfont icon">&#xec35;</i>
@@ -149,7 +149,14 @@
       <div id="graph-containers" class="graph-container"></div>
     </div>
   </div>
-  <Dialog title="智能辅助" :hidden-full-btn="false" v-model="visible" @confirm="handleConfirm" @close="handleClose">
+  <Dialog
+    title="智能辅助"
+    :hidden-full-btn="false"
+    :width="'50%'"
+    v-model="visible"
+    @confirm="handleConfirm"
+    @close="handleClose"
+  >
     <el-tabs v-model="activeName">
       <el-tab-pane label="建议" name="suggest">
         <ul class="suggest_ul">
@@ -182,15 +189,17 @@ import { storeToRefs } from 'pinia'
 
 import { Graph, Shape } from '@antv/x6'
 import insertCss from 'insert-css'
-import Dialog from '../../../components/common/dialog/dialog.vue'
-import useDialog from '../../../hooks/useDialog'
+import Dialog from '@/components/common/dialog/dialog.vue'
+import useDialog from '@/hooks/useDialog'
+import useDark from '@/hooks/useDark'
 
 const { visible: visible, openDialog: openDialog, closeDialog: closeDialog } = useDialog()
+const { match, localMatch } = useDark()
 
 const { proxy } = getCurrentInstance()
 proxy.$bus.on('*', (name, val) => {
   if (name === 'taskRelationship') {
-    console.log(name,val);
+    console.log(name, val)
     const data = val.filter((item) => {
       if (!item.store.data.myTarget) {
         return item.store.data
@@ -210,6 +219,15 @@ proxy.$bus.on('*', (name, val) => {
   }
   if (name === 'changeView') {
     viewFlag.value = val
+  }
+  if (name === 'isDark') {
+    if (graph !== null) {
+      if (val) {
+        changeDarkModeX6('#A9A9AD', '#C7C8CC')
+      } else {
+        changeDarkModeX6('#aaa', '#333')
+      }
+    }
   }
 })
 const activeName = ref('suggest')
@@ -257,13 +275,35 @@ watch(viewFlag, (n) => {
   if (n) {
     if (Object.keys(graphData.value).length <= 0) {
       proxy.$axios.getTaskDetail({ taskId: 2006 }).then((res) => {
-        console.log(res)
         graphData.value = JSON.parse(res.data.daTree)
         createGraphic()
+        if (match || localMatch === 'dark') {
+          changeDarkModeX6('#A9A9AD', '#C7C8CC')
+        }
       })
     }
   }
 })
+// 适配暗黑模式
+const changeDarkModeX6 = (color, edgeColor) => {
+  const edges = graph.getEdges()
+  graph.drawGrid({
+    type: 'dot',
+    args: [
+      {
+        color: color,
+        thickness: 1,
+      },
+    ],
+  })
+  edges.forEach((edge) => {
+    edge.attr({
+      line: {
+        stroke: edgeColor,
+      },
+    })
+  })
+}
 const openSuggest = (scope) => {
   openDialog()
 }
@@ -272,12 +312,6 @@ const handleConfirm = () => {
 }
 const handleClose = () => {
   closeDialog()
-}
-
-const addss = () => {
-  proxy.$axios.saveTaskDetail({ taskId: 2006, daTree: JSON.stringify(graph.toJSON()) }).then((res) => {
-    console.log(res)
-  })
 }
 // 初始化创建画布
 const createGraphic = () => {
@@ -352,7 +386,6 @@ const createGraphic = () => {
   insertCss(`
     #container {
       display: flex;
-      border: 1px solid #dfe3e8;
     }
     #graph-container {
       width: calc(100% - 180px);
@@ -368,7 +401,7 @@ const createGraphic = () => {
 
 const tableHeaderCellStyle = () => {
   return {
-    background: '#efefef',
+    background: 'var(--my-bg-color-7)',
   }
 }
 const handlerCurrentChange = (val) => {
@@ -438,7 +471,6 @@ const drawerOff = () => {
 }
 const getRelation = () => {
   proxy.$axios.getTaskDetail({ taskId: 2007 }).then((res) => {
-    console.log(JSON.parse(res.data.daTree))
     taskRelationData.value = JSON.parse(res.data.daTree)
     issueTableData.value = taskRelationData.value[tabIndex.value].issueTableData
     takeTableData.value = taskRelationData.value[tabIndex.value].takeTableData
@@ -462,13 +494,12 @@ onMounted(() => {
 .view_wrapper {
   width: 100%;
   height: 100%;
-  background: #fff;
+  background: var(--my-bg-color);
   border-radius: 3px;
   padding: 20px;
   margin-left: 8px;
   display: flex;
   justify-content: space-between;
-  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.12);
 
   .top_task {
     width: 300px;
@@ -477,8 +508,8 @@ onMounted(() => {
     .top_title {
       width: 100%;
       height: 40px;
-      background: #ededed;
-      border: 1px solid #adabab;
+      background: var(--my-bg-color-4);
+      border: 1px solid var(--el-badge-bg-color);
       border-radius: 3px;
       display: flex;
       align-items: center;
@@ -489,7 +520,7 @@ onMounted(() => {
     }
 
     .task_wrapper {
-      border-right: 1px solid #ededed;
+      border-right: 1px solid var(--my-border-color-2);
       width: 100%;
       height: 100%;
 
@@ -513,7 +544,7 @@ onMounted(() => {
           }
 
           &:hover {
-            background: #daedff;
+            background: var(--color-active);
           }
         }
       }
@@ -522,9 +553,8 @@ onMounted(() => {
 
   .table {
     width: calc(100% - 330px);
-    border: 2px solid #ededed;
     height: 100%;
-    border-radius: 3px;
+    border-radius: 4px;
 
     .issue,
     .take {
@@ -598,7 +628,7 @@ onMounted(() => {
 .canvas {
   width: 100%;
   height: 100%;
-  background: #fff;
+  background: var(--my-bg-color);
   position: relative;
   overflow: hidden;
   display: flex;
@@ -633,7 +663,7 @@ onMounted(() => {
     }
   }
 }
-.icon-jiqiren_o{
+.icon-jiqiren_o {
   font-size: 18px;
   margin-left: 5px;
   cursor: pointer;

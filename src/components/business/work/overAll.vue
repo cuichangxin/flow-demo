@@ -139,7 +139,7 @@ const rules = reactive({
 })
 const tableHeaderCellStyle = () => {
   return {
-    'background': '#efefef'
+    'background': 'var(--my-bg-color-7)'
   }
 }
 const handlerCurrentChange = (val) => {
@@ -232,7 +232,7 @@ onMounted(()=>{
 .over_all {
   width: 100%;
   height: 100%;
-  background: #fff;
+  background: var(--my-bg-color);
   border-radius: 3px;
   padding: 20px;
   margin-left: 8px;
@@ -279,6 +279,7 @@ onMounted(()=>{
 
     .top_add {
       float: right;
+      margin-bottom: 5px;
 
       .icon {
         color: #518edf;

@@ -979,7 +979,7 @@
         </span>
       </template>
     </el-dialog>
-    <el-dialog title="生成需求分析" v-model="isAutoDemand">
+    <el-dialog title="生成需求分析" v-model="isAutoDemand" width="35%">
       <el-form>
         <el-form-item v-if="nextStep === 1" label="需求模板">
           <el-select v-model="autoInfo.template">
@@ -988,22 +988,30 @@
           </el-select>
         </el-form-item>
         <el-form-item v-if="nextStep === 2" label="其他">
-          <span>程序角</span>
-          <el-checkbox v-model="autoInfo.table" label="插值表" />
-          <el-checkbox v-model="autoInfo.data" label="诸元系数" />
-          <el-checkbox v-model="autoInfo.fightTime" label="飞行时间" />
-          <el-checkbox v-model="autoInfo.fightTarget" label="飞行段标志" />
+          <div class="checkout_info">
+            <span>程序角</span>
+            <div class="checkout_item">
+              <el-checkbox v-model="autoInfo.table" label="插值表" />
+              <el-checkbox v-model="autoInfo.data" label="诸元系数" />
+              <el-checkbox v-model="autoInfo.fightTime" label="飞行时间" />
+              <el-checkbox v-model="autoInfo.fightTarget" label="飞行段标志" />
+            </div>
+          </div>
         </el-form-item>
         <div v-if="nextStep === 3">
           <el-form-item label="需求模版">
             {{ autoInfo.template }}
           </el-form-item>
           <el-form-item label="其他">
-            <span>程序角</span>
-            <el-checkbox disabled v-model="autoInfo.table" label="插值表" />
-            <el-checkbox disabled v-model="autoInfo.data" label="诸元系数" />
-            <el-checkbox disabled v-model="autoInfo.fightTime" label="飞行时间" />
-            <el-checkbox disabled v-model="autoInfo.fightTarget" label="飞行段标志" />
+            <div class="checkout_info">
+              <span>程序角</span>
+              <div class="checkout_item">
+                <el-checkbox disabled v-model="autoInfo.table" label="插值表" />
+                <el-checkbox disabled v-model="autoInfo.data" label="诸元系数" />
+                <el-checkbox disabled v-model="autoInfo.fightTime" label="飞行时间" />
+                <el-checkbox disabled v-model="autoInfo.fightTarget" label="飞行段标志" />
+              </div>
+            </div>
           </el-form-item>
         </div>
       </el-form>
@@ -1764,7 +1772,7 @@ onUnmounted(() => {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #fff;
+  background-color: var(--my-bg-color);
 }
 .strechPoint {
   height: 20px;
@@ -2136,6 +2144,14 @@ h5 {
     i {
       font-size: 28px;
     }
+  }
+}
+.checkout_info {
+  display: flex;
+  .checkout_item {
+    display: flex;
+    flex-direction: column;
+    margin-left: 16px;
   }
 }
 </style>

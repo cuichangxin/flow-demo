@@ -311,7 +311,7 @@ const handleClose = () => {
   .table_box {
     width: 100%;
     height: 200px;
-    background: #fff;
+    background: var(--my-bg-color);
     border-radius: 3px;
     display: flex;
     padding: 10px;
@@ -336,12 +336,12 @@ const handleClose = () => {
       }
 
       .label {
-        background-color: #ecedef;
+        background-color: var(--my-bg-color-4);
       }
 
       .th {
         font-weight: bold;
-        background-color: #f5f7fa;
+        background-color: var(--my-bg-color-4);
         height: 20px;
         font-size: 14px;
       }
@@ -349,7 +349,7 @@ const handleClose = () => {
       table,
       th,
       td {
-        border: 1px solid #dddcdc;
+        border: 1px solid var(--el-border-color);
       }
     }
 

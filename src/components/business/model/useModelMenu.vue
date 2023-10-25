@@ -447,15 +447,16 @@ const hideMenu = (val) => {
   padding: 0;
   width: 100%;
   height: 100%;
-  background: #fff;
+  background: var(--my-bg-color);
 
   h5 {
     font-size: 15px;
     padding: 15px 0;
-    border-bottom: 1px solid #e4e8ea;
-    border-top: 1px solid #e4e8ea;
+    border-bottom: 1px solid var(--el-border-color);
+    border-top: 1px solid var(--el-border-color);
     text-align: center;
     margin: 0;
+    color: var(--my-text-bg-color-3);
   }
   .icons {
     display: flex;
@@ -467,11 +468,12 @@ const hideMenu = (val) => {
   border-right: none;
 }
 .model_wrapper {
+  height: 100%;
   overflow: auto;
 }
 .wrapper_box {
   width: 200px;
-  background-color: #fff;
+  background-color: var(--my-bg-color);
   margin-left: 10px;
   position: relative;
   transition: width 0.2s linear;
