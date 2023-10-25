@@ -23,12 +23,14 @@ import Flow from '../components/business/broad/flow.vue'
 import Card from '../components/business/broad/card.vue'
 import Axios from 'axios'
 import vScaleScreen from 'v-scale-screen'
+import { formatTime } from '../utils/utils'
 
 const { proxy } = getCurrentInstance()
 const list = ref({})
 const serial = ref(1)
 const timer = ref(null)
 const specArr = [9, 10, 14, 15, 17, 18, 19, 20, 21, 22, 23]
+const jsonCount = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]
 const sevenStatus = ref(true)
 // 20 21 26 27
 
@@ -86,8 +88,18 @@ const boardShow = () => {
 }
 
 const getJson = (num) => {
+  const time = localStorage.getItem('projectTime')
   Axios.get(`/mock/flow/${num}.json`).then((res) => {
     list.value = res
+    if (time !== null) {
+      list.value.sDate = list.value.sDate !== null ? formatTime(time,'h') : ''
+      list.value.eDate = list.value.eDate !== null ? formatTime(time,'h') : ''
+      list.value.rDate = list.value.rDate !== null ? formatTime(time,'h') : ''
+      list.value.activityInfoList.forEach((item)=>{
+        if (item?.sDate) item.sDate = formatTime(time,'h')
+        if (item?.eDate) item.eDate = formatTime(time,'h')
+      })
+    }
   })
 }
 onUnmounted(() => {

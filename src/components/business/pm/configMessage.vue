@@ -8,13 +8,22 @@
         </el-form-item>
         <el-form-item label="开发语言" required prop="codeLang">
           <el-select v-model="configForm.codeLang">
-            <el-option v-for="item in codeLangList" :key="item.label" :label="item.label" :value="item.value"></el-option>
+            <el-option
+              v-for="item in codeLangList"
+              :key="item.label"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="处理器" required prop="processor">
           <el-select v-model="configForm.processor">
-            <el-option v-for="item in processorList" :key="item.label" :label="item.label"
-              :value="item.value"></el-option>
+            <el-option
+              v-for="item in processorList"
+              :key="item.label"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="配置项描述" required prop="desc">
@@ -31,7 +40,11 @@
           </el-select>
         </el-form-item>
         <el-form-item label="计划完成时间" required prop="eTime">
-          <el-date-picker v-model="configForm.eTime" type="date" placeholder="Select date and time" />
+          <el-date-picker
+            v-model="configForm.eTime"
+            type="date"
+            placeholder="请选择时间"
+          />
         </el-form-item>
         <el-form-item>
           <el-button type="info" class="button" @click="goBack">返回上一步</el-button>
@@ -43,7 +56,7 @@
 </template>
 <script setup>
 import steps from './common/steps.vue'
-import { allStore } from '../../../store';
+import { allStore } from '../../../store'
 
 const store = allStore()
 const router = useRouter()
@@ -54,83 +67,83 @@ const configForm = ref({
   desc: '',
   type: '',
   level: '',
-  eTime: ''
+  eTime: '',
 })
 const configFormRef = ref(null)
 // 开发语言下拉菜单
 const codeLangList = reactive([
   {
     label: 'C语言',
-    value: 1
+    value: 1,
   },
   {
     label: 'FPGA',
-    value: 2
+    value: 2,
   },
   {
     label: 'C++',
-    value: 3
+    value: 3,
   },
 ])
 // 处理器下拉菜单
 const processorList = reactive([
   {
     label: 'BM3803',
-    value: 1
+    value: 1,
   },
   {
     label: 'BM3105',
-    value: 2
+    value: 2,
   },
   {
     label: 'VC33',
-    value: 3
+    value: 3,
   },
   {
     label: 'DSP6713',
-    value: 4
+    value: 4,
   },
 ])
 // 软件类型下拉菜单
 const typeList = reactive([
   {
     label: '火箭飞控软件',
-    value: 1
+    value: 1,
   },
   {
     label: '综控器监控软件',
-    value: 2
+    value: 2,
   },
   {
     label: 'GNCC软件',
-    value: 3
+    value: 3,
   },
   {
     label: '卫星星务',
-    value: 4
+    value: 4,
   },
   {
     label: '应用软件',
-    value: 5
+    value: 5,
   },
 ])
 // 安全关键等级下拉菜单
 const levelList = reactive([
   {
     label: 'A级',
-    value: 1
+    value: 1,
   },
   {
     label: 'B级',
-    value: 2
+    value: 2,
   },
   {
     label: 'C级',
-    value: 3
+    value: 3,
   },
   {
     label: 'D级',
-    value: 4
+    value: 4,
   },
 ])
 
@@ -139,10 +152,14 @@ const stepNext = () => {
     if (valid) {
       store.projectInfo = configForm.value
       router.push({
-        name: 'messageAffirm'
+        name: 'messageAffirm',
+        query: {
+          eTime: configForm.value.eTime,
+        },
       })
+      localStorage.setItem('projectTime',configForm.value.eTime)
     } else {
-      console.log('error submit');
+      console.log('error submit')
     }
   })
 }
@@ -151,7 +168,7 @@ const goBack = () => {
 }
 </script>
 <style lang="scss" scoped>
-.config_message_info{
+.config_message_info {
   width: 100%;
   height: 100%;
 }

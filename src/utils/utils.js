@@ -59,12 +59,12 @@ export function getImgSize(url) {
 export function isExternal(path) {
   return /^(https?:|mailto:|tel:)/.test(path)
 }
-export function formatTime(time) {
+export function formatTime(time,mat) {
   var date = time ? new Date(time) : new Date()
   var year = date.getFullYear()
   var month = (date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1
   var day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate()
-  var createTime = year + '-' + month + '-' + day
+  var createTime = mat === 'h' ? year + '年' + month + '月' + day + '日' : year + '-' + month + '-' + day
   return createTime
 }
 

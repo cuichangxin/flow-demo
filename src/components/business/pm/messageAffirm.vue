@@ -20,7 +20,7 @@
             <span class="label">进&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;度:</span>
             <div class="content">
               <div class="name_item">
-                生产线预计在<em class="time">2023年10月24日</em>完成，比计划完成时间<em class="time">提前0</em>天
+                生产线预计在<em class="time">{{ timeQuery }}</em>完成，比计划完成时间<em class="time">提前0</em>天
               </div>
             </div>
           </div>
@@ -76,6 +76,8 @@ const { removeKeepAlive } = useKeepAliver()
 const { proxy } = getCurrentInstance()
 const store = allStore()
 const router = useRouter()
+const route = useRoute()
+const timeQuery = formatTime(route.query.eTime,'h')
 // 工具情况
 const tableList = ref([])
 const projectList = ref({})
@@ -108,7 +110,7 @@ const enter = () => {
       type: projectList.value.type,
       level: projectList.value.level,
       deLanguage: projectList.value.codeLang,
-      finishTime: formatTime(projectList.value.eTime),
+      finishTime: formatTime(projectList.value.eTime,'-'),
       createTime: formatTime(),
       userId: Cookies.get('userId'),
     })
