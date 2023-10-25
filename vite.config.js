@@ -56,13 +56,22 @@ export default defineConfig(({ mode, command }) => {
       }
     },
     build: {
+      emptyOutDir:true,
       rollupOptions: {
         output: {
           entryFileNames: 'assets/js/[name].[hash].js',
           chunkFileNames: 'assets/js/[name].[hash].js',
           assetFileNames: (file) => {
             const filename = file.name.split('/')[file.name.split('/').length - 1].split('.')[1]
-            return `${file.name.indexOf('images') !== -1 ? `assets/img/[name].${filename}` : file.name.indexOf('svg') !== -1 ? `assets/svg/[name].${filename}` : 'assets/[ext]/[name].[hash].[ext]'}`
+            if (file.name.indexOf('images') !== -1) {
+              return `assets/img/[name].${filename}`
+            } else if (file.name.indexOf('svg') !== -1) {
+              return `assets/svg/[name].${filename}`
+            }else if (file.name.indexOf('iconfont') !== -1) {
+              return `assets/iconfont/[name].[hash].[ext]`
+            } else {
+              return 'assets/[ext]/[name].[hash].[ext]'
+            }
           }
         }
       },
