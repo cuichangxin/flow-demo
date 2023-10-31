@@ -86,7 +86,7 @@ Axios.interceptors.response.use(
       ElMessage({ message: msg, type: 'warning' })
       return Promise.reject(new Error(msg))
     } else if (code !== 200) {
-      ElNotification.error({ title: msg })
+      ElMessage({message:msg,type:'error'})
       return Promise.reject('error')
     } else {
       return Promise.resolve(response.data)
