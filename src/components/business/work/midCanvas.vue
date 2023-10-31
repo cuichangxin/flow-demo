@@ -793,7 +793,6 @@ const saveTaskDetail = () => {
     .then((res) => {
       console.log(res, 'save应用架构任务')
     })
-  // TODO: 保存全部的数据 暂时搁置   通过storage
 }
 
 const handleToolMenu = (target, val) => {

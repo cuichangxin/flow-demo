@@ -206,7 +206,6 @@ proxy.$bus.on('*', (name, val) => {
       }
     })
     data.forEach((item, index) => {
-      // TODO: 赋值不对
       // if (item.store.data.data.label.indexOf('姿控功能') !== -1) {
       //   tabIndex.value = index
       // }
