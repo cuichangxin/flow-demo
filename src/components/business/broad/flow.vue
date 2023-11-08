@@ -1423,7 +1423,7 @@ function attrsNode() {
   }
 }
 function getFlow(json, o) {
-  axios.get(`http://192.168.242.94:8080/mock/flow/${json}.json`).then((res) => {
+  axios.get(`/mock/flow/${json}.json`).then((res) => {
     graphData.value = res
     console.log('1')
     init(o)
