@@ -8,7 +8,7 @@
             v-for="(item, index) in taskList"
             :key="index"
             :style="{ background: tabIndex == index ? 'var(--color-active)' : '' }"
-            @click="checkTask(index)"
+            @click="checkTask(index,item)"
           >
             <i class="iconfont icon">&#xec35;</i>
             <span>{{ item.data.label }}</span>
@@ -161,7 +161,6 @@
       <el-tab-pane label="建议" name="suggest">
         <ul class="suggest_ul">
           <li>
-            <!-- <img src="../../../assets/image/shengdantubiao-05.png" alt="" /> -->
             <p>针对遥控功能的订阅数据，为您搜索到以下建议:</p>
             <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;建议增加惯性坐标系位置信息和视速度</p>
           </li>
@@ -172,7 +171,6 @@
           <el-tab-pane label="xxx案例" name="langFive">
             <ul class="suggest_ul">
               <li>
-                <!-- <img src="../../../assets/image/shengdantubiao-05.png" alt="" /> -->
                 该案例下订阅数据有惯性坐标系位置信息和视速度
               </li>
             </ul>
@@ -199,21 +197,19 @@ const { match, localMatch } = useDark()
 const { proxy } = getCurrentInstance()
 proxy.$bus.on('*', (name, val) => {
   if (name === 'taskRelationship') {
-    console.log(name, val)
     const data = val.filter((item) => {
       if (!item.store.data.myTarget) {
         return item.store.data
       }
     })
     data.forEach((item, index) => {
-      // if (item.store.data.data.label.indexOf('姿控功能') !== -1) {
-      //   tabIndex.value = index
-      // }
       if (item === undefined) {
         data.splice(index, 1)
       }
+      if (item.data.label.indexOf('遥控功能') > -1) {
+        checkTask(index,item)
+      }
     })
-    // data.splice(0, 1)
     taskList.value = data
   }
   if (name === 'changeView') {
@@ -261,15 +257,6 @@ let graph = null
 const graphData = ref({})
 const taskRelationData = ref({})
 
-watch(tabIndex, (n) => {
-  if (Object.prototype.hasOwnProperty.call(taskRelationData.value, n)) {
-    issueTableData.value = taskRelationData.value[n].issueTableData
-    takeTableData.value = taskRelationData.value[n].takeTableData
-  } else {
-    issueTableData.value = []
-    takeTableData.value = []
-  }
-})
 watch(viewFlag, (n) => {
   if (n) {
     if (Object.keys(graphData.value).length <= 0) {
@@ -415,8 +402,15 @@ const takeHandlerCurrentChange = (val) => {
 const takeHandleSizeChange = () => {
   takeCurrentPage.value = 1
 }
-const checkTask = (index) => {
+const checkTask = (index,node) => {
   tabIndex.value = index
+  if (node.data.label.indexOf('遥控功能') > -1) {
+    issueTableData.value = taskRelationData.value[1].issueTableData
+    takeTableData.value = taskRelationData.value[1].takeTableData
+  }else {
+    issueTableData.value = []
+    takeTableData.value = []
+  }
 }
 const remove = (row, name) => {
   let mixObj = {}

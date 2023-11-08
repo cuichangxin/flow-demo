@@ -469,7 +469,6 @@ const hideMenu = (val) => {
 }
 .model_wrapper {
   height: 100%;
-  overflow: auto;
 }
 .wrapper_box {
   width: 200px;

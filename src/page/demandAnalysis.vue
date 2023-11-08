@@ -1422,7 +1422,6 @@ function finishConfirm() {
 function saveParams() {
   if (!params.value) return
   let cur = findCurrent(treeData.value)
-  console.log(cur)
   cur.params = params.value
   cur.params.produceContent = produceContent.value
   // console.log(treeData, params, cur);
@@ -1736,10 +1735,12 @@ onMounted(() => {
       message: '1.2.1.3程序角计算-初始俯仰程序角不可以大于90',
       duration: 0,
     })
-    let cur = findCal(treeData.value)
-    if (cur !== undefined) {
-      cur.params.confirm = true
-    }
+    setTimeout(() => {
+      let cur = findCal(treeData.value)
+      if (cur !== undefined) {
+        cur.params.confirm = true
+      }
+    },900)
     // console.log(treeData, params, cur);
     // proxy.$axios
     //   .saveTaskDetail({

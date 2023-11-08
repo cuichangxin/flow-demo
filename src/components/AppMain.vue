@@ -12,7 +12,7 @@
 
 <script setup>
 import { useKeepAliver } from '../store/keepAlive';
-const { caches } = useKeepAliver()
+const { caches } = toRefs(useKeepAliver())
 </script>
 
 <style lang="scss" scoped>

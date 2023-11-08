@@ -721,7 +721,7 @@ function handleNodeClick(data) {
   })
 }
 function downloadFile() {
-  window.open('/assets/mock/word/姿控评审文档.doc')
+  window.open('/mock/word/姿控评审文档.doc')
 }
 //保存详情
 function saveParams(type) {
