@@ -90,16 +90,19 @@ const boardShow = () => {
 const getJson = (num) => {
   const time = localStorage.getItem('projectTime')
   Axios.get(`/mock/flow/${num}.json`).then((res) => {
-    list.value = res
+    let resData = res
     if (time !== null) {
-      list.value.sDate = list.value.sDate !== null ? formatTime(time,'h') : ''
-      list.value.eDate = list.value.eDate !== null ? formatTime(time,'h') : ''
-      list.value.rDate = list.value.rDate !== null ? formatTime(time,'h') : ''
-      list.value.activityInfoList.forEach((item)=>{
+      resData.sDate = resData.sDate !== null ? formatTime(time,'h') : ''
+      resData.eDate = resData.eDate !== null ? formatTime(time,'h') : ''
+      resData.rDate = resData.rDate !== null ? formatTime(time,'h') : ''
+      resData.activityInfoList.forEach((item)=>{
         if (item?.sDate) item.sDate = formatTime(time,'h')
         if (item?.eDate) item.eDate = formatTime(time,'h')
       })
     }
+    setTimeout(()=>{
+      list.value = resData
+    })
   })
 }
 onUnmounted(() => {
