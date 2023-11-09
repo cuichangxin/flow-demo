@@ -261,7 +261,7 @@ watch(viewFlag, (n) => {
   if (n) {
     if (Object.keys(graphData.value).length <= 0) {
       proxy.$axios.getTaskDetail({ taskId: 2006 }).then((res) => {
-        graphData.value = JSON.parse(res.data.daTree)
+        graphData.value = res.data.daTree
         createGraphic()
         if (match || localMatch === 'dark') {
           changeDarkModeX6('#A9A9AD', '#C7C8CC')
@@ -464,7 +464,7 @@ const drawerOff = () => {
 }
 const getRelation = () => {
   proxy.$axios.getTaskDetail({ taskId: 2007 }).then((res) => {
-    taskRelationData.value = JSON.parse(res.data.daTree)
+    taskRelationData.value = res.data.daTree
     issueTableData.value = taskRelationData.value[tabIndex.value].issueTableData
     takeTableData.value = taskRelationData.value[tabIndex.value].takeTableData
   })

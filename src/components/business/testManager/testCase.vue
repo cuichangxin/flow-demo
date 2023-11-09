@@ -150,7 +150,7 @@
         </el-form-item>
       </el-form>
     </el-drawer>
-    <Dialog title="智能辅助" :hidden-full-btn="false" v-model="visible" @confirm="handleConfirm" @close="handleClose">
+    <Dialog title="智能辅助" :width="'40%'" :hidden-full-btn="false" v-model="visible" @confirm="handleConfirm" @close="handleClose">
       <el-tabs v-model="activeName">
         <el-tab-pane label="建议" name="suggest">
           <ul class="suggest_ul">
@@ -579,7 +579,7 @@ function previewFile() {
   nextTick(() => {
       Axios.get('/mock/word/3.docx',{responseType:'blob'}).then((response) => {
         const html = document.getElementsByClassName('docx')
-        renderAsync(response, html[0]).then((res) => {
+        renderAsync(response.data, html[0]).then((res) => {
           console.log('res---->', res)
         })
       })

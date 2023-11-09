@@ -1562,7 +1562,7 @@ function init() {
   instance.proxy.$axios.getTaskDetail({ taskId: 2002 }).then(
     (res) => {
       if (res.data !== null) {
-        graphData.value = JSON.parse(res.data.daTree)
+        graphData.value = res.data.daTree
         // graphData.value.cells.forEach((item) => {
         //   if (item.shape === 'image') {
         //     let split = item.attrs.image['xlink:href'].split('/'),

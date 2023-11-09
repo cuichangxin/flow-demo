@@ -87,7 +87,7 @@ const login = () => {
           userPwd: loginForm.value.password,
         })
         .then((res) => {
-          if (res.success) {
+          if (res.code === 200) {
             Cookies.set('roleId', res.data.roleId, { expires: 30 })
             Cookies.set('userName', res.data.userName, { expires: 30 })
             Cookies.set('userId', res.data.roleDes.id, { expires: 30 })

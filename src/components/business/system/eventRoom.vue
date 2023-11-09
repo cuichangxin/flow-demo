@@ -1260,7 +1260,7 @@ export default defineComponent({
       },
       findAllActive() {
         proxy.$axios.findAllActive({}).then((res) => {
-          if (res.success) {
+          if (res.code === 200) {
             state.tableData = res.data
             state.tableData.map((val) => {
               state.activeSelect.typeOption.map((opt) => {

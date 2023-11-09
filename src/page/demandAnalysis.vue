@@ -1259,7 +1259,7 @@ async function getDaTree() {
       taskId: Cookies.get('taskId'),
     })
     .then((res) => {
-      let data = JSON.parse(res.data.daTree)
+      let data = res.data.daTree
       treeData.value = data
       console.log(data, res)
       data.map((val, index) => {
@@ -1676,10 +1676,11 @@ function previewfile() {
     axios
       .get('/mock/word/demand_analysis.docx', { responseType: 'blob' })
       .then((response) => {
+        console.log(response);
         //选择要渲染的元素
         let childRef = document.getElementsByClassName('docx')
         //用docx-preview渲染
-        renderAsync(response, childRef[0]).then((res) => {
+        renderAsync(response.data, childRef[0]).then((res) => {
           console.log('res---->', res)
         })
       })

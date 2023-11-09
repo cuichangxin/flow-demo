@@ -267,21 +267,21 @@ const changeColumn = (val) => {
 const getRowInfo = () => {
   return new Promise((resolve, reject) => {
     proxy.$axios.getDemandList({ demandId: rowValue.value }).then((res) => {
-      resolve(JSON.parse(res.data.daTree))
+      resolve(res.data.daTree)
     })
   })
 }
 function getColumnInfo() {
   return new Promise((resolve, reject) => {
     proxy.$axios.getDemandList({ demandId: columnValue.value }).then((res) => {
-      resolve(JSON.parse(res.data.daTree))
+      resolve(res.data.daTree)
     })
   })
 }
 function getUnite() {
   return new Promise((resolve, reject) => {
     proxy.$axios.getTaskDetail({ taskId: postTaskId.value }).then((res) => {
-      resolve(JSON.parse(res.data.daTree))
+      resolve(res.data.daTree)
     })
   })
 }

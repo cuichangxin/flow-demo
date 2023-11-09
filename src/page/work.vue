@@ -238,7 +238,7 @@ function previewFile() {
   nextTick(() => {
     Axios.get('/mock/word/1.docx',{ responseType: 'blob' }).then((response) => {
         const html = document.getElementsByClassName('docx')
-        renderAsync(response, html[0]).then((res) => {
+        renderAsync(response.data, html[0]).then((res) => {
           console.log('res---->', res)
         })
       })

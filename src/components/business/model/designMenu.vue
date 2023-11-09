@@ -50,9 +50,6 @@ instance.proxy.$bus.on('*', (name, val) => {
     if (Object.keys(aloneNode.value).length) {
       interTreeNode(val, moduleTree.value)
     }
-    // setTimeout(()=>{
-    //   localStorage.setItem('modelFile',JSON.stringify(moduleTree.value))
-    // },300)
   }
   if (name == 'aloneNode') {
     aloneNode.value = val
@@ -237,27 +234,12 @@ const hideMenu = (val) => {
 }
 function getTask() {
   instance.proxy.$axios.getTaskDetail({ taskId: 2003 }).then((res) => {
-    if (res.success) {
-      subGraph.value = JSON.parse(res.data.daTree)
-      // subGraph.value.cells.forEach((item) => {
-      //   if (item.shape === 'image') {
-      //     let split = item.attrs.image['xlink:href'].split('/'),
-      //       url = split[split.length - 1]
-      //     item.attrs.image['xlink:href'] = new URL(`../../../assets/images/${url}`, import.meta.url).href
-      //   }
-      // })
+    if (res.code === 200) {
+      subGraph.value = res.data.daTree
       instance.proxy.$axios.getTaskDetail({ taskId: 2005 }).then((success) => {
-        subData.value = JSON.parse(success.data.daTree)
-        // subData.value.cells.forEach((item) => {
-        //   if (item.shape === 'image') {
-        //     let split = item.attrs.image['xlink:href'].split('/'),
-        //       url = split[split.length - 1]
-        //     item.attrs.image['xlink:href'] = new URL(`../../../assets/images/${url}`, import.meta.url).href
-        //   }
-        // })
+        subData.value = success.data.daTree
         // 单独获取左侧菜单的任务列表
         instance.proxy.$axios.getTaskDetail({ taskId: work.taskId.value }).then((result) => {
-          console.log(JSON.parse(result.data.daTree))
           if (moduleTree.value[0].id === '1') {
             moduleTree.value.splice(0, 1)
           }
@@ -267,7 +249,7 @@ function getTask() {
             hide: false,
             node: {},
             active: false,
-            children: JSON.parse(result.data.daTree).cells.filter((item) => {
+            children: result.data.daTree.cells.filter((item) => {
               return item.shape === 'custom-html'
             }),
           })
@@ -289,11 +271,6 @@ function getTask() {
           })
         })
       })
-      // instance.proxy.$axios.getTaskDetail({ taskId: Cookies.get('taskId') }).then((res) => {
-      // if (res.data !== null) {
-      //   moduleTree.value = JSON.parse(res.data.daTree)
-      // }
-      // })
     }
   })
 }

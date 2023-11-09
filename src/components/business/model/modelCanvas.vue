@@ -82,9 +82,9 @@ import { CloseBold } from '@element-plus/icons-vue'
 import Dialog from '../../common/dialog/dialog.vue'
 import useDialog from '../../../hooks/useDialog'
 import useDark from '../../../hooks/useDark'
+import flowEditor from '@/components/common/flowEditor/index.vue'
 
 const { match, localMatch } = useDark()
-import flowEditor from '@/components/common/flowEditor/index.vue'
 
 const { visible: visible, openDialog: openDialog, closeDialog: closeDialog } = useDialog()
 const instance = getCurrentInstance()

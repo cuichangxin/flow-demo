@@ -1,4 +1,4 @@
-import Axios from "axios";
+import axios from "axios";
 import { ElNotification, ElMessageBox, ElMessage, ElLoading } from 'element-plus'
 import { getToken } from "@/utils/auth";
 import errorCode from "@/utils/errCode";
@@ -38,13 +38,15 @@ import { useCancelToken } from "../store/cancelToken";
 //   }
 // }
 
-// 超时时间
-Axios.defaults.timeout = 100000
+const Axios = axios.create({
+  baseURL:import.meta.env.VITE_APP_BASE_API,
+  timeoutL:100000,
+  headers:{'Content-Type':'application/json;charset=utf-8'}
+})
 
-Axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
 
-// 默认URL
-Axios.defaults.baseURL = import.meta.env.VITE_APP_BASE_API
+// Axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
+
 // Axios.defaults.baseURL = 'http://39.105.98.46:16380'
 // 通用请求拦截器
 Axios.interceptors.request.use(

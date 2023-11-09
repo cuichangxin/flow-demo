@@ -762,9 +762,10 @@ const closeMap = () => {
 const getDetail = () => {
   return new Promise((resolve, reject) => {
     instance.proxy.$axios.getTaskDetail({ taskId: taskId.value }).then((res) => {
-      if (res.success && res.data !== null) {
-        const data = JSON.parse(res.data.daTree)
+      if (res.code === 200) {
+        const data = res.data.daTree
         graphData.value = data
+        console.log(graphData.value);
         const flight = graphData.value.cells.filter((item) => {
           return item.shape === 'custom-flight-html'
         })

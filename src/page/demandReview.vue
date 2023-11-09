@@ -687,7 +687,7 @@ function leftArrow() {
 //获取树数据
 async function getDaTree(type) {
   await proxy.$axios.getTaskDetail({ taskId: Cookies.get('taskId') }).then((res) => {
-    let data = JSON.parse(res.data.daTree)
+    let data = res.data.daTree
     treeData.value = data
     console.log(data, res)
     typeList.value = []
@@ -947,7 +947,7 @@ function previewfile() {
         //选择要渲染的元素
         let childRef = document.getElementsByClassName('docx')
         //用docx-preview渲染
-        renderAsync(response, childRef[0]).then((res) => {
+        renderAsync(response.data, childRef[0]).then((res) => {
           console.log('res---->', res)
         })
       })

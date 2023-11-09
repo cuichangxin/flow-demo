@@ -111,10 +111,10 @@ const postTaskId = computed(() => {
 const getData = () => {
   return new Promise((resolve, reject) => {
     proxy.$axios.getDemandList({ demandId: leftValue.value }).then((res) => {
-      treeData_left.value = JSON.parse(res.data.daTree).rowTree
+      treeData_left.value = res.data.daTree.rowTree
       changTreeNode(treeData_left.value, 'left')
       proxy.$axios.getDemandList({ demandId: rightValue.value }).then((res) => {
-        treeData_right.value = JSON.parse(res.data.daTree).columnTree
+        treeData_right.value = res.data.daTree.columnTree
         changTreeNode(treeData_right.value, 'right')
         resolve('success')
       })
@@ -124,7 +124,7 @@ const getData = () => {
 // 处理默认连线的数据
 const getRelationData = () => {
   proxy.$axios.getTaskDetail({ taskId: postTaskId.value }).then((res) => {
-    relationData.value = JSON.parse(res.data.daTree)
+    relationData.value = res.data.daTree
     let formatData = Object.entries(relationData.value.cellRelation)
     relationDirection.value = relationData.value.tracking
     formatData.forEach((item) => {

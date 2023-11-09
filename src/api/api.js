@@ -12,19 +12,19 @@ export default {
   // 提交任务接口
   submitTask:api('/user/submitUserTask','post'),
   // 测试用例左侧树
-  getTestTree:api('/task/getTestcaseTree','post'),
+  getTestTree:api('/task/getTestcaseTree','get'),
   // 新建项目
   createProject:api('/task/saveProject','post'),
   // 新建项目流程图数据以及工具列表
   projectSubTool:api('/task/getActiveModelAndTool','post'),
   // 获取项目管理列表
-  getProjectList:api('/task/getProjectList','post'),
+  getProjectList:api('/task/getProjectList','get'),
   // 删除项目列表项目
   removeProject:api('/task/deleteProject','post'),
   // 项目看板切换
   projectChange:api('/user/changeBoardProject','post'),
   // 看板展示
-  boardShow:api('/user/getBoardLine','post'),
+  boardShow:api('/user/getBoardLine','get'),
   // 任务提示状态改变
   changeTaskStatus:api('/user/finishRead','post'),
   // 获取活动库数据
