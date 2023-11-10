@@ -56,9 +56,14 @@ export default defineConfig(({ mode, command }) => {
       }
     },
     build: {
-      emptyOutDir:true,
+      emptyOutDir: true,
       rollupOptions: {
         output: {
+          manualChunks(id) {
+            if (id.includes('node_modules')) {
+              return id.toString().split('node_modules/')[1].split('/')[0].toString()
+            }
+          },
           entryFileNames: 'assets/js/[name].[hash].js',
           chunkFileNames: 'assets/js/[name].[hash].js',
           assetFileNames: (file) => {
@@ -67,7 +72,7 @@ export default defineConfig(({ mode, command }) => {
               return `assets/img/[name].${filename}`
             } else if (file.name.indexOf('svg') !== -1) {
               return `assets/svg/[name].${filename}`
-            }else if (file.name.indexOf('iconfont') !== -1) {
+            } else if (file.name.indexOf('iconfont') !== -1) {
               return `assets/iconfont/[name].[hash].[ext]`
             } else {
               return 'assets/[ext]/[name].[hash].[ext]'
