@@ -1,32 +1,31 @@
 <template>
-  <pre class="msg">{{ text }}</pre>
+  <pre class="msg" ref="textRef"></pre>
 </template>
-  
+
 <script setup>
+import TypeIt from 'typeit'
+
 const props = defineProps({
-  strings: { type: String }
+  strings: { type: String },
 })
-const text = ref('')
-const timers = ref(null)
-onMounted(() => {
-  textSplit(props.strings)
-})
-function textSplit(content) {
-  text.value = ''
-  let textLen = 0
-  timers.value = setInterval(() => {
-    text.value = content.substring(0, textLen)
-    if (textLen < content.length) {
-      textLen++
-    } else {
-      clearInterval(timers.value)
-      timers.value = null
-    }
-  }, 500)
+const textRef = ref(null)
+
+function typewriting() {
+  new TypeIt(textRef.value, {
+    strings: props.strings,
+    cursorChar: '', //用于光标的字符。HTML也可以
+    speed: 400,
+    lifeLike: true, // 使打字速度不规则
+    waitUntilVisible: true,
+  }).go()
 }
+
+onMounted(() => {
+  typewriting()
+})
 </script>
-  
-<style lang='scss' scoped>
+
+<style lang="scss" scoped>
 .msg {
   color: #16e4aa;
   font-size: 12px;

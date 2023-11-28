@@ -1424,7 +1424,7 @@ function attrsNode() {
 }
 function getFlow(json, o) {
   axios.get(`/mock/flow/${json}.json`).then((res) => {
-    graphData.value = res
+    graphData.value = res.data
     console.log('1')
     init(o)
   })

@@ -54,7 +54,7 @@ function timerTask() {
 }
 const boardShow = () => {
   proxy.$axios.boardShow({ file: serial.value }).then((res) => {
-    if (res.data !== null) {
+    if (res.data.file !== null) {
       if (!res.data.flags) {
         serial.value = res.data.file
         localStorage.setItem('serial', res.data.file)
@@ -90,7 +90,7 @@ const boardShow = () => {
 const getJson = (num) => {
   const time = localStorage.getItem('projectTime')
   Axios.get(`/mock/flow/${num}.json`).then((res) => {
-    let resData = res
+    let resData = res.data
     if (time !== null) {
       resData.sDate = resData.sDate !== null ? formatTime(time,'h') : ''
       resData.eDate = resData.eDate !== null ? formatTime(time,'h') : ''
